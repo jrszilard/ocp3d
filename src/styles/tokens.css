@@ -1,39 +1,15 @@
 /* ============================================================================
-   MINISTRY OF DISCONTINUED PARTS — DESIGN SYSTEM (design tokens)
-   "THE CYANOTYPE"  ·  a blueprint print of a 1980s drawing sheet
+   OCP3D — DESIGN SYSTEM
+   "ORBITAL SERVICE" · original retrofuturist field manuals for old cars
    ============================================================================
-   👋 Wilma: this file IS the design system. Every colour, typeface and spacing
-   value used anywhere on the site is defined here and ONLY here — components
-   never hard-code values. Change a token, and the whole site follows.
+   The visual world is a future imagined from a service bay: midnight space,
+   moon-paper records, analog instrumentation, signal-orange controls and cool
+   ion light. It is original work — never Fallout-derived iconography, type,
+   copy, colours, or trade dress.
 
-   Live preview of everything in this file:  /styleguide
-   Brand rationale (why these choices):      BRAND.md
-
-   THE IDEA: the site is presented as a DRAWING SHEET from a 1980s drawing
-   office — zone markers down the margins, general notes, tolerances, a title
-   block in the footer. Every claim is stated as a recorded dimension, not a
-   marketing adjective. Near-white line and type on process blue, one amber
-   house colour, and nothing else.
-
-   Rules of the road:
-   1. Edit VALUES freely; keep token NAMES stable (components reference names).
-   2. ONE accent. Amber is it. Never introduce a second — the restraint is why
-      amber still reads as meaningful when it marks the front of the queue, or
-      the one part that has actually been measured.
-   3. RADIUS IS ZERO EVERYWHERE. No rounded corners, no shadows, anywhere.
-      Circles exist only for step balloons, wheels and material swatches.
-   4. Sections are separated by 1px paper RULES, never by whitespace.
+   Every visual value lives here. Components consume tokens; do not hard-code
+   colour or spacing elsewhere.
    ========================================================================= */
-
-/* ---- THE TYPEFACES (self-hosted) -------------------------------------------
-   Two families. Archivo Narrow carries every headline; IBM Plex Mono is the
-   BODY VOICE of the whole site — resist substituting a proportional face for
-   "readability", the mono is doing the drawing-office work.
-
-   Served from our own /public/fonts/ on purpose. Article IV is a promise made
-   in the UI — the home page counts "0 third-party scripts" on itself — and a
-   webfont linked from Google would send every visitor's IP to Google and make
-   that claim false. See public/fonts/README.md before changing any of this. */
 
 @font-face {
   font-family: "Archivo Narrow";
@@ -57,85 +33,74 @@
 }
 
 :root {
-  /* ---- COLOUR ------------------------------------------------------------
-     The blueprint. Everything sits on --ground; all line work, rules, borders
-     and primary text are --paper; --amber is the single house colour.        */
-  --ground:      #223F5C;   /* page background — the blueprint blue           */
-  --ground-deep: #1C3955;   /* recessed panels, hero drawing pane, inputs     */
-  --ink:         #192F46;   /* text ON paper/amber; avatar bg; button label   */
-  --paper:       #E3F1FB;   /* all line work, rules, borders, primary text    */
-  --amber:       #F1C955;   /* THE house colour. One accent only.             */
-  --steel:       #B4CFE2;   /* secondary/label text, zone markers             */
-  --body:        #D3E0EA;   /* body copy on ground                            */
-  --glass:       #C0D4E3;   /* placeholder captions                           */
-  --rule:        #7B95B0;   /* interior hairlines inside components           */
-  --rule-2:      #8DA8C3;   /* placeholder borders, table gridlines           */
-  --rule-3:      #6A839D;   /* faint separators                               */
-  --panel:       #2D4A68;   /* image-placeholder hatch, stripe 1              */
-  --panel-2:     #264361;   /* image-placeholder hatch, stripe 2              */
-  --border:      #0E2A45;   /* outermost page border                          */
+  /* Space-age service palette: paper records inside a night-sky workshop. */
+  --ground:      #111B2B;
+  --ground-deep: #172A3E;
+  --ink:         #101924;
+  --paper:       #F4E7CE;
+  --signal:      #FF9D4D;
+  --amber:       var(--signal); /* legacy component alias: signal-orange */
+  --ion:         #8DDBC9;
+  --steel:       #B3C7C0;
+  --body:        #D7E2D5;
+  --glass:       #89A8A3;
+  --rule:        #557481;
+  --rule-2:      #71949A;
+  --rule-3:      #365365;
+  --panel:       #1C334A;
+  --panel-2:     #15283B;
+  --border:      #070C14;
 
-  /* The inverted band (Article IV) flips the palette. Amber on paper FAILS
-     contrast — the eyebrow there uses the darker gold instead.               */
-  --inv-body:    #2E4358;
-  --inv-label:   #4A6076;
-  --inv-gold:    #8A6A1E;
+  --inv-body:  #283942;
+  --inv-label: #5A716D;
+  --inv-gold:  #A5511C;
 
-  /* Material swatches — dots only, never fills.                              */
-  --mat-asa:      #B9B4AA;
-  --mat-petg:     #192F46;
-  --mat-nylon-cf: #8A6A4A;
+  --mat-asa:      #C0B4A4;
+  --mat-petg:     #1E3144;
+  --mat-nylon-cf: #8E704A;
 
-  /* ---- TYPE --------------------------------------------------------------
-     Archivo Narrow = every headline. Archivo = the wordmark, nothing else.
-     IBM Plex Mono = the body voice of the whole site.                        */
   --font-display: "Archivo Narrow", "Archivo", Impact, sans-serif;
   --font-word:    "Archivo", "Helvetica Neue", Arial, sans-serif;
   --font-mono:    "IBM Plex Mono", ui-monospace, "SF Mono", Consolas, monospace;
 
-  /* headline scale (uppercase, Archivo Narrow 700) */
-  --h1: 68px;     --h1-lh: 0.94;   --h1-tr: -0.015em;
-  --h2: 40px;     --h2-lh: 1.02;   --h2-tr: -0.01em;
-  --h-card: 15px;                          /* card / part title               */
-  --h-step: 14px; --h-step-tr: 0.03em;     /* step title                      */
-  --h-fact: 28px;                          /* counted facts                   */
+  --h1: 70px; --h1-lh: .9; --h1-tr: .008em;
+  --h2: 42px; --h2-lh: .96; --h2-tr: .01em;
+  --h-card: 15px;
+  --h-step: 14px; --h-step-tr: .07em;
+  --h-fact: 30px;
 
-  /* mono scale — NEVER below 12px for body copy */
-  --t-lead: 15px;      --t-lead-lh: 1.7;
-  --t-section: 13.5px; --t-section-lh: 1.75;
-  --t-dense: 11.5px;   --t-dense-lh: 1.6;
-  --t-nav: 12.5px;
+  --t-lead: 15px; --t-lead-lh: 1.75;
+  --t-section: 13.5px; --t-section-lh: 1.78;
+  --t-dense: 11.5px; --t-dense-lh: 1.65;
+  --t-nav: 11.5px;
   --t-spec: 15px;
-  --t-eyebrow: 10.5px; --t-eyebrow-tr: 0.16em;
-  --t-micro: 9.5px;    --t-micro-tr: 0.12em;
-  --t-button: 12.5px;  --t-button-tr: 0.07em;
+  --t-eyebrow: 10.5px; --t-eyebrow-tr: .16em;
+  --t-micro: 9px; --t-micro-tr: .14em;
+  --t-button: 11px; --t-button-tr: .12em;
   --t-zone: 10px;
 
-  /* wordmark */
-  --word-land: 15px; --word-land-lh: 1.15;
-  --word-port: 21px; --word-port-lh: 1.14; --word-tr: -0.005em;
+  --word-land: 26px; --word-port: 42px;
 
-  /* ---- SPACING, BORDERS, RADIUS ----------------------------------------- */
-  --sheet-pad: 22px;         /* outer sheet padding — holds the zone markers  */
-  --sec-dense: 30px 26px;
-  --sec-state: 40px 26px;
-  --sec-hero:  56px 26px 44px;
+  --sheet-pad: 22px;
+  --sec-dense: 32px 28px;
+  --sec-state: 46px 28px;
+  --sec-hero: 64px 28px 52px;
   --gap-cards: 18px;
-  --bd-sheet: 2px;
+  --bd-sheet: 1px;
   --bd-section: 1px;
   --bd-inner: 1px;
-  --bd-input: 1.5px;
-  --radius: 0;               /* rule 3. do not change this.                   */
+  --bd-input: 1px;
+  --radius: 2px;
 
-  /* The standing placeholder treatment for parts not yet photographed. CSS on
-     purpose, and it stays in production — a hatched panel is an honest way to
-     say a photograph is owed, which an empty box is not.                     */
-  --hatch: repeating-linear-gradient(45deg,
-             var(--panel) 0 7px, var(--panel-2) 7px 14px);
-
-  /* the engineering grid behind the hero drawing pane */
-  --grid-28: linear-gradient(var(--panel-2) 1px, transparent 1px),
-             linear-gradient(90deg, var(--panel-2) 1px, transparent 1px);
-
-  --transition: 120ms ease-out;  /* nothing slower. a drawing does not animate */
+  --hatch: repeating-linear-gradient(135deg,
+    var(--panel) 0 7px, var(--panel-2) 7px 14px);
+  --grid-28: linear-gradient(color-mix(in srgb, var(--rule-3) 80%, transparent) 1px, transparent 1px),
+             linear-gradient(90deg, color-mix(in srgb, var(--rule-3) 80%, transparent) 1px, transparent 1px);
+  --cosmos:
+    radial-gradient(circle at 11% 16%, color-mix(in srgb, var(--ion) 22%, transparent) 0 1px, transparent 1.8px),
+    radial-gradient(circle at 72% 9%, color-mix(in srgb, var(--paper) 28%, transparent) 0 1px, transparent 1.7px),
+    radial-gradient(circle at 88% 61%, color-mix(in srgb, var(--signal) 28%, transparent) 0 1px, transparent 1.9px),
+    radial-gradient(ellipse at 78% -8%, #213D58 0%, transparent 42%),
+    linear-gradient(145deg, #121D2D 0%, var(--ground) 52%, #0D1725 100%);
+  --transition: 140ms ease-out;
 }

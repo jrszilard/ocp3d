@@ -1,18 +1,18 @@
 ---
 import Base from "../layouts/Base.astro";
 ---
-<Base title="Request a Part — The Ministry of Discontinued Parts">
+<Base title="Log an Old Car Problem — OCP3D">
   <section>
     <div class="wrap narrow">
-      <div class="eyebrow">Request a part</div>
-      <h1>Tell us what your dealer laughed at.</h1>
+      <div class="eyebrow">OCP3D · LOG A PROBLEM</div>
+      <h1>Tell us what your old car needs next.</h1>
       <p>
         Give us the car and the part — a part number if you have one, a description and a photo
-        if you don’t. We’ll trace its OEM paper trail and add it to the catalog. Then, depending
-        on what exists in the world, we’ll tell you exactly what it takes to make yours.
+        if you do not. We will trace what remains, identify the interface, and tell you what it
+        takes to measure, model, and make the next useful version.
       </p>
-      <p class="dp1-line">Filed as <b>Form DP-1</b> — Application for the Reinstatement of a
-        Discontinued Part. The Ministry reviews every application. Slowly, but genuinely.</p>
+      <p class="dp1-line">Filed as an <b>OCP3D FIELD FILE</b> — a practical record for a part
+        that is hard to find, discontinued, or has never existed in the form your car needs.</p>
       <div class="tiers">
         <div class="tier"><b>You have the old part (even broken)?</b> Best case — we measure it
           and reproduce it. Mail-in or guided self-measurement.</div>
@@ -27,7 +27,7 @@ import Base from "../layouts/Base.astro";
       <form id="case-form" class="case-file" method="post" action="/api/request">
         <div class="cf-head">
           <span class="cf-title">New case file</span>
-          <span class="cf-no">MINISTRY FORM DP-1</span>
+          <span class="cf-no">OCP3D FIELD FILE · 3D</span>
         </div>
         <input type="hidden" name="type" value="request" />
         <input type="hidden" name="part_slug" value="" />
@@ -64,7 +64,7 @@ import Base from "../layouts/Base.astro";
         </label>
 
         <div class="cf-foot">
-          <button class="btn primary" type="submit">Open a case file</button>
+          <button class="btn btn--primary" type="submit">Log this problem</button>
           <span class="cap">We write back within a few days, with the paper trail. Never spam.</span>
         </div>
         <p class="form-error" id="form-error" hidden></p>
@@ -114,7 +114,7 @@ import Base from "../layouts/Base.astro";
     errBox.hidden = true;
     const btn = form.querySelector("button[type=submit]") as HTMLButtonElement;
     btn.disabled = true;
-    btn.textContent = "Filing…";
+    btn.textContent = "Logging…";
     try {
       const res = await fetch(form.action, {
         method: "POST",
@@ -141,10 +141,10 @@ import Base from "../layouts/Base.astro";
         throw new Error(data.error ?? "failed");
       }
     } catch (err) {
-      errBox.textContent = "That didn’t file. Check the required fields and try again — or email requests@lostclipsociety.com directly.";
+      errBox.textContent = "That did not transmit. Check the required fields and try again — or email requests@lostclipsociety.com directly.";
       errBox.hidden = false;
       btn.disabled = false;
-      btn.textContent = "Open a case file";
+      btn.textContent = "Log this problem";
     }
   });
 </script>

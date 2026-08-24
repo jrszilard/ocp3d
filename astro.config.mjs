@@ -7,7 +7,7 @@ import vercel from "@astrojs/vercel";
 // Pages stay static; routes with `export const prerender = false` (the /api/*
 // form endpoints) deploy as Vercel functions.
 export default defineConfig({
-  site: "https://lostclipsociety.com",
+  site: "https://ocp3d.com",
   adapter: vercel(),
   // checkOrigin compares the Origin header against the request URL's origin — but on
   // Vercel, functions see their URL as https://localhost (host header never reaches the

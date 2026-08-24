@@ -6,11 +6,12 @@ import Lockup from "../components/Lockup.astro";
 // Wilma: everything on this page is rendered FROM the tokens in
 // src/styles/tokens.css. If a swatch here is wrong, the token is wrong.
 const colours = [
-  ["--ground", "page background — the blueprint blue"],
+  ["--ground", "page background — midnight service sky"],
   ["--ground-deep", "recessed panels, hero pane, inputs"],
-  ["--ink", "text on paper/amber, button labels"],
-  ["--paper", "all line work, rules, borders, primary text"],
-  ["--amber", "THE house colour — one accent only"],
+  ["--ink", "text on moon-paper and signal controls"],
+  ["--paper", "moon-paper line work, borders, primary text"],
+  ["--amber", "signal-orange control accent"],
+  ["--ion", "cool orbital instrument light"],
   ["--steel", "secondary/label text, zone markers"],
   ["--body", "body copy on ground"],
   ["--glass", "placeholder captions"],
@@ -33,20 +34,20 @@ const type = [
   ["Spec value", "var(--font-mono) 600", "15", "spec"],
 ];
 ---
-<Base title="Styleguide — The Ministry of Discontinued Parts" sheet="STYLEGUIDE">
+<Base title="Styleguide — OCP3D" sheet="STYLEGUIDE · OCP3D">
   <section class="section">
-    <p class="eyebrow">SHEET REFERENCE — THE DESIGN SYSTEM</p>
-    <h1>The cyanotype.</h1>
+    <p class="eyebrow">OCP3D FIELD REFERENCE — THE DESIGN SYSTEM</p>
+    <h1>Orbital service.</h1>
     <p class="lead sg-lead">
       Every value on this page comes from <code>src/styles/tokens.css</code> — the single source
-      of truth. Components consume tokens and never hard-code a colour or a size. Radius is zero
-      everywhere; there are no shadows anywhere on the site; sections are divided by 1px paper
-      rules, never by whitespace.
+      of truth. Components consume tokens and never hard-code a colour or a size. The world is
+      original retrofuturist vehicle service: night sky, moon-paper records, analog machinery,
+      signal orange, and cool ion light.
     </p>
   </section>
 
   <section class="section">
-    <p class="eyebrow">THE LOCKUP — SYMBOL, NAME, COLOUR LINE. ONE UNIT.</p>
+    <p class="eyebrow">THE LOCKUP — ORBITAL MARK, OCP3D, PLAIN-LANGUAGE EXPANSION.</p>
     <div class="lockups">
       <div><Lockup variant="landscape" /><p class="dense cap">Landscape · header, screen</p></div>
       <div><Lockup variant="portrait" /><p class="dense cap">Portrait · print, stationery</p></div>
@@ -56,9 +57,9 @@ const type = [
       </div>
     </div>
     <p class="dense note">
-      Never restyle the three parts independently. Line breaks are fixed — two lines landscape,
-      three portrait, never one. Mixed case, never all caps, never italic. Below 26px the shield
-      closes up: use the car alone.
+      Keep the orbital mark, OCP3D acronym, and Old Car Problems expansion together. The mark is
+      original: a vintage-car silhouette, orbital ring, and additive layer courses — never a game,
+      film, manufacturer, or government reference.
     </p>
   </section>
 
@@ -81,7 +82,7 @@ const type = [
       {type.map(([role, fam, size, cls]) => (
         <>
           <div><span class="eyebrow">{role}</span></div>
-          <div><span class={`sample s-${cls}`}>Discontinued</span></div>
+          <div><span class={`sample s-${cls}`}>OCP3D</span></div>
           <div><span class="dense">{fam}</span></div>
           <div><span class="dense">{size}</span></div>
         </>

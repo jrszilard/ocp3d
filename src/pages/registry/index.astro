@@ -4,23 +4,23 @@ import RegisterCard from "../../components/RegisterCard.astro";
 import { allParts } from "../../lib/catalog";
 const parts = allParts();
 ---
-<Base title="Parts register — The Ministry of Discontinued Parts"
-      sheet={`INDEX · ${parts.length} SHEETS`}>
+<Base title="Parts Archive — OCP3D · Old Car Problems"
+      sheet={`ARCHIVE · ${parts.length} FILES`}>
   <section class="section">
     <p class="index-head">
-      <span class="eyebrow">SHEET INDEX — PARTS IN THE REGISTER</span>
-      <a class="all-sheets" href="/request/">Missing something? Raise a request →</a>
+      <span class="eyebrow">OCP3D FIELD INDEX — PARTS ARCHIVE</span>
+      <a class="all-sheets" href="/request/">Missing something? Log a problem →</a>
     </p>
-    <h1>The register.</h1>
+    <h1>The parts archive.</h1>
     <p class="lead reg-lead">
       Every part we know about, whatever its state — from freshly requested to fitted on a real
-      car. Sheets live here permanently; the state changes as the work happens.
+      car. Files stay here; the evidence changes as the work happens.
     </p>
 
     <div class="tools">
       <input id="q" type="search" enterkeyhint="search"
              placeholder="SEARCH — PART NAME, OEM №, KEYWORD…"
-             aria-label="Search the register" autocomplete="off" spellcheck="false" />
+             aria-label="Search the parts archive" autocomplete="off" spellcheck="false" />
       <div class="filters" role="group" aria-label="Filter by state">
         <button type="button" class="chip on" data-state="">All</button>
         <button type="button" class="chip" data-state="measured">Measured</button>
@@ -35,12 +35,12 @@ const parts = allParts();
     </div>
 
     <div class="empty" id="empty" hidden>
-      <p class="eyebrow eyebrow--amber">NO MATCH IN THE REGISTER</p>
+      <p class="eyebrow eyebrow--amber">NO MATCH IN THE ARCHIVE</p>
       <p class="dense">
-        Which means nobody has asked for it yet. Raise a request and it starts existing — every
-        sheet above got in exactly this way.
+        Which means nobody has logged it yet. Log the problem and it starts existing — every file
+        above got here the same way.
       </p>
-      <a class="btn btn--primary" id="empty-cta" href="/request/">Raise a request →</a>
+      <a class="btn btn--primary" id="empty-cta" href="/request/">Log a problem →</a>
     </div>
   </section>
 </Base>
@@ -115,6 +115,7 @@ const parts = allParts();
 
   .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--gap-cards); }
   .empty { border: 1px dashed var(--rule-2); padding: 34px 26px; text-align: center; display: grid; gap: 12px; justify-items: center; margin-top: 18px; }
+  .empty[hidden] { display: none; }
   .empty .dense { max-width: 460px; color: var(--steel); }
 
   @media (max-width: 900px) { .cards { grid-template-columns: 1fr 1fr; } }

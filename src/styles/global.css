@@ -1,70 +1,55 @@
-/* Base styles — consume tokens only (see tokens.css). Components add their own
-   scoped styles; nothing here or there may hard-code a colour or a size. */
+/* Global base — all values come from tokens.css. */
 @import "./tokens.css";
 
 *, *::before, *::after { box-sizing: border-box; }
 
 body {
-  margin: 0;
-  background: var(--border);          /* the outermost page border */
-  color: var(--paper);
-  font-family: var(--font-mono);
-  font-size: var(--t-section);
-  line-height: var(--t-section-lh);
+  margin: 0; background: var(--border); color: var(--paper);
+  font-family: var(--font-mono); font-size: var(--t-section); line-height: var(--t-section-lh);
   -webkit-font-smoothing: antialiased;
 }
 
-.sheet-outer { background: var(--ground); }
-
+.sheet-outer { background: var(--cosmos); }
 h1, h2, h3, h4, p, ul, ol, figure, table { margin: 0; }
 ul, ol { padding: 0; list-style: none; }
-
-/* Headlines are Archivo Narrow, uppercase, always. */
 h1, h2, h3, h4 {
   font-family: var(--font-display); font-weight: 700; text-transform: uppercase;
 }
-h1 { font-size: var(--h1); line-height: var(--h1-lh); letter-spacing: var(--h1-tr); }
+h1 {
+  font-size: var(--h1); line-height: var(--h1-lh); letter-spacing: var(--h1-tr);
+  text-shadow: 0 0 22px color-mix(in srgb, var(--ion) 16%, transparent);
+}
 h2 { font-size: var(--h2); line-height: var(--h2-lh); letter-spacing: var(--h2-tr); }
-
-a { color: var(--paper); text-decoration: none; transition: color var(--transition); }
-a:hover { color: var(--amber); }
-/* Underline is reserved for inline links in prose — never in nav. */
-.prose a { text-decoration: underline; text-underline-offset: 3px; }
-
-/* Focus must stay visible on every interactive element. Do not trade this away
-   for a hover-only affordance. */
-:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
-
+a { color: var(--paper); text-decoration: none; transition: color var(--transition), border-color var(--transition); }
+a:hover { color: var(--ion); }
+.prose a { color: var(--ion); text-decoration: underline; text-underline-offset: 3px; }
+:focus-visible { outline: 2px solid var(--signal); outline-offset: 3px; }
 img, svg { max-width: 100%; display: block; }
 input, button { font: inherit; border-radius: var(--radius); }
 
-/* ---- shared section furniture ------------------------------------------ */
-.section { padding: var(--sec-dense); border-top: var(--bd-section) solid var(--paper); }
+.section { padding: var(--sec-dense); border-top: var(--bd-section) solid var(--rule); }
 .section--statement { padding: var(--sec-state); }
 .section:first-of-type { border-top: 0; }
-
 .eyebrow {
   font-family: var(--font-mono); font-size: var(--t-eyebrow); text-transform: uppercase;
   letter-spacing: var(--t-eyebrow-tr); color: var(--steel);
 }
-.eyebrow--amber { color: var(--amber); }
-
-.lead  { font-size: var(--t-lead); line-height: var(--t-lead-lh); color: var(--body); }
+.eyebrow--amber { color: var(--signal); }
+.lead { font-size: var(--t-lead); line-height: var(--t-lead-lh); color: var(--body); }
 .dense { font-size: var(--t-dense); line-height: var(--t-dense-lh); color: var(--body); }
 .spec-value { font-weight: 600; font-size: var(--t-spec); color: var(--paper); }
 
-/* Buttons. Amber primary fills paper on hover; the label stays ink throughout. */
 .btn {
   display: inline-block; padding: 12px 20px; font-size: var(--t-button); font-weight: 600;
   text-transform: uppercase; letter-spacing: var(--t-button-tr); cursor: pointer;
-  transition: background var(--transition), color var(--transition);
+  border-radius: var(--radius); transition: background var(--transition), color var(--transition), transform var(--transition);
 }
-.btn--primary { background: var(--amber); color: var(--ink); border: var(--bd-input) solid var(--amber); }
-.btn--primary:hover { background: var(--paper); border-color: var(--paper); color: var(--ink); }
-.btn--secondary { background: transparent; color: var(--paper); border: var(--bd-input) solid var(--paper); }
-.btn--secondary:hover { background: var(--paper); color: var(--ink); }
+.btn:hover { transform: translateY(-1px); }
+.btn--primary { background: var(--signal); color: var(--ink); border: var(--bd-input) solid var(--signal); }
+.btn--primary:hover { background: var(--ion); border-color: var(--ion); color: var(--ink); }
+.btn--secondary { background: transparent; color: var(--paper); border: var(--bd-input) solid var(--steel); }
+.btn--secondary:hover { border-color: var(--ion); color: var(--ion); }
 
-/* The standing placeholder for a photograph that is owed. */
 .placeholder {
   background: var(--hatch); border: var(--bd-inner) solid var(--rule-2);
   display: flex; flex-direction: column; align-items: center; justify-content: center;
@@ -74,12 +59,9 @@ input, button { font: inherit; border-radius: var(--radius); }
   font-family: var(--font-mono); font-size: var(--t-eyebrow); color: var(--glass);
   text-transform: uppercase; letter-spacing: var(--t-eyebrow-tr);
 }
-.placeholder small { font-family: var(--font-mono); font-size: var(--t-dense);
-  color: var(--glass); text-transform: none; letter-spacing: 0; }
-
-/* A grid whose GAP is the rule: paper background showing through 1px gaps. */
-.hairline-grid { display: grid; gap: var(--bd-inner); background: var(--paper); }
+.placeholder small { font-family: var(--font-mono); font-size: var(--t-dense); color: var(--glass); }
+.hairline-grid { display: grid; gap: var(--bd-inner); background: var(--rule); }
 .hairline-grid > * { background: var(--ground); padding: 14px 16px; }
 
-@media (max-width: 900px) { :root { --h1: 40px; --h2: 28px; } }
-@media (max-width: 600px) { :root { --h1: 32px; --h2: 24px; } }
+@media (max-width: 900px) { :root { --h1: 43px; --h2: 30px; } }
+@media (max-width: 600px) { :root { --h1: 34px; --h2: 26px; --sec-hero: 42px 22px; } }

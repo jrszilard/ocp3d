@@ -1,36 +1,38 @@
-# Ministry of Discontinued Parts
+# OCP3D — Old Car Problems
 
-The website for the **Ministry of Discontinued Parts** — reproduction interior parts for
-classic cars, measured from surviving originals and fitted on real cars.
+OCP3D measures, engineers, and 3D-prints difficult-to-find parts for cars worth keeping.
+Discontinued reproductions and original interface solutions both begin as an old-car problem,
+then earn their evidence one measurement and real-car test at a time.
 
-Hosted at **lostclipsociety.com**, the address the first case was opened under; the verified
-case mailbox lives on that domain, so it stays.
+Production: **https://ocp3d.com**. Legacy web domains redirect here. The existing verified case
+mailbox remains `requests@lostclipsociety.com` until a separately verified mail migration.
 
 Static [Astro](https://astro.build) site. Part pages are generated from the committed catalog
-snapshot at `src/data/parts.json` — the site builds anywhere with no other dependencies.
+snapshot at `src/data/parts.json` — the site builds anywhere with no private-repo dependency.
 
 ```bash
 npm install
 npm run dev       # http://localhost:4321
 npm run build     # static output in dist/
+npm test
 ```
 
-## For Wilma (design) 👋
+## Design
 
-- **The design system lives in [`src/styles/tokens.css`](src/styles/tokens.css)** — every
-  color, typeface, and spacing value on the site, annotated. Components never hard-code
-  values, so editing tokens restyles the whole site consistently.
-- **Live reference: `/styleguide`** — renders every token and component; edit tokens,
-  reload, and see the change everywhere.
-- Voice + design rationale: [`BRAND.md`](BRAND.md).
+- The design system lives in [`src/styles/tokens.css`](src/styles/tokens.css). Components consume
+  tokens rather than hard-coded visual values.
+- Live reference: `/styleguide`.
+- Brand and voice rules: [`BRAND.md`](BRAND.md).
+- Visual direction is original retrofuturist **Orbital Service** — space-age nostalgia applied to
+  keeping old vehicles running. Do not copy Fallout or other proprietary visual language.
 
 ## Pages
 
-- `/` home · `/registry/` catalog · `/registry/<slug>/` part pages (generated from the snapshot)
-- `/request/` request-a-part · `/method/` how fit verification works
+- `/` home · `/registry/` parts archive · `/registry/<slug>/` part pages
+- `/request/` log an old-car problem · `/method/` fit lab · `/charter/` mission
 - `/styleguide/` design-system reference
 
 ## Catalog data
 
 `src/data/parts.json` is a generated snapshot — don't hand-edit it. It is refreshed from the
-workshop's private catalog with `node scripts/sync-catalog.mjs` (workshop machine only).
+workshop’s private catalog with `node scripts/sync-catalog.mjs` (workshop machine only).

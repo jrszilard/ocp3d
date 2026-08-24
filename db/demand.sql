@@ -1,4 +1,4 @@
--- demand_signals — the Society's demand ledger.
+-- demand_signals — OCP3D's private demand ledger.
 -- One row per signal of demand for a part: a full case-file request, a one-click vote,
 -- or a membership claim (partless). This is the data that decides what gets digitized
 -- next and when a group run clears breakeven.

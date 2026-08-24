@@ -29,16 +29,16 @@ const printed = [
 ];
 const notes = [
   "Pre-2000, unbranded, non-safety-critical parts only.",
-  "Tolerance ±0.15 unless otherwise stated on the part sheet.",
-  "Drafts are labelled DRAFT until an original is measured.",
-  "No badge until the part is fitted on a real car.",
+  "Every file says what is measured, estimated, or still unknown.",
+  "3D printing solves geometry; real-car fit earns its own record.",
+  "No trackers, no telemetry, no mystery data.",
 ];
 const steps = [
-  { n: 1, title: "Request",  text: "Car and part logged. Enters the register with its OEM paper trail." },
-  { n: 2, title: "Research", text: "Every part number traced. Shape drafted and labelled DRAFT." },
-  { n: 3, title: "Measure",  text: "Original on the bench. Every critical dimension published free." },
-  { n: 4, title: "Extrude",  text: "Printed to order at 0.12 mm, inspected, shipped. It fits, or we remake it free." },
-  { n: 5, title: "Fit",      text: "On a real car. Car, year and material on the record — then the badge." },
+  { n: 1, title: "Log",     text: "Tell us the car, the part, and what went wrong. Every problem starts as a field file." },
+  { n: 2, title: "Trace",   text: "We map surviving originals and the interfaces still on the vehicle." },
+  { n: 3, title: "Measure", text: "Original on the bench. Every critical dimension published free." },
+  { n: 4, title: "Build",   text: "Modelled in-house and 3D printed one layer at a time. If it misses, we learn and remake." },
+  { n: 5, title: "Run",     text: "Tested on a real car. Vehicle, material, and result stay on the record." },
 ];
 const facts = [
   { n: "0",  label: "TRACKERS" },
@@ -49,23 +49,23 @@ const facts = [
 const dimsOnRecord = visor?.dimsConfirmed ?? 0;
 ---
 
-<Base title="The Ministry of Discontinued Parts: the part is discontinued, the drawing isn't.">
+<Base title="OCP3D — Old Car Problems. New parts in layers.">
   <!-- ============================ HERO ============================ -->
   <section class="hero">
     <div class="hero-text">
       <p class="projection">
         <span class="glyph" aria-hidden="true"></span>
-        FIRST ANGLE PROJECTION · ALL DIMS IN MILLIMETRES
+        OCP3D FIELD MANUAL · ALL DIMS IN MILLIMETRES
       </p>
-      <h1>The part is discontinued.<br />The drawing isn't.</h1>
+      <h1>Old car problem.<br />New part, in layers.</h1>
       <p class="lead">
-        We put a surviving original on the bench, record every critical dimension, and print the
-        reproduction to order. Measurements published free, fit proven on a real car — so a
-        forty-year-old interior stays whole and the car that never phoned home keeps driving.
+        OCP3D puts surviving parts and stubborn interfaces on the bench, then measures, models,
+        and 3D prints the next useful version. Dimensions stay free, real-car fit stays on the
+        record, and old vehicles keep their place in the future.
       </p>
       <p class="hero-actions">
-        <a class="btn btn--primary" href="/registry/">Open the register</a>
-        <a class="btn btn--secondary" href="/request/">Raise a request</a>
+        <a class="btn btn--primary" href="/registry/">Browse parts</a>
+        <a class="btn btn--secondary" href="/request/">Log a problem</a>
       </p>
 
       <div class="notes">
@@ -83,14 +83,14 @@ const dimsOnRecord = visor?.dimsConfirmed ?? 0;
       <div class="centre-v" aria-hidden="true"></div>
       <div class="centre-h" aria-hidden="true"></div>
       <div class="views placeholder">
-        <span>ORTHOGRAPHIC VIEWS</span>
-        <small>plan · elevation · section A–A</small>
-        <small>sun visor retaining clip</small>
+        <span>ORBITAL SERVICE VIEW</span>
+        <small>scan · measure · model</small>
+        <small>first case: sun visor retaining clip</small>
       </div>
       <p class="pane-caption">
-        <span class="eyebrow">VIEW 1:1 · SECTION A–A</span>
+        <span class="eyebrow">FIELD VIEW · LAYER 01</span>
         <span class="chips">
-          <span class="chip chip--amber">{dimsOnRecord} DIMS RECORDED</span>
+          <span class="chip chip--amber">{dimsOnRecord} DIMS ON FILE</span>
           <span class="chip chip--solid">MEASURED</span>
         </span>
       </p>
@@ -102,7 +102,7 @@ const dimsOnRecord = visor?.dimsConfirmed ?? 0;
        core argument of the site — keep them side by side above mobile. -->
   <section class="spec-band">
     <div class="spec-col">
-      <p class="eyebrow">MEASURED FROM THE ORIGINAL</p>
+      <p class="eyebrow">RECOVERED FROM THE ORIGINAL</p>
       <div class="hairline-grid spec-grid">
         {measured.map((m) => (
           <div><span class="eyebrow">{m.label}</span><span class="spec-value">{m.value}</span></div>
@@ -113,7 +113,7 @@ const dimsOnRecord = visor?.dimsConfirmed ?? 0;
       </p>
     </div>
     <div class="spec-col">
-      <p class="eyebrow eyebrow--amber">PRINTED TO THAT RECORD</p>
+      <p class="eyebrow eyebrow--amber">BUILT IN 3D</p>
       <div class="hairline-grid spec-grid">
         {printed.map((m) => (
           <div><span class="eyebrow">{m.label}</span><span class="spec-value">{m.value}</span></div>
@@ -130,7 +130,7 @@ const dimsOnRecord = visor?.dimsConfirmed ?? 0;
 
   <!-- ==================== SEQUENCE OF OPERATIONS ==================== -->
   <section class="section sequence-wrap">
-    <p class="eyebrow">SEQUENCE OF OPERATIONS</p>
+    <p class="eyebrow">SERVICE SEQUENCE</p>
     <ol class="hairline-grid sequence">
       {steps.map((s) => (
         <li class={s.n === 1 ? "is-current" : ""}>
@@ -145,8 +145,8 @@ const dimsOnRecord = visor?.dimsConfirmed ?? 0;
   <!-- ======================= PARTS REGISTER ======================= -->
   <section class="section">
     <p class="index-head">
-      <span class="eyebrow">SHEET INDEX — PARTS IN THE REGISTER</span>
-      <a class="all-sheets" href="/registry/">All {parts.length} sheets →</a>
+      <span class="eyebrow">FIELD INDEX — PARTS ARCHIVE</span>
+      <a class="all-sheets" href="/registry/">All {parts.length} files →</a>
     </p>
     <div class="cards">
       {cards.map((p: any, i: number) => (
@@ -159,14 +159,14 @@ const dimsOnRecord = visor?.dimsConfirmed ?? 0;
        The only inverted band on the page. Counted facts, not adjectives. -->
   <section class="article-iv">
     <div class="iv-text">
-      <p class="eyebrow iv-eyebrow">CHARTER · ARTICLE IV</p>
-      <h2>We collect measurements, not data.</h2>
+      <p class="eyebrow iv-eyebrow">OCP3D TRANSMISSION RULE</p>
+      <h2>Keep the car running.<br />Not a profile of you.</h2>
       <p class="iv-body">
-        A car drawn on paper in 1983 has no modem, no subscription and no privacy policy. This
-        site holds to the same standard: no trackers, no analytics, no ad pixels, no third
-        parties. One address kept, for the Gazette, with a one-click way out on every issue.
+        A car drawn on paper in 1983 has no modem, no subscription and no privacy policy. OCP3D
+        keeps the same line: no trackers, analytics, ad pixels, or third-party scripts. One
+        address is kept for the Dispatch, with one click to leave every issue.
       </p>
-      <p><a class="iv-link" href="/charter/">Read the charter →</a></p>
+      <p><a class="iv-link" href="/charter/">Read the mission →</a></p>
     </div>
     <div class="iv-facts">
       {facts.map((f) => (
@@ -178,37 +178,36 @@ const dimsOnRecord = visor?.dimsConfirmed ?? 0;
   <!-- ======================= REGISTRATION ======================= -->
   <section class="registration" id="register">
     <div class="reg-text">
-      <p class="eyebrow">REGISTRATION — NO CHARGE</p>
-      <h2>Take a registrant number.</h2>
+      <p class="eyebrow">OCP3D DISPATCH — NO CHARGE</p>
+      <h2>Get the next signal.</h2>
       <p class="lead">
-        Free, forever, and numbered the moment you claim it. It buys you the Gazette, which ships
-        only when a part actually moves forward — never on a schedule. Voting is open to everyone.
-        The parts cost money. Registration never does.
+        Free, quiet, and sent only when a part actually moves forward — never on a schedule.
+        Voting is open to everyone. The parts cost money. The Dispatch does not.
       </p>
       <form class="reg-form" id="join-form" method="post" action="/api/request">
         <input type="hidden" name="type" value="membership" />
         <input type="text" name="company" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
         <input type="email" name="email" required placeholder="you@garage.example" aria-label="Email address" />
-        <button class="btn btn--primary" type="submit">CLAIM № 0002</button>
+        <button class="btn btn--primary" type="submit">GET THE DISPATCH</button>
       </form>
       <p class="reg-done dense" id="join-done" hidden></p>
       <p class="dense reg-note">
-        We keep your address to send the Gazette, and for nothing else — never sold, never shared.
+        We keep your address for the Dispatch, and for nothing else — never sold, never shared.
       </p>
     </div>
 
     <div class="reg-block">
       <div class="tb-head">
-        <span class="eyebrow">TITLE BLOCK · REGISTRANT RECORD</span>
-        <span class="eyebrow">№ 0001</span>
+        <span class="eyebrow">FIELD FILE · DISPATCH RECORD</span>
+        <span class="eyebrow">SIGNAL 0001</span>
       </div>
       <div class="hairline-grid tb-grid">
-        <div><span class="eyebrow">CHAPTER</span></div><div><span class="tb-v">A60 · Celica Supra</span></div>
-        <div><span class="eyebrow">STANDING</span></div><div><span class="tb-v">Fitment Officer, Prov.</span></div>
-        <div><span class="eyebrow">TESTIMONY</span></div><div><span class="tb-v">1 part · {dimsOnRecord} dims</span></div>
-        <div><span class="eyebrow">SINCE</span></div><div><span class="tb-v">2026</span></div>
+        <div><span class="eyebrow">VEHICLE</span></div><div><span class="tb-v">A60 · Celica Supra</span></div>
+        <div><span class="eyebrow">CHANNEL</span></div><div><span class="tb-v">OCP3D Dispatch</span></div>
+        <div><span class="eyebrow">SIGNAL</span></div><div><span class="tb-v">1 part · {dimsOnRecord} dims</span></div>
+        <div><span class="eyebrow">EST.</span></div><div><span class="tb-v">2026</span></div>
       </div>
-      <p class="oath">"I solemnly swear to measure twice."</p>
+      <p class="oath">"Measure twice. Keep it moving."</p>
     </div>
   </section>
 </Base>
@@ -232,13 +231,13 @@ const dimsOnRecord = visor?.dimsConfirmed ?? 0;
       const num = body?.number ? `№ ${body.number}` : "№ 0002";
       // Success replaces the form block, keeping the layout height stable.
       if (joinDone) {
-        joinDone.textContent = `Registrant ${num} — the Gazette will find you when a part moves.`;
+        joinDone.textContent = `File ${num} — the OCP3D Dispatch will find you when a part moves.`;
         joinDone.hidden = false;
       }
       joinForm.hidden = true;
     } catch {
       window.location.href = `mailto:requests@lostclipsociety.com?subject=${encodeURIComponent(
-        "Registration — Ministry of Discontinued Parts",
+        "OCP3D Dispatch signup",
       )}&body=${encodeURIComponent("Sign me up: " + email)}`;
     }
   });

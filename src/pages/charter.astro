@@ -1,85 +1,75 @@
 ---
 import Base from "../layouts/Base.astro";
 
-/* Article IV expanded to numbered articles, one per hairline-divided block, as
-   the redesign specifies. The copy is the charter that was already written —
-   restructured, not rewritten. Body prose is mono at 13.5/1.75, ~620px measure. */
 const articles = [
   {
-    n: "I",
-    title: "Scope",
+    n: "01",
+    title: "The work",
     body: [
-      `The Ministry of Discontinued Parts makes reproduction parts for cars the industry gave up
-       on — measured from surviving originals with calipers, modeled in-house, printed to order,
-       and fitted on real cars before any badge says so. When the world moves on and leaves a car
-       behind — a blade standard, a bulb fitting, a connector — the Ministry engineers the adaptor
-       the manufacturer never made.`,
-      `Pre-2000, unbranded, non-safety-critical parts only. Every dimension we take is published
+      `OCP3D solves old car problems with measured parts, engineering, and 3D printing. A surviving
+       original goes on the bench; its critical dimensions go on the record; a new part earns its
+       own status on a real vehicle. When an interface was never served in the first place, we
+       engineer the useful adaptor instead of pretending it was an OEM part.`,
+      `Pre-2000, unbranded, non-safety-critical parts only. Every measured dimension is published
        free. The parts cost money. The measurements never do.`,
     ],
   },
   {
-    n: "II",
-    title: "Why a Ministry",
+    n: "02",
+    title: "The old car problem",
     body: [
-      `Because the industry never created the one it needed, so we appointed ourselves. Requests
-       are filed on Form DP-1 — Application for the Reinstatement of a Discontinued Part. Every
-       application is reviewed. Parts that pass their fit tests on a real car are stamped. The
-       Minister remains unavailable for comment.`,
+      `A discontinued clip is a problem. So is a wiper connection nobody ever designed, a cracked
+       knob, an absent vent, or a small interface that turns an otherwise good car into a parked
+       one. OCP3D treats the problem, not a nostalgia fantasy: identify the interface, document
+       what is known, and build only what the evidence supports.`,
+      `A 3D print is not a magic answer. It is a fast, physical way to test geometry, improve a
+       measured design, and keep a machine in service while the industry has moved on.`,
     ],
   },
   {
-    n: "III",
-    title: "The founding case",
+    n: "03",
+    title: "The first signal",
     body: [
-      `Case No. 1 was a sun visor clip for a 1983 Toyota Celica Supra. The dealer laughed. We
-       measured. Everything since is the same case with different part numbers — vents, knobs,
-       bezels, wiper adaptors, whatever your car lost.`,
-      `The Ministry still files from lostclipsociety.com, the address that first case was opened
-       under, and sees no reason to waste good stationery.`,
+      `File 01 was a sun visor clip for a 1983 Toyota Celica Supra. It was small, unavailable, and
+       exactly the kind of failure that can sideline a car over a few grams of plastic. We measured
+       it, printed it, revised it from physical evidence, and kept every result on the record.`,
+      `Everything after it is the same promise: old car problem in, documented part path out.`,
     ],
   },
   {
-    n: "IV",
-    title: "We collect measurements, not data",
+    n: "04",
+    title: "Keep the car. Not a profile of you.",
     body: [
-      `Modern cars log where you go and how you drive, and that data has a market. Features arrive
-       as subscriptions; some carmakers have been caught selling driving records to data brokers
-       and insurers. We take no political position on any of it. We simply note that a 1983 car
-       cannot phone home, because it has no phone.`,
-      `Every car we keep on the road is one of the last machines that reports to nobody. It has no
-       accounts, no updates, and no opinions about where you drove on Tuesday. The Ministry
-       considers this worth preserving — and it takes rather a lot of clips.`,
-      `We run the Ministry the same way: no trackers on the case files, a mailing list that exists
-       only to mail you, and a demand ledger that stores the minimum a part request needs. The
-       Ministry knows less about you than your car's manufacturer knows about theirs. We plan to
-       keep it that way.`,
+      `Modern cars can log where you go and how you drive; that information can be sold, scored,
+       and subscribed to. We do not need to argue with that system to know that a car without a
+       modem remains an unusually private machine. Keeping it running is practical independence.`,
+      `OCP3D follows the same rule: no trackers, no analytics, no ad pixels, and no third-party
+       scripts. We retain only what a request or Dispatch signup genuinely needs, and say exactly
+       what that is below.`,
     ],
   },
 ];
 
-/* Article IV is a promise made in the UI, so it ends in the retention facts
-   stated exactly — not a manifesto, and not a privacy policy. */
 const retention = [
   ["TRACKERS", "0"],
   ["THIRD-PARTY SCRIPTS", "0"],
   ["ANALYTICS, AD PIXELS, SESSION RECORDING", "0"],
-  ["FIELDS STORED ON REGISTRATION", "1 — your email address"],
-  ["WHAT IT IS USED FOR", "The Gazette. Nothing else."],
+  ["FIELDS STORED ON DISPATCH SIGNUP", "1 — your email address"],
+  ["WHAT IT IS USED FOR", "OCP3D Dispatch. Nothing else."],
   ["SOLD OR SHARED", "Never"],
   ["WAY OUT", "One click, on every issue"],
   ["DATA COLLECTED BY YOUR 1983 SUPRA SINCE 1983", "None"],
 ];
 ---
-<Base title="Charter — The Ministry of Discontinued Parts" sheet="CHARTER">
+<Base title="Mission — OCP3D · Old Car Problems" sheet="MISSION · OCP3D">
   <section class="section section--statement">
-    <p class="eyebrow">THE MINISTRY · SELF-APPOINTED, EST. 2026</p>
-    <h1>We remake what<br />the industry abandoned.</h1>
+    <p class="eyebrow">OCP3D · ORBITAL SERVICE, EST. 2026</p>
+    <h1>Keep the old car<br />in the future.</h1>
   </section>
 
   {articles.map((a) => (
     <section class="section article">
-      <div class="art-no"><span class="eyebrow">ARTICLE</span><span class="numeral">{a.n}</span></div>
+      <div class="art-no"><span class="eyebrow">TRANSMISSION</span><span class="numeral">{a.n}</span></div>
       <div class="art-body prose">
         <h2>{a.title}</h2>
         {a.body.map((p) => <p>{p}</p>)}
@@ -88,7 +78,7 @@ const retention = [
   ))}
 
   <section class="section">
-    <p class="eyebrow eyebrow--amber">ARTICLE IV — THE FACTS, STATED EXACTLY</p>
+    <p class="eyebrow eyebrow--amber">TRANSMISSION 04 — THE FACTS, STATED EXACTLY</p>
     <div class="hairline-grid retention">
       {retention.map(([k, v]) => (
         <>
@@ -105,8 +95,8 @@ const retention = [
 
   <section class="section">
     <p class="hero-actions">
-      <a class="btn btn--primary" href="/registry/">Open the register</a>
-      <a class="btn btn--secondary" href="/request/">File a request — Form DP-1</a>
+      <a class="btn btn--primary" href="/registry/">Browse parts</a>
+      <a class="btn btn--secondary" href="/request/">Log a problem</a>
     </p>
   </section>
 </Base>
@@ -114,23 +104,14 @@ const retention = [
 <style>
   .article { display: grid; grid-template-columns: 140px 1fr; gap: 30px; }
   .art-no { display: flex; flex-direction: column; gap: 6px; }
-  .numeral {
-    font-family: var(--font-display); font-weight: 700; font-size: 40px;
-    line-height: 1; color: var(--amber);
-  }
+  .numeral { font-family: var(--font-display); font-weight: 700; font-size: 40px; line-height: 1; color: var(--signal); }
   .art-body { max-width: 620px; }
   .art-body h2 { font-size: 24px; margin-bottom: 14px; }
   .art-body p + p { margin-top: 14px; }
   .art-body p { color: var(--body); }
-
   .retention { grid-template-columns: 1fr 260px; margin-top: 16px; }
   .ret-v { font-size: var(--t-dense); color: var(--paper); font-weight: 600; }
   .note { color: var(--steel); margin-top: 14px; max-width: 620px; }
   .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
-
-  @media (max-width: 900px) {
-    .article { grid-template-columns: 1fr; gap: 14px; }
-    .art-no { flex-direction: row; align-items: baseline; gap: 10px; }
-    .retention { grid-template-columns: 1fr; }
-  }
+  @media (max-width: 900px) { .article { grid-template-columns: 1fr; gap: 14px; } .art-no { flex-direction: row; align-items: baseline; gap: 10px; } .retention { grid-template-columns: 1fr; } }
 </style>

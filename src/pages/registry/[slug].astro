@@ -26,11 +26,11 @@ const identityTitle = part.oemNumber
 const imgSrc = `/images/parts/${part.slug}.jpg`;
 const hasImage = fs.existsSync(path.join(process.cwd(), "public", "images", "parts", `${part.slug}.jpg`));
 ---
-<Base title={`${part.title} — ${identityTitle} — The Ministry of Discontinued Parts`}
+<Base title={`${part.title} — ${identityTitle} — OCP3D`}
       description={part.description.slice(0, 155)}>
   <section>
     <div class="wrap">
-      <div class="crumbs"><a href="/registry/">Catalog</a> / {part.title}</div>
+      <div class="crumbs"><a href="/registry/">Parts archive</a> / {part.title}</div>
       <div class="head">
         <div>
           <div class="eyebrow">{oemLabel} · {vehicleFitment}</div>
@@ -92,12 +92,12 @@ const hasImage = fs.existsSync(path.join(process.cwd(), "public", "images", "par
             <div class="blk-label">Get this part</div>
             {orderable ? (
               <div class="row">
-                <a class="btn primary" href="/request/">Order this part</a>
+                <a class="btn btn--primary" href="/request/">Order this part</a>
                 <span class="cap">Made to order, one at a time · <b>fits or we remake it free</b> · ships with its own fit-report card</span>
               </div>
             ) : part.state === "development" ? (
               <div class="row">
-                <a class="btn primary" href="/request/">Reserve one</a>
+                <a class="btn btn--primary" href="/request/">Reserve one</a>
                 <span class="cap">In development — reserving bumps it up the queue and locks your place</span>
               </div>
             ) : (
@@ -108,7 +108,7 @@ const hasImage = fs.existsSync(path.join(process.cwd(), "public", "images", "par
                   <input type="hidden" name="part_slug" value={part.slug} />
                   <input type="text" name="company" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
                   <input type="email" name="email" required placeholder="you@garage.example" aria-label="Email address" />
-                  <button class="btn primary" type="submit">Vote for this part</button>
+                  <button class="btn btn--primary" type="submit">Vote for this part</button>
                 </form>
                 <span class="cap vote-done" data-vote-done hidden></span>
                 <span class="cap">Not started yet — one vote per member, votes move it up the queue.
@@ -136,8 +136,8 @@ const hasImage = fs.existsSync(path.join(process.cwd(), "public", "images", "par
         </div>
       )}
 
-      <p class="ministry-line">
-        Filed with the Ministry of Discontinued Parts ·
+      <p class="record-line">
+        OCP3D field file ·
         {part.oemNumber ? `Case № ${part.oemNumber}` : "Case pending identification"}
       </p>
     </div>
@@ -241,7 +241,7 @@ const hasImage = fs.existsSync(path.join(process.cwd(), "public", "images", "par
   .testimony { margin-top: 30px; }
   .testimony h2 { font-size: var(--h-card); margin-bottom: 14px; }
   .report { font-family: var(--font-mono); font-size: 0.78rem; color: var(--steel); border-left: 3px solid var(--amber); padding: 10px 14px; margin-bottom: 8px; }
-  .ministry-line {
+  .record-line {
     margin-top: 30px; font-family: var(--font-mono); font-size: 0.64rem;
     letter-spacing: 0.14em; text-transform: uppercase; color: var(--steel);
     border-top: var(--bd-inner) solid var(--rule); padding-top: 14px;

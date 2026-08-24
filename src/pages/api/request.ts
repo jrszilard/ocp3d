@@ -25,7 +25,7 @@ const MAILTO = "requests@lostclipsociety.com";
 // Absolute, not derived from the request: @astrojs/vercel reports url.origin as localhost
 // (the Host header never reaches the renderer — the same trap that forced checkOrigin off),
 // so a link built from the request would point at localhost in production.
-const SITE = "https://lostclipsociety.com";
+const SITE = "https://ocp3d.com";
 
 /**
  * Unsubscribe token: HMAC(secret, lower(email)). The member number cannot serve as the token —
@@ -244,9 +244,9 @@ export const POST: APIRoute = async ({ request }) => {
 
   if (type === "membership") {
     const caseId = await caseNumber(["member", email]);
-    const subject = `New Ministry registrant — ${email}`;
-    const body = text("A new member claimed a number.", "", ["Email:", email], ["Case:", caseId], "",
-      "They get the Ministry Gazette when a part moves forward.");
+    const subject = `New OCP3D Dispatch signup — ${email}`;
+    const body = text("A new Dispatch file was opened.", "", ["Email:", email], ["Case:", caseId], "",
+      "They receive the OCP3D Dispatch when a part moves forward.");
     if (!bot) {
       // Membership records BEFORE emailing — the reverse of the request path. A membership is a
       // PERSON, not a case: the unique index makes a repeat claim a 409, and answering that
@@ -261,17 +261,17 @@ export const POST: APIRoute = async ({ request }) => {
       }
       const via = await deliver(subject, body, caseId, email);
       if (via === "unconfigured") {
-        return respond(request, { ok: false, unconfigured: true }, 503, mailtoFallback("Registration — Ministry of Discontinued Parts", `Sign me up: ${email}`));
+        return respond(request, { ok: false, unconfigured: true }, 503, mailtoFallback("OCP3D Dispatch signup", `Sign me up: ${email}`));
       }
       const leave = await unsubLink(email);
-      await acknowledge(email, `You’re in the book — ${caseId}`, text(
-        "You’re in the book.", "",
+      await acknowledge(email, `OCP3D Dispatch file — ${caseId}`, text(
+        "You’re on the OCP3D Dispatch.", "",
         ["Member №:", caseId], "",
-        "The Ministry Gazette ships when a part moves forward — never for noise.",
+        "The OCP3D Dispatch signals when a part moves forward — never for noise.",
         "Reply to this email any time; it reaches the workshop.", "",
         ...(leave ? [`Leaving is one click, any time:\n${leave}`, ""] : []),
-        "— The Ministry of Discontinued Parts",
-        "  lostclipsociety.com",
+        "— OCP3D · Old Car Problems",
+        "  ocp3d.com",
       ), caseId);
     }
     return respond(request, { ok: true, case: caseId }, 200, `/request/received/?case=${caseId}&type=membership`);
@@ -311,7 +311,7 @@ export const POST: APIRoute = async ({ request }) => {
     { "have-part": "Has the old part (even broken)", "on-car": "Part is stuck on the car", gone: "Part is gone entirely" }[situation] ?? situation;
   const subject = `Case ${caseId} — ${part} (${vehicle})`;
   const body = text(
-    "A new case file was opened on lostclipsociety.com.", "",
+    "A new OCP3D field file was opened on ocp3d.com.", "",
     ["Case:", caseId],
     ["Name:", name],
     ["Email:", email],
@@ -343,8 +343,8 @@ export const POST: APIRoute = async ({ request }) => {
       "days — reply to this email and it goes straight to your case file.",
       "Photos of the original are welcome, broken or not.", "",
       "Nothing after a week? Reply here and reference your case number.", "",
-      "— The Ministry of Discontinued Parts",
-      "  lostclipsociety.com",
+      "— OCP3D · Old Car Problems",
+      "  ocp3d.com",
     ), caseId);
   }
   return respond(request, { ok: true, case: caseId }, 200, `/request/received/?case=${caseId}&type=request`);

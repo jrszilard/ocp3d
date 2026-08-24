@@ -2,14 +2,32 @@
   "redirects": [
     {
       "source": "/:path*",
+      "has": [{ "type": "host", "value": "www.ocp3d.com" }],
+      "destination": "https://ocp3d.com/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "lostclipsociety.com" }],
+      "destination": "https://ocp3d.com/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "www.lostclipsociety.com" }],
+      "destination": "https://ocp3d.com/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/:path*",
       "has": [{ "type": "host", "value": "ministryofdiscontinuedparts.com" }],
-      "destination": "https://lostclipsociety.com/:path*",
+      "destination": "https://ocp3d.com/:path*",
       "permanent": true
     },
     {
       "source": "/:path*",
       "has": [{ "type": "host", "value": "www.ministryofdiscontinuedparts.com" }],
-      "destination": "https://lostclipsociety.com/:path*",
+      "destination": "https://ocp3d.com/:path*",
       "permanent": true
     }
   ]

@@ -38,7 +38,7 @@ if (ok && Astro.request.method === "POST") {
   }
 }
 ---
-<Base title="Leave the Register — The Ministry of Discontinued Parts">
+<Base title="Leave the OCP3D Dispatch">
   <section>
     <div class="wrap narrow">
       <div class="panel">
@@ -46,10 +46,10 @@ if (ok && Astro.request.method === "POST") {
           <>
             <div class="stamp">Confirm</div>
             <p class="who">{email}</p>
-            <p>Leaving stops <b>The Ministry Gazette</b>. Your registrant number stays yours, and you can
+            <p>Leaving stops the <b>OCP3D Dispatch</b>. Your file number stays yours, and you can
               claim it again any time — nothing is deleted.</p>
             <form method="post">
-              <button class="btn primary" type="submit">Leave the Register</button>
+              <button class="btn btn--primary" type="submit">Leave the Dispatch</button>
             </form>
           </>
         )}
@@ -59,14 +59,14 @@ if (ok && Astro.request.method === "POST") {
             <p class="who">{email}</p>
             <p>You're off the list. No bulletin, no follow-up. If a part you cared about moves
               forward, you'll have to come back and look — we won't write.</p>
-            <p><a class="btn ghost" href="/registry/">Back to the catalog</a></p>
+            <p><a class="btn btn--secondary" href="/registry/">Back to the archive</a></p>
           </>
         )}
         {state === "invalid" && (
           <>
             <div class="stamp">Not recognised</div>
             <p>That link isn't valid — it may have been altered in transit, or truncated by a mail
-              client. Use the link at the bottom of any issue of the Gazette, or email
+              client. Use the link at the bottom of any Dispatch issue, or email
               <a href="mailto:requests@lostclipsociety.com">requests@lostclipsociety.com</a> and
               we'll take you off by hand.</p>
           </>
@@ -77,7 +77,7 @@ if (ok && Astro.request.method === "POST") {
             <p>We couldn't record that just now. Nothing changed. Try once more, or email
               <a href="mailto:requests@lostclipsociety.com">requests@lostclipsociety.com</a> and a
               human will do it.</p>
-            <form method="post"><button class="btn primary" type="submit">Try again</button></form>
+            <form method="post"><button class="btn btn--primary" type="submit">Try again</button></form>
           </>
         )}
       </div>

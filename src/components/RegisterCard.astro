@@ -1,7 +1,7 @@
 ---
 /**
- * A sheet in the index. One card anatomy, used on the home page and on the
- * register index — never two.
+ * A field file in the archive. One card anatomy, used on the home page and on
+ * the archive index — never two.
  *
  * Card art: a real photograph if one exists, the standing hatched placeholder
  * if a photograph is owed, and NO art at all for a part with no original on
@@ -34,7 +34,7 @@ const statusLabel = measured
 
 const action = measured ? "Order this part" : part.state === "development" ? "Reserve one" : "Vote or sponsor";
 
-/* The register index filters client-side over these two attributes. Kept on the
+/* The archive index filters client-side over these two attributes. Kept on the
    card rather than in the page so one card anatomy serves both screens. */
 const search = [part.title, part.vehicleLabel, part.yearRange, part.oemNumber, part.category, statusLabel]
   .filter(Boolean).join(" ").toLowerCase();
@@ -47,7 +47,7 @@ const search = [part.title, part.vehicleLabel, part.yearRange, part.oemNumber, p
     </div>
   ) : (
     <div class="card-art">
-      <span class="sheet-no">SHEET {sheet}/{total}</span>
+      <span class="sheet-no">FILE {sheet}/{total}</span>
       {measured && <span class="layer">0.12 mm</span>}
       {photo
         ? <img src={photo} alt={`${part.title} — reproduction in neutral resin`} width="640" height="480" loading="lazy" />
@@ -70,6 +70,8 @@ const search = [part.title, part.vehicleLabel, part.yearRange, part.oemNumber, p
 
 <style>
   .card { border: var(--bd-inner) solid var(--paper); display: flex; flex-direction: column; }
+  /* Author display:flex overrides the browser's hidden default unless we state it. */
+  .card[hidden] { display: none; }
 
   .card-art { position: relative; height: 200px; }
   .card-art img { width: 100%; height: 100%; object-fit: cover; }

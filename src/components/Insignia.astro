@@ -1,55 +1,36 @@
 ---
 /**
- * Insignia A — the shield. The one symbol of the Ministry.
+ * OCP3D orbital service mark.
  *
- * A plain heraldic shield with a single charge: an 80s coupe in side profile.
- * No crown, no supporters, no text inside the shield — the Ministry is
- * self-appointed and says so by what it leaves out.
- *
- * GEOMETRY IS TRACED FROM THE DESIGN REFERENCE, NOT EYEBALLED. The handoff
- * authored this with CSS clip-paths whose percentages are relative to each
- * element's own box, so the boxes matter as much as the polygons:
- *
- *   shield   inset 0            in a 40 x 46 frame
- *   car      left 5,  top 13,   30 x 13     <- 2.31:1, the proportion of a car
- *   wheels   left 9 / 24, top 22, 7 x 7     <- r 3.5 at cy 25.5
- *
- * The car box being WIDE AND SHALLOW is the whole point. An earlier pass scaled
- * the polygon into roughly 37 x 27 (1.37:1) and the coupe came out squashed —
- * too tall for its length. If it ever looks wrong again, check the box before
- * touching the path.
- *
- * One flat SVG so it scales, prints and inverts cleanly: the shield takes
- * `currentColor` and the car and wheels are knocked OUT of it in the ground
- * colour, so the symbol works anywhere by setting those two colours only.
+ * An original, compact mark: a vintage-car silhouette travels inside an orbital
+ * ring, with three layer courses under its body. It is deliberately space-age
+ * and mechanical without borrowing any game, film, or government iconography.
  */
 interface Props {
-  size?: number;              // height in px; width follows the 40:46 ratio
-  knockout?: string;          // colour the car is knocked out in
+  size?: number;
+  knockout?: string;
   class?: string;
 }
-const { size = 46, knockout = "var(--ground)", class: cls = "" } = Astro.props;
-const w = +(size * (40 / 46)).toFixed(2);
+const { size = 48, knockout = "var(--ground)", class: cls = "" } = Astro.props;
 ---
 <svg
   class={cls}
-  width={w}
+  width={size}
   height={size}
-  viewBox="0 0 40 46"
+  viewBox="0 0 64 64"
   role="img"
-  aria-label="Ministry of Discontinued Parts"
+  aria-label="OCP3D orbital service mark"
   fill="none"
   xmlns="http://www.w3.org/2000/svg"
 >
-  <!-- shield: square shoulders, point at the foot -->
-  <path d="M0 0 H40 V27.6 L20 46 L0 27.6 Z" fill="currentColor" />
-  <!-- the coupe: long bonnet, raked screen, short deck -->
-  <path
-    d="M5.00 21.06 L6.80 18.20 L15.20 17.68 L19.10 13.52 L26.60 13.26 L33.20 17.42
-       L35.00 18.20 L35.00 22.62 L33.50 24.96 L6.20 24.96 Z"
-    fill={knockout}
-  />
-  <!-- wheels, sitting on the car's lower edge -->
-  <circle cx="12.5" cy="25.5" r="3.5" fill={knockout} />
-  <circle cx="27.5" cy="25.5" r="3.5" fill={knockout} />
+  <circle cx="32" cy="32" r="28" stroke="currentColor" stroke-width="2" />
+  <path d="M7 27.5C17 17.8 43.4 14.8 57 25.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+  <circle cx="53.5" cy="19.5" r="2.5" fill="currentColor" />
+  <!-- old coupe: a wide, low service silhouette, never a character or vehicle logo -->
+  <path d="M13 38.5L16.2 32.8H28.8L35.2 27.8H46.6L53 33.4L55 38.5V43H12V40.5L13 38.5Z" fill="currentColor" />
+  <path d="M29.9 32.7L35.9 29.5H40.6L43.5 32.7H29.9Z" fill={knockout} />
+  <circle cx="20" cy="43" r="4.5" fill={knockout} />
+  <circle cx="47" cy="43" r="4.5" fill={knockout} />
+  <!-- additive layer courses: the literal 3D in OCP3D -->
+  <path d="M17 49.5H48M19.5 53H45.5M22 56.5H43" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
 </svg>

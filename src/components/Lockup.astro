@@ -1,45 +1,34 @@
 ---
-/**
- * The lockup: symbol + organisation name + colour line, as ONE unit.
- *
- * Do not restyle these three parts independently — the handoff is explicit
- * that they are a single lockup. Line breaks in the name are FIXED: two lines
- * landscape, three lines portrait, never one. Mixed case, never all caps,
- * never italic. The colour line is amber, the full width of the longest text
- * line. Clear space around the whole lockup is the height of the shield.
- */
+/** OCP3D lockup: orbital mark + acronym + the plain-language expansion. */
 import Insignia from "./Insignia.astro";
 interface Props { variant?: "landscape" | "portrait" }
 const { variant = "landscape" } = Astro.props;
 const portrait = variant === "portrait";
 ---
 <span class={`lockup ${portrait ? "is-portrait" : "is-landscape"}`}>
-  <Insignia size={portrait ? 104 : 46} />
+  <Insignia size={portrait ? 92 : 50} />
   <span class="name">
-    {portrait ? (
-      <><span>Ministry of</span><span>Discontinued</span><span>Parts</span></>
-    ) : (
-      <><span>Ministry of</span><span>Discontinued Parts</span></>
-    )}
+    <span class="acronym">OCP3D</span>
+    <span class="expansion">OLD CAR PROBLEMS</span>
   </span>
 </span>
 
 <style>
-  .lockup { display: flex; align-items: center; gap: 14px; color: var(--paper); }
-  .is-portrait { flex-direction: column; gap: 14px; text-align: center; }
-
-  .name {
-    display: flex; flex-direction: column;
-    font-family: var(--font-word); font-weight: 600;
-    letter-spacing: var(--word-tr);
+  .lockup { display: flex; align-items: center; gap: 13px; color: var(--paper); }
+  .is-portrait { flex-direction: column; gap: 12px; text-align: center; }
+  .name { display: flex; flex-direction: column; line-height: 1; }
+  .acronym {
+    font-family: var(--font-display); font-weight: 700; letter-spacing: .035em;
+    font-size: var(--word-land); color: var(--paper);
   }
-  .is-landscape .name { font-size: var(--word-land); line-height: var(--word-land-lh); }
-  .is-portrait  .name { font-size: var(--word-port); line-height: var(--word-port-lh); }
-
-  /* the colour line, directly under the name, full width of the longest line */
+  .expansion {
+    margin-top: 6px; font-family: var(--font-mono); font-size: var(--t-micro);
+    letter-spacing: .18em; color: var(--ion); white-space: nowrap;
+  }
   .name::after {
-    content: ""; display: block; background: var(--amber);
-    height: 3px; margin-top: 6px; width: 132px;
+    content: ""; display: block; width: 100%; height: 2px; margin-top: 7px;
+    background: linear-gradient(90deg, var(--signal), var(--ion));
   }
-  .is-portrait .name::after { height: 5px; width: 168px; order: -1; margin: 0 0 14px; }
+  .is-portrait .acronym { font-size: var(--word-port); }
+  .is-portrait .expansion { font-size: var(--t-eyebrow); }
 </style>
