@@ -2,7 +2,6 @@
 import Base from "../layouts/Base.astro";
 import parts from "../data/parts.json";
 import RegisterCard from "../components/RegisterCard.astro";
-import WorkshopHelper from "../components/WorkshopHelper.astro";
 
 /* The register is the product, so the cards are driven from the committed
    catalogue snapshot, never from markup. One card per state, in the order the
@@ -84,9 +83,8 @@ const dimsOnRecord = visor?.dimsConfirmed ?? 0;
       <div class="centre-v" aria-hidden="true"></div>
       <div class="centre-h" aria-hidden="true"></div>
       <div class="views placeholder">
-        <WorkshopHelper size={78} />
         <span>ORBITAL SERVICE VIEW</span>
-        <small>helper cart · scan · measure · model</small>
+        <small>scan · measure · model</small>
         <small>first case: sun visor retaining clip</small>
       </div>
       <p class="pane-caption">
@@ -280,7 +278,7 @@ const dimsOnRecord = visor?.dimsConfirmed ?? 0;
   .centre-v, .centre-h { position: absolute; pointer-events: none; opacity: .55; }
   .centre-v { left: 50%; top: 0; bottom: 0; border-left: 1px dashed var(--amber); }
   .centre-h { top: 42%; left: 0; right: 0; border-top: 1px dashed var(--amber); }
-  .views { position: relative; flex: 1; min-height: 320px; color: var(--ion); }
+  .views { position: relative; flex: 1; min-height: 320px; }
   .pane-caption {
     position: relative; display: flex; align-items: center; justify-content: space-between;
     gap: 12px; flex-wrap: wrap;

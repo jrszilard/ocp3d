@@ -2,7 +2,6 @@
 import Base from "../layouts/Base.astro";
 import Insignia from "../components/Insignia.astro";
 import Lockup from "../components/Lockup.astro";
-import WorkshopHelper from "../components/WorkshopHelper.astro";
 import ServiceHeading from "../components/ServiceHeading.astro";
 
 // Every swatch is rendered FROM tokens.css. If a value here is wrong, update the token.
@@ -55,12 +54,8 @@ const type = [
             <span class="avatar"><Insignia size={32} knockout="var(--ink)" /></span>
             <p class="dense cap">Avatar · social, favicon</p>
           </div>
-          <div class="helper-demo">
-            <span class="helper"><WorkshopHelper size={98} /></span>
-            <p class="dense cap">Mechanical helper · field panels only</p>
-          </div>
         </div>
-        <p class="dense note">Keep the orbital mark, OCP3D acronym, and Old Car Problems expansion together. The mark is original: a vintage-car silhouette, orbital ring, and additive layer courses — never a game, film, manufacturer, or government reference. The helper is a quiet mid-century service-cart / assembly-rover motif, not a character, chatbot, humanoid, or AI claim.</p>
+        <p class="dense note">Keep the orbital mark, OCP3D acronym, and Old Car Problems expansion together. The mark is original: a vintage-car silhouette, orbital ring, and additive layer courses — never a game, film, manufacturer, or government reference.</p>
       </section>
 
       <section class="sg-panel">
@@ -109,7 +104,6 @@ const type = [
   .cap { color: var(--steel); margin-top: 12px; }
   .lockups { display: flex; gap: 56px; flex-wrap: wrap; align-items: flex-start; margin-top: 18px; }
   .avatar { display: grid; place-items: center; width: 54px; height: 54px; background: var(--ink); }
-  .helper { display: grid; place-items: center; min-width: 112px; height: 54px; color: var(--ion); }
   .swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; margin-top: 16px; }
   .sw { display: grid; grid-template-columns: 34px 1fr; gap: 4px 12px; align-items: center; }
   .chip-c { width: 34px; height: 34px; border: 1px solid var(--rule); grid-row: span 2; }

@@ -7,8 +7,6 @@
  * atmosphere is intentionally generic space-age service design — never a
  * reference to a game, film, manufacturer, or government identity.
  */
-import WorkshopHelper from "./WorkshopHelper.astro";
-
 interface Props {
   eyebrow: string;
   title: string;
@@ -42,10 +40,6 @@ const {
     <span class="course course--one"></span>
     <span class="course course--two"></span>
     <span class="course course--three"></span>
-    <div class="helper-unit">
-      <WorkshopHelper size={82} />
-      <span>MECHANICAL HELPER · 01</span>
-    </div>
     <div class="instrument-readout">
       <span>{file}</span>
       <b>{signal}</b>
@@ -106,15 +100,6 @@ const {
   .course--one { bottom: 66px; left: 28px; opacity: .84; }
   .course--two { bottom: 57px; left: 45px; opacity: .6; }
   .course--three { bottom: 48px; left: 61px; opacity: .38; }
-  .helper-unit {
-    position: absolute; top: 93px; left: 16px; z-index: 1;
-    display: flex; flex-direction: column; align-items: flex-start; gap: 3px;
-    color: var(--ion); opacity: .82;
-  }
-  .helper-unit span {
-    font-family: var(--font-mono); font-size: 7px; letter-spacing: .11em;
-    line-height: 1.2; color: var(--steel); white-space: nowrap;
-  }
   .instrument-readout {
     position: absolute;
     right: 17px;
@@ -140,7 +125,6 @@ const {
   .is-compact .orbit--inner { transform: translateX(-50%) rotate(38deg) scale(.78); top: 25px; }
   .is-compact .orbit-dot--signal { top: 21px; left: calc(50% + 51px); }
   .is-compact .orbit-dot--ion { top: 116px; left: calc(50% - 56px); }
-  .is-compact .helper-unit { top: 58px; transform: scale(.73); transform-origin: top left; }
 
   @media (max-width: 720px) {
     .service-heading { grid-template-columns: 1fr; }
@@ -148,6 +132,5 @@ const {
     .instrument { min-height: 164px; border-top: var(--bd-inner) solid var(--rule); border-left: 0; }
     .orbit--outer { top: -22px; }
     .orbit--inner { top: 17px; }
-    .helper-unit { top: 56px; left: 14px; transform: scale(.72); transform-origin: top left; }
   }
 </style>

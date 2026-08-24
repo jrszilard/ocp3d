@@ -22,8 +22,7 @@ npm test
 - The design system lives in [`src/styles/tokens.css`](src/styles/tokens.css). Components consume
   tokens rather than hard-coded visual values.
 - `src/components/ServiceHeading.astro` is the common page masthead: original orbital instrument,
-  literal field-file labels, and responsive route framing. Its small `WorkshopHelper.astro` detail
-  is a mid-century service cart / assembly rover, never a humanoid or AI claim.
+  literal field-file labels, and responsive route framing.
 - Live reference: `/styleguide`.
 - Brand and voice rules: [`BRAND.md`](BRAND.md).
 - Visual direction is original retrofuturist **Orbital Service** — space-age nostalgia applied to
