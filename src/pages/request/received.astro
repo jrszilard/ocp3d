@@ -37,18 +37,18 @@ import Base from "../../layouts/Base.astro";
 <style>
   .narrow { max-width: 640px; }
   .done {
-    background: var(--panel); color: var(--panel-fg); border: var(--border-hairline) solid var(--panel-line);
-    box-shadow: var(--shadow-card); padding: var(--space-5);
+    background: var(--panel); color: var(--paper); border: var(--bd-inner) solid var(--rule);
+    box-shadow: none; padding: 30px;
   }
   .done-stamp {
-    display: inline-block; font-family: var(--font-mono); font-size: var(--text-sm); font-weight: 700;
-    letter-spacing: var(--tracking-label); text-transform: uppercase; color: var(--status-measured);
-    border: var(--border-stamp) solid var(--status-measured); border-radius: var(--radius-stamp);
-    padding: 6px 10px; transform: rotate(-2deg); margin-bottom: var(--space-3);
+    display: inline-block; font-family: var(--font-mono); font-size: var(--t-dense); font-weight: 700;
+    letter-spacing: var(--t-eyebrow-tr); text-transform: uppercase; color: var(--amber);
+    border: 1px solid var(--amber); border-radius: 0;
+    padding: 6px 10px; transform: rotate(-2deg); margin-bottom: 14px;
   }
   .done-case { font-family: var(--font-mono); font-size: 0.95rem; }
-  .done p { color: var(--panel-dim); }
-  .done-case { color: var(--panel-fg); }
-  .done-alt { font-family: var(--font-mono); font-size: var(--text-xs); }
-  .done-alt a { color: var(--action); }
+  .done p { color: var(--steel); }
+  .done-case { color: var(--paper); }
+  .done-alt { font-family: var(--font-mono); font-size: var(--t-eyebrow); }
+  .done-alt a { color: var(--amber); }
 </style>

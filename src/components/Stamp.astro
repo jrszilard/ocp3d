@@ -6,20 +6,18 @@ const { state, label } = Astro.props;
 <span class={`stamp ${state}`}>{label}</span>
 
 <style>
+  /* The state stamp. Semantic, not decorative — the colour encodes the part's
+     real state. In the cyanotype only ONE accent exists, so `measured` and
+     `fitted` take amber (the thing that has actually been proven) and the
+     earlier states stay paper and steel. No rotation, no radius: a drawing
+     sheet does not tilt its stamps. */
   .stamp {
-    font-family: var(--font-mono);
-    font-weight: 700;
-    letter-spacing: var(--tracking-label);
-    font-size: var(--text-xs);
-    border: var(--border-stamp) solid currentColor;
-    padding: 4px 8px;
-    transform: rotate(-4deg);
-    display: inline-block;
-    border-radius: var(--radius-stamp);
-    opacity: 0.92;
-    text-transform: uppercase;
+    font-family: var(--font-mono); font-weight: 600;
+    letter-spacing: var(--t-eyebrow-tr); font-size: var(--t-eyebrow);
+    border: 1px solid currentColor; padding: 5px 9px;
+    display: inline-block; text-transform: uppercase; white-space: nowrap;
   }
-  .requested   { color: var(--status-requested); }
-  .development { color: var(--status-development); }
-  .measured, .fitted { color: var(--status-measured); }
+  .requested   { color: var(--steel); }
+  .development { color: var(--body); }
+  .measured, .fitted { color: var(--amber); }
 </style>

@@ -88,18 +88,18 @@ if (ok && Astro.request.method === "POST") {
 <style>
   .narrow { max-width: 640px; }
   .panel {
-    background: var(--panel); color: var(--panel-fg);
-    border: var(--border-hairline) solid var(--panel-line);
-    box-shadow: var(--shadow-card); padding: var(--space-5);
+    background: var(--panel); color: var(--paper);
+    border: var(--bd-inner) solid var(--rule);
+    box-shadow: none; padding: 30px;
   }
   .stamp {
-    display: inline-block; font-family: var(--font-mono); font-size: var(--text-sm);
-    font-weight: 700; letter-spacing: var(--tracking-label); text-transform: uppercase;
-    color: var(--status-measured); border: var(--border-stamp) solid var(--status-measured);
-    border-radius: var(--radius-stamp); padding: 6px 10px; transform: rotate(-2deg);
-    margin-bottom: var(--space-3);
+    display: inline-block; font-family: var(--font-mono); font-size: var(--t-dense);
+    font-weight: 700; letter-spacing: var(--t-eyebrow-tr); text-transform: uppercase;
+    color: var(--amber); border: 1px solid var(--amber);
+    border-radius: 0; padding: 6px 10px; transform: rotate(-2deg);
+    margin-bottom: 14px;
   }
-  .who { font-family: var(--font-mono); font-size: 0.95rem; color: var(--panel-fg); }
-  .panel p { color: var(--panel-dim); }
-  .panel form { margin-top: var(--space-4); }
+  .who { font-family: var(--font-mono); font-size: 0.95rem; color: var(--paper); }
+  .panel p { color: var(--steel); }
+  .panel form { margin-top: 20px; }
 </style>

@@ -1,0 +1,136 @@
+---
+import Base from "../layouts/Base.astro";
+
+/* Article IV expanded to numbered articles, one per hairline-divided block, as
+   the redesign specifies. The copy is the charter that was already written —
+   restructured, not rewritten. Body prose is mono at 13.5/1.75, ~620px measure. */
+const articles = [
+  {
+    n: "I",
+    title: "Scope",
+    body: [
+      `The Ministry of Discontinued Parts makes reproduction parts for cars the industry gave up
+       on — measured from surviving originals with calipers, modeled in-house, printed to order,
+       and fitted on real cars before any badge says so. When the world moves on and leaves a car
+       behind — a blade standard, a bulb fitting, a connector — the Ministry engineers the adaptor
+       the manufacturer never made.`,
+      `Pre-2000, unbranded, non-safety-critical parts only. Every dimension we take is published
+       free. The parts cost money. The measurements never do.`,
+    ],
+  },
+  {
+    n: "II",
+    title: "Why a Ministry",
+    body: [
+      `Because the industry never created the one it needed, so we appointed ourselves. Requests
+       are filed on Form DP-1 — Application for the Reinstatement of a Discontinued Part. Every
+       application is reviewed. Parts that pass their fit tests on a real car are stamped. The
+       Minister remains unavailable for comment.`,
+    ],
+  },
+  {
+    n: "III",
+    title: "The founding case",
+    body: [
+      `Case No. 1 was a sun visor clip for a 1983 Toyota Celica Supra. The dealer laughed. We
+       measured. Everything since is the same case with different part numbers — vents, knobs,
+       bezels, wiper adaptors, whatever your car lost.`,
+      `The Ministry still files from lostclipsociety.com, the address that first case was opened
+       under, and sees no reason to waste good stationery.`,
+    ],
+  },
+  {
+    n: "IV",
+    title: "We collect measurements, not data",
+    body: [
+      `Modern cars log where you go and how you drive, and that data has a market. Features arrive
+       as subscriptions; some carmakers have been caught selling driving records to data brokers
+       and insurers. We take no political position on any of it. We simply note that a 1983 car
+       cannot phone home, because it has no phone.`,
+      `Every car we keep on the road is one of the last machines that reports to nobody. It has no
+       accounts, no updates, and no opinions about where you drove on Tuesday. The Ministry
+       considers this worth preserving — and it takes rather a lot of clips.`,
+      `We run the Ministry the same way: no trackers on the case files, a mailing list that exists
+       only to mail you, and a demand ledger that stores the minimum a part request needs. The
+       Ministry knows less about you than your car's manufacturer knows about theirs. We plan to
+       keep it that way.`,
+    ],
+  },
+];
+
+/* Article IV is a promise made in the UI, so it ends in the retention facts
+   stated exactly — not a manifesto, and not a privacy policy. */
+const retention = [
+  ["TRACKERS", "0"],
+  ["THIRD-PARTY SCRIPTS", "0"],
+  ["ANALYTICS, AD PIXELS, SESSION RECORDING", "0"],
+  ["FIELDS STORED ON REGISTRATION", "1 — your email address"],
+  ["WHAT IT IS USED FOR", "The Gazette. Nothing else."],
+  ["SOLD OR SHARED", "Never"],
+  ["WAY OUT", "One click, on every issue"],
+  ["DATA COLLECTED BY YOUR 1983 SUPRA SINCE 1983", "None"],
+];
+---
+<Base title="Charter — The Ministry of Discontinued Parts" sheet="CHARTER">
+  <section class="section section--statement">
+    <p class="eyebrow">THE MINISTRY · SELF-APPOINTED, EST. 2026</p>
+    <h1>We remake what<br />the industry abandoned.</h1>
+  </section>
+
+  {articles.map((a) => (
+    <section class="section article">
+      <div class="art-no"><span class="eyebrow">ARTICLE</span><span class="numeral">{a.n}</span></div>
+      <div class="art-body prose">
+        <h2>{a.title}</h2>
+        {a.body.map((p) => <p>{p}</p>)}
+      </div>
+    </section>
+  ))}
+
+  <section class="section">
+    <p class="eyebrow eyebrow--amber">ARTICLE IV — THE FACTS, STATED EXACTLY</p>
+    <div class="hairline-grid retention">
+      {retention.map(([k, v]) => (
+        <>
+          <div><span class="eyebrow">{k}</span></div>
+          <div><span class="ret-v">{v}</span></div>
+        </>
+      ))}
+    </div>
+    <p class="dense note">
+      If measurement is ever needed, it will be first-party, aggregate, and stated here before it
+      is switched on.
+    </p>
+  </section>
+
+  <section class="section">
+    <p class="hero-actions">
+      <a class="btn btn--primary" href="/registry/">Open the register</a>
+      <a class="btn btn--secondary" href="/request/">File a request — Form DP-1</a>
+    </p>
+  </section>
+</Base>
+
+<style>
+  .article { display: grid; grid-template-columns: 140px 1fr; gap: 30px; }
+  .art-no { display: flex; flex-direction: column; gap: 6px; }
+  .numeral {
+    font-family: var(--font-display); font-weight: 700; font-size: 40px;
+    line-height: 1; color: var(--amber);
+  }
+  .art-body { max-width: 620px; }
+  .art-body h2 { font-size: 24px; margin-bottom: 14px; }
+  .art-body p + p { margin-top: 14px; }
+  .art-body p { color: var(--body); }
+
+  .retention { grid-template-columns: 1fr 260px; margin-top: 16px; }
+  .ret-v { font-size: var(--t-dense); color: var(--paper); font-weight: 600; }
+  .note { color: var(--steel); margin-top: 14px; max-width: 620px; }
+  .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+
+  @media (max-width: 900px) {
+    .article { grid-template-columns: 1fr; gap: 14px; }
+    .art-no { flex-direction: row; align-items: baseline; gap: 10px; }
+    .retention { grid-template-columns: 1fr; }
+  }
+</style>

@@ -1,64 +1,85 @@
 /* Base styles — consume tokens only (see tokens.css). Components add their own
-   scoped styles in .astro files, also tokens-only. */
+   scoped styles; nothing here or there may hard-code a colour or a size. */
 @import "./tokens.css";
 
-* { box-sizing: border-box; }
+*, *::before, *::after { box-sizing: border-box; }
 
 body {
   margin: 0;
-  background: var(--bg);
-  color: var(--fg);
-  font-family: var(--font-body);
-  font-size: var(--text-md);
-  line-height: var(--leading-body);
+  background: var(--border);          /* the outermost page border */
+  color: var(--paper);
+  font-family: var(--font-mono);
+  font-size: var(--t-section);
+  line-height: var(--t-section-lh);
   -webkit-font-smoothing: antialiased;
 }
 
-/* The fender stripe crowns every page — the one place the stripe appears. */
-body::before { content: ""; display: block; height: 8px; background: var(--stripe); }
+.sheet-outer { background: var(--ground); }
 
-a { color: inherit; }
-a:focus-visible, button:focus-visible, input:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 2px;
+h1, h2, h3, h4, p, ul, ol, figure, table { margin: 0; }
+ul, ol { padding: 0; list-style: none; }
+
+/* Headlines are Archivo Narrow, uppercase, always. */
+h1, h2, h3, h4 {
+  font-family: var(--font-display); font-weight: 700; text-transform: uppercase;
 }
+h1 { font-size: var(--h1); line-height: var(--h1-lh); letter-spacing: var(--h1-tr); }
+h2 { font-size: var(--h2); line-height: var(--h2-lh); letter-spacing: var(--h2-tr); }
 
-h1, h2, h3 { font-family: var(--font-display); text-wrap: balance; margin: 0; }
+a { color: var(--paper); text-decoration: none; transition: color var(--transition); }
+a:hover { color: var(--amber); }
+/* Underline is reserved for inline links in prose — never in nav. */
+.prose a { text-decoration: underline; text-underline-offset: 3px; }
 
-.wrap { max-width: var(--content-width); margin: 0 auto; padding: 0 24px; }
+/* Focus must stay visible on every interactive element. Do not trade this away
+   for a hover-only affordance. */
+:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
+
+img, svg { max-width: 100%; display: block; }
+input, button { font: inherit; border-radius: var(--radius); }
+
+/* ---- shared section furniture ------------------------------------------ */
+.section { padding: var(--sec-dense); border-top: var(--bd-section) solid var(--paper); }
+.section--statement { padding: var(--sec-state); }
+.section:first-of-type { border-top: 0; }
 
 .eyebrow {
-  font-family: var(--font-mono);
-  font-size: var(--text-xs);
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--accent);
+  font-family: var(--font-mono); font-size: var(--t-eyebrow); text-transform: uppercase;
+  letter-spacing: var(--t-eyebrow-tr); color: var(--steel);
 }
+.eyebrow--amber { color: var(--amber); }
 
+.lead  { font-size: var(--t-lead); line-height: var(--t-lead-lh); color: var(--body); }
+.dense { font-size: var(--t-dense); line-height: var(--t-dense-lh); color: var(--body); }
+.spec-value { font-weight: 600; font-size: var(--t-spec); color: var(--paper); }
+
+/* Buttons. Amber primary fills paper on hover; the label stays ink throughout. */
 .btn {
-  font-family: var(--font-mono);
-  font-size: var(--text-sm);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  padding: 12px 18px;
-  text-decoration: none;
-  border: var(--border-hairline) solid transparent;
-  display: inline-block;
+  display: inline-block; padding: 12px 20px; font-size: var(--t-button); font-weight: 600;
+  text-transform: uppercase; letter-spacing: var(--t-button-tr); cursor: pointer;
+  transition: background var(--transition), color var(--transition);
 }
-.btn.primary { background: var(--action); color: var(--action-fg); border-color: var(--action-hover); }
-.btn.primary:hover { background: var(--action-hover); }
-.btn.ghost { border-color: var(--edge); color: var(--fg); }
-.btn.ghost:hover { border-color: var(--accent); color: var(--accent); }
+.btn--primary { background: var(--amber); color: var(--ink); border: var(--bd-input) solid var(--amber); }
+.btn--primary:hover { background: var(--paper); border-color: var(--paper); color: var(--ink); }
+.btn--secondary { background: transparent; color: var(--paper); border: var(--bd-input) solid var(--paper); }
+.btn--secondary:hover { background: var(--paper); color: var(--ink); }
 
-section { padding: var(--space-7) 0; }
-.sec-head { display: flex; align-items: baseline; gap: var(--space-3); margin-bottom: var(--space-5); flex-wrap: wrap; }
-.sec-head h2 { font-size: var(--text-xl); }
-.sec-head .rule { flex: 1; height: 1px; background: var(--edge); min-width: 60px; }
-.sec-head a {
-  font-family: var(--font-mono); font-size: var(--text-xs);
-  letter-spacing: 0.1em; text-transform: uppercase; color: var(--fg-dim);
+/* The standing placeholder for a photograph that is owed. */
+.placeholder {
+  background: var(--hatch); border: var(--bd-inner) solid var(--rule-2);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 4px; text-align: center; padding: 16px;
 }
+.placeholder span {
+  font-family: var(--font-mono); font-size: var(--t-eyebrow); color: var(--glass);
+  text-transform: uppercase; letter-spacing: var(--t-eyebrow-tr);
+}
+.placeholder small { font-family: var(--font-mono); font-size: var(--t-dense);
+  color: var(--glass); text-transform: none; letter-spacing: 0; }
 
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { animation: none !important; transition: none !important; }
-}
+/* A grid whose GAP is the rule: paper background showing through 1px gaps. */
+.hairline-grid { display: grid; gap: var(--bd-inner); background: var(--paper); }
+.hairline-grid > * { background: var(--ground); padding: 14px 16px; }
+
+@media (max-width: 900px) { :root { --h1: 40px; --h2: 28px; } }
+@media (max-width: 600px) { :root { --h1: 32px; --h2: 24px; } }

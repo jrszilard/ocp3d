@@ -1,0 +1,47 @@
+---
+/**
+ * Insignia A — the shield. The one symbol of the Ministry.
+ *
+ * A plain heraldic shield with a single charge: an 80s coupe in side profile.
+ * No crown, no supporters, no text inside the shield — the Ministry is
+ * self-appointed and says so by what it leaves out.
+ *
+ * The handoff authored this with CSS clip-paths; here it is one flat SVG with
+ * the polygons traced into paths, so it scales, prints and inverts cleanly.
+ * The shield takes `currentColor`; the car and wheels are knocked OUT of it in
+ * the ground colour, so the symbol works on any background by setting those
+ * two colours and nothing else.
+ *
+ * Proportion is fixed at 40 × 46 (0.87). Minimum size 26px tall — below that
+ * the shield outline closes up, so use the car alone.
+ */
+interface Props {
+  size?: number;              // height in px; width follows the 0.87 ratio
+  knockout?: string;          // colour the car is knocked out in
+  class?: string;
+}
+const { size = 46, knockout = "var(--ground)", class: cls = "" } = Astro.props;
+const w = +(size * (40 / 46)).toFixed(2);
+---
+<svg
+  class={cls}
+  width={w}
+  height={size}
+  viewBox="0 0 40 46"
+  role="img"
+  aria-label="Ministry of Discontinued Parts"
+  fill="none"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <!-- shield: square shoulders, point at the foot -->
+  <path d="M0 0 H40 V27.6 L20 46 L0 27.6 Z" fill="currentColor" />
+  <!-- the coupe, knocked out of the shield -->
+  <path
+    d="M4 21.1 L6.4 14.4 L17.6 13.2 L22.8 5.5 L33.4 5.0 L41.6 14.0 L44 15.3 L44 25.9 L42 31.9 L5.6 31.9 Z"
+    transform="scale(0.8434) translate(1.6 0)"
+    fill={knockout}
+  />
+  <!-- wheels: ~19% of shield width, sitting on the car's lower edge -->
+  <circle cx="12.6" cy="26.6" r="3.8" fill={knockout} />
+  <circle cx="27.4" cy="26.6" r="3.8" fill={knockout} />
+</svg>

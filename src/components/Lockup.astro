@@ -1,0 +1,45 @@
+---
+/**
+ * The lockup: symbol + organisation name + colour line, as ONE unit.
+ *
+ * Do not restyle these three parts independently — the handoff is explicit
+ * that they are a single lockup. Line breaks in the name are FIXED: two lines
+ * landscape, three lines portrait, never one. Mixed case, never all caps,
+ * never italic. The colour line is amber, the full width of the longest text
+ * line. Clear space around the whole lockup is the height of the shield.
+ */
+import Insignia from "./Insignia.astro";
+interface Props { variant?: "landscape" | "portrait" }
+const { variant = "landscape" } = Astro.props;
+const portrait = variant === "portrait";
+---
+<span class={`lockup ${portrait ? "is-portrait" : "is-landscape"}`}>
+  <Insignia size={portrait ? 104 : 46} />
+  <span class="name">
+    {portrait ? (
+      <><span>Ministry of</span><span>Discontinued</span><span>Parts</span></>
+    ) : (
+      <><span>Ministry of</span><span>Discontinued Parts</span></>
+    )}
+  </span>
+</span>
+
+<style>
+  .lockup { display: flex; align-items: center; gap: 14px; color: var(--paper); }
+  .is-portrait { flex-direction: column; gap: 14px; text-align: center; }
+
+  .name {
+    display: flex; flex-direction: column;
+    font-family: var(--font-word); font-weight: 600;
+    letter-spacing: var(--word-tr);
+  }
+  .is-landscape .name { font-size: var(--word-land); line-height: var(--word-land-lh); }
+  .is-portrait  .name { font-size: var(--word-port); line-height: var(--word-port-lh); }
+
+  /* the colour line, directly under the name, full width of the longest line */
+  .name::after {
+    content: ""; display: block; background: var(--amber);
+    height: 3px; margin-top: 6px; width: 132px;
+  }
+  .is-portrait .name::after { height: 5px; width: 168px; order: -1; margin: 0 0 14px; }
+</style>

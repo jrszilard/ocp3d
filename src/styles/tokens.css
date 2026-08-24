@@ -1,179 +1,141 @@
-/* ---- THE MINISTRY'S TYPEFACE (self-hosted) ---------------------------------
-   👋 Wilma: this is the ONE font the site downloads. It is a VARIABLE font, so the
-   single 31 KB file below covers every weight from 100 to 900 — use any font-weight
-   you like and it will render, no extra files, no extra requests.
-
-   It is served from our own /public/fonts/ ON PURPOSE. Independence is one of the two
-   brand pillars and this site makes zero third-party requests; linking a webfont from
-   Google would send every visitor's IP to Google to render a brand about not being
-   watched. Please don't swap this for a CDN <link>. Licence + how to regenerate the
-   subset: public/fonts/README.md.
-
-   To try a different slab: drop a .woff2 in public/fonts/, change the src below and the
-   family name in --font-display. That is the whole change.                          */
-@font-face {
-  font-family: "Bitter";
-  src: url("/fonts/bitter-var-latin.woff2") format("woff2-variations");
-  font-weight: 100 900;          /* variable axis, not separate files */
-  font-style: normal;
-  font-display: swap;            /* show fallback text immediately, swap when ready */
-}
-
 /* ============================================================================
    MINISTRY OF DISCONTINUED PARTS — DESIGN SYSTEM (design tokens)
-   "THE PAINT CHART ERA"
+   "THE CYANOTYPE"  ·  a blueprint print of a 1980s drawing sheet
    ============================================================================
-   👋 Wilma: this file IS the design system. Every color, typeface, and spacing
+   👋 Wilma: this file IS the design system. Every colour, typeface and spacing
    value used anywhere on the site is defined here and ONLY here — components
    never hard-code values. Change a token, and the whole site follows.
 
    Live preview of everything in this file:  /styleguide
    Brand rationale (why these choices):      BRAND.md
 
-   THE IDEA: today ~80% of new cars are white/black/grey/silver; in 1970 Mopar
-   alone offered ~30 colors. A ministry devoted to parts from that era should
-   look like that era's option list. So every accent below is a REAL, named
-   pre-1990 paint — credited like the catalog credits OEM numbers. (Hex values
-   are close matches, not factory formulas.)
+   THE IDEA: the site is presented as a DRAWING SHEET from a 1980s drawing
+   office — zone markers down the margins, general notes, tolerances, a title
+   block in the footer. Every claim is stated as a recorded dimension, not a
+   marketing adjective. Near-white line and type on process blue, one amber
+   house colour, and nothing else.
 
    Rules of the road:
    1. Edit VALUES freely; keep token NAMES stable (components reference names).
-   2. Default theme is the light "showroom brochure"; dark is "night race".
-      Every themed token has a value in BOTH blocks — change one, check its
-      sibling. The paints themselves are constant across themes.
-   3. `--status-*` colors are semantic (they mean something) — keep the three
-      statuses visually distinct and legible on the paper panel color.
-   4. One paint, one job (see the chart). Sublime is a text highlighter, never
-      a surface. The stripe appears once per page — it's structure, not confetti.
-   5. Parts render in NEUTRAL RESIN everywhere; a part earns its real trim
-      colors only on its own page, from its own OEM data. Chrome never colors
-      a render.
-   ========================================================================== */
+   2. ONE accent. Amber is it. Never introduce a second — the restraint is why
+      amber still reads as meaningful when it marks the front of the queue, or
+      the one part that has actually been measured.
+   3. RADIUS IS ZERO EVERYWHERE. No rounded corners, no shadows, anywhere.
+      Circles exist only for step balloons, wheels and material swatches.
+   4. Sections are separated by 1px paper RULES, never by whitespace.
+   ========================================================================= */
+
+/* ---- THE TYPEFACES (self-hosted) -------------------------------------------
+   Two families. Archivo Narrow carries every headline; IBM Plex Mono is the
+   BODY VOICE of the whole site — resist substituting a proportional face for
+   "readability", the mono is doing the drawing-office work.
+
+   Served from our own /public/fonts/ on purpose. Article IV is a promise made
+   in the UI — the home page counts "0 third-party scripts" on itself — and a
+   webfont linked from Google would send every visitor's IP to Google and make
+   that claim false. See public/fonts/README.md before changing any of this. */
+
+@font-face {
+  font-family: "Archivo Narrow";
+  src: url("/fonts/archivo-narrow-700.woff2") format("woff2");
+  font-weight: 700; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "Archivo";
+  src: url("/fonts/archivo-600.woff2") format("woff2");
+  font-weight: 600; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "IBM Plex Mono";
+  src: url("/fonts/plex-mono-400.woff2") format("woff2");
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "IBM Plex Mono";
+  src: url("/fonts/plex-mono-600.woff2") format("woff2");
+  font-weight: 600; font-style: normal; font-display: swap;
+}
 
 :root {
-  /* ---- THE PAINT CHART (theme-independent — paint doesn't care about the
-          wall behind it). One paint, one job. ------------------------------ */
-  --paint-mexico:     #0f80c4;  /* Mexico Blue — Porsche '70s. ACTION: buttons, CTAs, key numerals */
-  --paint-mexico-deep:#0a5f93;  /* hover/pressed state of the above                                */
-  --paint-signal:     #e4581d;  /* Signal Orange — Porsche 914. PUNCH: eyebrows, active nav, Join  */
-  --paint-signal-deep:#c2430f;  /* hover/pressed state of the above                                */
-  --paint-grabber:    #2b6be4;  /* Grabber Blue — Ford Mustang 1970. LINKS: inline links & hovers  */
-  --paint-plum:       #7b4b9e;  /* Plum Crazy — Dodge 1970. DEEP GROUND: footer, membership        */
-  --paint-plum-deep:  #5d3579;
-  --paint-sublime:    #a0e03a;  /* Sublime — Dodge 1970. MARKER: text highlights ONLY, never a surface */
-  --paint-sunflower:  #eeb62b;  /* Sunflower — Porsche '70s. STRIPE center band; amber status root */
-  --paint-bahia:      #b3382c;  /* Bahia Red — Porsche 914. STATUS: Requested stamps only          */
-  --paint-irish:      #2e5f3d;  /* Irish Green — Porsche '60s–'70s. STATUS: Measured/Fitted stamps */
+  /* ---- COLOUR ------------------------------------------------------------
+     The blueprint. Everything sits on --ground; all line work, rules, borders
+     and primary text are --paper; --amber is the single house colour.        */
+  --ground:      #223F5C;   /* page background — the blueprint blue           */
+  --ground-deep: #1C3955;   /* recessed panels, hero drawing pane, inputs     */
+  --ink:         #192F46;   /* text ON paper/amber; avatar bg; button label   */
+  --paper:       #E3F1FB;   /* all line work, rules, borders, primary text    */
+  --amber:       #F1C955;   /* THE house colour. One accent only.             */
+  --steel:       #B4CFE2;   /* secondary/label text, zone markers             */
+  --body:        #D3E0EA;   /* body copy on ground                            */
+  --glass:       #C0D4E3;   /* placeholder captions                           */
+  --rule:        #7B95B0;   /* interior hairlines inside components           */
+  --rule-2:      #8DA8C3;   /* placeholder borders, table gridlines           */
+  --rule-3:      #6A839D;   /* faint separators                               */
+  --panel:       #2D4A68;   /* image-placeholder hatch, stripe 1              */
+  --panel-2:     #264361;   /* image-placeholder hatch, stripe 2              */
+  --border:      #0E2A45;   /* outermost page border                          */
 
-  /* The fender stripe — signal / sunflower / mexico. Once per page. */
-  --stripe: linear-gradient(180deg,
-      var(--paint-signal) 0 33.4%,
-      var(--paint-sunflower) 33.4% 66.7%,
-      var(--paint-mexico) 66.7% 100%);
+  /* The inverted band (Article IV) flips the palette. Amber on paper FAILS
+     contrast — the eyebrow there uses the darker gold instead.               */
+  --inv-body:    #2E4358;
+  --inv-label:   #4A6076;
+  --inv-gold:    #8A6A1E;
 
-  /* ---- BADGE INGREDIENTS (enamel crest & member card ONLY — a physical
-          badge doesn't repaint with the wall behind it). Not site chrome. --- */
-  --brand-oxblood:      #8c2f28;
-  --brand-oxblood-deep: #6e241f;
-  --brand-brass:        #c0992f;
-  --brand-brass-soft:   #d4b45a;
-  --brand-charcoal:     #1b1e22;
-  --brand-charcoal-2:   #23272d;
-  --brand-cream:        #f2ecdf;
-  --brand-cream-2:      #e9e1cf;
-  --brand-cream-line:   #d8cdb4;
+  /* Material swatches — dots only, never fills.                              */
+  --mat-asa:      #B9B4AA;
+  --mat-petg:     #192F46;
+  --mat-nylon-cf: #8A6A4A;
 
-  /* ---- STATUS COLORS (semantic — the part-state stamps). Hues re-keyed to
-          period paints; the MEANING is unchanged. ------------------------- */
-  --status-requested:   var(--paint-bahia);   /* stamp red  — REQUESTED        */
-  --status-development: #c08f1a;              /* sunflower, darkened for paper */
-  --status-measured:    var(--paint-irish);   /* club green — MEASURED/FITTED  */
+  /* ---- TYPE --------------------------------------------------------------
+     Archivo Narrow = every headline. Archivo = the wordmark, nothing else.
+     IBM Plex Mono = the body voice of the whole site.                        */
+  --font-display: "Archivo Narrow", "Archivo", Impact, sans-serif;
+  --font-word:    "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --font-mono:    "IBM Plex Mono", ui-monospace, "SF Mono", Consolas, monospace;
 
-  /* ---- TYPE (unchanged) --------------------------------------------------- */
-  /* Display/slab = the Ministry's voice. Mono = anything evidentiary (numbers,
-     dims, stamps) — the mono IS the trust signal. Sans = quiet body text.    */
-  /* Bitter is self-hosted above, so this renders identically for every visitor. It was
-     "Superclarendon", "Rockwell", "Bookman Old Style", Georgia, serif — three faces that
-     ship only with macOS or MS Office and no @font-face anywhere, so the Ministry's voice
-     fell through to whatever generic serif the visitor's OS supplied (on Arch: Noto Serif,
-     not a slab at all) and the brand rendered as a different typeface per platform.
-     Bitter is the closest open Clarendon-lineage slab to Superclarendon, the original
-     first choice — Clarendon itself being an English face, Besley & Co., London, 1845. */
-  --font-display: "Bitter", Georgia, "Times New Roman", serif;
-  --font-body:    -apple-system, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
-  --font-mono:    ui-monospace, "SF Mono", "Cascadia Code", Consolas, "Liberation Mono", monospace;
+  /* headline scale (uppercase, Archivo Narrow 700) */
+  --h1: 68px;     --h1-lh: 0.94;   --h1-tr: -0.015em;
+  --h2: 40px;     --h2-lh: 1.02;   --h2-tr: -0.01em;
+  --h-card: 15px;                          /* card / part title               */
+  --h-step: 14px; --h-step-tr: 0.03em;     /* step title                      */
+  --h-fact: 28px;                          /* counted facts                   */
 
-  --text-xs: 0.68rem;   /* stamps, fine print, eyebrows   */
-  --text-sm: 0.8rem;    /* meta, captions, buttons        */
-  --text-md: 1rem;      /* body                           */
-  --text-lg: 1.25rem;   /* card titles, panel headings    */
-  --text-xl: 1.6rem;    /* section headings               */
-  --text-hero: clamp(2rem, 4.6vw, 3.3rem);
+  /* mono scale — NEVER below 12px for body copy */
+  --t-lead: 15px;      --t-lead-lh: 1.7;
+  --t-section: 13.5px; --t-section-lh: 1.75;
+  --t-dense: 11.5px;   --t-dense-lh: 1.6;
+  --t-nav: 12.5px;
+  --t-spec: 15px;
+  --t-eyebrow: 10.5px; --t-eyebrow-tr: 0.16em;
+  --t-micro: 9.5px;    --t-micro-tr: 0.12em;
+  --t-button: 12.5px;  --t-button-tr: 0.07em;
+  --t-zone: 10px;
 
-  --tracking-label: 0.14em;  /* uppercase mono labels */
-  --leading-body: 1.55;
+  /* wordmark */
+  --word-land: 15px; --word-land-lh: 1.15;
+  --word-port: 21px; --word-port-lh: 1.14; --word-tr: -0.005em;
 
-  /* ---- SPACE & SHAPE ------------------------------------------------------ */
-  --space-1: 4px;  --space-2: 8px;  --space-3: 14px; --space-4: 20px;
-  --space-5: 28px; --space-6: 44px; --space-7: 64px;
-  --radius-stamp: 2px;      /* stamps get a whisper of rounding, nothing else */
-  --border-hairline: 1px;
-  --border-stamp: 2.5px;
-  --content-width: 1080px;
+  /* ---- SPACING, BORDERS, RADIUS ----------------------------------------- */
+  --sheet-pad: 22px;         /* outer sheet padding — holds the zone markers  */
+  --sec-dense: 30px 26px;
+  --sec-state: 40px 26px;
+  --sec-hero:  56px 26px 44px;
+  --gap-cards: 18px;
+  --bd-sheet: 2px;
+  --bd-section: 1px;
+  --bd-inner: 1px;
+  --bd-input: 1.5px;
+  --radius: 0;               /* rule 3. do not change this.                   */
 
-  /* ---- THEME: default = light "showroom brochure" -------------------------
-     Warm '70s dealer-brochure stock and printer's ink. No pure grey anywhere. */
-  --bg:        #f6f1e4;             /* brochure stock                          */
-  --bg-2:      #efe8d6;             /* raised stock                            */
-  --fg:        #221f19;             /* printer's ink                           */
-  --fg-dim:    #6d675a;
-  --edge:      #d9cfb6;             /* rules/borders on stock                  */
-  --panel:     #fdfbf3;             /* bright spec-sheet paper                 */
-  --panel-fg:  #26221a;
-  --panel-dim: #6d675a;
-  --panel-line:#e2d9c2;
-  --accent:    var(--paint-signal);
-  --action:    var(--paint-mexico);
-  --action-hover: var(--paint-mexico-deep);
-  --action-fg: #ffffff;
-  --link:      var(--paint-grabber);
-  --shadow-card: 0 10px 24px rgba(31, 24, 12, 0.16);
+  /* The standing placeholder treatment for parts not yet photographed. CSS on
+     purpose, and it stays in production — a hatched panel is an honest way to
+     say a photograph is owed, which an empty box is not.                     */
+  --hatch: repeating-linear-gradient(45deg,
+             var(--panel) 0 7px, var(--panel-2) 7px 14px);
 
-  /* Footer / deep sections ride Plum Crazy in both themes */
-  --footer-bg: linear-gradient(120deg, var(--paint-plum), var(--paint-plum-deep));
-  --footer-fg: #f2ecf7;
-  --footer-dim:#cdbde0;
-}
+  /* the engineering grid behind the hero drawing pane */
+  --grid-28: linear-gradient(var(--panel-2) 1px, transparent 1px),
+             linear-gradient(90deg, var(--panel-2) 1px, transparent 1px);
 
-/* ---- THEME: dark "night race" (OS preference) ------------------------------
-   Near-black tarmac; the same paints read like liveries under floodlights.
-   Panels stay paper — the spec sheet is always paper. */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg:     #15171c;
-    --bg-2:   #1d2026;
-    --fg:     #ece6d6;
-    --fg-dim: #a39d8e;
-    --edge:   #3a3f48;
-    --panel:  #f4efe1;
-    --panel-line: #ddd3ba;
-    --status-development: var(--paint-sunflower);
-    --shadow-card: 0 10px 24px rgba(0, 0, 0, 0.4);
-  }
-}
-
-/* ---- Explicit theme override (site toggle, wins over OS preference) ------- */
-:root[data-theme="light"] {
-  --bg: #f6f1e4; --bg-2: #efe8d6;
-  --fg: #221f19; --fg-dim: #6d675a; --edge: #d9cfb6;
-  --panel: #fdfbf3; --panel-line: #e2d9c2;
-  --status-development: #c08f1a;
-  --shadow-card: 0 10px 24px rgba(31, 24, 12, 0.16);
-}
-:root[data-theme="dark"] {
-  --bg: #15171c; --bg-2: #1d2026;
-  --fg: #ece6d6; --fg-dim: #a39d8e; --edge: #3a3f48;
-  --panel: #f4efe1; --panel-line: #ddd3ba;
-  --status-development: var(--paint-sunflower);
-  --shadow-card: 0 10px 24px rgba(0, 0, 0, 0.4);
+  --transition: 120ms ease-out;  /* nothing slower. a drawing does not animate */
 }

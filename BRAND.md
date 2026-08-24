@@ -58,33 +58,45 @@ watched by one. Never the customer, never their car, never a workshop.
   the joke is that the institution wearing it appointed itself. Two rules carry the whimsy:
   captions state true things, and **there is no crown, ever** — an official tile with nothing
   above it is the entire gag, and it also keeps us clear of impersonating a real department.
-  - **Printed ink, not enamel.** `Mark.astro` takes the page's ink via `currentColor` and knocks
-    its letters out to the page ground, so it repaints with the theme. Where the mark must carry
-    its own color and cannot read the page — favicon, letterhead, anything physical — it takes
-    **badge oxblood** with cream letters (`public/favicon.svg`).
-  - **Scale:** the layer seams are hairlines, so they close up as the mark shrinks — by 16 px it
-    collapses back to a solid departmental block and the letters go to texture. That is correct
-    and intended; do not thicken the letters or the seams to fight it. The whimsy is free precisely
-    because it disappears at the size where it would cost legibility.
-  - **The layer courses are the method, not decoration.** They are the only place the identity
-    still says how the Ministry makes things; keep their pitch even and never let them become a
-    decorative stripe.
-  - **Retired:** the enamel grille-badge crest and its clip glyph (`Crest.astro`, deleted). No
-    individual-part silhouette, no gait, no nozzle, no shield, no crown, no Royal Arms.
-  - Studies behind the choice: `public/mockups/ministry-mark-study-04.html` (selected board)
-    and `ministry-mark-printed.html` (the printed variants; 11 The Layer Line shipped), plus
-    `ministry-mark-options.html` and `ministry-mark-study-03.html` (rejected families).
-- **Period civic, not actual government:** use garters, rules, docket labels, and stamps—but no
-  crown, Royal Arms, shield/trust-badge language, or implication of UK-government affiliation.
-- **Type:** slab serif is the Ministry's voice; monospace is anything evidentiary (dimensions,
-  labels, case stamps); quiet sans is body copy.
-- **Texture cues:** documentary tabs, rubber-stamped statuses, graph-paper evidence plates,
-  registration cards. Use one fictional artifact per section, not a layer of distressed props.
+  - **The symbol is a shield.** A plain heraldic shield with one charge: an 80s coupe in side
+    profile. No crown, no supporters, no text inside the shield — the Ministry is self-appointed
+    and says so by what it leaves out. `Insignia.astro` is one flat SVG taking `currentColor`,
+    so it inverts anywhere. Proportion is fixed at 40 × 46; below 26 px the shield closes up, so
+    use the car alone.
+  - **The lockup is ONE unit** — symbol, name, colour line. Do not restyle the three parts
+    independently. Line breaks are fixed: two lines landscape, three portrait, never one. Mixed
+    case, never all caps, never italic. Clear space all round is the height of the shield.
+  - **Retired:** the enamel grille-badge crest (`Crest.astro`) and the MDP departmental tile
+    (`Mark.astro`), both deleted.
+- **The sheet.** Every page is a drawing sheet from a 1980s drawing office: zone markers down the
+  margins, a 2px paper frame, general notes, tolerances, and a title block in the footer. Sections
+  are divided by 1px paper rules, **never by whitespace**.
+- **Colour is the cyanotype.** Near-white line and type on process blue, and **one** accent —
+  amber. Never introduce a second: the restraint is why amber still means something when it marks
+  the front of the queue or the one part that has actually been measured. Amber on paper fails
+  contrast, so the inverted Article IV band uses the darker gold instead.
+- **Radius is zero everywhere. No shadows anywhere.** Circles exist only for step balloons, wheels
+  and material swatches.
+- **Type: two families.** Archivo Narrow carries every headline, uppercase. **IBM Plex Mono is the
+  body voice of the whole site** — resist substituting a proportional face for "readability", the
+  mono is doing the drawing-office work. Archivo 600 sets the wordmark and nothing else. Never
+  reduce mono body copy below 12 px. All self-hosted: Article IV counts "0 third-party scripts" on
+  the page itself, so a font linked from Google would make the site's own claim false.
+- **Period civic, not actual government:** rules, docket labels, title blocks and stamps — but no
+  crown, Royal Arms, or implication of UK-government affiliation.
+- **The hatched placeholder is honest furniture.** A diagonally hatched panel means a photograph
+  is owed. Keep it in production rather than hiding an empty box.
+- **No animation on load.** No parallax, no scroll reveals, no counting-up numbers — a drawing
+  sheet does not animate. Hover and focus transitions only, never slower than 120ms.
 
 ## Things with fixed meaning (don't restyle away)
 - The **status stamps** (Requested / In development / Measured / Fitted on a real car) encode the
-  part's real state and their color is semantic.
-- The **dimension tables** are mono, with CONFIRMED in measured-green. They are the product's
+  part's real state and their colour is semantic. In a one-accent palette that means amber is
+  reserved for what has actually been proven; the earlier states stay paper and steel.
+- The **empty state on a requested part** — no art, dashed foot, "NO ORIGINAL ON FILE" — is
+  deliberate and must survive. It is the request funnel, and the honest thing to show when there
+  is nothing yet to slice.
+- The **dimension tables** are mono, with CONFIRMED in the house amber. They are the product's
   trust core, not decoration.
 - **"Fits or we remake it free"** and **"measurements published free"** are commitments; keep
   them visible wherever a part can be ordered.

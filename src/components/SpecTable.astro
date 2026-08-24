@@ -20,25 +20,23 @@ const { dims, confirmed, total } = Astro.props;
 </div>
 
 <style>
-  .table-holder {
-    padding: var(--space-4);
-    overflow-x: auto;
-    background: repeating-linear-gradient(0deg, transparent, transparent 23px, rgba(15, 128, 196, 0.08) 24px);
-  }
-  table { border-collapse: collapse; width: 100%; font-family: var(--font-mono); font-size: 0.76rem; }
+  /* The dimension table is the product's trust core, not decoration. Mono,
+     tabular figures, hairline rules, CONFIRMED in the house amber. */
+  .table-holder { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; font-family: var(--font-mono); font-size: var(--t-dense); }
   caption {
-    text-align: left; font-size: var(--text-xs); letter-spacing: var(--tracking-label);
-    text-transform: uppercase; color: var(--panel-dim); padding-bottom: var(--space-2);
+    text-align: left; font-size: var(--t-eyebrow); letter-spacing: var(--t-eyebrow-tr);
+    text-transform: uppercase; color: var(--steel); padding-bottom: 12px;
   }
   th {
-    text-align: left; font-weight: 400; color: var(--panel-dim); font-size: 0.66rem;
-    letter-spacing: 0.1em; text-transform: uppercase;
-    border-bottom: var(--border-hairline) solid var(--panel-line); padding: 4px 12px 6px 0;
+    text-align: left; font-weight: 400; color: var(--steel); font-size: var(--t-micro);
+    letter-spacing: var(--t-micro-tr); text-transform: uppercase;
+    border-bottom: 1px solid var(--rule-2); padding: 6px 14px 8px 0;
   }
   td {
-    padding: 5px 12px 5px 0; border-bottom: 1px dotted var(--panel-line);
-    font-variant-numeric: tabular-nums; white-space: nowrap;
+    padding: 7px 14px 7px 0; border-bottom: 1px solid var(--rule-3);
+    font-variant-numeric: tabular-nums; white-space: nowrap; color: var(--body);
   }
-  .conf { color: var(--status-measured); font-weight: 700; }
-  .est { color: var(--panel-dim); }
+  .conf { color: var(--amber); font-weight: 600; }
+  .est { color: var(--steel); }
 </style>

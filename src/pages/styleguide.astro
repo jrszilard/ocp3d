@@ -1,118 +1,141 @@
 ---
-// /styleguide — the living reference for the design system.
-// Wilma: everything on this page is rendered FROM the tokens in src/styles/tokens.css.
-// Edit that file, reload this page, and you see exactly what changed, everywhere.
 import Base from "../layouts/Base.astro";
-import Stamp from "../components/Stamp.astro";
-import Mark from "../components/Mark.astro";
+import Insignia from "../components/Insignia.astro";
+import Lockup from "../components/Lockup.astro";
 
-const paints = [
-  ["--paint-mexico", "Mexico Blue · Porsche '70s — ACTION: buttons, CTAs"],
-  ["--paint-signal", "Signal Orange · Porsche 914 — PUNCH: eyebrows, nav, Join"],
-  ["--paint-grabber", "Grabber Blue · Mustang 1970 — LINKS"],
-  ["--paint-plum", "Plum Crazy · Dodge 1970 — DEEP GROUND: footer"],
-  ["--paint-sublime", "Sublime · Dodge 1970 — MARKER: highlights only"],
-  ["--paint-sunflower", "Sunflower · Porsche '70s — STRIPE band"],
-  ["--paint-bahia", "Bahia Red · Porsche 914 — STATUS: requested"],
-  ["--paint-irish", "Irish Green · Porsche '60s — STATUS: measured"],
+// Wilma: everything on this page is rendered FROM the tokens in
+// src/styles/tokens.css. If a swatch here is wrong, the token is wrong.
+const colours = [
+  ["--ground", "page background — the blueprint blue"],
+  ["--ground-deep", "recessed panels, hero pane, inputs"],
+  ["--ink", "text on paper/amber, button labels"],
+  ["--paper", "all line work, rules, borders, primary text"],
+  ["--amber", "THE house colour — one accent only"],
+  ["--steel", "secondary/label text, zone markers"],
+  ["--body", "body copy on ground"],
+  ["--glass", "placeholder captions"],
+  ["--rule", "interior hairlines"],
+  ["--rule-2", "placeholder borders, table gridlines"],
+  ["--rule-3", "faint separators"],
+  ["--panel", "placeholder hatch, stripe 1"],
+  ["--panel-2", "placeholder hatch, stripe 2"],
+  ["--border", "outermost page border"],
 ];
-const brand = [
-  ["--brand-oxblood", "Oxblood — badge enamel"],
-  ["--brand-brass", "Brass — badge metal"],
-  ["--brand-charcoal", "Charcoal — badge center"],
-  ["--brand-cream", "Cream — member card stock"],
-];
-const status = [
-  ["--status-requested", "Requested"],
-  ["--status-development", "In development"],
-  ["--status-measured", "Measured / Fitted"],
+const type = [
+  ["Page H1", "var(--font-display)", "68 / 0.94 / -0.015em", "h1"],
+  ["Section H2", "var(--font-display)", "40 / 1.02 / -0.01em", "h2"],
+  ["Card title", "var(--font-display)", "15 uppercase", "card"],
+  ["Wordmark", "var(--font-word)", "15 or 21, weight 600", "word"],
+  ["Lead", "var(--font-mono)", "15 / 1.7", "lead"],
+  ["Section body", "var(--font-mono)", "13.5 / 1.75", "sec"],
+  ["Dense", "var(--font-mono)", "11.5 / 1.6", "dense"],
+  ["Eyebrow", "var(--font-mono)", "10.5 uppercase / 0.16em", "eye"],
+  ["Spec value", "var(--font-mono) 600", "15", "spec"],
 ];
 ---
-<Base title="Design System — The Ministry of Discontinued Parts">
-  <section>
-    <div class="wrap">
-      <div class="eyebrow">Internal · living reference</div>
-      <h1>Design system</h1>
-      <p class="lede">
-        Every value on this page comes from <code>src/styles/tokens.css</code> — the single
-        source of truth for color, type, and spacing. Edit tokens there; this page (and the whole
-        site) follows. Brand rationale lives in <code>BRAND.md</code>.
-      </p>
+<Base title="Styleguide — The Ministry of Discontinued Parts" sheet="STYLEGUIDE">
+  <section class="section">
+    <p class="eyebrow">SHEET REFERENCE — THE DESIGN SYSTEM</p>
+    <h1>The cyanotype.</h1>
+    <p class="lead sg-lead">
+      Every value on this page comes from <code>src/styles/tokens.css</code> — the single source
+      of truth. Components consume tokens and never hard-code a colour or a size. Radius is zero
+      everywhere; there are no shadows anywhere on the site; sections are divided by 1px paper
+      rules, never by whitespace.
+    </p>
+  </section>
 
-      <h2>The paint chart — real pre-1990 paints, one job each</h2>
-      <div class="stripe-demo" aria-label="The fender stripe"></div>
-      <div class="swatches">
-        {paints.map(([token, label]) => (
-          <div class="swatch">
-            <div class="chip" style={`background: var(${token})`}></div>
-            <code>{token}</code><span>{label}</span>
-          </div>
-        ))}
+  <section class="section">
+    <p class="eyebrow">THE LOCKUP — SYMBOL, NAME, COLOUR LINE. ONE UNIT.</p>
+    <div class="lockups">
+      <div><Lockup variant="landscape" /><p class="dense cap">Landscape · header, screen</p></div>
+      <div><Lockup variant="portrait" /><p class="dense cap">Portrait · print, stationery</p></div>
+      <div class="avatar-demo">
+        <span class="avatar"><Insignia size={32} knockout="var(--ink)" /></span>
+        <p class="dense cap">Avatar · social, favicon</p>
       </div>
-
-      <h2>Badge ingredients (crest &amp; member card only — never site chrome)</h2>
-      <div class="swatches">
-        {brand.map(([token, label]) => (
-          <div class="swatch">
-            <div class="chip" style={`background: var(${token})`}></div>
-            <code>{token}</code><span>{label}</span>
-          </div>
-        ))}
-      </div>
-
-      <h2>Status colors (semantic — keep distinct)</h2>
-      <div class="swatches">
-        {status.map(([token, label]) => (
-          <div class="swatch">
-            <div class="chip" style={`background: var(${token})`}></div>
-            <code>{token}</code><span>{label}</span>
-          </div>
-        ))}
-      </div>
-
-      <h2>Type</h2>
-      <div class="typerow"><span class="t-display">Display / the Ministry’s voice — Aa Bb 0123</span><code>--font-display</code></div>
-      <div class="typerow"><span class="t-body">Body — quiet, for reading. Aa Bb 0123</span><code>--font-body</code></div>
-      <div class="typerow"><span class="t-mono">MONO — ANYTHING EVIDENTIARY: DIMS, OEM №, STAMPS · 37.01 mm</span><code>--font-mono</code></div>
-
-      <h2>Components</h2>
-      <div class="comp-row">
-        <Stamp state="requested" label="Requested" />
-        <Stamp state="development" label="In development" />
-        <Stamp state="measured" label="Measured" />
-        <Stamp state="fitted" label="Fitted on a real car" />
-      </div>
-      <div class="comp-row">
-        <a class="btn primary" href="#">Primary action</a>
-        <a class="btn ghost" href="#">Ghost action</a>
-        <span class="eyebrow">Eyebrow label</span>
-      </div>
-      <div class="comp-row"><Mark size={92} /></div>
-
-      <h2>Voice cheat-sheet (from the brand book)</h2>
-      <ul class="voice">
-        <li>Plain language explains; the Ministry fiction makes it memorable. Never the reverse.</li>
-        <li>Data copy gets zero jokes. Mono type = trust signal.</li>
-        <li>One dry joke per section, max. The villain is discontinuation, never the reader’s car.</li>
-      </ul>
     </div>
+    <p class="dense note">
+      Never restyle the three parts independently. Line breaks are fixed — two lines landscape,
+      three portrait, never one. Mixed case, never all caps, never italic. Below 26px the shield
+      closes up: use the car alone.
+    </p>
+  </section>
+
+  <section class="section">
+    <p class="eyebrow">COLOUR</p>
+    <div class="swatches">
+      {colours.map(([tok, use]) => (
+        <div class="sw">
+          <span class="chip-c" style={`background: var(${tok})`}></span>
+          <code>{tok}</code>
+          <span class="dense">{use}</span>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="section">
+    <p class="eyebrow">TYPE — TWO FAMILIES, SELF-HOSTED</p>
+    <div class="hairline-grid type-grid">
+      {type.map(([role, fam, size, cls]) => (
+        <>
+          <div><span class="eyebrow">{role}</span></div>
+          <div><span class={`sample s-${cls}`}>Discontinued</span></div>
+          <div><span class="dense">{fam}</span></div>
+          <div><span class="dense">{size}</span></div>
+        </>
+      ))}
+    </div>
+    <p class="dense note">
+      Monospace is the body voice of the whole site — resist substituting a proportional face for
+      "readability". Never reduce mono body copy below 12px.
+    </p>
+  </section>
+
+  <section class="section">
+    <p class="eyebrow">COMPONENTS</p>
+    <div class="comp">
+      <a class="btn btn--primary" href="#">Primary</a>
+      <a class="btn btn--secondary" href="#">Secondary</a>
+      <span class="chip chip--amber">20 DIMS RECORDED</span>
+      <span class="chip chip--solid">MEASURED</span>
+    </div>
+    <div class="ph-demo placeholder"><span>PART VIEW</span><small>the standing placeholder for a photograph that is owed</small></div>
   </section>
 </Base>
 
 <style>
-  h1 { font-size: 2rem; margin: 8px 0 var(--space-3); }
-  h2 { font-size: var(--text-lg); margin: var(--space-6) 0 var(--space-3); }
-  .lede { color: var(--fg-dim); max-width: 62ch; }
-  code { font-family: var(--font-mono); font-size: 0.75rem; color: var(--accent); }
-  .stripe-demo { height: 8px; background: var(--stripe); margin-bottom: var(--space-3); }
-  .swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: var(--space-3); }
-  .swatch { display: grid; grid-template-columns: 44px 1fr; grid-template-rows: auto auto; gap: 2px 12px; align-items: center; }
-  .chip { grid-row: 1 / 3; width: 44px; height: 44px; border: var(--border-hairline) solid var(--edge); }
-  .swatch span { font-size: var(--text-xs); color: var(--fg-dim); }
-  .typerow { display: flex; justify-content: space-between; align-items: baseline; gap: var(--space-4); border-bottom: 1px dotted var(--edge); padding: 10px 0; flex-wrap: wrap; }
-  .t-display { font-family: var(--font-display); font-size: 1.4rem; }
-  .t-body { font-family: var(--font-body); }
-  .t-mono { font-family: var(--font-mono); font-size: 0.85rem; }
-  .comp-row { display: flex; gap: var(--space-3); align-items: center; flex-wrap: wrap; margin-bottom: var(--space-3); }
-  .voice { color: var(--fg-dim); display: grid; gap: var(--space-2); padding-left: 1.2em; }
+  .sg-lead { max-width: 640px; }
+  code { font-family: var(--font-mono); font-size: var(--t-dense); color: var(--amber); }
+  .note { color: var(--steel); margin-top: 14px; max-width: 640px; }
+  .cap { color: var(--steel); margin-top: 12px; }
+
+  .lockups { display: flex; gap: 56px; flex-wrap: wrap; align-items: flex-start; margin-top: 18px; }
+  .avatar { display: grid; place-items: center; width: 54px; height: 54px; background: var(--ink); }
+
+  .swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; margin-top: 16px; }
+  .sw { display: grid; grid-template-columns: 34px 1fr; gap: 4px 12px; align-items: center; }
+  .chip-c { width: 34px; height: 34px; border: 1px solid var(--rule); grid-row: span 2; }
+  .sw .dense { color: var(--steel); }
+
+  .type-grid { grid-template-columns: 130px 1fr 210px 150px; margin-top: 16px; }
+  .sample { color: var(--paper); }
+  .s-h1 { font-family: var(--font-display); font-size: 40px; text-transform: uppercase; }
+  .s-h2 { font-family: var(--font-display); font-size: 28px; text-transform: uppercase; }
+  .s-card { font-family: var(--font-display); font-size: var(--h-card); text-transform: uppercase; }
+  .s-word { font-family: var(--font-word); font-weight: 600; font-size: 21px; }
+  .s-lead { font-size: var(--t-lead); }
+  .s-sec { font-size: var(--t-section); }
+  .s-dense { font-size: var(--t-dense); }
+  .s-eye { font-size: var(--t-eyebrow); letter-spacing: var(--t-eyebrow-tr); text-transform: uppercase; }
+  .s-spec { font-weight: 600; font-size: var(--t-spec); }
+
+  .comp { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; margin: 16px 0 22px; }
+  .chip { font-size: var(--t-eyebrow); letter-spacing: var(--t-eyebrow-tr); text-transform: uppercase; padding: 5px 10px; }
+  .chip--amber { border: 1px solid var(--amber); color: var(--amber); }
+  .chip--solid { background: var(--paper); color: var(--ink); font-weight: 600; }
+  .ph-demo { height: 160px; max-width: 420px; }
+
+  @media (max-width: 720px) { .type-grid { grid-template-columns: 1fr 1fr; } }
 </style>

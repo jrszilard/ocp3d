@@ -1,0 +1,116 @@
+---
+/**
+ * A sheet in the index. One card anatomy, used on the home page and on the
+ * register index — never two.
+ *
+ * Card art: a real photograph if one exists, the standing hatched placeholder
+ * if a photograph is owed, and NO art at all for a part with no original on
+ * file. That last state is deliberate and must survive: it is the request
+ * funnel, and it is the honest thing to show when there is nothing to slice.
+ *
+ * OEM numbers are fail-closed. A number publishes only when the private OEM
+ * identity is `confirmed`; a disputed identity shows the material instead, so
+ * the site never asserts a part number it cannot stand behind.
+ */
+interface Props { part: any; sheet: number; total: number; href?: string }
+const { part, sheet, total } = Astro.props;
+const href = Astro.props.href ?? `/registry/${part.slug}/`;
+
+const measured = part.state === "measured";
+const requested = part.state === "requested";
+const oemPublishable = part.oemIdentityStatus === "confirmed" && part.oemNumber;
+
+const art: Record<string, string> = {
+  "sun-visor-clip": "/images/parts/sun-visor-clip.jpg",
+  "heater-control-knob": "/images/parts/heater-control-knob.jpg",
+};
+const photo = art[part.slug];
+
+const statusLabel = measured
+  ? `MEASURED · ${part.dimsConfirmed} DIMS`
+  : part.state === "development"
+    ? "IN DEVELOPMENT"
+    : "REQUESTED";
+
+const action = measured ? "Order this part" : part.state === "development" ? "Reserve one" : "Vote or sponsor";
+
+/* The register index filters client-side over these two attributes. Kept on the
+   card rather than in the page so one card anatomy serves both screens. */
+const search = [part.title, part.vehicleLabel, part.yearRange, part.oemNumber, part.category, statusLabel]
+  .filter(Boolean).join(" ").toLowerCase();
+---
+<article class="card" data-state={part.state} data-search={search}>
+  {requested ? (
+    <div class="card-empty">
+      <span class="empty-head">NO ORIGINAL ON FILE</span>
+      <small>Nothing to slice until<br />a donor part arrives</small>
+    </div>
+  ) : (
+    <div class="card-art">
+      <span class="sheet-no">SHEET {sheet}/{total}</span>
+      {measured && <span class="layer">0.12 mm</span>}
+      {photo
+        ? <img src={photo} alt={`${part.title} — reproduction in neutral resin`} width="640" height="480" loading="lazy" />
+        : <div class="placeholder art-ph"><span>PART VIEW</span></div>}
+    </div>
+  )}
+
+  <dl class="card-spec">
+    <dt class="eyebrow">PART</dt><dd class="part-name">{part.title}</dd>
+    <dt class="eyebrow">APPLIES TO</dt><dd>{part.yearRange} {part.vehicleLabel}</dd>
+    {oemPublishable
+      ? <><dt class="eyebrow">OEM №</dt><dd>{part.oemNumber}</dd></>
+      : <><dt class="eyebrow">MATERIAL</dt><dd>ASA · neutral</dd></>}
+    <dt class="eyebrow">STATUS</dt>
+    <dd class={measured ? "status status--amber" : "status"}>{statusLabel}</dd>
+  </dl>
+
+  <a class="card-action" href={href}>{action}<span aria-hidden="true">→</span></a>
+</article>
+
+<style>
+  .card { border: var(--bd-inner) solid var(--paper); display: flex; flex-direction: column; }
+
+  .card-art { position: relative; height: 200px; }
+  .card-art img { width: 100%; height: 100%; object-fit: cover; }
+  .art-ph { height: 100%; border: 0; }
+  .sheet-no, .layer {
+    position: absolute; top: 10px; z-index: 1;
+    font-size: var(--t-micro); letter-spacing: var(--t-micro-tr); text-transform: uppercase;
+    background: var(--ground); padding: 3px 6px;
+  }
+  .sheet-no { left: 10px; color: var(--steel); }
+  .layer { right: 10px; color: var(--amber); }
+
+  /* the empty state — dashed foot, and the reason stated plainly */
+  .card-empty {
+    height: 200px; display: flex; flex-direction: column; align-items: center;
+    justify-content: center; gap: 6px; text-align: center;
+    border-bottom: 1px dashed var(--rule-2);
+  }
+  .empty-head {
+    color: var(--amber); font-size: var(--t-eyebrow); letter-spacing: var(--t-eyebrow-tr);
+    text-transform: uppercase;
+  }
+  .card-empty small { color: var(--steel); font-size: var(--t-dense); line-height: 1.6; }
+
+  .card-spec {
+    display: grid; grid-template-columns: 78px 1fr; gap: 8px 12px;
+    padding: 16px; flex: 1; align-content: start;
+  }
+  .card-spec dd { margin: 0; font-size: var(--t-dense); color: var(--body); }
+  .part-name {
+    font-family: var(--font-display); font-weight: 700; text-transform: uppercase;
+    font-size: var(--h-card) !important; color: var(--paper) !important; line-height: 1.15;
+  }
+  .status--amber { color: var(--amber) !important; }
+
+  .card-action {
+    display: flex; align-items: center; justify-content: space-between; gap: 10px;
+    padding: 13px 16px; border-top: var(--bd-inner) solid var(--rule);
+    font-size: var(--t-dense); text-transform: uppercase; letter-spacing: .06em;
+    transition: background var(--transition), color var(--transition);
+  }
+  /* the whole row fills, not just the text */
+  .card-action:hover { background: var(--amber); color: var(--ink); }
+</style>

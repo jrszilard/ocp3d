@@ -1,8 +1,28 @@
 ---
+/**
+ * The sheet. Every page is a drawing sheet: an outer margin carrying zone
+ * markers, then a 2px paper frame holding all sections, separated from each
+ * other by 1px paper rules and never by whitespace.
+ */
 import "../styles/global.css";
-import Mark from "../components/Mark.astro";
-interface Props { title: string; description?: string }
-const { title, description = "The Ministry of Discontinued Parts: reproduction parts for classic cars — measured from originals, made to order, fitted on real cars." } = Astro.props;
+import Lockup from "../components/Lockup.astro";
+
+interface Props { title: string; description?: string; sheet?: string }
+const {
+  title,
+  description = "The Ministry of Discontinued Parts: reproduction parts for pre-2000 cars — measured from surviving originals, printed to order, fit proven on a real car. Measurements published free.",
+  sheet = "1 OF 7 · NEVER NLA",
+} = Astro.props;
+
+const nav = [
+  { href: "/registry/", label: "Parts register" },
+  { href: "/request/",  label: "Request a part" },
+  { href: "/method/",   label: "How we verify fit" },
+  { href: "/charter/",  label: "Charter" },
+];
+// zone markers: letters down the margins, numbers across top and bottom
+const rows = ["D", "C", "B", "A"];
+const cols = [8, 7, 6, 5, 4, 3, 2, 1];
 ---
 <!doctype html>
 <html lang="en">
@@ -11,95 +31,111 @@ const { title, description = "The Ministry of Discontinued Parts: reproduction p
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    <meta name="theme-color" content="#223F5C" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <!-- The Ministry's slab, self-hosted (see public/fonts/README.md — NOT a CDN, on purpose).
-         Preloaded because the wordmark and every heading above the fold are set in it. -->
-    <link rel="preload" href="/fonts/bitter-var-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <!-- The two families the sheet is set in, self-hosted. NOT a CDN — Article IV
+         counts "0 third-party scripts" on the page itself, so a Google font link
+         would make the site's own headline claim false. Mono is preloaded first
+         because it is the body voice and appears in every section. -->
+    <link rel="preload" href="/fonts/plex-mono-400.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/archivo-narrow-700.woff2" as="font" type="font/woff2" crossorigin />
   </head>
   <body>
-    <header class="site">
-      <div class="wrap bar">
-        <a class="markrow" href="/">
-          <span class="mini-crest"><Mark size={30} /></span>
-          <span class="wordmark">MINISTRY OF <b>DISCONTINUED PARTS</b></span>
-        </a>
-        <nav class="main" aria-label="Primary">
-          <a href="/registry/">Parts Catalog</a>
-          <a href="/request/">Request a Part</a>
-          <a href="/method/">How We Verify Fit</a>
-          <a href="/about/">About</a>
-        </nav>
-        <a class="member-cta" href="/#register">Join Free</a>
-      </div>
-    </header>
+    <div class="sheet-outer">
+      <!-- Zone markers. Decorative drawing-office furniture; they are hidden
+           below 900px, where they would only steal edge space. -->
+      <div class="zone zone-rows zone-left"  aria-hidden="true">{rows.map((r) => <span>{r}</span>)}</div>
+      <div class="zone zone-rows zone-right" aria-hidden="true">{rows.map((r) => <span>{r}</span>)}</div>
+      <div class="zone zone-cols zone-top"    aria-hidden="true">{cols.map((c) => <span>{c}</span>)}</div>
+      <div class="zone zone-cols zone-bottom" aria-hidden="true">{cols.map((c) => <span>{c}</span>)}</div>
 
-    <main><slot /></main>
+      <div class="sheet">
+        <header class="sheet-header">
+          <a class="lockup-link" href="/" aria-label="Ministry of Discontinued Parts — home">
+            <Lockup variant="landscape" />
+          </a>
+          <nav class="nav" aria-label="Primary">
+            {nav.map((n) => <a href={n.href}>{n.label}</a>)}
+            <a class="cta" href="/#register">JOIN FREE</a>
+          </nav>
+        </header>
 
-    <footer class="site">
-      <div class="wrap cols">
-        <div>
-          <div class="wordmark" style="margin-bottom:8px">MINISTRY OF <b>DISCONTINUED PARTS</b></div>
-          <p class="fine charter">
-            Ministry charter, Article IV: we collect measurements, not data.
-          </p>
-          <p class="fine">
-            Reproduction interior trim for cars the industry gave up on. Pre-2000, unbranded,
-            non-safety-critical parts only. Every design is our own, modeled in-house from
-            measured original parts — measurements published free, fit proven on real cars
-            before any badge says so. This page is never NLA.
-          </p>
-        </div>
-        <nav aria-label="Footer">
-          <a href="/registry/">Catalog</a>
-          <a href="/request/">Request a part</a>
-          <a href="/method/">How we verify fit</a>
-          <a href="/about/">About / the Charter</a>
-          <a href="/styleguide/">Design system</a>
-        </nav>
+        <slot />
+
+        <footer class="title-block">
+          <div><span class="micro">DRAWN</span><span class="val">MDP DRAWING OFFICE</span></div>
+          <div><span class="micro">SCALE</span><span class="val">1:1</span></div>
+          <div><span class="micro">REV</span><span class="val">C · 2026-08</span></div>
+          <div><span class="micro">SHEET</span><span class="val">{sheet}</span></div>
+          <div class="legal">
+            © 2026 · Pre-2000, unbranded, non-safety-critical. OEM part numbers appear for
+            identification only; the Ministry is not affiliated with any manufacturer. Anymore.
+          </div>
+        </footer>
       </div>
-      <div class="wrap">
-        <p class="fine small">
-          © 2026 The Ministry of Discontinued Parts. The Ministry accepts no responsibility for tears shed
-          over crumbled OEM plastic. OEM part numbers appear for identification only; the
-          Ministry is not affiliated with, endorsed by, or laughed at by any manufacturer. Anymore.
-        </p>
-      </div>
-    </footer>
+    </div>
   </body>
 </html>
 
 <style>
-  header.site { border-bottom: var(--border-hairline) solid var(--edge); }
-  .bar { display: flex; align-items: center; gap: 18px; padding: var(--space-3) 0; }
-  .markrow { display: flex; align-items: center; gap: 10px; text-decoration: none; }
-  .mini-crest { display: flex; }
-  .wordmark { font-family: var(--font-display); font-size: 1.02rem; letter-spacing: 0.04em; }
-  .wordmark b { color: var(--action); }
-  nav.main { margin-left: auto; display: flex; gap: var(--space-4); flex-wrap: wrap; }
-  nav.main a {
-    font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: 0.1em;
-    text-transform: uppercase; text-decoration: none; color: var(--fg-dim);
-    padding: 4px 0; border-bottom: 2px solid transparent;
+  .sheet-outer { position: relative; padding: var(--sheet-pad); }
+  .sheet { border: var(--bd-sheet) solid var(--paper); }
+
+  /* ---- zone markers ---------------------------------------------------- */
+  .zone { position: absolute; display: flex; color: var(--steel);
+          font-family: var(--font-mono); font-size: var(--t-zone); }
+  .zone-rows { top: var(--sheet-pad); bottom: var(--sheet-pad); width: var(--sheet-pad);
+               flex-direction: column; justify-content: space-around; align-items: center; }
+  .zone-left { left: 0; } .zone-right { right: 0; }
+  .zone-cols { left: var(--sheet-pad); right: var(--sheet-pad); height: var(--sheet-pad);
+               justify-content: space-around; align-items: center; }
+  .zone-top { top: 0; } .zone-bottom { bottom: 0; }
+
+  /* ---- header ---------------------------------------------------------- */
+  .sheet-header {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 20px; padding: 16px 26px;
+    border-bottom: var(--bd-section) solid var(--paper);
   }
-  nav.main a:hover { color: var(--fg); border-bottom-color: var(--accent); }
-  .member-cta {
-    font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: 0.08em;
-    color: var(--action-fg); background: var(--accent);
-    padding: 7px 12px; text-decoration: none;
-    border: var(--border-hairline) solid var(--paint-signal-deep);
+  .lockup-link { text-decoration: none; }
+  .nav { display: flex; align-items: center; gap: 22px; }
+  .nav a {
+    font-family: var(--font-mono); font-size: var(--t-nav); color: var(--paper);
+    text-decoration: none; white-space: nowrap; transition: color var(--transition);
   }
-  .member-cta:hover { background: var(--paint-signal-deep); }
-  /* The footer rides Plum Crazy in both themes — the deep ground of the system. */
-  footer.site { background: var(--footer-bg); color: var(--footer-fg); padding: var(--space-6) 0; margin-top: var(--space-6); }
-  footer.site .wordmark b { color: var(--paint-sunflower); }
-  .cols { display: flex; justify-content: space-between; gap: var(--space-5); flex-wrap: wrap; align-items: flex-start; }
-  .fine { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--footer-dim); max-width: 52ch; line-height: 1.8; }
-  .fine.charter { color: var(--paint-sunflower); letter-spacing: 0.05em; text-transform: uppercase; font-size: 0.64rem; margin-bottom: 6px; }
-  .fine.small { margin-top: var(--space-4); }
-  footer nav { display: flex; gap: var(--space-3); flex-wrap: wrap; }
-  footer nav a {
-    font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: 0.1em;
-    text-transform: uppercase; color: var(--footer-dim); text-decoration: none;
+  .nav a:hover { color: var(--amber); }
+  .cta {
+    background: var(--amber); color: var(--ink) !important; padding: 10px 18px;
+    font-weight: 600; letter-spacing: var(--t-button-tr);
+    transition: background var(--transition);
   }
-  footer nav a:hover { color: var(--paint-sunflower); }
+  .cta:hover { background: var(--paper); }
+
+  /* ---- footer title block ---------------------------------------------- */
+  .title-block {
+    display: grid; grid-template-columns: 1fr 1fr 1fr 1fr 1.6fr;
+    border-top: var(--bd-section) solid var(--paper);
+  }
+  .title-block > div {
+    padding: 14px 16px; display: flex; flex-direction: column; gap: 5px;
+    border-left: var(--bd-inner) solid var(--rule);
+  }
+  .title-block > div:first-child { border-left: 0; }
+  .micro {
+    font-family: var(--font-mono); font-size: 9px; text-transform: uppercase;
+    letter-spacing: var(--t-micro-tr); color: var(--steel);
+  }
+  .val { font-family: var(--font-mono); font-size: var(--t-eyebrow); color: var(--paper); }
+  .legal { font-family: var(--font-mono); font-size: var(--t-eyebrow);
+           line-height: 1.6; color: var(--steel); justify-content: center; }
+
+  @media (max-width: 900px) {
+    .zone { display: none; }
+    .sheet-outer { padding: 10px; }
+    .sheet-header { flex-direction: column; align-items: flex-start; }
+    .nav { flex-wrap: wrap; gap: 14px; }
+    .title-block { grid-template-columns: 1fr 1fr; }
+    .title-block > div:nth-child(odd) { border-left: 0; }
+    .legal { grid-column: 1 / -1; border-top: var(--bd-inner) solid var(--rule); }
+  }
 </style>
