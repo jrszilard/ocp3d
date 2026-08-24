@@ -21,12 +21,14 @@ npm test
 
 - The design system lives in [`src/styles/tokens.css`](src/styles/tokens.css). Components consume
   tokens rather than hard-coded visual values.
-- `src/components/ServiceHeading.astro` is the common page masthead: original orbital instrument,
-  literal field-file labels, and responsive route framing.
+- `src/components/ServiceHeading.astro` is the common page masthead: literal field-file labels,
+  a High Desert station-status surface, and responsive route framing. `BenchUnit.astro` is the
+  small docked non-humanoid physical scan cue, used sparingly.
 - Live reference: `/styleguide`.
 - Brand and voice rules: [`BRAND.md`](BRAND.md).
-- Visual direction is original retrofuturist **Orbital Service** — space-age nostalgia applied to
-  keeping old vehicles running. Do not copy Fallout or other proprietary visual language.
+- Visual direction is original retrofuturist **High Desert Retrofit** — sun-faded inherited
+  service equipment meets precise newer scan/record tools. No generic car hero art; use real
+  evidence when a vehicle image is needed. Do not copy proprietary game/film visual language.
 
 ## Pages
 

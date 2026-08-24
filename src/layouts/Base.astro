@@ -1,7 +1,8 @@
 ---
 /**
- * OCP3D field manual shell: an original retrofuturist service record for cars
- * that deserve another orbit. Content stays plain; atmosphere never hides data.
+ * OCP3D High Desert Retrofit shell.
+ * A warm working sheet inside a dusk-field exterior. Content stays literal;
+ * atmosphere is carried by materials, rails, and small functional fragments.
  */
 import "../styles/global.css";
 import Lockup from "../components/Lockup.astro";
@@ -10,17 +11,17 @@ interface Props { title: string; description?: string; sheet?: string }
 const {
   title,
   description = "OCP3D — Old Car Problems. Measured, engineered and 3D-printed parts for cars worth keeping.",
-  sheet = "FIELD MANUAL · 01",
+  sheet = "HIGH DESERT · 01",
 } = Astro.props;
 
 const nav = [
-  { href: "/registry/", label: "Parts archive" },
-  { href: "/request/",  label: "Request a part" },
-  { href: "/method/",   label: "Fit lab" },
+  { href: "/registry/", label: "Field inventory" },
+  { href: "/request/",  label: "Open a case" },
+  { href: "/method/",   label: "Method" },
   { href: "/charter/",  label: "Mission" },
 ];
-const rows = ["O", "C", "P", "3D"];
-const cols = ["A", "B", "C", "D", "E", "F", "G", "H"];
+const rows = ["D", "U", "S", "K"];
+const cols = ["BAY", "07", "TRACE", "FILE"];
 const canonical = `https://ocp3d.com${Astro.url.pathname}`;
 ---
 <!doctype html>
@@ -30,7 +31,7 @@ const canonical = `https://ocp3d.com${Astro.url.pathname}`;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#111B2B" />
+    <meta name="theme-color" content="#211827" />
     <meta property="og:site_name" content="OCP3D — Old Car Problems" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
@@ -63,8 +64,8 @@ const canonical = `https://ocp3d.com${Astro.url.pathname}`;
         </main>
 
         <footer class="title-block">
-          <div><span class="micro">SERVICE BAY</span><span class="val">OCP3D FIELD WORKS</span></div>
-          <div><span class="micro">SCALE</span><span class="val">1:1</span></div>
+          <div><span class="micro">STATION</span><span class="val">HIGH DESERT</span></div>
+          <div><span class="micro">BAY</span><span class="val">07</span></div>
           <div><span class="micro">MODE</span><span class="val">MEASURE · MODEL · PRINT</span></div>
           <div><span class="micro">FILE</span><span class="val">{sheet}</span></div>
           <div class="legal">
@@ -80,12 +81,13 @@ const canonical = `https://ocp3d.com${Astro.url.pathname}`;
 <style>
   .sheet-outer { position: relative; padding: var(--sheet-pad); min-height: 100vh; }
   .sheet {
-    border: var(--bd-sheet) solid color-mix(in srgb, var(--paper) 70%, var(--ion));
-    background: color-mix(in srgb, var(--ground) 91%, #000);
+    border: var(--bd-sheet) solid color-mix(in srgb, var(--desert-paper) 66%, var(--ion-light));
+    background: var(--ground);
     overflow: hidden;
+    box-shadow: 0 30px 90px rgba(0,0,0,.32);
   }
   main { min-width: 0; }
-  .zone { position: absolute; display: flex; color: color-mix(in srgb, var(--ion) 70%, var(--steel)); font-family: var(--font-mono); font-size: var(--t-zone); }
+  .zone { position: absolute; display: flex; color: var(--ion-light); font-family: var(--font-mono); font-size: var(--t-zone); letter-spacing: .08em; }
   .zone-rows { top: var(--sheet-pad); bottom: var(--sheet-pad); width: var(--sheet-pad); flex-direction: column; justify-content: space-around; align-items: center; }
   .zone-left { left: 0; } .zone-right { right: 0; }
   .zone-cols { left: var(--sheet-pad); right: var(--sheet-pad); height: var(--sheet-pad); justify-content: space-around; align-items: center; }
@@ -93,17 +95,17 @@ const canonical = `https://ocp3d.com${Astro.url.pathname}`;
 
   .sheet-header {
     display: flex; align-items: center; justify-content: space-between; gap: 22px; padding: 14px 26px;
-    border-bottom: var(--bd-section) solid var(--rule); background: color-mix(in srgb, var(--ground-deep) 72%, transparent);
+    border-bottom: var(--bd-section) solid var(--rule); background: color-mix(in srgb, var(--ground) 88%, var(--ground-deep));
   }
   .lockup-link { text-decoration: none; }
   .nav { display: flex; align-items: center; gap: 20px; }
   .nav a { font-family: var(--font-mono); font-size: var(--t-nav); color: var(--paper); text-decoration: none; white-space: nowrap; }
   .nav a:hover { color: var(--ion); }
-  .cta { background: var(--signal); color: var(--ink) !important; padding: 10px 14px; font-weight: 600; letter-spacing: var(--t-button-tr); }
-  .cta:hover { background: var(--ion); }
+  .cta { background: var(--signal); color: var(--ink) !important; padding: 10px 14px; font-weight: 600; letter-spacing: var(--t-button-tr); box-shadow: 3px 3px 0 var(--ion-light); }
+  .cta:hover { background: var(--ion); box-shadow: 3px 3px 0 var(--acid); }
 
-  .title-block { display: grid; grid-template-columns: 1fr 1fr 1.3fr 1fr 1.8fr; border-top: var(--bd-section) solid var(--rule); background: color-mix(in srgb, var(--ground-deep) 72%, transparent); }
-  .title-block > div { padding: 14px 16px; display: flex; flex-direction: column; gap: 5px; border-left: var(--bd-inner) solid var(--rule-3); }
+  .title-block { display: grid; grid-template-columns: .9fr .6fr 1.3fr 1fr 1.8fr; border-top: var(--bd-section) solid var(--rule); background: color-mix(in srgb, var(--ground-deep) 87%, var(--ground)); }
+  .title-block > div { padding: 14px 16px; display: flex; flex-direction: column; gap: 5px; border-left: var(--bd-inner) solid var(--rule); }
   .title-block > div:first-child { border-left: 0; }
   .micro { font-family: var(--font-mono); font-size: var(--t-micro); text-transform: uppercase; letter-spacing: var(--t-micro-tr); color: var(--ion); }
   .val { font-family: var(--font-mono); font-size: var(--t-eyebrow); color: var(--paper); }
@@ -116,6 +118,6 @@ const canonical = `https://ocp3d.com${Astro.url.pathname}`;
     .nav { flex-wrap: wrap; gap: 14px; }
     .title-block { grid-template-columns: 1fr 1fr; }
     .title-block > div:nth-child(odd) { border-left: 0; }
-    .legal { grid-column: 1 / -1; border-top: var(--bd-inner) solid var(--rule-3); }
+    .legal { grid-column: 1 / -1; border-top: var(--bd-inner) solid var(--rule); }
   }
 </style>

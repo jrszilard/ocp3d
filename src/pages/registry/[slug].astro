@@ -40,6 +40,7 @@ const hasImage = fs.existsSync(path.join(process.cwd(), "public", "images", "par
         lede="A working record, not a sales gloss. The geometry, material, and real-car evidence each earn their own line."
         file={`FIELD FILE · ${part.slug.replaceAll("-", " ").toUpperCase()}`}
         signal={part.stateLabel}
+        unit
       />
 
       <div class="part-scope">

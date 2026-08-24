@@ -1,15 +1,12 @@
 /* ============================================================================
-   OCP3D — DESIGN SYSTEM
-   "ORBITAL SERVICE" · original retrofuturist field manuals for old cars
-   ============================================================================
-   The visual world is a future imagined from a service bay: midnight space,
-   moon-paper records, analog instrumentation, signal-orange controls and cool
-   ion light. It is original work — never Fallout-derived iconography, type,
-   copy, colours, or trade dress.
+   OCP3D — HIGH DESERT RETROFIT
+   Original retrofuturist service infrastructure for old-car part records.
 
-   Every visual value lives here. Components consume tokens; do not hard-code
-   colour or spacing elsewhere.
-   ========================================================================= */
+   The visual premise is layered time: sun-faded inherited equipment, precise
+   newer measurement tools, and a human-readable field record. It is not a
+   game-world imitation; no protected marks, type, UI, characters, or trade
+   dress are borrowed.
+   ============================================================================ */
 
 @font-face {
   font-family: "Archivo Narrow";
@@ -33,31 +30,48 @@
 }
 
 :root {
-  /* Space-age service palette: paper records inside a night-sky workshop. */
-  --ground:      #111B2B;
-  --ground-deep: #172A3E;
-  --ink:         #101924;
-  --paper:       #F4E7CE;
-  --signal:      #FF9D4D;
-  --amber:       var(--signal); /* legacy component alias: signal-orange */
-  --ion:         #8DDBC9;
-  --steel:       #B3C7C0;
-  --body:        #D7E2D5;
-  --glass:       #89A8A3;
-  --rule:        #557481;
-  --rule-2:      #71949A;
-  --rule-3:      #365365;
-  --panel:       #1C334A;
-  --panel-2:     #15283B;
-  --border:      #070C14;
+  /* Named source palette. Components use the legacy aliases below so that
+     evidence-first panels retain their semantics while the world changes. */
+  --desert-night: #211827;
+  --desert-dusk: #403047;
+  --desert-paper: #F4D9A5;
+  --desert-sand: #E3BE86;
+  --desert-sand-deep: #D4A86F;
+  --desert-ink: #29252C;
+  --desert-rust: #C65C46;
+  --desert-cyan: #267D77;
+  --desert-cyan-light: #5BE4D0;
+  --desert-acid: #C0E986;
+  --desert-steel: #71645B;
+  --desert-rule: #A68E70;
 
-  --inv-body:  #283942;
-  --inv-label: #5A716D;
-  --inv-gold:  #A5511C;
+  /* Legacy aliases — deliberately light working sheets inside a dusk shell. */
+  --ground:      var(--desert-paper);
+  --ground-deep: var(--desert-sand);
+  --ink:         var(--desert-paper); /* ink on signal/dark panels */
+  --paper:       var(--desert-ink);  /* working-sheet text and primary rules */
+  --signal:      var(--desert-rust);
+  --amber:       var(--signal);
+  --ion:         var(--desert-cyan); /* accessible cyan for text on paper */
+  --ion-light:   var(--desert-cyan-light);
+  --acid:        var(--desert-acid);
+  --steel:       var(--desert-steel);
+  --body:        #4D4845;
+  --glass:       #7B6C60;
+  --rule:        var(--desert-rule);
+  --rule-2:      #8D765D;
+  --rule-3:      #C7AA7F;
+  --panel:       #E7C691;
+  --panel-2:     var(--desert-sand-deep);
+  --border:      var(--desert-night);
 
-  --mat-asa:      #C0B4A4;
-  --mat-petg:     #1E3144;
-  --mat-nylon-cf: #8E704A;
+  --inv-body:  #E5D0B0;
+  --inv-label: #B9AA97;
+  --inv-gold:  var(--acid);
+
+  --mat-asa:      #BBAA94;
+  --mat-petg:     #34434A;
+  --mat-nylon-cf: #8C6544;
 
   --font-display: "Archivo Narrow", "Archivo", Impact, sans-serif;
   --font-word:    "Archivo", "Helvetica Neue", Arial, sans-serif;
@@ -90,17 +104,17 @@
   --bd-section: 1px;
   --bd-inner: 1px;
   --bd-input: 1px;
-  --radius: 2px;
+  --radius: 0;
 
   --hatch: repeating-linear-gradient(135deg,
     var(--panel) 0 7px, var(--panel-2) 7px 14px);
-  --grid-28: linear-gradient(color-mix(in srgb, var(--rule-3) 80%, transparent) 1px, transparent 1px),
-             linear-gradient(90deg, color-mix(in srgb, var(--rule-3) 80%, transparent) 1px, transparent 1px);
+  --grid-28: linear-gradient(color-mix(in srgb, var(--ion) 32%, transparent) 1px, transparent 1px),
+             linear-gradient(90deg, color-mix(in srgb, var(--ion) 32%, transparent) 1px, transparent 1px);
   --cosmos:
-    radial-gradient(circle at 11% 16%, color-mix(in srgb, var(--ion) 22%, transparent) 0 1px, transparent 1.8px),
-    radial-gradient(circle at 72% 9%, color-mix(in srgb, var(--paper) 28%, transparent) 0 1px, transparent 1.7px),
-    radial-gradient(circle at 88% 61%, color-mix(in srgb, var(--signal) 28%, transparent) 0 1px, transparent 1.9px),
-    radial-gradient(ellipse at 78% -8%, #213D58 0%, transparent 42%),
-    linear-gradient(145deg, #121D2D 0%, var(--ground) 52%, #0D1725 100%);
+    radial-gradient(circle at 83% 12%, color-mix(in srgb, var(--signal) 32%, transparent) 0 1px, transparent 1.8px),
+    radial-gradient(circle at 17% 72%, color-mix(in srgb, var(--ion-light) 28%, transparent) 0 1px, transparent 1.8px),
+    radial-gradient(ellipse at 81% -6%, #66425D 0%, transparent 42%),
+    repeating-linear-gradient(-9deg, transparent 0 5px, rgba(244,217,165,.035) 5px 6px),
+    linear-gradient(145deg, #302136 0%, var(--desert-night) 54%, #17131D 100%);
   --transition: 140ms ease-out;
 }

@@ -2,6 +2,7 @@
 import Base from "../layouts/Base.astro";
 import parts from "../data/parts.json";
 import RegisterCard from "../components/RegisterCard.astro";
+import BenchUnit from "../components/BenchUnit.astro";
 
 /* The register is the product, so the cards are driven from the committed
    catalogue snapshot, never from markup. One card per state, in the order the
@@ -53,23 +54,20 @@ const dimsOnRecord = visor?.dimsConfirmed ?? 0;
   <!-- ============================ HERO ============================ -->
   <section class="hero">
     <div class="hero-text">
-      <p class="projection">
-        <span class="glyph" aria-hidden="true"></span>
-        OCP3D FIELD MANUAL · ALL DIMS IN MILLIMETRES
-      </p>
-      <h1>Old car problem.<br />New part, in layers.</h1>
+      <p class="projection">THE OLD EQUIPMENT STILL HAS A JOB TO DO</p>
+      <h1>Old systems.<br />New methods.</h1>
       <p class="lead">
         OCP3D puts surviving parts and stubborn interfaces on the bench, then measures, models,
         and 3D prints the next useful version. Dimensions stay free, real-car fit stays on the
         record, and old vehicles keep their place in the future.
       </p>
       <p class="hero-actions">
-        <a class="btn btn--primary" href="/registry/">Browse parts</a>
-        <a class="btn btn--secondary" href="/request/">Log a problem</a>
+        <a class="btn btn--primary" href="/registry/">Browse field inventory</a>
+        <a class="btn btn--secondary" href="/request/">Open a case</a>
       </p>
 
       <div class="notes">
-        <p class="eyebrow">GENERAL NOTES</p>
+        <p class="eyebrow">FIELD NOTES</p>
         <ol>
           {notes.map((t, i) => (
             <li><span class="num">{i + 1}.</span><span class="dense">{t}</span></li>
@@ -78,23 +76,20 @@ const dimsOnRecord = visor?.dimsConfirmed ?? 0;
       </div>
     </div>
 
-    <div class="hero-pane">
-      <div class="pane-grid" aria-hidden="true"></div>
-      <div class="centre-v" aria-hidden="true"></div>
-      <div class="centre-h" aria-hidden="true"></div>
-      <div class="views placeholder">
-        <span>ORBITAL SERVICE VIEW</span>
-        <small>scan · measure · model</small>
-        <small>first case: sun visor retaining clip</small>
+    <aside class="station-status" aria-label="High Desert station status">
+      <p class="status-kicker">STATION CONDITION / 07</p>
+      <p class="status-title">RETROFIT<br />INTAKE READY</p>
+      <dl>
+        <div><dt>OLD LAYER</dt><dd>tool bank / bench</dd></div>
+        <div><dt>NEW LAYER</dt><dd>scan rail / record</dd></div>
+        <div><dt>ON FILE</dt><dd>{dimsOnRecord} CONFIRMED DIMS</dd></div>
+      </dl>
+      <div class="unit-row">
+        <BenchUnit size={58} />
+        <span><b>BENCH UNIT / DOCKED</b><em>PHYSICAL SCAN ASSIST</em></span>
       </div>
-      <p class="pane-caption">
-        <span class="eyebrow">FIELD VIEW · LAYER 01</span>
-        <span class="chips">
-          <span class="chip chip--amber">{dimsOnRecord} DIMS ON FILE</span>
-          <span class="chip chip--solid">MEASURED</span>
-        </span>
-      </p>
-    </div>
+      <p class="station-note">A field file starts at the interface. Evidence stays ahead of atmosphere.</p>
+    </aside>
   </section>
 
   <!-- ========================= SPEC BAND =========================
@@ -244,52 +239,47 @@ const dimsOnRecord = visor?.dimsConfirmed ?? 0;
 </script>
 
 <style>
-  /* ---- hero ------------------------------------------------------------ */
-  .hero { display: grid; grid-template-columns: 1fr 46%; }
-  .hero-text { padding: var(--sec-hero); }
-  .projection {
-    display: flex; align-items: center; gap: 10px; margin-bottom: 26px;
-    font-size: var(--t-eyebrow); letter-spacing: var(--t-eyebrow-tr);
-    text-transform: uppercase; color: var(--steel);
+  /* ---- image-free High Desert hero ------------------------------------ */
+  .hero {
+    position: relative; display: grid; grid-template-columns: minmax(0, 1fr) minmax(280px, 31%);
+    min-height: 470px; overflow: hidden; border-bottom: var(--bd-section) solid var(--rule);
+    background:
+      linear-gradient(119deg, var(--ground) 0 56%, var(--ground-deep) 56% 73%, color-mix(in srgb, var(--signal) 45%, var(--ground-deep)) 73%),
+      repeating-linear-gradient(-9deg, transparent 0 5px, rgba(41,37,44,.045) 5px 6px);
   }
-  /* the first-angle-projection glyph: a half-ellipse outline, open at the foot */
-  .glyph {
-    width: 26px; height: 13px; border: 1px solid var(--steel); border-bottom: 0;
-    border-radius: 50% / 100% 100% 0 0; flex: none;
+  .hero::after {
+    content: ""; position: absolute; z-index: 0; right: 0; bottom: 0; width: 44%; height: 56%; opacity: .46;
+    background: var(--grid-28); background-size: 22px 22px; pointer-events: none;
   }
-  .hero h1 { margin-bottom: 22px; }
+  .hero-text { position: relative; z-index: 1; padding: var(--sec-hero); }
+  .projection { margin-bottom: 26px; font-size: var(--t-eyebrow); letter-spacing: var(--t-eyebrow-tr); text-transform: uppercase; color: var(--signal); }
+  .hero h1 { margin-bottom: 22px; max-width: 9ch; }
   .hero .lead { max-width: 470px; }
   .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin: 30px 0 36px; }
 
-  .notes { border: var(--bd-inner) solid var(--rule); background: var(--ground-deep); padding: 18px 20px; }
+  .notes { max-width: 550px; border: var(--bd-inner) solid var(--rule); background: color-mix(in srgb, var(--ground) 72%, var(--ground-deep)); padding: 18px 20px; }
   .notes ol { display: grid; gap: 9px; margin-top: 12px; }
   .notes li { display: grid; grid-template-columns: 18px 1fr; align-items: start; }
-  .num { font-size: var(--t-dense); color: var(--steel); }
+  .num { font-size: var(--t-dense); color: var(--signal); }
 
-  .hero-pane {
-    position: relative; background: var(--ground-deep);
-    border-left: var(--bd-section) solid var(--paper);
-    padding: 26px; display: flex; flex-direction: column; gap: 14px;
+  .station-status {
+    position: relative; z-index: 2; align-self: start; margin: 50px 38px 36px 0; padding: 16px 17px;
+    border: var(--bd-inner) solid color-mix(in srgb, var(--desert-dusk) 76%, var(--signal));
+    border-top: 4px solid var(--ion-light); background: color-mix(in srgb, var(--desert-night) 95%, #000);
+    color: var(--inv-body); box-shadow: 7px 7px 0 color-mix(in srgb, var(--signal) 68%, transparent);
   }
-  .pane-grid {
-    position: absolute; inset: 0; background-image: var(--grid-28);
-    background-size: 28px 28px; pointer-events: none;
-  }
-  .centre-v, .centre-h { position: absolute; pointer-events: none; opacity: .55; }
-  .centre-v { left: 50%; top: 0; bottom: 0; border-left: 1px dashed var(--amber); }
-  .centre-h { top: 42%; left: 0; right: 0; border-top: 1px dashed var(--amber); }
-  .views { position: relative; flex: 1; min-height: 320px; }
-  .pane-caption {
-    position: relative; display: flex; align-items: center; justify-content: space-between;
-    gap: 12px; flex-wrap: wrap;
-  }
-  .chips { display: flex; gap: 8px; }
-  .chip {
-    font-size: var(--t-eyebrow); letter-spacing: var(--t-eyebrow-tr); text-transform: uppercase;
-    padding: 5px 10px; white-space: nowrap;
-  }
-  .chip--amber { border: 1px solid var(--amber); color: var(--amber); }
-  .chip--solid { background: var(--paper); color: var(--ink); font-weight: 600; }
+  .status-kicker { color: var(--ion-light); font-size: var(--t-micro); letter-spacing: var(--t-micro-tr); }
+  .status-title { margin: 9px 0 13px; color: var(--ink); font-family: var(--font-display); font-size: 29px; line-height: .92; text-transform: uppercase; }
+  .station-status dl { margin: 0; }
+  .station-status dl > div { display: flex; justify-content: space-between; gap: 10px; padding: 7px 0; border-top: 1px solid color-mix(in srgb, var(--inv-label) 35%, transparent); }
+  .station-status dt, .station-status dd { margin: 0; font-size: 8px; letter-spacing: .08em; }
+  .station-status dt { color: var(--acid); }
+  .station-status dd { color: var(--inv-body); text-align: right; }
+  .unit-row { display: flex; align-items: center; gap: 10px; padding-top: 10px; margin-top: 8px; border-top: 1px solid color-mix(in srgb, var(--inv-label) 35%, transparent); }
+  .unit-row span { display: grid; gap: 2px; font-size: 7px; line-height: 1.4; letter-spacing: .06em; }
+  .unit-row b { color: var(--acid); font-weight: 400; }
+  .unit-row em { color: var(--signal); font-style: normal; }
+  .station-note { margin-top: 12px; padding-top: 9px; border-top: 1px solid color-mix(in srgb, var(--inv-label) 35%, transparent); color: var(--inv-label); font-size: 8px; line-height: 1.6; }
 
   /* ---- spec band ------------------------------------------------------- */
   .spec-band {
@@ -370,7 +360,7 @@ const dimsOnRecord = visor?.dimsConfirmed ?? 0;
   /* ---- responsive ------------------------------------------------------ */
   @media (max-width: 1100px) {
     .hero { grid-template-columns: 1fr; }
-    .hero-pane { border-left: 0; border-top: var(--bd-section) solid var(--paper); }
+    .station-status { width: min(100% - 56px, 420px); margin: 0 28px 32px auto; }
     .article-iv, .registration { grid-template-columns: 1fr; gap: 28px; }
   }
   @media (max-width: 900px) {

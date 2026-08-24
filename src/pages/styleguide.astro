@@ -6,21 +6,23 @@ import ServiceHeading from "../components/ServiceHeading.astro";
 
 // Every swatch is rendered FROM tokens.css. If a value here is wrong, update the token.
 const colours = [
-  ["--ground", "page background — midnight service sky"],
-  ["--ground-deep", "recessed panels, hero pane, inputs"],
-  ["--ink", "text on moon-paper and signal controls"],
-  ["--paper", "moon-paper line work, borders, primary text"],
-  ["--amber", "signal-orange control accent"],
-  ["--ion", "cool orbital instrument light"],
-  ["--steel", "secondary/label text, zone markers"],
-  ["--body", "body copy on ground"],
-  ["--glass", "placeholder captions"],
-  ["--rule", "interior hairlines"],
-  ["--rule-2", "placeholder borders, table gridlines"],
-  ["--rule-3", "faint separators"],
-  ["--panel", "placeholder hatch, stripe 1"],
-  ["--panel-2", "placeholder hatch, stripe 2"],
-  ["--border", "outermost page border"],
+  ["--ground", "sun-faded working-sheet surface"],
+  ["--ground-deep", "sand panel, form surface, inherited equipment layer"],
+  ["--ink", "light text on rust signal and dusk panels"],
+  ["--paper", "dark working-sheet text and primary rules"],
+  ["--amber", "rust signal/action accent"],
+  ["--ion", "accessible scan-teal text accent"],
+  ["--ion-light", "high-energy scan rail / docked unit light"],
+  ["--acid", "new-tool status accent"],
+  ["--steel", "weathered secondary labels"],
+  ["--body", "body copy on working sheet"],
+  ["--glass", "pending/evidence caption text"],
+  ["--rule", "interior equipment hairlines"],
+  ["--rule-2", "record borders, table gridlines"],
+  ["--rule-3", "faint sand separators"],
+  ["--panel", "warm inventory panel"],
+  ["--panel-2", "deep sand hatch stripe"],
+  ["--border", "dusk field exterior"],
 ];
 const type = [
   ["Page H1", "var(--font-display)", "68 / 0.94 / -0.015em", "h1"],
@@ -39,14 +41,14 @@ const type = [
     <div class="wrap sg-wrap">
       <ServiceHeading
         eyebrow="OCP3D FIELD REFERENCE · DESIGN SYSTEM"
-        title="Orbital service."
-        lede="A practical original retrofuturist service world for old vehicles: night sky, moon-paper records, analog machinery, signal orange, and cool ion light."
-        file="STYLEGUIDE · OCP3D"
-        signal="TOKENS · COMPONENTS · RECORDS"
+        title="High Desert Retrofit."
+        lede="An original retrofuturist service world where sun-faded inherited equipment meets precise new scan and record tools. The vehicle story stays in evidence, not in decorative car art."
+        file="STYLEGUIDE · HIGH DESERT"
+        signal="TOKENS · FRAGMENTS · RECORDS"
       />
 
       <section class="sg-panel">
-        <p class="eyebrow">THE LOCKUP — ORBITAL MARK, OCP3D, PLAIN-LANGUAGE EXPANSION.</p>
+        <p class="eyebrow">THE LOCKUP — RETROFIT-STATION MARK, OCP3D, PLAIN-LANGUAGE EXPANSION.</p>
         <div class="lockups">
           <div><Lockup variant="landscape" /><p class="dense cap">Landscape · header, screen</p></div>
           <div><Lockup variant="portrait" /><p class="dense cap">Portrait · print, stationery</p></div>
@@ -55,7 +57,7 @@ const type = [
             <p class="dense cap">Avatar · social, favicon</p>
           </div>
         </div>
-        <p class="dense note">Keep the orbital mark, OCP3D acronym, and Old Car Problems expansion together. The mark is original: a vintage-car silhouette, orbital ring, and additive layer courses — never a game, film, manufacturer, or government reference.</p>
+        <p class="dense note">Keep the retrofit-station mark, OCP3D acronym, and Old Car Problems expansion together. The mark is original: service rail, docked fixture head, and additive layer courses. It intentionally avoids a generic car silhouette and borrows no game, film, manufacturer, or government reference.</p>
       </section>
 
       <section class="sg-panel">

@@ -1,10 +1,10 @@
 ---
 /**
- * OCP3D orbital service mark.
+ * OCP3D High Desert Retrofit mark.
  *
- * An original, compact mark: a vintage-car silhouette travels inside an orbital
- * ring, with three layer courses under its body. It is deliberately space-age
- * and mechanical without borrowing any game, film, or government iconography.
+ * An original station glyph: service rail, fixture head, and three additive
+ * courses. It intentionally avoids a generic car silhouette; the record and
+ * real evidence, not a decorative vehicle, carry the vehicle story.
  */
 interface Props {
   size?: number;
@@ -19,18 +19,17 @@ const { size = 48, knockout = "var(--ground)", class: cls = "" } = Astro.props;
   height={size}
   viewBox="0 0 64 64"
   role="img"
-  aria-label="OCP3D orbital service mark"
+  aria-label="OCP3D retrofit station mark"
   fill="none"
   xmlns="http://www.w3.org/2000/svg"
 >
-  <circle cx="32" cy="32" r="28" stroke="currentColor" stroke-width="2" />
-  <path d="M7 27.5C17 17.8 43.4 14.8 57 25.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
-  <circle cx="53.5" cy="19.5" r="2.5" fill="currentColor" />
-  <!-- old coupe: a wide, low service silhouette, never a character or vehicle logo -->
-  <path d="M13 38.5L16.2 32.8H28.8L35.2 27.8H46.6L53 33.4L55 38.5V43H12V40.5L13 38.5Z" fill="currentColor" />
-  <path d="M29.9 32.7L35.9 29.5H40.6L43.5 32.7H29.9Z" fill={knockout} />
-  <circle cx="20" cy="43" r="4.5" fill={knockout} />
-  <circle cx="47" cy="43" r="4.5" fill={knockout} />
-  <!-- additive layer courses: the literal 3D in OCP3D -->
-  <path d="M17 49.5H48M19.5 53H45.5M22 56.5H43" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+  <rect x="7" y="8" width="50" height="42" stroke="currentColor" stroke-width="2" />
+  <path d="M14 18H50M18 18V37M46 18V37" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" />
+  <path d="M23 37V29L32 24L40 31" stroke="currentColor" stroke-width="2.4" stroke-linecap="square" />
+  <circle cx="23" cy="29" r="2.8" fill="currentColor" />
+  <circle cx="32" cy="24" r="2.8" fill="currentColor" />
+  <path d="M40 31L46 26" stroke="currentColor" stroke-width="2.4" stroke-linecap="square" />
+  <rect x="45" y="23" width="7" height="7" fill={knockout} stroke="currentColor" stroke-width="1.6" />
+  <path d="M16 42H47" stroke="currentColor" stroke-width="2" stroke-linecap="square" />
+  <path d="M18 54H46M21 58H43M24 62H40" stroke="currentColor" stroke-width="1.6" stroke-linecap="square" />
 </svg>

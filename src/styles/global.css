@@ -1,4 +1,4 @@
-/* Global base — all values come from tokens.css. */
+/* High Desert Retrofit base — all values come from tokens.css. */
 @import "./tokens.css";
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -22,7 +22,7 @@ h1, h2, h3, h4 {
 }
 h1 {
   font-size: var(--h1); line-height: var(--h1-lh); letter-spacing: var(--h1-tr);
-  text-shadow: 0 0 22px color-mix(in srgb, var(--ion) 16%, transparent);
+  text-shadow: 2px 2px 0 color-mix(in srgb, var(--signal) 28%, transparent);
 }
 h2 { font-size: var(--h2); line-height: var(--h2-lh); letter-spacing: var(--h2-tr); }
 a { color: var(--paper); text-decoration: none; transition: color var(--transition), border-color var(--transition); }

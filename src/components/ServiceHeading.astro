@@ -1,12 +1,13 @@
 ---
 /**
- * OCP3D service-panel heading.
+ * OCP3D High Desert Retrofit heading.
  *
- * A reusable, original retrofuturist dashboard for every field file: an
- * orbital instrument, a clear human title, and literal record labels. The
- * atmosphere is intentionally generic space-age service design — never a
- * reference to a game, film, manufacturer, or government identity.
+ * A literal page title paired with a useful station-status surface. It is not
+ * a hero illustration: inherited bench/fixture cues and newer scan/record
+ * cues are carried as small functional fragments instead.
  */
+import BenchUnit from "./BenchUnit.astro";
+
 interface Props {
   eyebrow: string;
   title: string;
@@ -14,6 +15,7 @@ interface Props {
   file?: string;
   signal?: string;
   compact?: boolean;
+  unit?: boolean;
 }
 
 const {
@@ -23,37 +25,43 @@ const {
   file = "OCP3D FIELD FILE",
   signal = "MEASURE · MODEL · PRINT",
   compact = false,
+  unit = false,
 } = Astro.props;
 ---
-<header class:list={["service-heading", { "is-compact": compact }]}>
+<header class:list={["service-heading", { "is-compact": compact, "has-unit": unit }]}>
   <div class="heading-copy">
     <p class="eyebrow heading-kicker">{eyebrow}</p>
     <h1>{title}</h1>
     {lede && <p class="lead heading-lede">{lede}</p>}
   </div>
 
-  <div class="instrument" aria-hidden="true">
-    <span class="orbit orbit--outer"></span>
-    <span class="orbit orbit--inner"></span>
-    <span class="orbit-dot orbit-dot--signal"></span>
-    <span class="orbit-dot orbit-dot--ion"></span>
-    <span class="course course--one"></span>
-    <span class="course course--two"></span>
-    <span class="course course--three"></span>
-    <div class="instrument-readout">
-      <span>{file}</span>
-      <b>{signal}</b>
-    </div>
-  </div>
+  <aside class="station-status" aria-label="Station status">
+    <p class="status-kicker">STATION CONDITION / 07</p>
+    <p class="status-title">RETROFIT<br />RECORD READY</p>
+    <dl>
+      <div><dt>OLD LAYER</dt><dd>fixture / bench</dd></div>
+      <div><dt>NEW LAYER</dt><dd>scan / record</dd></div>
+      <div><dt>FILE</dt><dd>{file}</dd></div>
+    </dl>
+    {unit && (
+      <div class="unit-row">
+        <BenchUnit size={54} />
+        <span><b>BENCH UNIT / DOCKED</b><em>PHYSICAL SCAN ASSIST</em></span>
+      </div>
+    )}
+    <p class="status-signal">{signal}</p>
+  </aside>
 </header>
 
 <style>
   .service-heading {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(250px, 34%);
+    grid-template-columns: minmax(0, 1fr) minmax(264px, 31%);
     min-height: 238px;
     border: var(--bd-inner) solid var(--rule-2);
-    background: linear-gradient(112deg, color-mix(in srgb, var(--ground-deep) 96%, #000) 0%, var(--ground) 62%);
+    background:
+      repeating-linear-gradient(-9deg, transparent 0 5px, rgba(41,37,44,.04) 5px 6px),
+      linear-gradient(120deg, var(--ground) 0 57%, var(--ground-deep) 57% 72%, color-mix(in srgb, var(--signal) 46%, var(--ground-deep)) 72%);
     overflow: hidden;
   }
   .heading-copy {
@@ -63,74 +71,43 @@ const {
     justify-content: center;
     padding: 36px 40px;
   }
-  .heading-kicker { color: var(--ion); margin-bottom: 14px; }
+  .heading-kicker { color: var(--signal); margin-bottom: 14px; }
   h1 { max-width: 13ch; }
-  .heading-lede { max-width: 62ch; margin-top: 17px; }
+  .heading-lede { max-width: 62ch; margin-top: 17px; color: var(--body); }
 
-  .instrument {
-    position: relative;
-    min-height: 100%;
-    overflow: hidden;
-    border-left: var(--bd-inner) solid var(--rule);
-    background:
-      linear-gradient(color-mix(in srgb, var(--rule-3) 88%, transparent) 1px, transparent 1px),
-      linear-gradient(90deg, color-mix(in srgb, var(--rule-3) 88%, transparent) 1px, transparent 1px),
-      radial-gradient(circle at 71% 27%, color-mix(in srgb, var(--ion) 17%, transparent) 0 2px, transparent 2.6px),
-      radial-gradient(circle at 16% 80%, color-mix(in srgb, var(--signal) 18%, transparent) 0 1px, transparent 1.7px),
-      linear-gradient(145deg, #18334A 0%, var(--ground-deep) 58%, #101F31 100%);
-    background-size: 24px 24px, 24px 24px, auto, auto, auto;
+  .station-status {
+    align-self: center;
+    justify-self: end;
+    width: min(100%, 285px);
+    margin: 28px;
+    padding: 16px 17px;
+    border: var(--bd-inner) solid color-mix(in srgb, var(--desert-dusk) 76%, var(--signal));
+    border-top: 4px solid var(--ion-light);
+    background: color-mix(in srgb, var(--desert-night) 95%, #000);
+    color: var(--inv-body);
+    box-shadow: 7px 7px 0 color-mix(in srgb, var(--signal) 68%, transparent);
   }
-  .instrument::before,
-  .instrument::after {
-    content: "";
-    position: absolute;
-    left: -16%;
-    right: -16%;
-    border-top: 1px dashed color-mix(in srgb, var(--signal) 66%, transparent);
-  }
-  .instrument::before { top: 31%; transform: rotate(-13deg); }
-  .instrument::after { top: 61%; transform: rotate(13deg); border-color: color-mix(in srgb, var(--ion) 55%, transparent); }
-  .orbit { position: absolute; display: block; border: 1px solid color-mix(in srgb, var(--paper) 70%, transparent); border-radius: 50%; }
-  .orbit--outer { width: 210px; height: 210px; top: 17px; left: 50%; transform: translateX(-50%) rotate(-24deg); border-radius: 50% / 37%; }
-  .orbit--inner { width: 132px; height: 132px; top: 55px; left: 50%; transform: translateX(-50%) rotate(38deg); border-color: color-mix(in srgb, var(--ion) 68%, transparent); border-radius: 50% / 37%; }
-  .orbit-dot { position: absolute; width: 9px; height: 9px; border-radius: 50%; box-shadow: 0 0 0 5px color-mix(in srgb, currentColor 11%, transparent); }
-  .orbit-dot--signal { top: 47px; left: calc(50% + 68px); background: var(--signal); color: var(--signal); }
-  .orbit-dot--ion { top: 168px; left: calc(50% - 70px); background: var(--ion); color: var(--ion); }
-  .course { position: absolute; right: 28px; height: 1px; background: var(--paper); }
-  .course--one { bottom: 66px; left: 28px; opacity: .84; }
-  .course--two { bottom: 57px; left: 45px; opacity: .6; }
-  .course--three { bottom: 48px; left: 61px; opacity: .38; }
-  .instrument-readout {
-    position: absolute;
-    right: 17px;
-    bottom: 16px;
-    left: 17px;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    padding-top: 9px;
-    border-top: var(--bd-inner) solid var(--rule-2);
-    font-family: var(--font-mono);
-    font-size: var(--t-micro);
-    line-height: 1.45;
-    letter-spacing: var(--t-micro-tr);
-    text-transform: uppercase;
-  }
-  .instrument-readout span { color: var(--steel); }
-  .instrument-readout b { color: var(--paper); font-weight: 600; }
+  .status-kicker { color: var(--ion-light); font-size: var(--t-micro); letter-spacing: var(--t-micro-tr); }
+  .status-title { margin: 9px 0 13px; color: var(--ink); font-family: var(--font-display); font-size: 27px; line-height: .92; text-transform: uppercase; }
+  dl { margin: 0; }
+  dl > div { display: flex; justify-content: space-between; gap: 10px; padding: 7px 0; border-top: 1px solid color-mix(in srgb, var(--inv-label) 35%, transparent); }
+  dt, dd { margin: 0; font-size: 8px; letter-spacing: .08em; }
+  dt { color: var(--acid); }
+  dd { max-width: 58%; color: var(--inv-body); text-align: right; text-transform: uppercase; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .unit-row { display: flex; align-items: center; gap: 10px; padding-top: 10px; margin-top: 8px; border-top: 1px solid color-mix(in srgb, var(--inv-label) 35%, transparent); }
+  .unit-row span { display: grid; gap: 2px; font-size: 7px; line-height: 1.4; letter-spacing: .06em; }
+  .unit-row b { color: var(--acid); font-weight: 400; }
+  .unit-row em { color: var(--signal); font-style: normal; }
+  .status-signal { margin: 11px 0 0; padding-top: 9px; border-top: 1px solid color-mix(in srgb, var(--inv-label) 35%, transparent); color: var(--inv-label); font-size: 7px; line-height: 1.45; letter-spacing: .08em; text-transform: uppercase; }
 
   .is-compact { min-height: 184px; }
   .is-compact .heading-copy { padding-block: 27px; }
-  .is-compact .orbit--outer { transform: translateX(-50%) rotate(-24deg) scale(.78); top: -6px; }
-  .is-compact .orbit--inner { transform: translateX(-50%) rotate(38deg) scale(.78); top: 25px; }
-  .is-compact .orbit-dot--signal { top: 21px; left: calc(50% + 51px); }
-  .is-compact .orbit-dot--ion { top: 116px; left: calc(50% - 56px); }
+  .is-compact .station-status { margin-block: 18px; }
+  .is-compact .status-title { font-size: 22px; }
 
   @media (max-width: 720px) {
     .service-heading { grid-template-columns: 1fr; }
     .heading-copy { padding: 30px 24px; }
-    .instrument { min-height: 164px; border-top: var(--bd-inner) solid var(--rule); border-left: 0; }
-    .orbit--outer { top: -22px; }
-    .orbit--inner { top: 17px; }
+    .station-status { justify-self: stretch; width: auto; margin: 0 24px 24px; }
   }
 </style>

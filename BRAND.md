@@ -6,8 +6,9 @@ not a nostalgia prop: it is an old-car problem with a physical path forward.
 
 ## The promise
 
-1. **Keep the car running.** Start from an original or a measured interface, state what is known,
-   and make the next useful version. OCP3D covers faithful reproductions and original adaptors.
+1. **Start with the interface.** Begin at an original or a measured mating surface, state what is
+   known, and make the next useful version. OCP3D covers faithful reproductions and original
+   adaptors.
 2. **Make the evidence visible.** Dimensions are published free. Draft, measured, and real-car fit
    statuses are distinct. A render is not a fit test.
 3. **Keep the owner private.** No trackers, analytics, advertising pixels, or third-party scripts.
@@ -18,33 +19,41 @@ not a nostalgia prop: it is an old-car problem with a physical path forward.
 - Expand **OCP3D — Old Car Problems** on first encounter. The acronym is memorable only after the
   customer understands what it solves.
 - Plain language leads: *3D-printed parts and engineering for old car problems.*
-- Direct, capable, and a little cosmic. The world can say *field file*, *service bay*, *signal*,
-  and *orbit*; claims about measurement, fit, material, safety, or availability stay literal.
+- Direct, capable, and grounded in a useful workshop. The world can say *field file*, *station*,
+  *bay*, *trace*, and *signal*; claims about measurement, fit, material, safety, or availability
+  stay literal.
 - Never romanticise a broken car, mock an owner, or imply that every old-car problem is printable.
 - The customer buys a part path, not a fiction. Data and safety copy receive no jokes.
 
-## Visual world — “Orbital Service”
+## Visual world — “High Desert Retrofit”
 
-An **original retrofuturist vehicle-service world**: space-age optimism, night-sky workshop,
-moon-paper records, analog instruments, additive layer courses, and an old vehicle kept useful in
-a future that otherwise forgot it.
+An **original retrofuturist service world of layered time**: a sun-faded roadside workshop where
+inherited tool banks, benches, lifts, and fixtures are still useful because precise newer scan,
+record, and additive tools have been bolted into the same practical environment.
 
-- **Not Fallout.** Fallout is an internal mood shorthand for “futuristic old world,” never a visual
-  source. Do not use Vault/Pip-Boy-like marks, poses, colour treatment, typography, characters,
-  dialogue, names, or other identifiable trade dress.
-- The palette lives in `src/styles/tokens.css`: midnight service sky, moon-paper, signal orange,
-  and ion green. Components consume tokens only.
-- **The mark** is original: a vintage-car silhouette travels inside an orbital ring, over three
-  additive layer courses. `Insignia.astro` and `public/favicon.svg` own it.
+- This can carry a restrained cyberpunk/postwar-retrofuture mood—dusk, hard signal colour,
+  material wear, and changing infrastructure—but it is **not an imitation of any game or film**.
+  Never reuse protected marks, type, UI, names, characters, assets, poses, dialogue, colour
+  treatment, or recognizable trade dress.
+- The palette lives in `src/styles/tokens.css`: dusk exterior, sun-faded working sheet, sand panel,
+  rust signal, scan teal, and acid new-tool light. Components consume tokens only.
+- **No generic car hero art.** Vehicles appear only as genuine fitment context, donor/customer
+  evidence, or appropriately labelled real/render imagery. Part renders remain neutral resin; do
+  not invent photos or make marketing imagery look like proof.
+- **The mark** is original: a service rail, docked fixture head, and additive layer courses.
+  `Insignia.astro` and `public/favicon.svg` own it. It intentionally avoids a decorative car
+  silhouette.
 - **The lockup** is mark + `OCP3D` + `OLD CAR PROBLEMS`. Keep the expansion visible in major first
   encounters; never isolate a logo-like mark from the brand without need.
-- Field-manual furniture — rules, file labels, service notes, star/orbit coordinates — adds
-  atmosphere. It must never make a request, safety boundary, status, or measurement harder to read.
+- Workshop language is distributed as small functional fragments: tool-bank cues in inventory,
+  scan-rail/fixture cues at measurement records, and field-reader cues in intake/progress states.
+  Do not restore a full illustrative scene merely to make the theme obvious.
+- A single **docked, non-humanoid bench unit** may appear where it supports physical scan/record
+  work. It is not a mascot, chatbot, AI product, humanoid, autonomous system, or product claim.
 - Every non-home public route opens with `ServiceHeading.astro`: a clear literal title paired with
-  an original orbital-instrument panel and a file/signal readout. Use it rather than inventing a
-  one-off page masthead, so the archive, intake, fit lab, mission, confirmations, and styleguide
-  remain one coherent service system.
-- Part renders remain neutral resin. Do not invent photos or make marketing imagery look like proof.
+  a station-status surface and file/signal readout. Use it rather than inventing a one-off page
+  masthead, so the archive, intake, fit lab, mission, confirmations, and styleguide remain one
+  coherent service system.
 
 ## Things with fixed meaning
 
