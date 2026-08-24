@@ -6,3 +6,10 @@ dist/
 
 # Local MCP config (points at the Supabase project; repo is public, Wilma does not need it)
 .mcp.json
+
+# Design study boards. They live in public/, which Astro copies verbatim into the deploy —
+# so committing them publishes nine internal boards at /mockups/ AND makes the live site
+# load webfonts from Google, which the independence pillar specifically rules out. They have
+# been kept local-only across every identity session; this makes that deliberate rather than
+# lucky. BRAND.md cites them by path for whoever has the repo.
+public/mockups/

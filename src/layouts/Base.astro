@@ -1,6 +1,6 @@
 ---
 import "../styles/global.css";
-import Crest from "../components/Crest.astro";
+import Mark from "../components/Mark.astro";
 interface Props { title: string; description?: string }
 const { title, description = "The Ministry of Discontinued Parts: reproduction parts for classic cars — measured from originals, made to order, fitted on real cars." } = Astro.props;
 ---
@@ -12,12 +12,15 @@ const { title, description = "The Ministry of Discontinued Parts: reproduction p
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <!-- The Ministry's slab, self-hosted (see public/fonts/README.md — NOT a CDN, on purpose).
+         Preloaded because the wordmark and every heading above the fold are set in it. -->
+    <link rel="preload" href="/fonts/bitter-var-latin.woff2" as="font" type="font/woff2" crossorigin />
   </head>
   <body>
     <header class="site">
       <div class="wrap bar">
         <a class="markrow" href="/">
-          <span class="mini-crest"><Crest size={34} /></span>
+          <span class="mini-crest"><Mark size={30} /></span>
           <span class="wordmark">MINISTRY OF <b>DISCONTINUED PARTS</b></span>
         </a>
         <nav class="main" aria-label="Primary">
@@ -26,7 +29,7 @@ const { title, description = "The Ministry of Discontinued Parts: reproduction p
           <a href="/method/">How We Verify Fit</a>
           <a href="/about/">About</a>
         </nav>
-        <a class="member-cta" href="/#society">Join Free</a>
+        <a class="member-cta" href="/#register">Join Free</a>
       </div>
     </header>
 
