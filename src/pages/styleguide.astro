@@ -4,7 +4,7 @@
 // Edit that file, reload this page, and you see exactly what changed, everywhere.
 import Base from "../layouts/Base.astro";
 import Stamp from "../components/Stamp.astro";
-import Crest from "../components/Crest.astro";
+import Mark from "../components/Mark.astro";
 
 const paints = [
   ["--paint-mexico", "Mexico Blue · Porsche '70s — ACTION: buttons, CTAs"],
@@ -36,7 +36,7 @@ const status = [
       <p class="lede">
         Every value on this page comes from <code>src/styles/tokens.css</code> — the single
         source of truth for color, type, and spacing. Edit tokens there; this page (and the whole
-        site) follows. Brand rationale lives in <code>docs/brand-lost-clip-society.md</code>.
+        site) follows. Brand rationale lives in <code>BRAND.md</code>.
       </p>
 
       <h2>The paint chart — real pre-1990 paints, one job each</h2>
@@ -87,7 +87,7 @@ const status = [
         <a class="btn ghost" href="#">Ghost action</a>
         <span class="eyebrow">Eyebrow label</span>
       </div>
-      <div class="comp-row"><Crest size={140} /></div>
+      <div class="comp-row"><Mark size={92} /></div>
 
       <h2>Voice cheat-sheet (from the brand book)</h2>
       <ul class="voice">

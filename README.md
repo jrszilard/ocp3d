@@ -1,7 +1,10 @@
-# lostclipsociety.com
+# Ministry of Discontinued Parts
 
-The website for **The Lost Clip Society** — reproduction interior parts for classic cars,
-measured from surviving originals and fitted on real cars.
+The website for the **Ministry of Discontinued Parts** — reproduction interior parts for
+classic cars, measured from surviving originals and fitted on real cars.
+
+Hosted at **lostclipsociety.com**, the address the first case was opened under; the verified
+case mailbox lives on that domain, so it stays.
 
 Static [Astro](https://astro.build) site. Part pages are generated from the committed catalog
 snapshot at `src/data/parts.json` — the site builds anywhere with no other dependencies.
