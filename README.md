@@ -4,7 +4,7 @@ OCP3D measures, engineers, and 3D-prints difficult-to-find parts for cars worth 
 Discontinued reproductions and original interface solutions both begin as an old-car problem,
 then earn their evidence one measurement and real-car test at a time.
 
-Production: **https://ocp3d.com**. Legacy web domains redirect here. The existing verified case
+Production: **https://ocp3d.com**. Legacy web domains 308-redirect here. The existing verified case
 mailbox remains `requests@lostclipsociety.com` until a separately verified mail migration.
 
 Static [Astro](https://astro.build) site. Part pages are generated from the committed catalog
