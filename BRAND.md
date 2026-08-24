@@ -40,6 +40,9 @@ a future that otherwise forgot it.
   encounters; never isolate a logo-like mark from the brand without need.
 - Field-manual furniture — rules, file labels, service notes, star/orbit coordinates — adds
   atmosphere. It must never make a request, safety boundary, status, or measurement harder to read.
+- **Mechanical helper motif:** `WorkshopHelper.astro` is a small mid-century wheeled service-cart /
+  assembly-rover with a carrying arm. Use it as an occasional field-panel detail, never as a mascot
+  or primary mark. It has no face, chat, humanoid body, AI claim, or autonomous-vehicle implication.
 - Every non-home public route opens with `ServiceHeading.astro`: a clear literal title paired with
   an original orbital-instrument panel and a file/signal readout. Use it rather than inventing a
   one-off page masthead, so the archive, intake, fit lab, mission, confirmations, and styleguide
