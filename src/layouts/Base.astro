@@ -58,7 +58,9 @@ const canonical = `https://ocp3d.com${Astro.url.pathname}`;
           </nav>
         </header>
 
-        <slot />
+        <main id="main-content">
+          <slot />
+        </main>
 
         <footer class="title-block">
           <div><span class="micro">SERVICE BAY</span><span class="val">OCP3D FIELD WORKS</span></div>
@@ -80,7 +82,9 @@ const canonical = `https://ocp3d.com${Astro.url.pathname}`;
   .sheet {
     border: var(--bd-sheet) solid color-mix(in srgb, var(--paper) 70%, var(--ion));
     background: color-mix(in srgb, var(--ground) 91%, #000);
+    overflow: hidden;
   }
+  main { min-width: 0; }
   .zone { position: absolute; display: flex; color: color-mix(in srgb, var(--ion) 70%, var(--steel)); font-family: var(--font-mono); font-size: var(--t-zone); }
   .zone-rows { top: var(--sheet-pad); bottom: var(--sheet-pad); width: var(--sheet-pad); flex-direction: column; justify-content: space-around; align-items: center; }
   .zone-left { left: 0; } .zone-right { right: 0; }

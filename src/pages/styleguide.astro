@@ -2,9 +2,9 @@
 import Base from "../layouts/Base.astro";
 import Insignia from "../components/Insignia.astro";
 import Lockup from "../components/Lockup.astro";
+import ServiceHeading from "../components/ServiceHeading.astro";
 
-// Wilma: everything on this page is rendered FROM the tokens in
-// src/styles/tokens.css. If a swatch here is wrong, the token is wrong.
+// Every swatch is rendered FROM tokens.css. If a value here is wrong, update the token.
 const colours = [
   ["--ground", "page background — midnight service sky"],
   ["--ground-deep", "recessed panels, hero pane, inputs"],
@@ -35,108 +35,90 @@ const type = [
 ];
 ---
 <Base title="Styleguide — OCP3D" sheet="STYLEGUIDE · OCP3D">
-  <section class="section">
-    <p class="eyebrow">OCP3D FIELD REFERENCE — THE DESIGN SYSTEM</p>
-    <h1>Orbital service.</h1>
-    <p class="lead sg-lead">
-      Every value on this page comes from <code>src/styles/tokens.css</code> — the single source
-      of truth. Components consume tokens and never hard-code a colour or a size. The world is
-      original retrofuturist vehicle service: night sky, moon-paper records, analog machinery,
-      signal orange, and cool ion light.
-    </p>
-  </section>
+  <section class="styleguide-page">
+    <div class="wrap sg-wrap">
+      <ServiceHeading
+        eyebrow="OCP3D FIELD REFERENCE · DESIGN SYSTEM"
+        title="Orbital service."
+        lede="A practical original retrofuturist service world for old vehicles: night sky, moon-paper records, analog machinery, signal orange, and cool ion light."
+        file="STYLEGUIDE · OCP3D"
+        signal="TOKENS · COMPONENTS · RECORDS"
+      />
 
-  <section class="section">
-    <p class="eyebrow">THE LOCKUP — ORBITAL MARK, OCP3D, PLAIN-LANGUAGE EXPANSION.</p>
-    <div class="lockups">
-      <div><Lockup variant="landscape" /><p class="dense cap">Landscape · header, screen</p></div>
-      <div><Lockup variant="portrait" /><p class="dense cap">Portrait · print, stationery</p></div>
-      <div class="avatar-demo">
-        <span class="avatar"><Insignia size={32} knockout="var(--ink)" /></span>
-        <p class="dense cap">Avatar · social, favicon</p>
-      </div>
-    </div>
-    <p class="dense note">
-      Keep the orbital mark, OCP3D acronym, and Old Car Problems expansion together. The mark is
-      original: a vintage-car silhouette, orbital ring, and additive layer courses — never a game,
-      film, manufacturer, or government reference.
-    </p>
-  </section>
-
-  <section class="section">
-    <p class="eyebrow">COLOUR</p>
-    <div class="swatches">
-      {colours.map(([tok, use]) => (
-        <div class="sw">
-          <span class="chip-c" style={`background: var(${tok})`}></span>
-          <code>{tok}</code>
-          <span class="dense">{use}</span>
+      <section class="sg-panel">
+        <p class="eyebrow">THE LOCKUP — ORBITAL MARK, OCP3D, PLAIN-LANGUAGE EXPANSION.</p>
+        <div class="lockups">
+          <div><Lockup variant="landscape" /><p class="dense cap">Landscape · header, screen</p></div>
+          <div><Lockup variant="portrait" /><p class="dense cap">Portrait · print, stationery</p></div>
+          <div class="avatar-demo">
+            <span class="avatar"><Insignia size={32} knockout="var(--ink)" /></span>
+            <p class="dense cap">Avatar · social, favicon</p>
+          </div>
         </div>
-      ))}
-    </div>
-  </section>
+        <p class="dense note">Keep the orbital mark, OCP3D acronym, and Old Car Problems expansion together. The mark is original: a vintage-car silhouette, orbital ring, and additive layer courses — never a game, film, manufacturer, or government reference.</p>
+      </section>
 
-  <section class="section">
-    <p class="eyebrow">TYPE — TWO FAMILIES, SELF-HOSTED</p>
-    <div class="hairline-grid type-grid">
-      {type.map(([role, fam, size, cls]) => (
-        <>
-          <div><span class="eyebrow">{role}</span></div>
-          <div><span class={`sample s-${cls}`}>OCP3D</span></div>
-          <div><span class="dense">{fam}</span></div>
-          <div><span class="dense">{size}</span></div>
-        </>
-      ))}
-    </div>
-    <p class="dense note">
-      Monospace is the body voice of the whole site — resist substituting a proportional face for
-      "readability". Never reduce mono body copy below 12px.
-    </p>
-  </section>
+      <section class="sg-panel">
+        <p class="eyebrow">COLOUR</p>
+        <div class="swatches">
+          {colours.map(([tok, use]) => (
+            <div class="sw">
+              <span class="chip-c" style={`background: var(${tok})`}></span>
+              <code>{tok}</code>
+              <span class="dense">{use}</span>
+            </div>
+          ))}
+        </div>
+      </section>
 
-  <section class="section">
-    <p class="eyebrow">COMPONENTS</p>
-    <div class="comp">
-      <a class="btn btn--primary" href="#">Primary</a>
-      <a class="btn btn--secondary" href="#">Secondary</a>
-      <span class="chip chip--amber">20 DIMS RECORDED</span>
-      <span class="chip chip--solid">MEASURED</span>
+      <section class="sg-panel">
+        <p class="eyebrow">TYPE — TWO FAMILIES, SELF-HOSTED</p>
+        <div class="hairline-grid type-grid">
+          {type.map(([role, fam, size, cls]) => (
+            <><div><span class="eyebrow">{role}</span></div><div><span class={`sample s-${cls}`}>OCP3D</span></div><div><span class="dense">{fam}</span></div><div><span class="dense">{size}</span></div></>
+          ))}
+        </div>
+        <p class="dense note">Monospace is the body voice of the whole site — resist substituting a proportional face for “readability”. Never reduce mono body copy below 12px.</p>
+      </section>
+
+      <section class="sg-panel">
+        <p class="eyebrow">COMPONENTS</p>
+        <div class="comp">
+          <a class="btn btn--primary" href="#components">Primary</a>
+          <a class="btn btn--secondary" href="#components">Secondary</a>
+          <span class="chip chip--amber">20 DIMS RECORDED</span>
+          <span class="chip chip--solid">MEASURED</span>
+        </div>
+        <div id="components" class="ph-demo placeholder"><span>PART VIEW</span><small>the standing placeholder for a photograph that is owed</small></div>
+      </section>
     </div>
-    <div class="ph-demo placeholder"><span>PART VIEW</span><small>the standing placeholder for a photograph that is owed</small></div>
   </section>
 </Base>
 
 <style>
-  .sg-lead { max-width: 640px; }
-  code { font-family: var(--font-mono); font-size: var(--t-dense); color: var(--amber); }
-  .note { color: var(--steel); margin-top: 14px; max-width: 640px; }
+  .styleguide-page { background: linear-gradient(180deg, color-mix(in srgb, var(--ground-deep) 25%, transparent), transparent 30%); }
+  .sg-wrap { display: grid; gap: 18px; }
+  .sg-panel { padding: 24px 28px; border: var(--bd-inner) solid var(--rule); background: var(--panel); }
+  code { font-family: var(--font-mono); font-size: var(--t-dense); color: var(--signal); }
+  .note { color: var(--steel); margin-top: 16px; max-width: 760px; }
   .cap { color: var(--steel); margin-top: 12px; }
-
   .lockups { display: flex; gap: 56px; flex-wrap: wrap; align-items: flex-start; margin-top: 18px; }
   .avatar { display: grid; place-items: center; width: 54px; height: 54px; background: var(--ink); }
-
   .swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; margin-top: 16px; }
   .sw { display: grid; grid-template-columns: 34px 1fr; gap: 4px 12px; align-items: center; }
   .chip-c { width: 34px; height: 34px; border: 1px solid var(--rule); grid-row: span 2; }
   .sw .dense { color: var(--steel); }
-
   .type-grid { grid-template-columns: 130px 1fr 210px 150px; margin-top: 16px; }
   .sample { color: var(--paper); }
   .s-h1 { font-family: var(--font-display); font-size: 40px; text-transform: uppercase; }
   .s-h2 { font-family: var(--font-display); font-size: 28px; text-transform: uppercase; }
   .s-card { font-family: var(--font-display); font-size: var(--h-card); text-transform: uppercase; }
   .s-word { font-family: var(--font-word); font-weight: 600; font-size: 21px; }
-  .s-lead { font-size: var(--t-lead); }
-  .s-sec { font-size: var(--t-section); }
-  .s-dense { font-size: var(--t-dense); }
-  .s-eye { font-size: var(--t-eyebrow); letter-spacing: var(--t-eyebrow-tr); text-transform: uppercase; }
-  .s-spec { font-weight: 600; font-size: var(--t-spec); }
-
+  .s-lead { font-size: var(--t-lead); }.s-sec { font-size: var(--t-section); }.s-dense { font-size: var(--t-dense); }
+  .s-eye { font-size: var(--t-eyebrow); letter-spacing: var(--t-eyebrow-tr); text-transform: uppercase; }.s-spec { font-weight: 600; font-size: var(--t-spec); }
   .comp { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; margin: 16px 0 22px; }
   .chip { font-size: var(--t-eyebrow); letter-spacing: var(--t-eyebrow-tr); text-transform: uppercase; padding: 5px 10px; }
-  .chip--amber { border: 1px solid var(--amber); color: var(--amber); }
-  .chip--solid { background: var(--paper); color: var(--ink); font-weight: 600; }
+  .chip--amber { border: 1px solid var(--signal); color: var(--signal); }.chip--solid { background: var(--paper); color: var(--ink); font-weight: 600; }
   .ph-demo { height: 160px; max-width: 420px; }
-
-  @media (max-width: 720px) { .type-grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 720px) { .sg-panel { padding: 20px; }.type-grid { grid-template-columns: 1fr 1fr; } }
 </style>

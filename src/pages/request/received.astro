@@ -1,20 +1,23 @@
 ---
 import Base from "../../layouts/Base.astro";
+import ServiceHeading from "../../components/ServiceHeading.astro";
 ---
-<Base title="Problem Logged — OCP3D">
-  <section>
-    <div class="wrap narrow">
+<Base title="Problem Logged — OCP3D" sheet="INTAKE · RECEIVED">
+  <section class="receipt-page">
+    <div class="wrap receipt-wrap">
+      <ServiceHeading
+        eyebrow="OCP3D INTAKE · TRANSMISSION RECEIVED"
+        title="Your field file is on the board."
+        lede="The next step is human: we review the evidence, trace the interface, and write back with the useful path forward."
+        file="INTAKE · RECEIVED"
+        signal="LOGGED · QUEUED · HUMAN REVIEW"
+        compact
+      />
       <div class="done">
         <div class="done-stamp">Received</div>
         <p class="done-case">Case № <b id="case-id">on file</b></p>
-        <p id="what">
-          The paper trail starts today. We’ll write from the workshop within a few days —
-          replies to that email go straight to your case file, photos welcome.
-        </p>
-        <p class="done-alt">
-          Nothing after a week? Email <a href="mailto:requests@lostclipsociety.com">requests@lostclipsociety.com</a>
-          and reference your case number.
-        </p>
+        <p id="what">The paper trail starts today. We’ll write from the workshop within a few days — replies to that email go straight to your case file, photos welcome.</p>
+        <p class="done-alt">Nothing after a week? Email <a href="mailto:requests@lostclipsociety.com">requests@lostclipsociety.com</a> and reference your case number.</p>
         <p><a class="btn btn--secondary" href="/registry/">Back to the archive</a></p>
       </div>
     </div>
@@ -30,25 +33,19 @@ import Base from "../../layouts/Base.astro";
     document.getElementById("what").textContent = again
       ? "You were already on the Dispatch — same number, no second entry. OCP3D only signals when a part moves forward."
       : "You’re on the OCP3D Dispatch. It only signals when a part moves forward — never for noise.";
-    document.querySelector(".done-stamp").textContent = again ? "Already a member" : "Member number claimed";
+    document.querySelector(".done-stamp").textContent = again ? "Already on file" : "Dispatch signal set";
   }
 </script>
 
 <style>
-  .narrow { max-width: 640px; }
-  .done {
-    background: var(--panel); color: var(--paper); border: var(--bd-inner) solid var(--rule);
-    box-shadow: none; padding: 30px;
-  }
-  .done-stamp {
-    display: inline-block; font-family: var(--font-mono); font-size: var(--t-dense); font-weight: 700;
-    letter-spacing: var(--t-eyebrow-tr); text-transform: uppercase; color: var(--amber);
-    border: 1px solid var(--amber); border-radius: 0;
-    padding: 6px 10px; transform: rotate(-2deg); margin-bottom: 14px;
-  }
-  .done-case { font-family: var(--font-mono); font-size: 0.95rem; }
+  .receipt-page { min-height: 56vh; background: linear-gradient(180deg, color-mix(in srgb, var(--ground-deep) 30%, transparent), transparent 45%); }
+  .receipt-wrap { display: grid; gap: 18px; }
+  .done { width: min(100%, 760px); margin-inline: auto; background: var(--panel); color: var(--paper); border: var(--bd-inner) solid var(--rule-2); padding: 32px; }
+  .done-stamp { display: inline-block; font-size: var(--t-dense); font-weight: 700; letter-spacing: var(--t-eyebrow-tr); text-transform: uppercase; color: var(--signal); border: 1px solid var(--signal); padding: 6px 10px; transform: rotate(-2deg); margin-bottom: 14px; }
+  .done-case { font-size: .95rem; color: var(--paper); }
   .done p { color: var(--steel); }
-  .done-case { color: var(--paper); }
-  .done-alt { font-family: var(--font-mono); font-size: var(--t-eyebrow); }
-  .done-alt a { color: var(--amber); }
+  .done-alt { font-size: var(--t-eyebrow); }
+  .done-alt a { color: var(--ion); }
+  .done .btn { margin-top: 7px; }
+  @media (max-width: 600px) { .done { padding: 22px; } }
 </style>

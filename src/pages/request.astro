@@ -1,92 +1,96 @@
 ---
 import Base from "../layouts/Base.astro";
+import ServiceHeading from "../components/ServiceHeading.astro";
 ---
-<Base title="Log an Old Car Problem — OCP3D">
-  <section>
-    <div class="wrap narrow">
-      <div class="eyebrow">OCP3D · LOG A PROBLEM</div>
-      <h1>Tell us what your old car needs next.</h1>
-      <p>
-        Give us the car and the part — a part number if you have one, a description and a photo
-        if you do not. We will trace what remains, identify the interface, and tell you what it
-        takes to measure, model, and make the next useful version.
-      </p>
-      <p class="dp1-line">Filed as an <b>OCP3D FIELD FILE</b> — a practical record for a part
-        that is hard to find, discontinued, or has never existed in the form your car needs.</p>
-      <div class="tiers">
-        <div class="tier"><b>You have the old part (even broken)?</b> Best case — we measure it
-          and reproduce it. Mail-in or guided self-measurement.</div>
-        <div class="tier"><b>Part’s still on the car but stuck there?</b> We’ll guide you through
-          in-place photos, a few caliper readings, and — for sockets and holes — a $5 putty
-          impression that captures what matters.</div>
-        <div class="tier"><b>Part’s gone entirely?</b> The interfaces it clipped into are still
-          on your car, and those are what determine fit. Shape comes from records; fit comes
-          from your car. We’ll source a donor if one exists.</div>
+<Base title="Log an Old Car Problem — OCP3D" sheet="INTAKE · FIELD FILE">
+  <section class="request-page">
+    <div class="wrap">
+      <ServiceHeading
+        eyebrow="OCP3D INTAKE · LOG A PROBLEM"
+        title="Tell us what your old car needs next."
+        lede="Give us the car and the part — a part number if you have one, a description and photo if you do not. We trace the interface, state what is known, and map the next useful version."
+        file="INTAKE · FIELD FILE"
+        signal="OBSERVE · TRACE · RESPOND"
+      />
+
+      <div class="case-content">
+        <p class="dp1-line">Filed as an <b>OCP3D FIELD FILE</b> — a practical record for a part
+          that is hard to find, discontinued, or has never existed in the form your car needs.</p>
+        <div class="tiers">
+          <div class="tier"><span class="tier-n">01</span><b>You have the old part (even broken)?</b> Best case — we measure it
+            and reproduce it. Mail-in or guided self-measurement.</div>
+          <div class="tier"><span class="tier-n">02</span><b>Part’s still on the car but stuck there?</b> We’ll guide you through
+            in-place photos, a few caliper readings, and — for sockets and holes — a $5 putty
+            impression that captures what matters.</div>
+          <div class="tier"><span class="tier-n">03</span><b>Part’s gone entirely?</b> The interfaces it clipped into are still
+            on your car, and those are what determine fit. Shape comes from records; fit comes
+            from your car. We’ll source a donor if one exists.</div>
+        </div>
+
+        <form id="case-form" class="case-file" method="post" action="/api/request">
+          <div class="cf-head">
+            <span class="cf-title">New case file</span>
+            <span class="cf-no">OCP3D FIELD FILE · 3D</span>
+          </div>
+          <input type="hidden" name="type" value="request" />
+          <input type="hidden" name="part_slug" value="" />
+          <!-- honeypot: invisible to people, irresistible to bots -->
+          <input type="text" name="company" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
+
+          <div class="grid">
+            <label>Your name
+              <input type="text" name="name" required autocomplete="name" />
+            </label>
+            <label>Email
+              <input type="email" name="email" required autocomplete="email" placeholder="you@garage.example" />
+            </label>
+            <label>The car
+              <input type="text" name="vehicle" required placeholder="1984 Toyota Celica Supra" />
+            </label>
+            <label>The part
+              <input type="text" name="part" required placeholder="Sun visor clip, driver side" />
+            </label>
+            <label>OEM part № <span class="opt">if you have it</span>
+              <input type="text" name="oem" placeholder="e.g. 58908-14010" />
+            </label>
+            <label>Where is the part now?
+              <select name="situation">
+                <option value="have-part">I have the old part (even broken)</option>
+                <option value="on-car">It’s on the car, and it’s staying there</option>
+                <option value="gone">Gone entirely</option>
+                <option value="" selected>Not sure / it’s complicated</option>
+              </select>
+            </label>
+          </div>
+          <label class="full">Anything else
+            <textarea name="message" rows="4" placeholder="Cracked where? Brittle how? Photos help — send them after you submit and we’ll match them to your case."></textarea>
+          </label>
+
+          <div class="cf-foot">
+            <button class="btn btn--primary" type="submit">Log this problem</button>
+            <span class="cap">We write back within a few days, with the paper trail. Never spam.</span>
+          </div>
+          <p class="form-error" id="form-error" hidden></p>
+        </form>
+
+        <div class="done" id="case-done" hidden>
+          <div class="done-stamp">Case opened</div>
+          <p class="done-case">Case № <b id="case-id">—</b></p>
+          <p>
+            The paper trail starts today. We’ll write from the workshop within a few days —
+            replies to that email go straight to your case file, photos welcome.
+          </p>
+          <p class="done-alt">
+            Nothing after a week? Email <a href="mailto:requests@lostclipsociety.com">requests@lostclipsociety.com</a>
+            and reference your case number.
+          </p>
+        </div>
+
+        <noscript>
+          <p class="note">Submitting without JavaScript sends the same form — you’ll land on a
+          confirmation page, or your mail app will open with everything pre-filled.</p>
+        </noscript>
       </div>
-
-      <form id="case-form" class="case-file" method="post" action="/api/request">
-        <div class="cf-head">
-          <span class="cf-title">New case file</span>
-          <span class="cf-no">OCP3D FIELD FILE · 3D</span>
-        </div>
-        <input type="hidden" name="type" value="request" />
-        <input type="hidden" name="part_slug" value="" />
-        <!-- honeypot: invisible to people, irresistible to bots -->
-        <input type="text" name="company" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
-
-        <div class="grid">
-          <label>Your name
-            <input type="text" name="name" required autocomplete="name" />
-          </label>
-          <label>Email
-            <input type="email" name="email" required autocomplete="email" placeholder="you@garage.example" />
-          </label>
-          <label>The car
-            <input type="text" name="vehicle" required placeholder="1984 Toyota Celica Supra" />
-          </label>
-          <label>The part
-            <input type="text" name="part" required placeholder="Sun visor clip, driver side" />
-          </label>
-          <label>OEM part № <span class="opt">if you have it</span>
-            <input type="text" name="oem" placeholder="e.g. 58908-14010" />
-          </label>
-          <label>Where is the part now?
-            <select name="situation">
-              <option value="have-part">I have the old part (even broken)</option>
-              <option value="on-car">It’s on the car, and it’s staying there</option>
-              <option value="gone">Gone entirely</option>
-              <option value="" selected>Not sure / it’s complicated</option>
-            </select>
-          </label>
-        </div>
-        <label class="full">Anything else
-          <textarea name="message" rows="4" placeholder="Cracked where? Brittle how? Photos help — send them after you submit and we’ll match them to your case."></textarea>
-        </label>
-
-        <div class="cf-foot">
-          <button class="btn btn--primary" type="submit">Log this problem</button>
-          <span class="cap">We write back within a few days, with the paper trail. Never spam.</span>
-        </div>
-        <p class="form-error" id="form-error" hidden></p>
-      </form>
-
-      <div class="done" id="case-done" hidden>
-        <div class="done-stamp">Case opened</div>
-        <p class="done-case">Case № <b id="case-id">—</b></p>
-        <p>
-          The paper trail starts today. We’ll write from the workshop within a few days —
-          replies to that email go straight to your case file, photos welcome.
-        </p>
-        <p class="done-alt">
-          Nothing after a week? Email <a href="mailto:requests@lostclipsociety.com">requests@lostclipsociety.com</a>
-          and reference your case number.
-        </p>
-      </div>
-
-      <noscript>
-        <p class="note">Submitting without JavaScript sends the same form — you’ll land on a
-        confirmation page, or your mail app will open with everything pre-filled.</p>
-      </noscript>
     </div>
   </section>
 </Base>
@@ -150,68 +154,42 @@ import Base from "../layouts/Base.astro";
 </script>
 
 <style>
-  .narrow { max-width: 720px; }
-  h1 { font-size: 2rem; margin: 8px 0 20px; }
-  p { color: var(--steel); }
-  .dp1-line {
-    font-family: var(--font-mono); font-size: var(--t-eyebrow); color: var(--steel);
-    letter-spacing: 0.04em; max-width: 60ch; margin-top: 8px;
-  }
-  .dp1-line b { color: var(--amber); }
-  .tiers { display: grid; gap: 14px; margin: 20px 0 30px; }
+  .request-page { background: linear-gradient(180deg, color-mix(in srgb, var(--ground-deep) 28%, transparent), transparent 35%); }
+  .request-page .wrap { display: grid; gap: 18px; }
+  .case-content { width: min(100%, 900px); margin-inline: auto; }
+  .dp1-line { color: var(--steel); font-size: var(--t-dense); letter-spacing: .04em; max-width: 70ch; }
+  .dp1-line b { color: var(--signal); }
+  .tiers { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin: 20px 0 24px; }
   .tier {
-    background: var(--ground-deep); border: var(--bd-inner) solid var(--rule);
-    padding: 20px; font-size: 0.9rem; color: var(--steel);
+    position: relative; min-height: 166px; background: var(--ground-deep); border: var(--bd-inner) solid var(--rule);
+    padding: 43px 18px 18px; font-size: var(--t-dense); color: var(--steel); line-height: var(--t-section-lh);
   }
-  .tier b { color: var(--paper); display: block; margin-bottom: 4px; font-family: var(--font-display); }
+  .tier-n { position: absolute; top: 14px; left: 18px; font-size: var(--t-micro); letter-spacing: var(--t-micro-tr); color: var(--ion); }
+  .tier b { color: var(--paper); display: block; margin-bottom: 7px; font-family: var(--font-display); font-size: var(--h-step); text-transform: uppercase; }
 
-  /* The intake form is a paper case file: bright panel, mono field labels. */
-  .case-file {
-    background: var(--panel); color: var(--paper);
-    border: var(--bd-inner) solid var(--rule);
-    box-shadow: none; padding: 30px;
-  }
-  .cf-head {
-    display: flex; justify-content: space-between; align-items: baseline; gap: 14px;
-    border-bottom: 2px solid var(--amber); padding-bottom: 10px; margin-bottom: 20px;
-  }
-  .cf-title { font-family: var(--font-display); font-size: 1.05rem; }
-  .cf-no { font-family: var(--font-mono); font-size: var(--t-eyebrow); color: var(--amber); font-weight: 700; letter-spacing: var(--t-eyebrow-tr); }
+  .case-file { background: var(--panel); color: var(--paper); border: var(--bd-inner) solid var(--rule-2); padding: 30px; }
+  .cf-head { display: flex; justify-content: space-between; align-items: baseline; gap: 14px; border-bottom: 2px solid var(--signal); padding-bottom: 11px; margin-bottom: 22px; }
+  .cf-title { font-family: var(--font-display); font-size: 20px; text-transform: uppercase; }
+  .cf-no { font-size: var(--t-eyebrow); color: var(--signal); font-weight: 700; letter-spacing: var(--t-eyebrow-tr); }
   .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
-
-  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 20px; }
-  @media (max-width: 640px) { .grid { grid-template-columns: 1fr; } }
-  label {
-    display: grid; gap: 6px; font-family: var(--font-mono); font-size: var(--t-eyebrow);
-    letter-spacing: var(--t-eyebrow-tr); text-transform: uppercase; color: var(--steel);
-  }
-  label .opt { text-transform: none; letter-spacing: 0.02em; opacity: 0.75; }
-  input, select, textarea {
-    font-family: var(--font-mono); font-size: 0.85rem; padding: 11px 12px;
-    background: var(--ground-deep); border: var(--bd-inner) solid var(--rule); color: var(--paper);
-    letter-spacing: normal; text-transform: none; width: 100%; box-sizing: border-box;
-  }
-  input:focus, select:focus, textarea:focus { outline: 2px solid var(--amber); outline-offset: 1px; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px 20px; }
+  label { display: grid; gap: 7px; font-size: var(--t-eyebrow); letter-spacing: var(--t-eyebrow-tr); text-transform: uppercase; color: var(--steel); }
+  label .opt { text-transform: none; letter-spacing: .02em; opacity: .75; }
+  input, select, textarea { font: inherit; font-size: .85rem; padding: 12px; background: var(--ground-deep); border: var(--bd-inner) solid var(--rule); color: var(--paper); letter-spacing: normal; text-transform: none; width: 100%; }
+  input:focus, select:focus, textarea:focus { outline: 2px solid var(--ion); outline-offset: 1px; }
   .full { margin-top: 20px; }
   textarea { resize: vertical; }
-
   .cf-foot { display: flex; align-items: center; gap: 14px; margin-top: 20px; flex-wrap: wrap; }
-  .cap { font-family: var(--font-mono); font-size: var(--t-eyebrow); color: var(--steel); max-width: 40ch; }
-  .form-error { color: var(--steel); font-family: var(--font-mono); font-size: var(--t-dense); margin: 14px 0 0; }
+  .cap { font-size: var(--t-eyebrow); color: var(--steel); max-width: 40ch; }
+  .form-error { color: var(--signal); font-size: var(--t-dense); margin: 14px 0 0; }
 
-  .done {
-    background: var(--panel); color: var(--paper); border: var(--bd-inner) solid var(--rule);
-    box-shadow: none; padding: 30px; text-align: left;
-  }
-  .done-stamp {
-    display: inline-block; font-family: var(--font-mono); font-size: var(--t-dense); font-weight: 700;
-    letter-spacing: var(--t-eyebrow-tr); text-transform: uppercase; color: var(--amber);
-    border: 1px solid var(--amber); border-radius: 0;
-    padding: 6px 10px; transform: rotate(-2deg); margin-bottom: 14px;
-  }
-  .done-case { font-family: var(--font-mono); font-size: 0.95rem; color: var(--paper); }
+  .done { background: var(--panel); color: var(--paper); border: var(--bd-inner) solid var(--rule-2); padding: 30px; }
+  .done-stamp { display: inline-block; font-size: var(--t-dense); font-weight: 700; letter-spacing: var(--t-eyebrow-tr); text-transform: uppercase; color: var(--signal); border: 1px solid var(--signal); padding: 6px 10px; transform: rotate(-2deg); margin-bottom: 14px; }
+  .done-case { font-size: .95rem; color: var(--paper); }
   .done p { color: var(--steel); }
-  .done-alt { font-family: var(--font-mono); font-size: var(--t-eyebrow); }
-  .done-alt a { color: var(--amber); }
-  .note a { color: var(--amber); }
+  .done-alt { font-size: var(--t-eyebrow); }
+  .done-alt a, .note a { color: var(--ion); }
+
+  @media (max-width: 760px) { .tiers { grid-template-columns: 1fr; } .tier { min-height: auto; } }
+  @media (max-width: 600px) { .case-file { padding: 20px; } .grid { grid-template-columns: 1fr; } .cf-head { align-items: flex-start; flex-direction: column; } }
 </style>

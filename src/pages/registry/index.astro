@@ -1,46 +1,56 @@
 ---
 import Base from "../../layouts/Base.astro";
 import RegisterCard from "../../components/RegisterCard.astro";
+import ServiceHeading from "../../components/ServiceHeading.astro";
 import { allParts } from "../../lib/catalog";
 const parts = allParts();
 ---
 <Base title="Parts Archive — OCP3D · Old Car Problems"
       sheet={`ARCHIVE · ${parts.length} FILES`}>
-  <section class="section">
-    <p class="index-head">
-      <span class="eyebrow">OCP3D FIELD INDEX — PARTS ARCHIVE</span>
-      <a class="all-sheets" href="/request/">Missing something? Log a problem →</a>
-    </p>
-    <h1>The parts archive.</h1>
-    <p class="lead reg-lead">
-      Every part we know about, whatever its state — from freshly requested to fitted on a real
-      car. Files stay here; the evidence changes as the work happens.
-    </p>
+  <section class="archive-page">
+    <div class="wrap archive-wrap">
+      <ServiceHeading
+        eyebrow="OCP3D FIELD INDEX · PARTS ARCHIVE"
+        title="The parts archive."
+        lede="Every part we know about, whatever its state — from freshly requested to fitted on a real car. The file stays visible; the evidence changes as the work happens."
+        file={`ARCHIVE · ${parts.length} FILES`}
+        signal="SEARCH · FILTER · TRACE"
+      />
 
-    <div class="tools">
-      <input id="q" type="search" enterkeyhint="search"
-             placeholder="SEARCH — PART NAME, OEM №, KEYWORD…"
-             aria-label="Search the parts archive" autocomplete="off" spellcheck="false" />
-      <div class="filters" role="group" aria-label="Filter by state">
-        <button type="button" class="chip on" data-state="">All</button>
-        <button type="button" class="chip" data-state="measured">Measured</button>
-        <button type="button" class="chip" data-state="development">In development</button>
-        <button type="button" class="chip" data-state="requested">Requested</button>
+      <div class="archive-tools">
+        <div class="tools-head">
+          <p class="eyebrow">ARCHIVE CONSOLE</p>
+          <a class="all-sheets" href="/request/">Missing something? Log a problem →</a>
+        </div>
+        <div class="tools">
+          <label class="search-field" for="q">
+            <span class="eyebrow">SEARCH THE FIELD INDEX</span>
+            <input id="q" type="search" enterkeyhint="search"
+                   placeholder="PART NAME, OEM №, KEYWORD…"
+                   aria-label="Search the parts archive" autocomplete="off" spellcheck="false" />
+          </label>
+          <div class="filters" role="group" aria-label="Filter by state">
+            <button type="button" class="chip on" data-state="">All</button>
+            <button type="button" class="chip" data-state="measured">Measured</button>
+            <button type="button" class="chip" data-state="development">In development</button>
+            <button type="button" class="chip" data-state="requested">Requested</button>
+          </div>
+        </div>
+        <p class="eyebrow count" id="count" aria-live="polite"></p>
       </div>
-    </div>
-    <p class="eyebrow count" id="count" aria-live="polite"></p>
 
-    <div class="cards" id="grid">
-      {parts.map((p, i) => <RegisterCard part={p} sheet={i + 1} total={parts.length} />)}
-    </div>
+      <div class="cards" id="grid">
+        {parts.map((p, i) => <RegisterCard part={p} sheet={i + 1} total={parts.length} />)}
+      </div>
 
-    <div class="empty" id="empty" hidden>
-      <p class="eyebrow eyebrow--amber">NO MATCH IN THE ARCHIVE</p>
-      <p class="dense">
-        Which means nobody has logged it yet. Log the problem and it starts existing — every file
-        above got here the same way.
-      </p>
-      <a class="btn btn--primary" id="empty-cta" href="/request/">Log a problem →</a>
+      <div class="empty" id="empty" hidden>
+        <p class="eyebrow eyebrow--amber">NO MATCH IN THE ARCHIVE</p>
+        <p class="dense">
+          Which means nobody has logged it yet. Log the problem and it starts existing — every file
+          above got here the same way.
+        </p>
+        <a class="btn btn--primary" id="empty-cta" href="/request/">Log a problem →</a>
+      </div>
     </div>
   </section>
 </Base>
@@ -90,34 +100,46 @@ const parts = allParts();
 </script>
 
 <style>
-  .index-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
-  .all-sheets { font-size: var(--t-eyebrow); letter-spacing: var(--t-eyebrow-tr); text-transform: uppercase; }
-  h1 { margin: 14px 0 16px; }
-  .reg-lead { max-width: 620px; }
-
-  .tools { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; margin: 26px 0 12px; }
-  #q {
-    flex: 1; min-width: 240px; background: var(--ground-deep); color: var(--paper);
-    border: var(--bd-input) solid var(--paper); padding: 11px 14px;
-    font-size: var(--t-dense); letter-spacing: .06em;
+  .archive-page { background: linear-gradient(180deg, color-mix(in srgb, var(--ground-deep) 24%, transparent), transparent 28%); }
+  .archive-wrap { display: grid; gap: 18px; }
+  .archive-tools {
+    padding: 19px 20px 16px;
+    border: var(--bd-inner) solid var(--rule);
+    background: color-mix(in srgb, var(--ground-deep) 85%, transparent);
   }
-  #q::placeholder { color: var(--rule); }
+  .tools-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+  .all-sheets { font-size: var(--t-eyebrow); letter-spacing: var(--t-eyebrow-tr); text-transform: uppercase; color: var(--ion); }
+  .tools { display: flex; gap: 14px; flex-wrap: wrap; align-items: end; margin: 18px 0 12px; }
+  .search-field { display: grid; gap: 7px; flex: 1; min-width: min(100%, 280px); }
+  #q {
+    width: 100%; background: var(--ground); color: var(--paper);
+    border: var(--bd-input) solid var(--rule-2); padding: 12px 14px;
+    font: inherit; font-size: var(--t-dense); letter-spacing: .06em;
+  }
+  #q::placeholder { color: var(--rule-2); }
+  #q:focus { outline: 2px solid var(--ion); outline-offset: 2px; }
   .filters { display: flex; gap: 8px; flex-wrap: wrap; }
   .chip {
     background: transparent; color: var(--steel); border: 1px solid var(--rule);
-    padding: 8px 12px; font-size: var(--t-eyebrow); letter-spacing: var(--t-eyebrow-tr);
+    padding: 10px 12px; font: inherit; font-size: var(--t-eyebrow); letter-spacing: var(--t-eyebrow-tr);
     text-transform: uppercase; cursor: pointer;
-    transition: color var(--transition), border-color var(--transition);
+    transition: color var(--transition), border-color var(--transition), background var(--transition);
   }
   .chip:hover { color: var(--paper); border-color: var(--paper); }
-  .chip.on { color: var(--amber); border-color: var(--amber); }
-  .count { display: block; margin-bottom: 18px; }
+  .chip.on { color: var(--ink); border-color: var(--signal); background: var(--signal); }
+  .count { display: block; color: var(--ion); }
 
   .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--gap-cards); }
-  .empty { border: 1px dashed var(--rule-2); padding: 34px 26px; text-align: center; display: grid; gap: 12px; justify-items: center; margin-top: 18px; }
-  .empty[hidden] { display: none; }
+  .empty {
+    border: 1px dashed var(--rule-2); padding: 36px 26px; text-align: center; display: grid;
+    gap: 12px; justify-items: center; background: var(--ground-deep);
+  }
   .empty .dense { max-width: 460px; color: var(--steel); }
 
   @media (max-width: 900px) { .cards { grid-template-columns: 1fr 1fr; } }
-  @media (max-width: 600px) { .cards { grid-template-columns: 1fr; } }
+  @media (max-width: 600px) {
+    .cards { grid-template-columns: 1fr; }
+    .tools { align-items: stretch; }
+    .search-field { min-width: 100%; }
+  }
 </style>

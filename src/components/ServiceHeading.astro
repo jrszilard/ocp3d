@@ -1,0 +1,136 @@
+---
+/**
+ * OCP3D service-panel heading.
+ *
+ * A reusable, original retrofuturist dashboard for every field file: an
+ * orbital instrument, a clear human title, and literal record labels. The
+ * atmosphere is intentionally generic space-age service design — never a
+ * reference to a game, film, manufacturer, or government identity.
+ */
+interface Props {
+  eyebrow: string;
+  title: string;
+  lede?: string;
+  file?: string;
+  signal?: string;
+  compact?: boolean;
+}
+
+const {
+  eyebrow,
+  title,
+  lede,
+  file = "OCP3D FIELD FILE",
+  signal = "MEASURE · MODEL · PRINT",
+  compact = false,
+} = Astro.props;
+---
+<header class:list={["service-heading", { "is-compact": compact }]}>
+  <div class="heading-copy">
+    <p class="eyebrow heading-kicker">{eyebrow}</p>
+    <h1>{title}</h1>
+    {lede && <p class="lead heading-lede">{lede}</p>}
+  </div>
+
+  <div class="instrument" aria-hidden="true">
+    <span class="orbit orbit--outer"></span>
+    <span class="orbit orbit--inner"></span>
+    <span class="orbit-dot orbit-dot--signal"></span>
+    <span class="orbit-dot orbit-dot--ion"></span>
+    <span class="course course--one"></span>
+    <span class="course course--two"></span>
+    <span class="course course--three"></span>
+    <div class="instrument-readout">
+      <span>{file}</span>
+      <b>{signal}</b>
+    </div>
+  </div>
+</header>
+
+<style>
+  .service-heading {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(250px, 34%);
+    min-height: 238px;
+    border: var(--bd-inner) solid var(--rule-2);
+    background: linear-gradient(112deg, color-mix(in srgb, var(--ground-deep) 96%, #000) 0%, var(--ground) 62%);
+    overflow: hidden;
+  }
+  .heading-copy {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 36px 40px;
+  }
+  .heading-kicker { color: var(--ion); margin-bottom: 14px; }
+  h1 { max-width: 13ch; }
+  .heading-lede { max-width: 62ch; margin-top: 17px; }
+
+  .instrument {
+    position: relative;
+    min-height: 100%;
+    overflow: hidden;
+    border-left: var(--bd-inner) solid var(--rule);
+    background:
+      linear-gradient(color-mix(in srgb, var(--rule-3) 88%, transparent) 1px, transparent 1px),
+      linear-gradient(90deg, color-mix(in srgb, var(--rule-3) 88%, transparent) 1px, transparent 1px),
+      radial-gradient(circle at 71% 27%, color-mix(in srgb, var(--ion) 17%, transparent) 0 2px, transparent 2.6px),
+      radial-gradient(circle at 16% 80%, color-mix(in srgb, var(--signal) 18%, transparent) 0 1px, transparent 1.7px),
+      linear-gradient(145deg, #18334A 0%, var(--ground-deep) 58%, #101F31 100%);
+    background-size: 24px 24px, 24px 24px, auto, auto, auto;
+  }
+  .instrument::before,
+  .instrument::after {
+    content: "";
+    position: absolute;
+    left: -16%;
+    right: -16%;
+    border-top: 1px dashed color-mix(in srgb, var(--signal) 66%, transparent);
+  }
+  .instrument::before { top: 31%; transform: rotate(-13deg); }
+  .instrument::after { top: 61%; transform: rotate(13deg); border-color: color-mix(in srgb, var(--ion) 55%, transparent); }
+  .orbit { position: absolute; display: block; border: 1px solid color-mix(in srgb, var(--paper) 70%, transparent); border-radius: 50%; }
+  .orbit--outer { width: 210px; height: 210px; top: 17px; left: 50%; transform: translateX(-50%) rotate(-24deg); border-radius: 50% / 37%; }
+  .orbit--inner { width: 132px; height: 132px; top: 55px; left: 50%; transform: translateX(-50%) rotate(38deg); border-color: color-mix(in srgb, var(--ion) 68%, transparent); border-radius: 50% / 37%; }
+  .orbit-dot { position: absolute; width: 9px; height: 9px; border-radius: 50%; box-shadow: 0 0 0 5px color-mix(in srgb, currentColor 11%, transparent); }
+  .orbit-dot--signal { top: 47px; left: calc(50% + 68px); background: var(--signal); color: var(--signal); }
+  .orbit-dot--ion { top: 168px; left: calc(50% - 70px); background: var(--ion); color: var(--ion); }
+  .course { position: absolute; right: 28px; height: 1px; background: var(--paper); }
+  .course--one { bottom: 66px; left: 28px; opacity: .84; }
+  .course--two { bottom: 57px; left: 45px; opacity: .6; }
+  .course--three { bottom: 48px; left: 61px; opacity: .38; }
+  .instrument-readout {
+    position: absolute;
+    right: 17px;
+    bottom: 16px;
+    left: 17px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding-top: 9px;
+    border-top: var(--bd-inner) solid var(--rule-2);
+    font-family: var(--font-mono);
+    font-size: var(--t-micro);
+    line-height: 1.45;
+    letter-spacing: var(--t-micro-tr);
+    text-transform: uppercase;
+  }
+  .instrument-readout span { color: var(--steel); }
+  .instrument-readout b { color: var(--paper); font-weight: 600; }
+
+  .is-compact { min-height: 184px; }
+  .is-compact .heading-copy { padding-block: 27px; }
+  .is-compact .orbit--outer { transform: translateX(-50%) rotate(-24deg) scale(.78); top: -6px; }
+  .is-compact .orbit--inner { transform: translateX(-50%) rotate(38deg) scale(.78); top: 25px; }
+  .is-compact .orbit-dot--signal { top: 21px; left: calc(50% + 51px); }
+  .is-compact .orbit-dot--ion { top: 116px; left: calc(50% - 56px); }
+
+  @media (max-width: 720px) {
+    .service-heading { grid-template-columns: 1fr; }
+    .heading-copy { padding: 30px 24px; }
+    .instrument { min-height: 164px; border-top: var(--bd-inner) solid var(--rule); border-left: 0; }
+    .orbit--outer { top: -22px; }
+    .orbit--inner { top: 17px; }
+  }
+</style>

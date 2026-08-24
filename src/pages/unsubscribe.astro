@@ -1,5 +1,6 @@
 ---
 import Base from "../layouts/Base.astro";
+import ServiceHeading from "../components/ServiceHeading.astro";
 import { unsubTokenValid } from "./api/request";
 
 export const prerender = false;
@@ -38,45 +39,44 @@ if (ok && Astro.request.method === "POST") {
   }
 }
 ---
-<Base title="Leave the OCP3D Dispatch">
-  <section>
-    <div class="wrap narrow">
+<Base title="Leave the OCP3D Dispatch" sheet="DISPATCH · EXIT">
+  <section class="exit-page">
+    <div class="wrap exit-wrap">
+      <ServiceHeading
+        eyebrow="OCP3D DISPATCH · SIGNAL CONTROL"
+        title="Set your own signal level."
+        lede="The Dispatch is opt-in, quiet, and reversible. This confirmation is here to make leaving as clear as joining."
+        file="DISPATCH · EXIT"
+        signal="CONFIRM · REMOVE · RESPECT"
+        compact
+      />
       <div class="panel">
         {state === "confirm" && (
           <>
-            <div class="stamp">Confirm</div>
+            <div class="stamp">Confirm exit</div>
             <p class="who">{email}</p>
-            <p>Leaving stops the <b>OCP3D Dispatch</b>. Your file number stays yours, and you can
-              claim it again any time — nothing is deleted.</p>
-            <form method="post">
-              <button class="btn btn--primary" type="submit">Leave the Dispatch</button>
-            </form>
+            <p>Leaving stops the <b>OCP3D Dispatch</b>. Your file number stays yours, and you can claim it again any time — nothing is deleted.</p>
+            <form method="post"><button class="btn btn--primary" type="submit">Leave the Dispatch</button></form>
           </>
         )}
         {state === "done" && (
           <>
-            <div class="stamp">Removed</div>
+            <div class="stamp">Signal cleared</div>
             <p class="who">{email}</p>
-            <p>You're off the list. No bulletin, no follow-up. If a part you cared about moves
-              forward, you'll have to come back and look — we won't write.</p>
+            <p>You’re off the list. No bulletin, no follow-up. If a part you cared about moves forward, you’ll have to come back and look — we won’t write.</p>
             <p><a class="btn btn--secondary" href="/registry/">Back to the archive</a></p>
           </>
         )}
         {state === "invalid" && (
           <>
             <div class="stamp">Not recognised</div>
-            <p>That link isn't valid — it may have been altered in transit, or truncated by a mail
-              client. Use the link at the bottom of any Dispatch issue, or email
-              <a href="mailto:requests@lostclipsociety.com">requests@lostclipsociety.com</a> and
-              we'll take you off by hand.</p>
+            <p>That link isn’t valid — it may have been altered in transit, or truncated by a mail client. Use the link at the bottom of any Dispatch issue, or email <a href="mailto:requests@lostclipsociety.com">requests@lostclipsociety.com</a> and we’ll take you off by hand.</p>
           </>
         )}
         {state === "error" && (
           <>
             <div class="stamp">Desk jammed</div>
-            <p>We couldn't record that just now. Nothing changed. Try once more, or email
-              <a href="mailto:requests@lostclipsociety.com">requests@lostclipsociety.com</a> and a
-              human will do it.</p>
+            <p>We couldn’t record that just now. Nothing changed. Try once more, or email <a href="mailto:requests@lostclipsociety.com">requests@lostclipsociety.com</a> and a human will do it.</p>
             <form method="post"><button class="btn btn--primary" type="submit">Try again</button></form>
           </>
         )}
@@ -86,20 +86,14 @@ if (ok && Astro.request.method === "POST") {
 </Base>
 
 <style>
-  .narrow { max-width: 640px; }
-  .panel {
-    background: var(--panel); color: var(--paper);
-    border: var(--bd-inner) solid var(--rule);
-    box-shadow: none; padding: 30px;
-  }
-  .stamp {
-    display: inline-block; font-family: var(--font-mono); font-size: var(--t-dense);
-    font-weight: 700; letter-spacing: var(--t-eyebrow-tr); text-transform: uppercase;
-    color: var(--amber); border: 1px solid var(--amber);
-    border-radius: 0; padding: 6px 10px; transform: rotate(-2deg);
-    margin-bottom: 14px;
-  }
-  .who { font-family: var(--font-mono); font-size: 0.95rem; color: var(--paper); }
+  .exit-page { min-height: 56vh; background: linear-gradient(180deg, color-mix(in srgb, var(--ground-deep) 30%, transparent), transparent 45%); }
+  .exit-wrap { display: grid; gap: 18px; }
+  .panel { width: min(100%, 760px); margin-inline: auto; background: var(--panel); color: var(--paper); border: var(--bd-inner) solid var(--rule-2); padding: 32px; }
+  .stamp { display: inline-block; font-size: var(--t-dense); font-weight: 700; letter-spacing: var(--t-eyebrow-tr); text-transform: uppercase; color: var(--signal); border: 1px solid var(--signal); padding: 6px 10px; transform: rotate(-2deg); margin-bottom: 14px; }
+  .who { font-size: .95rem; color: var(--paper); }
   .panel p { color: var(--steel); }
+  .panel b { color: var(--paper); }
+  .panel a:not(.btn) { color: var(--ion); }
   .panel form { margin-top: 20px; }
+  @media (max-width: 600px) { .panel { padding: 22px; } }
 </style>

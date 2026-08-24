@@ -40,6 +40,10 @@ a future that otherwise forgot it.
   encounters; never isolate a logo-like mark from the brand without need.
 - Field-manual furniture — rules, file labels, service notes, star/orbit coordinates — adds
   atmosphere. It must never make a request, safety boundary, status, or measurement harder to read.
+- Every non-home public route opens with `ServiceHeading.astro`: a clear literal title paired with
+  an original orbital-instrument panel and a file/signal readout. Use it rather than inventing a
+  one-off page masthead, so the archive, intake, fit lab, mission, confirmations, and styleguide
+  remain one coherent service system.
 - Part renders remain neutral resin. Do not invent photos or make marketing imagery look like proof.
 
 ## Things with fixed meaning

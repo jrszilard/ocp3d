@@ -1,47 +1,81 @@
 ---
 import Base from "../layouts/Base.astro";
+import ServiceHeading from "../components/ServiceHeading.astro";
+
+const stages = [
+  ["01", "Measure the surviving original.", "Every reproduction starts with caliper measurements of a real part — never eyeballed from photos, never ‘close enough.’ Critical dimensions are published free with their source and confidence. Measure your own part against ours, or buy ours. The CAD files stay in the workshop."],
+  ["02", "Label drafts as drafts.", "Until a real part has met the calipers, a design is marked In development — visibly, everywhere. A render can show a proposed geometry; it cannot prove a fit."],
+  ["03", "Choose material for where it lives.", "PETG for proof prints and shaded interiors; ASA where sun and heat reach. A fit in one material is never assumed to transfer to another — each earns its own confirmation."],
+  ["04", "Earn the real-car record.", "‘Fitted on a real car’ means exactly that: an actual installation and confirmation, with car, year, and material on the record. Not simulated. Not implied. Fitted."],
+  ["05", "Close the loop in public.", "Where the offer applies and a part does not fit, we remake it at no cost — then use the resulting measurements to improve the next version. That is how the catalog gets stronger."],
+];
 ---
-<Base title="Fit Lab — OCP3D · Old Car Problems">
-  <section>
-    <div class="wrap narrow">
-      <div class="eyebrow">OCP3D · FIT LAB</div>
-      <h1>How a 3D part earns a real-car record.</h1>
+<Base title="Fit Lab — OCP3D · Old Car Problems" sheet="FIT LAB · EVIDENCE">
+  <section class="lab-page">
+    <div class="wrap lab-wrap">
+      <ServiceHeading
+        eyebrow="OCP3D FIT LAB · EVIDENCE SEQUENCE"
+        title="How a 3D part earns a real-car record."
+        lede="A CAD render is a useful tool, not a conclusion. OCP3D keeps each stage visible so you can see exactly what the part has earned — and what it has not."
+        file="FIT LAB · EVIDENCE"
+        signal="MEASURE · PROVE · RECORD"
+      />
 
-      <p>Plenty of sites will sell a 3D-printed part that was “reviewed for accuracy” — meaning
-      someone looked at the CAD file. OCP3D works differently: the evidence stays attached to the
-      part, and the record says exactly what has and has not happened.</p>
+      <div class="lab-console">
+        <div class="lab-intro">
+          <p class="eyebrow">THE OPERATING RULE</p>
+          <p class="lead">Plenty of sites will call a 3D-printed part “reviewed for accuracy” because someone looked at the CAD. OCP3D works differently: the evidence stays attached to the part.</p>
+          <div class="readout">
+            <span>INPUT</span><b>PHYSICAL INTERFACE</b>
+            <span>OUTPUT</span><b>VERSIONED FIT RECORD</b>
+            <span>NOT A SUBSTITUTE FOR</span><b>REAL-CAR VALIDATION</b>
+          </div>
+        </div>
+        <ol class="ladder">
+          {stages.map(([n, title, body]) => (
+            <li>
+              <span class="step-n">{n}</span>
+              <div><h2>{title}</h2><p>{body}</p></div>
+            </li>
+          ))}
+        </ol>
+      </div>
 
-      <ol class="ladder">
-        <li><b>Measured from a surviving original.</b> Every reproduction starts with caliper
-          measurements of a real part — never eyeballed from photos, never “close enough.”
-          Every critical dimension is published free with its source and confidence. Measure
-          your own part against ours, or buy ours. (The CAD files stay in the workshop.)</li>
-        <li><b>Drafts are labeled drafts.</b> Until a real part has met the calipers, a design
-          is marked <i>In development</i> — visibly, everywhere.</li>
-        <li><b>Materials chosen for where the part lives.</b> PETG for proof prints and shaded
-          interiors; ASA where sun and heat reach. A fit in one material is never assumed to
-          transfer to another — each earns its own confirmation.</li>
-        <li><b>“Fitted on a real car” means exactly that.</b> The badge appears only after the
-          part has been fitted to an actual car and confirmed — car, year, and material on the
-          record. Not simulated. Not implied. Fitted.</li>
-        <li><b>Fits or we remake it free.</b> If your part doesn’t fit, we remake it at no cost
-          — and your measurements make the next one better. That’s not a marketing risk for us;
-          it’s how the catalog improves.</li>
-      </ol>
-
-      <p class="colors"><b>A note on color:</b> most reproduction trim comes in universal black —
-      even when your interior was Blue, Ivory, Gray, or Beige. Our records keep every original
-      color code a part shipped in, so yours can be printed to match. Your Ivory interior can
-      stay Ivory.</p>
+      <aside class="color-note">
+        <div class="swatch-line" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+        <div>
+          <p class="eyebrow">MATERIAL &amp; COLOUR NOTE</p>
+          <p>Most reproduction trim comes in universal black, even when an interior shipped in Blue, Ivory, Gray, or Beige. Our records retain original colour details so a reproduction can be made to match where the evidence supports it.</p>
+        </div>
+        <a class="btn btn--secondary" href="/registry/">Read the records</a>
+      </aside>
     </div>
   </section>
 </Base>
 
 <style>
-  .narrow { max-width: 720px; }
-  h1 { font-size: 2rem; margin: 8px 0 20px; }
-  p { color: var(--steel); }
-  .ladder { display: grid; gap: 14px; padding-left: 1.2em; margin: 20px 0; }
-  .ladder li { color: var(--steel); }
-  .ladder b, .colors b { color: var(--paper); }
+  .lab-page { background: linear-gradient(180deg, color-mix(in srgb, var(--ground-deep) 28%, transparent), transparent 34%); }
+  .lab-wrap { display: grid; gap: 18px; }
+  .lab-console { display: grid; grid-template-columns: minmax(250px, .72fr) minmax(0, 1.28fr); border: var(--bd-inner) solid var(--rule-2); background: var(--panel); }
+  .lab-intro { padding: 28px; border-right: var(--bd-inner) solid var(--rule); background: var(--ground-deep); }
+  .lab-intro .lead { margin-top: 14px; }
+  .readout { display: grid; grid-template-columns: 1fr; gap: 5px; margin-top: 24px; padding-top: 16px; border-top: var(--bd-inner) solid var(--rule); font-size: var(--t-micro); letter-spacing: var(--t-micro-tr); }
+  .readout span { color: var(--steel); }
+  .readout b { margin-bottom: 7px; color: var(--ion); font-size: var(--t-eyebrow); }
+  .ladder { display: grid; counter-reset: steps; }
+  .ladder li { display: grid; grid-template-columns: 58px 1fr; gap: 16px; padding: 20px 24px; border-top: var(--bd-inner) solid var(--rule); }
+  .ladder li:first-child { border-top: 0; }
+  .step-n { width: 34px; height: 34px; display: grid; place-items: center; border: 1px solid var(--signal); color: var(--signal); font-size: var(--t-eyebrow); letter-spacing: .08em; }
+  .ladder h2 { font-size: 20px; margin-bottom: 8px; }
+  .ladder p { color: var(--steel); font-size: var(--t-dense); line-height: var(--t-section-lh); }
+  .color-note { display: grid; grid-template-columns: 130px 1fr auto; align-items: center; gap: 22px; padding: 21px 26px; border: var(--bd-inner) solid var(--rule); background: color-mix(in srgb, var(--ground-deep) 84%, transparent); }
+  .color-note p:not(.eyebrow) { margin-top: 7px; color: var(--steel); font-size: var(--t-dense); max-width: 64ch; }
+  .swatch-line { display: flex; gap: 8px; }
+  .swatch-line i { width: 22px; height: 22px; border-radius: 50%; border: 1px solid var(--paper); }
+  .swatch-line i:nth-child(1) { background: #17191B; }
+  .swatch-line i:nth-child(2) { background: #55729A; }
+  .swatch-line i:nth-child(3) { background: #E8D7B8; }
+  .swatch-line i:nth-child(4) { background: #9A937F; }
+  @media (max-width: 760px) { .lab-console { grid-template-columns: 1fr; } .lab-intro { border-right: 0; border-bottom: var(--bd-inner) solid var(--rule); } .color-note { grid-template-columns: 1fr; } }
+  @media (max-width: 600px) { .lab-intro, .ladder li, .color-note { padding: 20px; } .ladder li { grid-template-columns: 42px 1fr; gap: 12px; } }
 </style>
