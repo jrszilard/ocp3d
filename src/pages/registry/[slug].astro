@@ -11,12 +11,14 @@ export function getStaticPaths() {
   return allParts().map((part) => ({ params: { slug: part.slug }, props: { part } }));
 }
 const { part } = Astro.props;
-const orderable = part.state === "measured" || part.state === "fitted";
+// A measured model is useful evidence, not a sellable-fit claim. Only a field file
+// that has earned the real-car state may offer a made-to-order discussion.
+const orderable = part.state === "fitted";
 const oemLabel = oemIdentityLabel(part);
 const identityDisputed = part.oemIdentityStatus === "disputed";
 const fitmentUnconfirmed = part.fitmentStatus !== "confirmed";
 const fitmentDisputed = part.fitmentStatus === "disputed";
-const vehicleFitment = fitmentLabel(part);
+const vehicleFitment = identityDisputed ? "Application under investigation" : fitmentLabel(part);
 const identityTitle = part.oemNumber
   ? `OEM ${part.oemNumber} reproduction`
   : identityDisputed
@@ -109,7 +111,7 @@ const hasImage = fs.existsSync(path.join(process.cwd(), "public", "images", "par
             <p class="eyebrow">MEASUREMENT BAY</p>
             <h2>Dimensions on record.</h2>
           </div>
-          <p class="dense">Published free. CAD stays in the workshop. Every estimate remains visibly an estimate.</p>
+          <p class="dense">The record stays visible. Measurements, fit evidence, and unknowns each keep their own line.</p>
         </div>
         {part.dims.length > 0 && (
           <SpecTable dims={part.dims} confirmed={part.dimsConfirmed} total={part.dimsTotal} />
@@ -120,36 +122,32 @@ const hasImage = fs.existsSync(path.join(process.cwd(), "public", "images", "par
             <div class="blk-label">NEXT ACTION</div>
             {orderable ? (
               <div class="row">
-                <a class="btn btn--primary" href="/request/">Order this part</a>
-                <span class="cap">Made to order, one at a time · <b>fits or we remake it free</b> · ships with its own fit-report card</span>
+                <a class="btn btn--primary" href={`/request/?part=${encodeURIComponent(part.title)}&part_slug=${part.slug}`}>Discuss getting this part</a>
+                <span class="cap">This field file has a real-car record. Tell me your vehicle configuration and we can discuss a made-to-order replacement.</span>
+              </div>
+            ) : part.state === "measured" ? (
+              <div class="row">
+                <a class="btn btn--primary" href={`/request/?part=${encodeURIComponent(part.title)}&part_slug=${part.slug}`}>Discuss this measured part</a>
+                <span class="cap">Measured from an original, but not yet offered as a fit-confirmed replacement. If you have a matching car or original, let’s discuss the useful next step.</span>
               </div>
             ) : part.state === "development" ? (
               <div class="row">
-                <a class="btn btn--primary" href="/request/">Reserve one</a>
-                <span class="cap">In development — reserving bumps it up the queue and locks your place</span>
+                <a class="btn btn--primary" href={`/request/?part=${encodeURIComponent(part.title)}&part_slug=${part.slug}`}>Discuss this build</a>
+                <span class="cap">This part is on the bench. A request can help establish the donor, interface, and evidence path; it is not a purchase promise.</span>
               </div>
             ) : (
-              <div class="vote-block">
-                <div class="demand-line" data-demand-line data-part={part.slug} hidden></div>
-                <form class="vote-row" data-vote-form data-part={part.slug} method="post" action="/api/request">
-                  <input type="hidden" name="type" value="vote" />
-                  <input type="hidden" name="part_slug" value={part.slug} />
-                  <input type="text" name="company" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
-                  <input type="email" name="email" required placeholder="you@garage.example" aria-label="Email address" />
-                  <button class="btn btn--primary" type="submit">Vote for this part</button>
-                </form>
-                <span class="cap vote-done" data-vote-done hidden></span>
-                <span class="cap">Not started yet — one vote per person, votes move it up the queue.
-                  Or <a href={`/request/?part=${encodeURIComponent(part.title)}&part_slug=${part.slug}`}>open a full case file</a> — sponsoring starts it now.</span>
+              <div class="row">
+                <a class="btn btn--primary" href={`/request/?part=${encodeURIComponent(part.title)}&part_slug=${part.slug}`}>Discuss this part</a>
+                <span class="cap">No original is on file yet. Tell me what remains on the car or what you have found, and we can discuss whether it belongs on the bench.</span>
               </div>
             )}
           </div>
           <aside class="assist">
             <div class="blk-label">HELP OUT · OPTIONAL</div>
-            <p>Own an original, or fitted one of ours? A quick report makes the record stronger.</p>
+            <p>Own an original, a matching car, or evidence about this part? A conversation can make the record stronger.</p>
             <div class="assist-links">
-              <a href="/request/">Share a fit report</a>
-              <a href="/#register">Get notified about this part</a>
+              <a href={`/request/?part=${encodeURIComponent(part.title)}&part_slug=${part.slug}`}>Share what you know</a>
+              <a href="/#register">Follow this part</a>
             </div>
           </aside>
         </div>
@@ -174,57 +172,6 @@ const hasImage = fs.existsSync(path.join(process.cwd(), "public", "images", "par
     </div>
   </section>
 </Base>
-
-<script>
-  const line = document.querySelector("[data-demand-line]") as HTMLElement;
-  const voteForm = document.querySelector("[data-vote-form]") as HTMLFormElement;
-  const voteDone = document.querySelector("[data-vote-done]") as HTMLElement;
-
-  function renderDemand(d: { votes: number; requests: number; total: number }) {
-    line.innerHTML = d.total === 0
-      ? "Nothing on the want-list yet — your vote starts the queue."
-      : `On the want-list: <b>${d.votes}</b> vote${d.votes === 1 ? "" : "s"} · <b>${d.requests}</b> case file${d.requests === 1 ? "" : "s"}`;
-    line.hidden = false;
-  }
-
-  if (line && voteForm) {
-    const slug = line.dataset.part;
-    fetch(`/api/demand?part=${slug}`)
-      .then((r) => r.json())
-      .then((d) => { if (d.configured !== false) renderDemand(d); })
-      .catch(() => {});
-
-    voteForm.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const btn = voteForm.querySelector("button") as HTMLButtonElement;
-      btn.disabled = true;
-      try {
-        const res = await fetch(voteForm.action, {
-          method: "POST",
-          body: new FormData(voteForm),
-          headers: { accept: "application/json" },
-        });
-        const data = await res.json();
-        if (res.ok && data.ok) {
-          voteForm.hidden = true;
-          voteDone.textContent = data.duplicate
-            ? "That email is already on the want-list for this part."
-            : "Vote counted — it's on the ledger.";
-          voteDone.hidden = false;
-          if (!data.duplicate && !line.hidden) {
-            fetch(`/api/demand?part=${slug}&fresh=${Date.now()}`).then((r) => r.json()).then(renderDemand).catch(() => {});
-          }
-        } else if (data.unconfigured) {
-          window.location.href = `/request/?part=${slug}`;
-        } else {
-          btn.disabled = false;
-        }
-      } catch {
-        btn.disabled = false;
-      }
-    });
-  }
-</script>
 
 <style>
   .part-page { background: linear-gradient(180deg, color-mix(in srgb, var(--ground-deep) 28%, transparent), transparent 32%); }
@@ -264,14 +211,6 @@ const hasImage = fs.existsSync(path.join(process.cwd(), "public", "images", "par
   .assist-links { display: flex; gap: 14px; flex-wrap: wrap; }
   .assist a { font-size: var(--t-eyebrow); color: var(--ion); }
   .assist a:hover { color: var(--signal); }
-  .vote-block { display: grid; gap: 10px; }
-  .vote-row { display: flex; gap: 10px; flex-wrap: wrap; }
-  .vote-row .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
-  .vote-row input { flex: 1; min-width: 200px; font: inherit; font-size: .85rem; padding: 11px 12px; background: var(--ground-deep); border: var(--bd-inner) solid var(--rule); color: var(--paper); }
-  .demand-line { font-size: var(--t-eyebrow); letter-spacing: .04em; color: var(--inv-body); }
-  .demand-line b, .vote-done { color: var(--inv-gold); font-weight: 700; }
-  .vote-block .cap a { color: var(--inv-gold); text-decoration: underline; text-underline-offset: 3px; }
-
   .testimony { padding: 24px 30px; border: var(--bd-inner) solid var(--rule); background: var(--ground-deep); }
   .report { margin-top: 12px; border-left: 3px solid var(--signal); padding: 10px 14px; color: var(--steel); font-size: var(--t-dense); }
   .report b { color: var(--paper); }

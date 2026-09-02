@@ -1,4 +1,4 @@
-/* High Desert Retrofit base — all values come from tokens.css. */
+/* Bench Journal base — all values come from tokens.css. */
 @import "./tokens.css";
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -9,34 +9,28 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-.sheet-outer { background: var(--cosmos); }
+.sheet-outer { min-height: 100vh; padding: var(--sheet-pad); background: var(--cosmos); }
+.sheet { overflow: hidden; border: var(--bd-sheet) solid rgba(245,236,216,.56); background: var(--ground); box-shadow: 0 30px 90px rgba(0,0,0,.34); }
 main { min-width: 0; }
-/* The field-file pages share a reliable working area; page-specific panels sit inside it. */
 .wrap { width: min(100%, 1180px); margin-inline: auto; padding: var(--sec-state); }
 .wrap.narrow { max-width: 820px; }
 [hidden] { display: none !important; }
 h1, h2, h3, h4, p, ul, ol, figure, table { margin: 0; }
 ul, ol { padding: 0; list-style: none; }
-h1, h2, h3, h4 {
-  font-family: var(--font-display); font-weight: 700; text-transform: uppercase;
-}
-h1 {
-  font-size: var(--h1); line-height: var(--h1-lh); letter-spacing: var(--h1-tr);
-  text-shadow: 2px 2px 0 color-mix(in srgb, var(--signal) 28%, transparent);
-}
+h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 700; text-transform: uppercase; }
+h1 { font-size: var(--h1); line-height: var(--h1-lh); letter-spacing: var(--h1-tr); }
 h2 { font-size: var(--h2); line-height: var(--h2-lh); letter-spacing: var(--h2-tr); }
-a { color: var(--paper); text-decoration: none; transition: color var(--transition), border-color var(--transition); }
+a { color: var(--paper); text-decoration: none; transition: color var(--transition), border-color var(--transition), background var(--transition); }
 a:hover { color: var(--ion); }
 .prose a { color: var(--ion); text-decoration: underline; text-underline-offset: 3px; }
 :focus-visible { outline: 2px solid var(--signal); outline-offset: 3px; }
 img, svg { max-width: 100%; display: block; }
-input, button { font: inherit; border-radius: var(--radius); }
+input, button, select, textarea { font: inherit; border-radius: var(--radius); }
 
 .section { padding: var(--sec-dense); border-top: var(--bd-section) solid var(--rule); }
 .section--statement { padding: var(--sec-state); }
 .section:first-of-type { border-top: 0; }
 .section > .wrap { padding-block: 0; }
-@media (max-width: 600px) { .wrap { padding: 30px 22px; } }
 .eyebrow {
   font-family: var(--font-mono); font-size: var(--t-eyebrow); text-transform: uppercase;
   letter-spacing: var(--t-eyebrow-tr); color: var(--steel);
@@ -47,14 +41,14 @@ input, button { font: inherit; border-radius: var(--radius); }
 .spec-value { font-weight: 600; font-size: var(--t-spec); color: var(--paper); }
 
 .btn {
-  display: inline-block; padding: 12px 20px; font-size: var(--t-button); font-weight: 600;
-  text-transform: uppercase; letter-spacing: var(--t-button-tr); cursor: pointer;
-  border-radius: var(--radius); transition: background var(--transition), color var(--transition), transform var(--transition);
+  display: inline-flex; align-items: center; justify-content: center; min-height: 38px; padding: 11px 14px;
+  font-size: var(--t-button); font-weight: 600; text-transform: uppercase; letter-spacing: var(--t-button-tr);
+  cursor: pointer; border-radius: var(--radius); transition: background var(--transition), color var(--transition), transform var(--transition), border-color var(--transition);
 }
 .btn:hover { transform: translateY(-1px); }
 .btn--primary { background: var(--signal); color: var(--ink); border: var(--bd-input) solid var(--signal); }
-.btn--primary:hover { background: var(--ion); border-color: var(--ion); color: var(--ink); }
-.btn--secondary { background: transparent; color: var(--paper); border: var(--bd-input) solid var(--steel); }
+.btn--primary:hover { background: var(--ion); border-color: var(--ion); color: #f6edd7; }
+.btn--secondary { background: transparent; color: var(--paper); border: var(--bd-input) solid var(--paper); }
 .btn--secondary:hover { border-color: var(--ion); color: var(--ion); }
 
 .placeholder {
@@ -70,5 +64,10 @@ input, button { font: inherit; border-radius: var(--radius); }
 .hairline-grid { display: grid; gap: var(--bd-inner); background: var(--rule); }
 .hairline-grid > * { background: var(--ground); padding: 14px 16px; }
 
-@media (max-width: 900px) { :root { --h1: 43px; --h2: 30px; } }
-@media (max-width: 600px) { :root { --h1: 34px; --h2: 26px; --sec-hero: 42px 22px; } }
+@media (max-width: 900px) {
+  :root { --h1: 48px; --h2: 32px; --sec-state: 42px 28px; }
+}
+@media (max-width: 600px) {
+  :root { --h1: 39px; --h2: 28px; --sec-hero: 42px 22px; --sec-state: 34px 22px; }
+  .sheet-outer { padding: 10px; }
+}

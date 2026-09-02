@@ -1,12 +1,12 @@
 ---
-/** OCP3D lockup: retrofit-station mark + acronym + the plain-language expansion. */
+/** OCP3D lockup: original fixture mark + acronym + plain-language expansion. */
 import Insignia from "./Insignia.astro";
 interface Props { variant?: "landscape" | "portrait" }
 const { variant = "landscape" } = Astro.props;
 const portrait = variant === "portrait";
 ---
 <span class={`lockup ${portrait ? "is-portrait" : "is-landscape"}`}>
-  <Insignia size={portrait ? 92 : 50} />
+  <Insignia size={portrait ? 92 : 46} />
   <span class="name">
     <span class="acronym">OCP3D</span>
     <span class="expansion">OLD CAR PROBLEMS</span>
@@ -14,7 +14,7 @@ const portrait = variant === "portrait";
 </span>
 
 <style>
-  .lockup { display: flex; align-items: center; gap: 13px; color: var(--paper); }
+  .lockup { display: flex; align-items: center; gap: 12px; color: var(--paper); }
   .is-portrait { flex-direction: column; gap: 12px; text-align: center; }
   .name { display: flex; flex-direction: column; line-height: 1; }
   .acronym {
@@ -23,12 +23,9 @@ const portrait = variant === "portrait";
   }
   .expansion {
     margin-top: 6px; font-family: var(--font-mono); font-size: var(--t-micro);
-    letter-spacing: .18em; color: var(--ion); white-space: nowrap;
+    letter-spacing: .17em; color: var(--ion); white-space: nowrap;
   }
-  .name::after {
-    content: ""; display: block; width: 100%; height: 2px; margin-top: 7px;
-    background: linear-gradient(90deg, var(--signal), var(--ion));
-  }
+  .name::after { content: ""; display: block; width: 100%; height: 2px; margin-top: 7px; background: var(--signal); }
   .is-portrait .acronym { font-size: var(--word-port); }
   .is-portrait .expansion { font-size: var(--t-eyebrow); }
 </style>

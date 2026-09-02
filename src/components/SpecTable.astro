@@ -5,7 +5,7 @@ const { dims, confirmed, total } = Astro.props;
 ---
 <div class="table-holder">
   <table class="dims">
-    <caption>Critical dimensions — confirmed {confirmed} of {total} (published free; the CAD stays in the workshop)</caption>
+    <caption>Critical dimensions — confirmed {confirmed} of {total} (the field file keeps every confidence level visible)</caption>
     <thead><tr><th>Dimension</th><th>mm</th><th>Confidence</th></tr></thead>
     <tbody>
       {dims.map((d) => (
@@ -20,23 +20,10 @@ const { dims, confirmed, total } = Astro.props;
 </div>
 
 <style>
-  /* The dimension table is the product's trust core, not decoration. Mono,
-     tabular figures, hairline rules, CONFIRMED in the house amber. */
   .table-holder { overflow-x: auto; }
-  table { border-collapse: collapse; width: 100%; font-family: var(--font-mono); font-size: var(--t-dense); }
-  caption {
-    text-align: left; font-size: var(--t-eyebrow); letter-spacing: var(--t-eyebrow-tr);
-    text-transform: uppercase; color: var(--steel); padding-bottom: 12px;
-  }
-  th {
-    text-align: left; font-weight: 400; color: var(--steel); font-size: var(--t-micro);
-    letter-spacing: var(--t-micro-tr); text-transform: uppercase;
-    border-bottom: 1px solid var(--rule-2); padding: 6px 14px 8px 0;
-  }
-  td {
-    padding: 7px 14px 7px 0; border-bottom: 1px solid var(--rule-3);
-    font-variant-numeric: tabular-nums; white-space: nowrap; color: var(--body);
-  }
-  .conf { color: var(--amber); font-weight: 600; }
-  .est { color: var(--steel); }
+  table { width: 100%; border-collapse: collapse; font-family: var(--font-mono); font-size: var(--t-dense); }
+  caption { padding-bottom: 12px; color: var(--steel); font-size: var(--t-eyebrow); letter-spacing: var(--t-eyebrow-tr); text-align: left; text-transform: uppercase; }
+  th { padding: 6px 14px 8px 0; border-bottom: 1px solid var(--rule-2); color: var(--steel); font-size: var(--t-micro); font-weight: 400; letter-spacing: var(--t-micro-tr); text-align: left; text-transform: uppercase; }
+  td { padding: 8px 14px 8px 0; border-bottom: 1px solid var(--rule-3); color: var(--body); font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .conf { color: var(--signal); font-weight: 600; }.est { color: var(--steel); }
 </style>

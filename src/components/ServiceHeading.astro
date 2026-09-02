@@ -1,13 +1,11 @@
 ---
 /**
- * OCP3D High Desert Retrofit heading.
+ * Shared Bench Journal masthead.
  *
- * A literal page title paired with a useful station-status surface. It is not
- * a hero illustration: inherited bench/fixture cues and newer scan/record
- * cues are carried as small functional fragments instead.
+ * Each route opens like a usable investigation sheet: literal title, visible
+ * field-file identity, and a compact reminder that every route returns to a
+ * physical interface. It carries no speculative product or fitment claim.
  */
-import BenchUnit from "./BenchUnit.astro";
-
 interface Props {
   eyebrow: string;
   title: string;
@@ -23,7 +21,7 @@ const {
   title,
   lede,
   file = "OCP3D FIELD FILE",
-  signal = "MEASURE · MODEL · PRINT",
+  signal = "TRACE · MEASURE · RECORD",
   compact = false,
   unit = false,
 } = Astro.props;
@@ -35,79 +33,47 @@ const {
     {lede && <p class="lead heading-lede">{lede}</p>}
   </div>
 
-  <aside class="station-status" aria-label="Station status">
-    <p class="status-kicker">STATION CONDITION / 07</p>
-    <p class="status-title">RETROFIT<br />RECORD READY</p>
+  <aside class="case-note" aria-label="Field-file context">
+    <div class="case-note-head"><span>PARTS INVESTIGATION</span><i aria-hidden="true"></i></div>
+    <p class="case-file">{file}</p>
     <dl>
-      <div><dt>OLD LAYER</dt><dd>fixture / bench</dd></div>
-      <div><dt>NEW LAYER</dt><dd>scan / record</dd></div>
-      <div><dt>FILE</dt><dd>{file}</dd></div>
+      <div><dt>START</dt><dd>PHYSICAL INTERFACE</dd></div>
+      <div><dt>PATHS</dt><dd>RESTORE · IMPROVE</dd></div>
+      <div><dt>ROUTE</dt><dd>{signal}</dd></div>
     </dl>
-    {unit && (
-      <div class="unit-row">
-        <BenchUnit size={54} />
-        <span><b>BENCH UNIT / DOCKED</b><em>PHYSICAL SCAN ASSIST</em></span>
-      </div>
-    )}
-    <p class="status-signal">{signal}</p>
+    <p class="case-rule">A lead is useful only when it returns to evidence.</p>
   </aside>
 </header>
 
 <style>
   .service-heading {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(264px, 31%);
-    min-height: 238px;
-    border: var(--bd-inner) solid var(--rule-2);
-    background:
-      repeating-linear-gradient(-9deg, transparent 0 5px, rgba(41,37,44,.04) 5px 6px),
-      linear-gradient(120deg, var(--ground) 0 57%, var(--ground-deep) 57% 72%, color-mix(in srgb, var(--signal) 46%, var(--ground-deep)) 72%);
+    display: grid; grid-template-columns: minmax(0, 1fr) minmax(250px, 30%); min-height: 266px;
+    border: var(--bd-inner) solid var(--rule-2); background:
+      repeating-linear-gradient(0deg, transparent 0 31px, rgba(56,78,72,.14) 31px 32px),
+      var(--ground);
     overflow: hidden;
   }
-  .heading-copy {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
-    padding: 36px 40px;
-  }
-  .heading-kicker { color: var(--signal); margin-bottom: 14px; }
+  .heading-copy { display: flex; flex-direction: column; align-items: flex-start; justify-content: center; padding: 41px 43px; }
+  .heading-kicker { color: var(--signal); margin-bottom: 15px; }
   h1 { max-width: 13ch; }
   .heading-lede { max-width: 62ch; margin-top: 17px; color: var(--body); }
 
-  .station-status {
-    align-self: center;
-    justify-self: end;
-    width: min(100%, 285px);
-    margin: 28px;
-    padding: 16px 17px;
-    border: var(--bd-inner) solid color-mix(in srgb, var(--desert-dusk) 76%, var(--signal));
-    border-top: 4px solid var(--ion-light);
-    background: color-mix(in srgb, var(--desert-night) 95%, #000);
-    color: var(--inv-body);
-    box-shadow: 7px 7px 0 color-mix(in srgb, var(--signal) 68%, transparent);
-  }
-  .status-kicker { color: var(--ion-light); font-size: var(--t-micro); letter-spacing: var(--t-micro-tr); }
-  .status-title { margin: 9px 0 13px; color: var(--ink); font-family: var(--font-display); font-size: 27px; line-height: .92; text-transform: uppercase; }
-  dl { margin: 0; }
-  dl > div { display: flex; justify-content: space-between; gap: 10px; padding: 7px 0; border-top: 1px solid color-mix(in srgb, var(--inv-label) 35%, transparent); }
-  dt, dd { margin: 0; font-size: 8px; letter-spacing: .08em; }
-  dt { color: var(--acid); }
-  dd { max-width: 58%; color: var(--inv-body); text-align: right; text-transform: uppercase; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .unit-row { display: flex; align-items: center; gap: 10px; padding-top: 10px; margin-top: 8px; border-top: 1px solid color-mix(in srgb, var(--inv-label) 35%, transparent); }
-  .unit-row span { display: grid; gap: 2px; font-size: 7px; line-height: 1.4; letter-spacing: .06em; }
-  .unit-row b { color: var(--acid); font-weight: 400; }
-  .unit-row em { color: var(--signal); font-style: normal; }
-  .status-signal { margin: 11px 0 0; padding-top: 9px; border-top: 1px solid color-mix(in srgb, var(--inv-label) 35%, transparent); color: var(--inv-label); font-size: 7px; line-height: 1.45; letter-spacing: .08em; text-transform: uppercase; }
+  .case-note { align-self: stretch; position: relative; padding: 24px 24px 20px; border-left: 2px solid var(--paper); background: var(--journal-board); color: var(--ink); }
+  .case-note::after { content: ""; position: absolute; right: -43px; bottom: -45px; width: 190px; height: 190px; border: 1px solid rgba(230,182,95,.58); border-radius: 50%; box-shadow: 0 0 0 22px rgba(230,182,95,.12), 0 0 0 44px rgba(230,182,95,.06); }
+  .case-note-head { position: relative; z-index: 1; display: flex; align-items: center; justify-content: space-between; gap: 10px; color: var(--ion-light); font-family: var(--font-mono); font-size: var(--t-micro); letter-spacing: var(--t-micro-tr); }
+  .case-note-head i { width: 28px; border-top: 2px solid var(--acid); }
+  .case-file { position: relative; z-index: 1; margin: 18px 0 15px; color: var(--ink); font-family: var(--font-display); font-size: 25px; line-height: .92; text-transform: uppercase; }
+  dl { position: relative; z-index: 1; margin: 0; }
+  dl > div { display: flex; justify-content: space-between; gap: 12px; padding: 9px 0; border-top: 1px solid rgba(246,237,217,.24); }
+  dt, dd { margin: 0; font-family: var(--font-mono); font-size: var(--t-micro); letter-spacing: .08em; }
+  dt { color: var(--acid); } dd { max-width: 62%; color: var(--inv-body); text-align: right; text-transform: uppercase; }
+  .case-rule { position: relative; z-index: 1; max-width: 27ch; margin-top: 17px; padding-top: 11px; border-top: 1px solid rgba(246,237,217,.24); color: var(--inv-label); font-family: Georgia, serif; font-size: 14px; font-style: italic; line-height: 1.35; }
 
-  .is-compact { min-height: 184px; }
-  .is-compact .heading-copy { padding-block: 27px; }
-  .is-compact .station-status { margin-block: 18px; }
-  .is-compact .status-title { font-size: 22px; }
+  .is-compact { min-height: 210px; }.is-compact .heading-copy { padding-block: 31px; }.is-compact .case-file { font-size: 20px; margin-block: 13px; }.is-compact .case-rule { display: none; }
 
   @media (max-width: 720px) {
     .service-heading { grid-template-columns: 1fr; }
-    .heading-copy { padding: 30px 24px; }
-    .station-status { justify-self: stretch; width: auto; margin: 0 24px 24px; }
+    .heading-copy { padding: 34px 24px; }
+    .case-note { border-left: 0; border-top: 2px solid var(--paper); padding: 22px 24px; }
   }
 </style>

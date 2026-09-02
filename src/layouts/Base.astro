@@ -1,8 +1,10 @@
 ---
 /**
- * OCP3D High Desert Retrofit shell.
- * A warm working sheet inside a dusk-field exterior. Content stays literal;
- * atmosphere is carried by materials, rails, and small functional fragments.
+ * OCP3D Bench Journal shell.
+ *
+ * A warm field record inside a dark investigation surround. The roadbook cues
+ * describe how a part problem is traced back to physical evidence; they are
+ * not a claim of racing, travel, safety, or performance work.
  */
 import "../styles/global.css";
 import Lockup from "../components/Lockup.astro";
@@ -10,18 +12,15 @@ import Lockup from "../components/Lockup.astro";
 interface Props { title: string; description?: string; sheet?: string }
 const {
   title,
-  description = "OCP3D — Old Car Problems. Measured, engineered and 3D-printed parts for cars worth keeping.",
-  sheet = "HIGH DESERT · 01",
+  description = "OCP3D investigates old-car problems from a physical interface, then keeps the useful evidence on record.",
+  sheet = "PARTS INVESTIGATION · 01",
 } = Astro.props;
 
 const nav = [
-  { href: "/registry/", label: "Field inventory" },
-  { href: "/request/",  label: "Open a case" },
-  { href: "/method/",   label: "Method" },
+  { href: "/registry/", label: "Field files" },
+  { href: "/method/",   label: "How I investigate" },
   { href: "/charter/",  label: "Mission" },
 ];
-const rows = ["D", "U", "S", "K"];
-const cols = ["BAY", "07", "TRACE", "FILE"];
 const canonical = `https://ocp3d.com${Astro.url.pathname}`;
 ---
 <!doctype html>
@@ -31,7 +30,7 @@ const canonical = `https://ocp3d.com${Astro.url.pathname}`;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#211827" />
+    <meta name="theme-color" content="#1e2428" />
     <meta property="og:site_name" content="OCP3D — Old Car Problems" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
@@ -43,19 +42,14 @@ const canonical = `https://ocp3d.com${Astro.url.pathname}`;
   </head>
   <body>
     <div class="sheet-outer">
-      <div class="zone zone-rows zone-left" aria-hidden="true">{rows.map((r) => <span>{r}</span>)}</div>
-      <div class="zone zone-rows zone-right" aria-hidden="true">{rows.map((r) => <span>{r}</span>)}</div>
-      <div class="zone zone-cols zone-top" aria-hidden="true">{cols.map((c) => <span>{c}</span>)}</div>
-      <div class="zone zone-cols zone-bottom" aria-hidden="true">{cols.map((c) => <span>{c}</span>)}</div>
-
       <div class="sheet">
-        <header class="sheet-header">
+        <header class="journal-header">
           <a class="lockup-link" href="/" aria-label="OCP3D — Old Car Problems — home">
             <Lockup variant="landscape" />
           </a>
           <nav class="nav" aria-label="Primary">
             {nav.map((n) => <a href={n.href}>{n.label}</a>)}
-            <a class="cta" href="/#register">LOG A PROBLEM</a>
+            <a class="cta" href="/request/">OPEN A PART<br />DISCUSSION</a>
           </nav>
         </header>
 
@@ -63,14 +57,15 @@ const canonical = `https://ocp3d.com${Astro.url.pathname}`;
           <slot />
         </main>
 
-        <footer class="title-block">
-          <div><span class="micro">STATION</span><span class="val">HIGH DESERT</span></div>
-          <div><span class="micro">BAY</span><span class="val">07</span></div>
-          <div><span class="micro">MODE</span><span class="val">MEASURE · MODEL · PRINT</span></div>
-          <div><span class="micro">FILE</span><span class="val">{sheet}</span></div>
+        <footer class="case-footer">
+          <div><span class="micro">JOURNAL</span><span class="val">PARTS INVESTIGATION</span></div>
+          <div><span class="micro">STARTING POINT</span><span class="val">1983 CELICA SUPRA</span></div>
+          <div><span class="micro">PART PATHS</span><span class="val">RESTORE · IMPROVE</span></div>
+          <div><span class="micro">FIELD FILE</span><span class="val">{sheet}</span></div>
           <div class="legal">
             © 2026 OCP3D · Old Car Problems · Pre-2000, unbranded, non-safety-critical parts.
-            OEM part numbers appear for identification only; OCP3D is not affiliated with any manufacturer.
+            No trackers, analytics, ad pixels, or third-party scripts. OEM part numbers appear for
+            identification only; OCP3D is not affiliated with any manufacturer.
           </div>
         </footer>
       </div>
@@ -79,45 +74,41 @@ const canonical = `https://ocp3d.com${Astro.url.pathname}`;
 </html>
 
 <style>
-  .sheet-outer { position: relative; padding: var(--sheet-pad); min-height: 100vh; }
-  .sheet {
-    border: var(--bd-sheet) solid color-mix(in srgb, var(--desert-paper) 66%, var(--ion-light));
-    background: var(--ground);
-    overflow: hidden;
-    box-shadow: 0 30px 90px rgba(0,0,0,.32);
+  .journal-header {
+    display: grid; grid-template-columns: 1fr auto; align-items: stretch; min-height: 72px;
+    border-bottom: 2px solid var(--paper); background: var(--ground);
   }
-  main { min-width: 0; }
-  .zone { position: absolute; display: flex; color: var(--ion-light); font-family: var(--font-mono); font-size: var(--t-zone); letter-spacing: .08em; }
-  .zone-rows { top: var(--sheet-pad); bottom: var(--sheet-pad); width: var(--sheet-pad); flex-direction: column; justify-content: space-around; align-items: center; }
-  .zone-left { left: 0; } .zone-right { right: 0; }
-  .zone-cols { left: var(--sheet-pad); right: var(--sheet-pad); height: var(--sheet-pad); justify-content: space-around; align-items: center; }
-  .zone-top { top: 0; } .zone-bottom { bottom: 0; }
-
-  .sheet-header {
-    display: flex; align-items: center; justify-content: space-between; gap: 22px; padding: 14px 26px;
-    border-bottom: var(--bd-section) solid var(--rule); background: color-mix(in srgb, var(--ground) 88%, var(--ground-deep));
+  .lockup-link { display: flex; align-items: center; padding: 14px 24px; text-decoration: none; }
+  .nav { display: flex; align-items: stretch; gap: 20px; }
+  .nav > a:not(.cta) {
+    display: flex; align-items: center; color: var(--steel); font-family: var(--font-mono);
+    font-size: var(--t-nav); letter-spacing: .1em; text-transform: uppercase; white-space: nowrap;
   }
-  .lockup-link { text-decoration: none; }
-  .nav { display: flex; align-items: center; gap: 20px; }
-  .nav a { font-family: var(--font-mono); font-size: var(--t-nav); color: var(--paper); text-decoration: none; white-space: nowrap; }
-  .nav a:hover { color: var(--ion); }
-  .cta { background: var(--signal); color: var(--ink) !important; padding: 10px 14px; font-weight: 600; letter-spacing: var(--t-button-tr); box-shadow: 3px 3px 0 var(--ion-light); }
-  .cta:hover { background: var(--ion); box-shadow: 3px 3px 0 var(--acid); }
+  .nav > a:not(.cta):hover { color: var(--signal); }
+  .cta {
+    display: grid; place-items: center; min-width: 168px; padding: 0 16px; background: var(--signal);
+    color: var(--ink) !important; border-left: 1px solid var(--paper); font-family: var(--font-mono);
+    font-size: var(--t-button); font-weight: 600; line-height: 1.35; letter-spacing: var(--t-button-tr);
+    text-align: center; text-transform: uppercase;
+  }
+  .cta:hover { background: var(--ion); }
 
-  .title-block { display: grid; grid-template-columns: .9fr .6fr 1.3fr 1fr 1.8fr; border-top: var(--bd-section) solid var(--rule); background: color-mix(in srgb, var(--ground-deep) 87%, var(--ground)); }
-  .title-block > div { padding: 14px 16px; display: flex; flex-direction: column; gap: 5px; border-left: var(--bd-inner) solid var(--rule); }
-  .title-block > div:first-child { border-left: 0; }
-  .micro { font-family: var(--font-mono); font-size: var(--t-micro); text-transform: uppercase; letter-spacing: var(--t-micro-tr); color: var(--ion); }
-  .val { font-family: var(--font-mono); font-size: var(--t-eyebrow); color: var(--paper); }
-  .legal { font-family: var(--font-mono); font-size: var(--t-eyebrow); line-height: 1.6; color: var(--steel); justify-content: center; }
+  .case-footer { display: grid; grid-template-columns: .9fr 1.1fr 1fr 1fr 2.15fr; border-top: 2px solid var(--paper); background: var(--journal-charcoal); }
+  .case-footer > div { display: flex; flex-direction: column; gap: 5px; padding: 15px 16px; border-left: 1px solid rgba(246,237,217,.22); }
+  .case-footer > div:first-child { border-left: 0; }
+  .micro { color: var(--ion-light); font-family: var(--font-mono); font-size: var(--t-micro); letter-spacing: var(--t-micro-tr); text-transform: uppercase; }
+  .val { color: var(--ink); font-family: var(--font-mono); font-size: var(--t-eyebrow); line-height: 1.5; }
+  .legal { justify-content: center; color: var(--inv-label); font-family: var(--font-mono); font-size: var(--t-micro); line-height: 1.65; }
 
-  @media (max-width: 980px) { .nav { gap: 13px; } .nav a { font-size: var(--t-micro); } }
-  @media (max-width: 900px) {
-    .zone { display: none; } .sheet-outer { padding: 10px; }
-    .sheet-header { flex-direction: column; align-items: flex-start; }
-    .nav { flex-wrap: wrap; gap: 14px; }
-    .title-block { grid-template-columns: 1fr 1fr; }
-    .title-block > div:nth-child(odd) { border-left: 0; }
-    .legal { grid-column: 1 / -1; border-top: var(--bd-inner) solid var(--rule); }
+  @media (max-width: 980px) { .nav { gap: 14px; } .nav > a:not(.cta) { font-size: var(--t-micro); } }
+  @media (max-width: 760px) {
+    .journal-header { grid-template-columns: 1fr; }
+    .lockup-link { padding: 16px; }
+    .nav { flex-wrap: wrap; gap: 13px; padding: 0 16px 16px; }
+    .nav > a:not(.cta) { min-height: 28px; }
+    .cta { min-width: 145px; min-height: 43px; margin-left: auto; }
+    .case-footer { grid-template-columns: 1fr 1fr; }
+    .case-footer > div:nth-child(odd) { border-left: 0; }
+    .legal { grid-column: 1 / -1; border-top: 1px solid rgba(246,237,217,.22); }
   }
 </style>

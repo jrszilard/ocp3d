@@ -2,208 +2,162 @@
 import Base from "../layouts/Base.astro";
 import parts from "../data/parts.json";
 import RegisterCard from "../components/RegisterCard.astro";
-import BenchUnit from "../components/BenchUnit.astro";
 
-/* The register is the product, so the cards are driven from the committed
-   catalogue snapshot, never from markup. One card per state, in the order the
-   sheet index runs: what is measured, what is moving, what is still owed. */
+/* A founder's real A60 problem becomes a field file. The public offer must
+   stay behind the evidence carried by each record—especially the fitted-only
+   made-to-order invitation on individual part pages. */
 const pick = (state: string) => parts.find((p: any) => p.state === state);
 const cards = [pick("measured"), pick("development"), pick("requested")].filter(Boolean);
-
 const visor: any = parts.find((p: any) => p.slug === "sun-visor-clip");
-const dim = (name: string) => visor?.dims.find((d: any) => d.name === name)?.mm;
-
-/* Four headline dimensions off the real record. The design reference showed
-   "18 DIMS"; the record says 20, and the record wins — the whole argument of
-   the site is that these numbers are true. */
-const measured = [
-  { label: "OVERALL L", value: dim("overall_length")?.toFixed(2) },
-  { label: "WIDTH", value: dim("overall_width")?.toFixed(2) },
-  { label: "HOOK Ø", value: dim("hook_inner_diameter")?.toFixed(2) },
-  { label: "WALL T", value: dim("hook_wall_thickness")?.toFixed(2) },
-];
-const printed = [
-  { label: "NOZZLE Ø", value: "0.40" },
-  { label: "LAYER", value: "0.12" },
-  { label: "INFILL", value: "60%" },
-  { label: "WALLS", value: "4" },
-];
-const notes = [
-  "Pre-2000, unbranded, non-safety-critical parts only.",
-  "Every file says what is measured, estimated, or still unknown.",
-  "3D printing solves geometry; real-car fit earns its own record.",
-  "No trackers, no telemetry, no mystery data.",
-];
-const steps = [
-  { n: 1, title: "Log",     text: "Tell us the car, the part, and what went wrong. Every problem starts as a field file." },
-  { n: 2, title: "Trace",   text: "We map surviving originals and the interfaces still on the vehicle." },
-  { n: 3, title: "Measure", text: "Original on the bench. Every critical dimension published free." },
-  { n: 4, title: "Build",   text: "Modelled in-house and 3D printed one layer at a time. If it misses, we learn and remake." },
-  { n: 5, title: "Run",     text: "Tested on a real car. Vehicle, material, and result stay on the record." },
-];
-const facts = [
-  { n: "0",  label: "TRACKERS" },
-  { n: "0",  label: "THIRD-PARTY SCRIPTS" },
-  { n: "1",  label: "FIELD STORED: EMAIL" },
-  { n: "±0", label: "TOLERANCE ON THAT" },
-];
 const dimsOnRecord = visor?.dimsConfirmed ?? 0;
+
+const legs = [
+  ["01", "Start with the problem.", "A broken original, an empty mounting point, or a daily annoyance is enough to open a field file."],
+  ["02", "Trace the useful leads.", "A part number, manual, donor photo, and owner knowledge can show what deserves investigation next."],
+  ["03", "Return to the interface.", "Photos establish that a feature exists. The physical part or mounting space establishes the dimensions."],
+  ["04", "Earn the record.", "Fit and function each earn their own line. A route, render, or story never proves either one."],
+];
+
+const paths = [
+  {
+    name: "RESTORE",
+    kicker: "A faithful part path",
+    title: "Keep a useful original in service.",
+    body: "A surviving original, donor, or measured mating surface can become a documented replacement or repair aid. The record states what belongs to the original and what still needs proof.",
+    facts: ["ORIGINAL / INTERFACE", "MEASURED DIMENSIONS", "REAL-CAR FIT RECORD"],
+  },
+  {
+    name: "IMPROVE",
+    kicker: "An OCP3D-original part path",
+    title: "Solve what the old car never did.",
+    body: "A reversible console cup holder is not a factory replacement. It is an OCP3D-original convenience idea that must earn its own measured interface, clearance, retention, material, and functional record.",
+    facts: ["MEASURED MOUNTING SPACE", "CLEARANCE / RETENTION", "FUNCTIONAL RECORD"],
+  },
+];
 ---
 
-<Base title="OCP3D — Old Car Problems. New parts in layers.">
-  <!-- ============================ HERO ============================ -->
+<Base
+  title="OCP3D — Old-car problems, traced back to a useful part."
+  description="OCP3D investigates missing parts and useful old-car improvements from a real interface, then keeps the evidence on record."
+  sheet="PARTS INVESTIGATION · A60 / 01"
+>
   <section class="hero">
-    <div class="hero-text">
-      <p class="projection">THE OLD EQUIPMENT STILL HAS A JOB TO DO</p>
-      <h1>Old systems.<br />New methods.</h1>
-      <p class="lead">
-        OCP3D puts surviving parts and stubborn interfaces on the bench, then measures, models,
-        and 3D prints the next useful version. Dimensions stay free, real-car fit stays on the
-        record, and old vehicles keep their place in the future.
-      </p>
-      <p class="hero-actions">
-        <a class="btn btn--primary" href="/registry/">Browse field inventory</a>
-        <a class="btn btn--secondary" href="/request/">Open a case</a>
-      </p>
-
-      <div class="notes">
-        <p class="eyebrow">FIELD NOTES</p>
-        <ol>
-          {notes.map((t, i) => (
-            <li><span class="num">{i + 1}.</span><span class="dense">{t}</span></li>
-          ))}
-        </ol>
-      </div>
-    </div>
-
-    <aside class="station-status" aria-label="High Desert station status">
-      <p class="status-kicker">STATION CONDITION / 07</p>
-      <p class="status-title">RETROFIT<br />INTAKE READY</p>
-      <dl>
-        <div><dt>OLD LAYER</dt><dd>tool bank / bench</dd></div>
-        <div><dt>NEW LAYER</dt><dd>scan rail / record</dd></div>
-        <div><dt>ON FILE</dt><dd>{dimsOnRecord} CONFIRMED DIMS</dd></div>
-      </dl>
-      <div class="unit-row">
-        <BenchUnit size={58} />
-        <span><b>BENCH UNIT / DOCKED</b><em>PHYSICAL SCAN ASSIST</em></span>
-      </div>
-      <p class="station-note">A field file starts at the interface. Evidence stays ahead of atmosphere.</p>
+    <aside class="evidence-board" aria-label="OCP3D parts investigation board">
+      <div class="board-head"><span><b>CASE A60 / 001</b><br />PARTS TRAIL OPEN</span><span>Every lead returns to the physical part.</span></div>
+      <svg class="route-map" viewBox="0 0 620 430" role="img" aria-label="Abstract route line connecting a problem to an investigated interface">
+        <defs><pattern id="map-grid" width="36" height="36" patternUnits="userSpaceOnUse"><path d="M36 0H0V36" fill="none" stroke="#b6c7b6" stroke-opacity=".25" stroke-width="1"/></pattern></defs>
+        <rect width="620" height="430" fill="url(#map-grid)" />
+        <path d="M20 324 C105 286, 115 135, 236 157 S339 282, 401 215 S521 59, 598 83" fill="none" stroke="#e6b65f" stroke-width="2" stroke-dasharray="8 8" />
+        <path d="M20 342 C106 305, 119 153, 236 175 S341 300, 415 233 S526 77, 600 101" fill="none" stroke="#58beb1" stroke-width="1" opacity=".9" />
+        <circle cx="25" cy="328" r="7" fill="#c9533d"/><circle cx="235" cy="157" r="7" fill="#e6b65f"/><circle cx="404" cy="215" r="7" fill="#58beb1"/><circle cx="598" cy="83" r="7" fill="#c9533d"/>
+        <text x="35" y="360" fill="#dbe0d1">PROBLEM</text><text x="183" y="138" fill="#dbe0d1">INTERFACE</text><text x="365" y="245" fill="#dbe0d1">DESIGN LEAD</text><text x="514" y="66" fill="#dbe0d1">BENCH PROOF</text>
+        <path d="M45 89H201M418 345H574" stroke="#b6c7b6" stroke-opacity=".5" stroke-width="1"/><text x="47" y="81" fill="#e6b65f">TWO PATHS / ONE TEST</text><text x="420" y="337" fill="#e6b65f">RETURN TO PROOF</text>
+      </svg>
+      <figure class="evidence-photo photo-original">
+        <img src="/images/process/original.jpg" alt="An original OCP3D part on the measurement bench" width="1280" height="960" />
+        <figcaption>LEAD 01 / ORIGINAL IN HAND</figcaption>
+      </figure>
+      <figure class="evidence-photo photo-measure">
+        <img src="/images/process/measurement.jpg" alt="A caliper and OCP3D part on the measurement bench" width="1280" height="960" />
+        <figcaption>LEAD 03 / MEASURE WHAT REMAINS</figcaption>
+      </figure>
+      <i class="pin pin-one" aria-hidden="true"></i><i class="pin pin-two" aria-hidden="true"></i><i class="pin pin-three" aria-hidden="true"></i>
+      <div class="improvement-card"><span>NEW CASE TYPE</span><b>OWNER IMPROVEMENT</b><i>CUP HOLDER / START WITH CONSOLE</i></div>
+      <div class="roadbook"><b>ROADBOOK / 01</b><span class="road-arrow" aria-hidden="true"></span><i>MISSING PART OR USEFUL ADDITION → INTERFACE → BENCH EVIDENCE</i></div>
     </aside>
-  </section>
 
-  <!-- ========================= SPEC BAND =========================
-       What was measured, beside what it was printed to. This pairing is the
-       core argument of the site — keep them side by side above mobile. -->
-  <section class="spec-band">
-    <div class="spec-col">
-      <p class="eyebrow">RECOVERED FROM THE ORIGINAL</p>
-      <div class="hairline-grid spec-grid">
-        {measured.map((m) => (
-          <div><span class="eyebrow">{m.label}</span><span class="spec-value">{m.value}</span></div>
-        ))}
-      </div>
-      <p class="dense foot">
-        {visor?.dimsTotal} dimensions on record · published free, whether you buy or not
+    <div class="hero-copy">
+      <span class="case-stamp"><span>CASE<br />OPEN<br />RETURN<br />TO BENCH</span></span>
+      <p class="projection">THE PARTS INVESTIGATION / OPENING ENTRY</p>
+      <h1>An old-car problem leaves a trail.</h1>
+      <p class="lead">Sometimes that trail begins with a broken original. Sometimes it begins with something the car never had—like a cup holder that respects the console it lives in. Either way, the claim only comes home when the physical interface is on the bench.</p>
+      <p class="hero-actions">
+        <a class="btn btn--primary" href="/registry/">FOLLOW THE FIELD FILES</a>
+        <a class="btn btn--secondary" href="/request/">BRING A LEAD / DISCUSS A PART</a>
       </p>
-    </div>
-    <div class="spec-col">
-      <p class="eyebrow eyebrow--amber">BUILT IN 3D</p>
-      <div class="hairline-grid spec-grid">
-        {printed.map((m) => (
-          <div><span class="eyebrow">{m.label}</span><span class="spec-value">{m.value}</span></div>
-        ))}
-      </div>
-      <p class="dense foot materials">
-        <span class="eyebrow">MATERIAL:</span>
-        <span class="mat"><i style="background:var(--mat-asa)"></i>ASA</span>
-        <span class="mat"><i style="background:var(--mat-petg)"></i>PETG</span>
-        <span class="mat"><i style="background:var(--mat-nylon-cf)"></i>NYLON CF</span>
-      </p>
+      <aside class="hero-note">“The route is not the story. The evidence is.”<small>OCP3D FIELD RULE / 01</small></aside>
     </div>
   </section>
 
-  <!-- ==================== SEQUENCE OF OPERATIONS ==================== -->
-  <section class="section sequence-wrap">
-    <p class="eyebrow">SERVICE SEQUENCE</p>
-    <ol class="hairline-grid sequence">
-      {steps.map((s) => (
-        <li class={s.n === 1 ? "is-current" : ""}>
-          <span class="balloon">{s.n}</span>
-          <h3>{s.title}</h3>
-          <p class="dense">{s.text}</p>
-        </li>
+  <section class="trail" aria-label="The OCP3D parts investigation process">
+    {legs.map(([n, title, body]) => (
+      <article><span>LEG {n}</span><h2>{title}</h2><p>{body}</p></article>
+    ))}
+  </section>
+
+  <section class="path-section">
+    <div class="path-intro">
+      <div><p class="eyebrow">TWO PART PATHS</p><h2>Restore what is gone. Improve what was never there.</h2></div>
+      <p class="lead">The catalog should not pretend these are the same kind of part. They do share one rule: a useful claim needs a measured interface and evidence that matches the claim.</p>
+    </div>
+    <div class="path-cards">
+      {paths.map((path) => (
+        <article class:list={["path-card", path.name === "IMPROVE" && "path-card--improve"]}>
+          <p class="path-name">{path.name}</p>
+          <p class="eyebrow">{path.kicker}</p>
+          <h3>{path.title}</h3>
+          <p>{path.body}</p>
+          <ul>{path.facts.map((fact) => <li>{fact}</li>)}</ul>
+        </article>
       ))}
-    </ol>
+    </div>
+    <div class="path-cta">
+      <div><p class="eyebrow">HAVE A CASE TO OPEN?</p><p>Bring the car, the problem, and whatever remains. I will first look for the honest path: existing supply, a usable donor, a measured interface, or a reason not to make it.</p></div>
+      <a class="btn btn--primary" href="/request/">OPEN A PART DISCUSSION</a>
+    </div>
   </section>
 
-  <!-- ======================= PARTS REGISTER ======================= -->
-  <section class="section">
-    <p class="index-head">
-      <span class="eyebrow">FIELD INDEX — PARTS ARCHIVE</span>
-      <a class="all-sheets" href="/registry/">All {parts.length} files →</a>
-    </p>
+  <section class="field-index">
+    <div class="index-head">
+      <div><p class="eyebrow">CURRENT FIELD INDEX</p><h2>What is already on the record.</h2></div>
+      <a class="index-link" href="/registry/">SEE ALL {parts.length} FIELD FILES →</a>
+    </div>
     <div class="cards">
-      {cards.map((p: any, i: number) => (
-        <RegisterCard part={p} sheet={i + 1} total={parts.length} />
-      ))}
+      {cards.map((p: any, i: number) => <RegisterCard part={p} sheet={i + 1} total={parts.length} />)}
+    </div>
+    <p class="index-note">These early files are restoration investigations. A future OCP3D-original improvement will carry its own purpose, interface, and functional evidence rather than borrowing a replacement part’s identity.</p>
+  </section>
+
+  <section class="proof-section">
+    <div class="proof-copy">
+      <p class="eyebrow">THE OPERATING LIMIT</p>
+      <h2>Evidence before an offer.</h2>
+      <p>OCP3D works on pre-2000, unbranded, non-safety-critical parts. A render is not a fit, a photo is not a dimension, and a useful idea is not a product until its own record supports the claim.</p>
+      <a href="/method/">READ THE METHOD →</a>
+    </div>
+    <div class="proof-facts">
+      <div><b>0</b><span>STOCK PHOTOS</span></div>
+      <div><b>0</b><span>GUESSWORK CLAIMS</span></div>
+      <div><b>{dimsOnRecord}</b><span>DIMS ON FIRST FIELD FILE</span></div>
+      <div><b>2</b><span>PART PATHS / ONE STANDARD</span></div>
     </div>
   </section>
 
-  <!-- ======================== ARTICLE IV =========================
-       The only inverted band on the page. Counted facts, not adjectives. -->
-  <section class="article-iv">
-    <div class="iv-text">
-      <p class="eyebrow iv-eyebrow">OCP3D TRANSMISSION RULE</p>
-      <h2>Keep the car running.<br />Not a profile of you.</h2>
-      <p class="iv-body">
-        A car drawn on paper in 1983 has no modem, no subscription and no privacy policy. OCP3D
-        keeps the same line: no trackers, analytics, ad pixels, or third-party scripts. One
-        address is kept for the Dispatch, with one click to leave every issue.
-      </p>
-      <p><a class="iv-link" href="/charter/">Read the mission →</a></p>
-    </div>
-    <div class="iv-facts">
-      {facts.map((f) => (
-        <div><span class="fact-n">{f.n}</span><span class="fact-l">{f.label}</span></div>
-      ))}
-    </div>
-  </section>
-
-  <!-- ======================= REGISTRATION ======================= -->
-  <section class="registration" id="register">
-    <div class="reg-text">
+  <section class="dispatch" id="register">
+    <div class="dispatch-copy">
       <p class="eyebrow">OCP3D DISPATCH — NO CHARGE</p>
-      <h2>Get the next signal.</h2>
-      <p class="lead">
-        Free, quiet, and sent only when a part actually moves forward — never on a schedule.
-        Voting is open to everyone. The parts cost money. The Dispatch does not.
-      </p>
-      <form class="reg-form" id="join-form" method="post" action="/api/request">
+      <h2>Follow the investigation as the record grows.</h2>
+      <p class="lead">A quiet update when a part moves from request to bench, from bench to fit record, or becomes responsibly available. No feed, no membership gate, no noise.</p>
+      <form class="dispatch-form" id="join-form" method="post" action="/api/request">
         <input type="hidden" name="type" value="membership" />
         <input type="text" name="company" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
         <input type="email" name="email" required placeholder="you@garage.example" aria-label="Email address" />
         <button class="btn btn--primary" type="submit">GET THE DISPATCH</button>
       </form>
-      <p class="reg-done dense" id="join-done" hidden></p>
-      <p class="dense reg-note">
-        We keep your address for the Dispatch, and for nothing else — never sold, never shared.
-      </p>
+      <p class="dispatch-done dense" id="join-done" hidden></p>
+      <p class="dense dispatch-note">Your address is for the Dispatch only—never sold, shared, or used to build a profile.</p>
     </div>
 
-    <div class="reg-block">
-      <div class="tb-head">
-        <span class="eyebrow">FIELD FILE · DISPATCH RECORD</span>
-        <span class="eyebrow">SIGNAL 0001</span>
-      </div>
-      <div class="hairline-grid tb-grid">
-        <div><span class="eyebrow">VEHICLE</span></div><div><span class="tb-v">A60 · Celica Supra</span></div>
-        <div><span class="eyebrow">CHANNEL</span></div><div><span class="tb-v">OCP3D Dispatch</span></div>
-        <div><span class="eyebrow">SIGNAL</span></div><div><span class="tb-v">1 part · {dimsOnRecord} dims</span></div>
-        <div><span class="eyebrow">EST.</span></div><div><span class="tb-v">2026</span></div>
-      </div>
-      <p class="oath">"Measure twice. Keep it moving."</p>
-    </div>
+    <aside class="dispatch-file">
+      <div class="dispatch-file-head"><span>FIELD FILE · DISPATCH RECORD</span><span>A60 / FIRST BENCH</span></div>
+      <dl>
+        <div><dt>STARTING CAR</dt><dd>1983 CELICA SUPRA</dd></div>
+        <div><dt>CHANNEL</dt><dd>OCP3D DISPATCH</dd></div>
+        <div><dt>ON RECORD</dt><dd>{dimsOnRecord} CONFIRMED DIMENSIONS</dd></div>
+        <div><dt>NEXT INPUT</dt><dd>YOUR PART PROBLEM</dd></div>
+      </dl>
+      <p>“Measure it. Make it useful. Leave the record behind.”</p>
+    </aside>
   </section>
 </Base>
 
@@ -214,7 +168,6 @@ const dimsOnRecord = visor?.dimsConfirmed ?? 0;
     e.preventDefault();
     const data = new FormData(joinForm);
     const email = String(data.get("email") || "");
-    // Validate on submit only, never while typing.
     try {
       const res = await fetch(joinForm.action, {
         method: "POST",
@@ -223,10 +176,9 @@ const dimsOnRecord = visor?.dimsConfirmed ?? 0;
       });
       if (!res.ok) throw new Error(String(res.status));
       const body = await res.json().catch(() => ({} as any));
-      const num = body?.number ? `№ ${body.number}` : "№ 0002";
-      // Success replaces the form block, keeping the layout height stable.
+      const num = body?.case ? `№ ${body.case}` : "on file";
       if (joinDone) {
-        joinDone.textContent = `File ${num} — the OCP3D Dispatch will find you when a part moves.`;
+        joinDone.textContent = `Dispatch file ${num} — I will write when a part actually moves forward.`;
         joinDone.hidden = false;
       }
       joinForm.hidden = true;
@@ -239,143 +191,38 @@ const dimsOnRecord = visor?.dimsConfirmed ?? 0;
 </script>
 
 <style>
-  /* ---- image-free High Desert hero ------------------------------------ */
-  .hero {
-    position: relative; display: grid; grid-template-columns: minmax(0, 1fr) minmax(280px, 31%);
-    min-height: 470px; overflow: hidden; border-bottom: var(--bd-section) solid var(--rule);
-    background:
-      linear-gradient(119deg, var(--ground) 0 56%, var(--ground-deep) 56% 73%, color-mix(in srgb, var(--signal) 45%, var(--ground-deep)) 73%),
-      repeating-linear-gradient(-9deg, transparent 0 5px, rgba(41,37,44,.045) 5px 6px);
-  }
-  .hero::after {
-    content: ""; position: absolute; z-index: 0; right: 0; bottom: 0; width: 44%; height: 56%; opacity: .46;
-    background: var(--grid-28); background-size: 22px 22px; pointer-events: none;
-  }
-  .hero-text { position: relative; z-index: 1; padding: var(--sec-hero); }
-  .projection { margin-bottom: 26px; font-size: var(--t-eyebrow); letter-spacing: var(--t-eyebrow-tr); text-transform: uppercase; color: var(--signal); }
-  .hero h1 { margin-bottom: 22px; max-width: 9ch; }
-  .hero .lead { max-width: 470px; }
-  .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin: 30px 0 36px; }
+  .hero { display: grid; grid-template-columns: 48% 52%; min-height: 590px; border-bottom: 2px solid var(--paper); }
+  .evidence-board { position: relative; overflow: hidden; min-height: 590px; border-right: 2px solid var(--paper); background: linear-gradient(150deg, var(--journal-board), var(--journal-charcoal)); }
+  .evidence-board::before { content: ""; position: absolute; inset: 0; opacity: .19; background-image: radial-gradient(circle at 1px 1px, #d9d4bd 1px, transparent 1.4px); background-size: 14px 14px; }
+  .board-head { position: absolute; z-index: 4; top: 22px; right: 24px; left: 24px; display: flex; justify-content: space-between; gap: 12px; color: var(--inv-body); font-size: var(--t-micro); letter-spacing: var(--t-micro-tr); text-transform: uppercase; }
+  .board-head b { color: var(--acid); font-weight: 600; }.board-head span:last-child { max-width: 145px; color: var(--inv-label); text-align: right; }
+  .route-map { position: absolute; inset: 44px 15px 106px; width: calc(100% - 30px); height: calc(100% - 150px); z-index: 0; }.route-map text { font-family: var(--font-mono); font-size: 8px; letter-spacing: 1px; }
+  .evidence-photo { position: absolute; z-index: 2; margin: 0; padding: 9px 9px 29px; background: var(--ground); box-shadow: 8px 10px 0 rgba(0,0,0,.26); }.evidence-photo::before { content: ""; position: absolute; top: -10px; left: 50%; width: 88px; height: 23px; background: rgba(211,177,109,.78); transform: translateX(-50%) rotate(-4deg); }
+  .evidence-photo img { width: 100%; height: 100%; object-fit: cover; filter: contrast(1.04) saturate(.84); }.evidence-photo figcaption { position: absolute; bottom: 9px; left: 10px; color: #55544c; font-size: 7px; letter-spacing: .08em; text-transform: uppercase; }
+  .photo-original { top: 104px; left: 14%; width: 45%; height: 284px; transform: rotate(-3.5deg); }.photo-original img { object-position: 50% 43%; }.photo-measure { top: 222px; right: 8%; width: 38%; height: 223px; transform: rotate(4deg); }.photo-measure::before { width: 73px; background: rgba(94,150,145,.78); transform: translateX(-50%) rotate(4deg); }.photo-measure img { object-position: 44% 53%; }
+  .pin { position: absolute; z-index: 5; width: 13px; height: 13px; border: 2px solid #f8e8b6; border-radius: 50%; box-shadow: 0 1px 3px rgba(0,0,0,.55); }.pin-one { top: 144px; left: 10.5%; background: var(--signal); }.pin-two { top: 205px; right: 10%; background: var(--acid); }.pin-three { bottom: 150px; left: 23%; background: var(--ion-light); }
+  .improvement-card { position: absolute; z-index: 3; top: 72px; right: 25px; width: 164px; padding: 10px 11px; border: 1px solid #f5dd9d; background: var(--acid); color: #26363a; box-shadow: 4px 5px 0 rgba(0,0,0,.2); font-size: 7px; line-height: 1.48; letter-spacing: .08em; text-transform: uppercase; transform: rotate(2deg); }.improvement-card span { display: block; color: #aa4737; }.improvement-card b { display: block; margin: 5px 0; font-weight: 600; font-size: 9px; line-height: 1.18; }.improvement-card i { color: #4d5e59; font-style: normal; }
+  .roadbook { position: absolute; z-index: 4; right: 22px; bottom: 22px; left: 22px; display: grid; grid-template-columns: 94px 1fr auto; align-items: center; gap: 12px; padding: 12px 14px; border-top: 2px solid var(--acid); background: #f0e2bb; color: #253238; box-shadow: 5px 6px 0 rgba(0,0,0,.22); font-size: 8px; line-height: 1.45; letter-spacing: .07em; text-transform: uppercase; }.roadbook b { color: #b94636; font-weight: 600; }.road-arrow { position: relative; width: 40px; height: 22px; border-top: 3px solid #2f7976; }.road-arrow::after { content: ""; position: absolute; top: -7px; right: 0; width: 12px; height: 12px; border-top: 3px solid #2f7976; border-right: 3px solid #2f7976; transform: rotate(45deg); }.roadbook i { color: #68706c; font-style: normal; }
 
-  .notes { max-width: 550px; border: var(--bd-inner) solid var(--rule); background: color-mix(in srgb, var(--ground) 72%, var(--ground-deep)); padding: 18px 20px; }
-  .notes ol { display: grid; gap: 9px; margin-top: 12px; }
-  .notes li { display: grid; grid-template-columns: 18px 1fr; align-items: start; }
-  .num { font-size: var(--t-dense); color: var(--signal); }
+  .hero-copy { position: relative; padding: var(--sec-hero); overflow: hidden; background: repeating-linear-gradient(0deg, transparent 0 31px, rgba(65,82,76,.14) 31px 32px), var(--ground); }.hero-copy::after { content: ""; position: absolute; right: -42px; bottom: -74px; width: 260px; height: 260px; border: 1px solid rgba(48,94,89,.24); border-radius: 50%; box-shadow: 0 0 0 24px rgba(48,94,89,.08), 0 0 0 48px rgba(48,94,89,.05); }
+  .projection { position: relative; z-index: 2; color: var(--signal); font-size: var(--t-eyebrow); letter-spacing: var(--t-eyebrow-tr); text-transform: uppercase; }.hero h1 { position: relative; z-index: 2; max-width: 10ch; margin: 15px 0 20px; }.hero .lead { position: relative; z-index: 2; max-width: 49ch; }.hero-actions { position: relative; z-index: 2; display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
+  .case-stamp { position: absolute; z-index: 3; top: 39px; right: 42px; width: 97px; height: 97px; display: grid; place-items: center; border: 2px solid rgba(174,66,49,.8); border-radius: 50%; color: #a54336; font-size: 8px; font-weight: 600; line-height: 1.45; letter-spacing: .1em; text-align: center; text-transform: uppercase; transform: rotate(10deg); }.case-stamp::before { content: ""; position: absolute; inset: 5px; border: 1px dashed currentColor; border-radius: 50%; }.case-stamp span { position: relative; z-index: 1; }
+  .hero-note { position: absolute; z-index: 3; right: 42px; bottom: 31px; max-width: 244px; padding: 11px 12px; border-left: 4px solid var(--ion); background: rgba(239,227,200,.92); color: #4c5652; font: italic 15px/1.35 Georgia, serif; }.hero-note small { display: block; margin-top: 5px; color: #6d726d; font: 400 7px var(--font-mono); letter-spacing: .1em; text-transform: uppercase; }
 
-  .station-status {
-    position: relative; z-index: 2; align-self: start; margin: 50px 38px 36px 0; padding: 16px 17px;
-    border: var(--bd-inner) solid color-mix(in srgb, var(--desert-dusk) 76%, var(--signal));
-    border-top: 4px solid var(--ion-light); background: color-mix(in srgb, var(--desert-night) 95%, #000);
-    color: var(--inv-body); box-shadow: 7px 7px 0 color-mix(in srgb, var(--signal) 68%, transparent);
-  }
-  .status-kicker { color: var(--ion-light); font-size: var(--t-micro); letter-spacing: var(--t-micro-tr); }
-  .status-title { margin: 9px 0 13px; color: var(--ink); font-family: var(--font-display); font-size: 29px; line-height: .92; text-transform: uppercase; }
-  .station-status dl { margin: 0; }
-  .station-status dl > div { display: flex; justify-content: space-between; gap: 10px; padding: 7px 0; border-top: 1px solid color-mix(in srgb, var(--inv-label) 35%, transparent); }
-  .station-status dt, .station-status dd { margin: 0; font-size: 8px; letter-spacing: .08em; }
-  .station-status dt { color: var(--acid); }
-  .station-status dd { color: var(--inv-body); text-align: right; }
-  .unit-row { display: flex; align-items: center; gap: 10px; padding-top: 10px; margin-top: 8px; border-top: 1px solid color-mix(in srgb, var(--inv-label) 35%, transparent); }
-  .unit-row span { display: grid; gap: 2px; font-size: 7px; line-height: 1.4; letter-spacing: .06em; }
-  .unit-row b { color: var(--acid); font-weight: 400; }
-  .unit-row em { color: var(--signal); font-style: normal; }
-  .station-note { margin-top: 12px; padding-top: 9px; border-top: 1px solid color-mix(in srgb, var(--inv-label) 35%, transparent); color: var(--inv-label); font-size: 8px; line-height: 1.6; }
+  .trail { display: grid; grid-template-columns: repeat(4, 1fr); border-bottom: 2px solid var(--paper); background: var(--ground); }.trail article { min-height: 154px; padding: 20px; border-left: 1px solid var(--rule); }.trail article:first-child { border-left: 0; }.trail span { color: var(--signal); font-size: var(--t-micro); letter-spacing: var(--t-micro-tr); }.trail h2 { margin: 11px 0 8px; font-size: 22px; }.trail p { color: var(--body); font-size: var(--t-dense); line-height: var(--t-dense-lh); }
 
-  /* ---- spec band ------------------------------------------------------- */
-  .spec-band {
-    display: grid; grid-template-columns: 1fr 1fr;
-    border-top: var(--bd-section) solid var(--paper);
-  }
-  .spec-col { padding: var(--sec-dense); }
-  .spec-col + .spec-col { border-left: var(--bd-section) solid var(--paper); }
-  .spec-grid { grid-template-columns: repeat(4, 1fr); margin: 14px 0; }
-  .spec-grid > div { display: flex; flex-direction: column; gap: 6px; }
-  .foot { color: var(--steel); }
-  .materials { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
-  .mat { display: inline-flex; align-items: center; gap: 6px; font-size: var(--t-dense); }
-  .mat i { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
+  .path-section { padding: var(--sec-state); background: var(--panel); }.path-intro { display: grid; grid-template-columns: minmax(0, .9fr) minmax(280px, .7fr); gap: 34px; align-items: end; padding-bottom: 26px; }.path-intro h2 { max-width: 14ch; margin-top: 11px; }.path-intro .lead { max-width: 48ch; }
+  .path-cards { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid var(--rule-2); }.path-card { padding: 26px 28px; background: var(--ground); }.path-card--improve { border-left: 1px solid var(--rule-2); background: var(--ground-deep); }.path-name { margin-bottom: 18px; color: var(--signal); font-family: var(--font-display); font-size: 36px; line-height: .85; }.path-card h3 { max-width: 15ch; margin: 10px 0 13px; font-size: 27px; }.path-card > p:not(.path-name):not(.eyebrow) { max-width: 55ch; color: var(--body); font-size: var(--t-dense); line-height: var(--t-dense-lh); }.path-card ul { display: grid; gap: 6px; margin-top: 21px; padding-top: 15px; border-top: 1px solid var(--rule-3); }.path-card li { color: var(--ion); font-size: var(--t-micro); letter-spacing: var(--t-micro-tr); }
+  .path-cta { display: flex; align-items: center; justify-content: space-between; gap: 25px; margin-top: 18px; padding: 21px 23px; border: 1px solid var(--rule); background: #e4d5ba; }.path-cta p:not(.eyebrow) { max-width: 68ch; margin-top: 7px; color: var(--body); font-size: var(--t-dense); line-height: var(--t-dense-lh); }
 
-  /* ---- sequence -------------------------------------------------------- */
-  .sequence-wrap { padding-bottom: 0; }
-  .sequence { grid-template-columns: repeat(5, 1fr); margin-top: 14px; }
-  .sequence > li { padding: 20px 16px 26px; display: flex; flex-direction: column; gap: 10px; }
-  .balloon {
-    width: 24px; height: 24px; border-radius: 50%; border: 1.5px solid var(--paper);
-    display: grid; place-items: center; font-size: var(--t-dense); color: var(--paper);
-  }
-  /* step 1 is the front of the queue, and the only amber thing here */
-  .is-current .balloon { border-color: var(--amber); color: var(--amber); }
-  .sequence h3 { font-size: var(--h-step); letter-spacing: var(--h-step-tr); }
+  .field-index { padding: var(--sec-state); }.index-head { display: flex; align-items: end; justify-content: space-between; gap: 24px; }.index-head h2 { margin-top: 10px; }.index-link { color: var(--ion); font-size: var(--t-eyebrow); letter-spacing: var(--t-eyebrow-tr); text-align: right; }.cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--gap-cards); margin-top: 23px; }.index-note { max-width: 80ch; margin-top: 18px; color: var(--steel); font-size: var(--t-dense); line-height: var(--t-dense-lh); }
 
-  /* ---- register cards -------------------------------------------------- */
-  .index-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; }
-  .all-sheets { font-size: var(--t-eyebrow); letter-spacing: var(--t-eyebrow-tr); text-transform: uppercase; }
-  .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--gap-cards); margin-top: 16px; }
+  .proof-section { display: grid; grid-template-columns: 1fr 390px; gap: 42px; padding: var(--sec-state); border-top: 2px solid var(--paper); background: var(--journal-charcoal); color: var(--ink); }.proof-copy .eyebrow { color: var(--acid); }.proof-copy h2 { margin: 11px 0 16px; }.proof-copy p:not(.eyebrow) { max-width: 61ch; color: var(--inv-body); font-size: var(--t-section); line-height: var(--t-section-lh); }.proof-copy a { display: inline-block; margin-top: 17px; color: var(--acid); font-size: var(--t-eyebrow); letter-spacing: var(--t-eyebrow-tr); }.proof-facts { display: grid; grid-template-columns: 1fr 1fr; gap: 23px; align-content: start; }.proof-facts div { display: flex; flex-direction: column; gap: 5px; }.proof-facts b { color: var(--ink); font-family: var(--font-display); font-size: var(--h-fact); line-height: 1; }.proof-facts span { color: var(--inv-label); font-size: var(--t-micro); letter-spacing: var(--t-micro-tr); }
 
-  /* ---- Article IV (inverted) ------------------------------------------- */
-  .article-iv {
-    display: grid; grid-template-columns: 1fr 380px; gap: 40px;
-    background: var(--paper); color: var(--ink); padding: var(--sec-state);
-    border-top: var(--bd-section) solid var(--paper);
-  }
-  .iv-eyebrow { color: var(--inv-gold); }   /* amber on paper fails contrast */
-  .article-iv h2 { margin: 10px 0 16px; }
-  .iv-body { color: var(--inv-body); font-size: var(--t-section); line-height: var(--t-section-lh); }
-  .iv-link { color: var(--inv-gold); text-decoration: underline; text-underline-offset: 3px; margin-top: 14px; display: inline-block; }
-  .iv-link:hover { color: var(--ink); }
-  .iv-facts { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; align-content: start; }
-  .iv-facts > div { display: flex; flex-direction: column; gap: 4px; }
-  .fact-n { font-family: var(--font-display); font-weight: 700; font-size: var(--h-fact); color: var(--ink); line-height: 1; }
-  .fact-l { font-size: var(--t-micro); letter-spacing: var(--t-micro-tr); text-transform: uppercase; color: var(--inv-label); }
+  .dispatch { display: grid; grid-template-columns: 1fr 420px; gap: 40px; padding: var(--sec-state); background: var(--ground); }.dispatch h2 { max-width: 14ch; margin: 11px 0 16px; }.dispatch-copy .lead { max-width: 58ch; }.dispatch-form { display: flex; max-width: 540px; margin: 27px 0 12px; }.dispatch-form input[type="email"] { flex: 1; min-width: 0; padding: 11px 13px; border: 1px solid var(--paper); border-right: 0; background: var(--ground-deep); color: var(--paper); font-size: var(--t-dense); }.dispatch-form input::placeholder { color: var(--steel); }.hp { position: absolute; left: -9999px; width: 1px; height: 1px; }.dispatch-note { max-width: 520px; color: var(--steel); }.dispatch-done { color: var(--ion); }
+  .dispatch-file { align-self: start; border: 1px solid var(--rule-2); background: var(--panel); }.dispatch-file-head { display: flex; justify-content: space-between; gap: 12px; padding: 12px 14px; border-bottom: 1px solid var(--rule); color: var(--signal); font-size: var(--t-micro); letter-spacing: var(--t-micro-tr); }.dispatch-file dl { margin: 0; }.dispatch-file dl > div { display: flex; justify-content: space-between; gap: 15px; padding: 12px 14px; border-top: 1px solid var(--rule-3); }.dispatch-file dl > div:first-child { border-top: 0; }.dispatch-file dt, .dispatch-file dd { margin: 0; font-size: var(--t-micro); letter-spacing: .08em; }.dispatch-file dt { color: var(--steel); }.dispatch-file dd { color: var(--paper); text-align: right; }.dispatch-file > p { margin: 0; padding: 15px 14px; border-top: 1px solid var(--rule); color: var(--steel); font: italic 14px/1.35 Georgia, serif; }
 
-  /* ---- registration ---------------------------------------------------- */
-  .registration {
-    display: grid; grid-template-columns: 1fr 420px; gap: 40px;
-    padding: var(--sec-state); border-top: var(--bd-section) solid var(--paper);
-  }
-  .registration h2 { margin: 10px 0 16px; }
-  .reg-form { display: flex; margin: 26px 0 12px; max-width: 520px; }
-  .reg-form input[type="email"] {
-    flex: 1; min-width: 0; background: var(--ground-deep); color: var(--paper);
-    border: var(--bd-input) solid var(--paper); border-right: 0; padding: 12px 14px;
-    font-size: var(--t-dense);
-  }
-  .reg-form input::placeholder { color: var(--rule); }
-  .reg-form .btn { white-space: nowrap; }
-  .hp { position: absolute; left: -9999px; width: 1px; height: 1px; }
-  .reg-note, .reg-done { color: var(--steel); max-width: 520px; }
-  .reg-done { color: var(--amber); }
-
-  .reg-block { border: var(--bd-inner) solid var(--rule); align-self: start; }
-  .tb-head {
-    display: flex; justify-content: space-between; gap: 10px; padding: 12px 14px;
-    border-bottom: var(--bd-inner) solid var(--rule);
-  }
-  .tb-grid { grid-template-columns: 110px 1fr; }
-  .tb-grid > div { padding: 11px 14px; }
-  .tb-v { font-size: var(--t-dense); color: var(--paper); }
-  .oath { padding: 14px; font-style: italic; font-size: var(--t-dense); color: var(--steel);
-          border-top: var(--bd-inner) solid var(--rule); }
-
-  /* ---- responsive ------------------------------------------------------ */
-  @media (max-width: 1100px) {
-    .hero { grid-template-columns: 1fr; }
-    .station-status { width: min(100% - 56px, 420px); margin: 0 28px 32px auto; }
-    .article-iv, .registration { grid-template-columns: 1fr; gap: 28px; }
-  }
-  @media (max-width: 900px) {
-    .sequence { grid-template-columns: 1fr 1fr; }
-    .cards { grid-template-columns: 1fr 1fr; }
-  }
-  @media (max-width: 720px) {
-    .spec-band { grid-template-columns: 1fr; }
-    .spec-col + .spec-col { border-left: 0; border-top: var(--bd-section) solid var(--paper); }
-  }
-  @media (max-width: 600px) {
-    .sequence { grid-template-columns: 1fr; }
-    .cards { grid-template-columns: 1fr; }
-    .spec-grid { grid-template-columns: 1fr 1fr; }
-    .reg-form { flex-direction: column; }
-    .reg-form input[type="email"] { border-right: var(--bd-input) solid var(--paper); }
-  }
+  @media (max-width: 1050px) { .hero { grid-template-columns: 1fr; }.evidence-board { min-height: 540px; border-right: 0; border-bottom: 2px solid var(--paper); }.path-intro, .proof-section, .dispatch { grid-template-columns: 1fr; }.path-intro { gap: 14px; }.proof-section, .dispatch { gap: 29px; } }
+  @media (max-width: 760px) { .trail { grid-template-columns: 1fr 1fr; }.trail article:nth-child(odd) { border-left: 0; }.trail article:nth-child(n + 3) { border-top: 1px solid var(--rule); }.path-cards, .cards { grid-template-columns: 1fr; }.path-card--improve { border-top: 1px solid var(--rule-2); border-left: 0; }.index-head, .path-cta { align-items: flex-start; flex-direction: column; }.index-link { text-align: left; }.dispatch-file { max-width: 520px; }.proof-section { grid-template-columns: 1fr; } }
+  @media (max-width: 600px) { .evidence-board { min-height: 458px; }.board-head { top: 16px; right: 16px; left: 16px; font-size: 7px; }.route-map { inset: 30px 7px 92px; width: calc(100% - 14px); height: calc(100% - 122px); }.improvement-card { top: 64px; right: 13px; width: 141px; padding: 8px; font-size: 6px; }.improvement-card b { font-size: 8px; }.photo-original { top: 82px; left: 8%; width: 51%; height: 225px; }.photo-measure { top: 187px; right: 5%; width: 44%; height: 180px; }.roadbook { right: 14px; bottom: 14px; left: 14px; grid-template-columns: 74px 1fr; padding: 9px 10px; font-size: 7px; }.road-arrow { display: none; }.roadbook i { grid-column: 2; }.hero-copy { padding: 42px 23px 178px; }.case-stamp { top: 28px; right: 21px; width: 82px; height: 82px; font-size: 7px; }.hero-note { right: 20px; bottom: 24px; left: 23px; max-width: none; }.trail { grid-template-columns: 1fr; }.trail article { min-height: auto; border-left: 0 !important; border-top: 1px solid var(--rule); }.trail article:first-child { border-top: 0; }.path-section, .field-index, .proof-section, .dispatch { padding: 34px 22px; }.path-card { padding: 22px; }.proof-facts { gap: 18px; }.dispatch-form { flex-direction: column; }.dispatch-form input[type="email"] { border-right: 1px solid var(--paper); }.dispatch-file-head { flex-direction: column; }.hero h1 { max-width: 10ch; } }
 </style>

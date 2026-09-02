@@ -6,9 +6,8 @@ const { state, label } = Astro.props;
 <span class={`stamp ${state}`}>{label}</span>
 
 <style>
-  /* The state stamp. Semantic, not decorative — rust signal marks the part
-     states backed by physical evidence; earlier states remain weathered label
-     tones. The retrofit world may be atmospheric, but status stays literal. */
+  /* The state stamp is semantic, not decorative. The journal may be atmospheric,
+     but a state remains a literal evidence claim. */
   .stamp {
     font-family: var(--font-mono); font-weight: 600;
     letter-spacing: var(--t-eyebrow-tr); font-size: var(--t-eyebrow);
@@ -17,5 +16,6 @@ const { state, label } = Astro.props;
   }
   .requested   { color: var(--steel); }
   .development { color: var(--body); }
-  .measured, .fitted { color: var(--amber); }
+  .measured { color: var(--amber); }
+  .fitted { color: var(--ion); }
 </style>

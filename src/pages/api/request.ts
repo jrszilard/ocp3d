@@ -1,5 +1,5 @@
 /**
- * POST /api/request — form intake for part requests and membership signups.
+ * POST /api/request — form intake for part investigations and membership signups.
  *
  * Delivery, in order of preference:
  *   1. AgentMail (studio pattern, same as fattamano order alerts) when
@@ -294,7 +294,7 @@ export const POST: APIRoute = async ({ request }) => {
     return respond(request, { ok: true, duplicate: via === "duplicate" }, 200, `/registry/${partSlug}/`);
   }
 
-  // Part request
+  // Part investigation
   const name = String(form.get("name") ?? "").trim();
   const vehicle = String(form.get("vehicle") ?? "").trim();
   const part = String(form.get("part") ?? "").trim();
@@ -308,7 +308,12 @@ export const POST: APIRoute = async ({ request }) => {
 
   const caseId = await caseNumber([email, vehicle, part, oem, message]);
   const situationLabel =
-    { "have-part": "Has the old part (even broken)", "on-car": "Part is stuck on the car", gone: "Part is gone entirely" }[situation] ?? situation;
+    {
+      "have-part": "Has the old part (even broken)",
+      "on-car": "Part is stuck on the car",
+      gone: "Part is gone entirely",
+      improvement: "Useful improvement the car never had",
+    }[situation] ?? situation;
   const subject = `Case ${caseId} — ${part} (${vehicle})`;
   const body = text(
     "A new OCP3D field file was opened on ocp3d.com.", "",
@@ -316,7 +321,7 @@ export const POST: APIRoute = async ({ request }) => {
     ["Name:", name],
     ["Email:", email],
     ["Vehicle:", vehicle],
-    ["Part:", part],
+    ["Part or problem:", part],
     ["OEM №:", oem || "—"],
     ["Situation:", situationLabel || "—"], "",
     message ? `Notes:\n${message}` : "Notes: —", "",
@@ -335,11 +340,11 @@ export const POST: APIRoute = async ({ request }) => {
       part_slug: /^[a-z0-9-]+$/.test(partSlug) ? partSlug : null,
     });
     await acknowledge(email, `Case ${caseId} — received`, text(
-      "Your case file is open.", "",
+      "Your OCP3D part investigation is on file.", "",
       ["Case:", caseId],
       ["Vehicle:", vehicle],
-      ["Part:", part], "",
-      "The paper trail starts today. We’ll write from the workshop within a few",
+      ["Part or problem:", part], "",
+      "The conversation starts today. I’ll review what you sent and write from the workshop within a few",
       "days — reply to this email and it goes straight to your case file.",
       "Photos of the original are welcome, broken or not.", "",
       "Nothing after a week? Reply here and reference your case number.", "",

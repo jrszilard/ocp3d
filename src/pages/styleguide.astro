@@ -6,23 +6,23 @@ import ServiceHeading from "../components/ServiceHeading.astro";
 
 // Every swatch is rendered FROM tokens.css. If a value here is wrong, update the token.
 const colours = [
-  ["--ground", "sun-faded working-sheet surface"],
-  ["--ground-deep", "sand panel, form surface, inherited equipment layer"],
-  ["--ink", "light text on rust signal and dusk panels"],
-  ["--paper", "dark working-sheet text and primary rules"],
-  ["--amber", "rust signal/action accent"],
-  ["--ion", "accessible scan-teal text accent"],
-  ["--ion-light", "high-energy scan rail / docked unit light"],
-  ["--acid", "new-tool status accent"],
-  ["--steel", "weathered secondary labels"],
-  ["--body", "body copy on working sheet"],
+  ["--ground", "warm ruled-paper field surface"],
+  ["--ground-deep", "field-card and taped-evidence surface"],
+  ["--ink", "light text on a dark case board"],
+  ["--paper", "dark journal ink and primary rules"],
+  ["--amber", "rust case/action signal"],
+  ["--ion", "investigation teal text accent"],
+  ["--ion-light", "route-line and field-note signal"],
+  ["--acid", "sun-yellow lead card accent"],
+  ["--steel", "secondary research labels"],
+  ["--body", "body copy on a field sheet"],
   ["--glass", "pending/evidence caption text"],
-  ["--rule", "interior equipment hairlines"],
-  ["--rule-2", "record borders, table gridlines"],
-  ["--rule-3", "faint sand separators"],
-  ["--panel", "warm inventory panel"],
-  ["--panel-2", "deep sand hatch stripe"],
-  ["--border", "dusk field exterior"],
+  ["--rule", "journal rules and record hairlines"],
+  ["--rule-2", "case borders and table gridlines"],
+  ["--rule-3", "faint paper separators"],
+  ["--panel", "warm investigation panel"],
+  ["--panel-2", "deep paper/tape hatch stripe"],
+  ["--border", "dark investigation surround"],
 ];
 const type = [
   ["Page H1", "var(--font-display)", "68 / 0.94 / -0.015em", "h1"],
@@ -41,14 +41,14 @@ const type = [
     <div class="wrap sg-wrap">
       <ServiceHeading
         eyebrow="OCP3D FIELD REFERENCE · DESIGN SYSTEM"
-        title="High Desert Retrofit."
-        lede="An original retrofuturist service world where sun-faded inherited equipment meets precise new scan and record tools. The vehicle story stays in evidence, not in decorative car art."
-        file="STYLEGUIDE · HIGH DESERT"
-        signal="TOKENS · FRAGMENTS · RECORDS"
+        title="Bench Journal / Parts Investigation."
+        lede="A warm physical field record: ruled paper, taped evidence, route lines, case stamps, and a dark investigation board. The vehicle story stays in real evidence, not decorative car art."
+        file="STYLEGUIDE · BENCH JOURNAL"
+        signal="TOKENS · LEADS · RECORDS"
       />
 
       <section class="sg-panel">
-        <p class="eyebrow">THE LOCKUP — RETROFIT-STATION MARK, OCP3D, PLAIN-LANGUAGE EXPANSION.</p>
+        <p class="eyebrow">THE LOCKUP — ORIGINAL FIXTURE MARK, OCP3D, PLAIN-LANGUAGE EXPANSION.</p>
         <div class="lockups">
           <div><Lockup variant="landscape" /><p class="dense cap">Landscape · header, screen</p></div>
           <div><Lockup variant="portrait" /><p class="dense cap">Portrait · print, stationery</p></div>
@@ -57,7 +57,7 @@ const type = [
             <p class="dense cap">Avatar · social, favicon</p>
           </div>
         </div>
-        <p class="dense note">Keep the retrofit-station mark, OCP3D acronym, and Old Car Problems expansion together. The mark is original: service rail, docked fixture head, and additive layer courses. It intentionally avoids a generic car silhouette and borrows no game, film, manufacturer, or government reference.</p>
+        <p class="dense note">Keep the fixture mark, OCP3D acronym, and Old Car Problems expansion together. The mark is original: service rail, docked fixture head, and additive layer courses. It intentionally avoids a generic car silhouette and borrows no game, film, manufacturer, rally event, or government reference.</p>
       </section>
 
       <section class="sg-panel">

@@ -5,22 +5,23 @@ import ServiceHeading from "../../components/ServiceHeading.astro";
 import { allParts } from "../../lib/catalog";
 const parts = allParts();
 ---
-<Base title="Parts Archive — OCP3D · Old Car Problems"
+<Base title="Parts I Started Building for My Own Car — OCP3D"
+      description="The growing OCP3D archive began with a 1983 Celica Supra. See what is measured, in development, fitted, or still needs a donor."
       sheet={`ARCHIVE · ${parts.length} FILES`}>
   <section class="archive-page">
     <div class="wrap archive-wrap">
       <ServiceHeading
-        eyebrow="OCP3D FIELD INDEX · PARTS ARCHIVE"
-        title="The parts archive."
-        lede="Every part we know about, whatever its state — from freshly requested to fitted on a real car. The file stays visible; the evidence changes as the work happens."
-        file={`ARCHIVE · ${parts.length} FILES`}
-        signal="SEARCH · FILTER · TRACE"
+        eyebrow="OCP3D PARTS INVESTIGATION · A60 STARTING POINT"
+        title="Field files from the bench."
+        lede="This archive began with my 1983 Celica Supra. It records restoration investigations already on the trail—what is measured, what is still on the bench, and what has earned a real-car record."
+        file={`FIELD INDEX · ${parts.length} FILES`}
+        signal="SEARCH · TRACE · RECORD"
       />
 
       <div class="archive-tools">
         <div class="tools-head">
-          <p class="eyebrow">ARCHIVE CONSOLE</p>
-          <a class="all-sheets" href="/request/">Missing something? Log a problem →</a>
+          <p class="eyebrow">INVESTIGATION DESK</p>
+          <a class="all-sheets" href="/request/">Missing part or useful improvement? Start a conversation →</a>
         </div>
         <div class="tools">
           <label class="search-field" for="q">
@@ -31,12 +32,14 @@ const parts = allParts();
           </label>
           <div class="filters" role="group" aria-label="Filter by state">
             <button type="button" class="chip on" data-state="">All</button>
+            <button type="button" class="chip" data-state="fitted">Fitted on a real car</button>
             <button type="button" class="chip" data-state="measured">Measured</button>
             <button type="button" class="chip" data-state="development">In development</button>
             <button type="button" class="chip" data-state="requested">Requested</button>
           </div>
         </div>
         <p class="eyebrow count" id="count" aria-live="polite"></p>
+        <p class="route-note">These files currently document restoration paths. A future OCP3D-original improvement will be labelled as such and carry its own measured interface and functional evidence.</p>
       </div>
 
       <div class="cards" id="grid">
@@ -46,10 +49,10 @@ const parts = allParts();
       <div class="empty" id="empty" hidden>
         <p class="eyebrow eyebrow--amber">NO MATCH IN THE ARCHIVE</p>
         <p class="dense">
-          Which means nobody has logged it yet. Log the problem and it starts existing — every file
-          above got here the same way.
+          It may be something I can research, locate, or investigate as a useful improvement. Send
+          the car and problem details, and we can discuss whether there is a responsible path forward.
         </p>
-        <a class="btn btn--primary" id="empty-cta" href="/request/">Log a problem →</a>
+        <a class="btn btn--primary" id="empty-cta" href="/request/">Discuss this part →</a>
       </div>
     </div>
   </section>
@@ -100,12 +103,12 @@ const parts = allParts();
 </script>
 
 <style>
-  .archive-page { background: linear-gradient(180deg, color-mix(in srgb, var(--ground-deep) 24%, transparent), transparent 28%); }
+  .archive-page { background: repeating-linear-gradient(0deg, transparent 0 31px, rgba(65,82,76,.08) 31px 32px), var(--ground); }
   .archive-wrap { display: grid; gap: 18px; }
   .archive-tools {
     padding: 19px 20px 16px;
     border: var(--bd-inner) solid var(--rule);
-    background: color-mix(in srgb, var(--ground-deep) 85%, transparent);
+    background: var(--panel);
   }
   .tools-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
   .all-sheets { font-size: var(--t-eyebrow); letter-spacing: var(--t-eyebrow-tr); text-transform: uppercase; color: var(--ion); }
@@ -128,6 +131,7 @@ const parts = allParts();
   .chip:hover { color: var(--paper); border-color: var(--paper); }
   .chip.on { color: var(--ink); border-color: var(--signal); background: var(--signal); }
   .count { display: block; color: var(--ion); }
+  .route-note { max-width: 84ch; margin-top: 12px; color: var(--steel); font-size: var(--t-dense); line-height: var(--t-dense-lh); }
 
   .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--gap-cards); }
   .empty {

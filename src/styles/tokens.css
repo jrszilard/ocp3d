@@ -1,11 +1,10 @@
 /* ============================================================================
-   OCP3D — HIGH DESERT RETROFIT
-   Original retrofuturist service infrastructure for old-car part records.
+   OCP3D — BENCH JOURNAL / PARTS INVESTIGATION
 
-   The visual premise is layered time: sun-faded inherited equipment, precise
-   newer measurement tools, and a human-readable field record. It is not a
-   game-world imitation; no protected marks, type, UI, characters, or trade
-   dress are borrowed.
+   A warm physical record of an old-car problem: taped evidence, ruled paper,
+   case stamps, route lines, and a dark investigation board. Roadbook energy is
+   visual research language only—not a racing, travel, safety, or performance
+   claim. Real parts remain real evidence; all status colours stay semantic.
    ============================================================================ */
 
 @font-face {
@@ -30,75 +29,77 @@
 }
 
 :root {
-  /* Named source palette. Components use the legacy aliases below so that
-     evidence-first panels retain their semantics while the world changes. */
-  --desert-night: #211827;
-  --desert-dusk: #403047;
-  --desert-paper: #F4D9A5;
-  --desert-sand: #E3BE86;
-  --desert-sand-deep: #D4A86F;
-  --desert-ink: #29252C;
-  --desert-rust: #C65C46;
-  --desert-cyan: #267D77;
-  --desert-cyan-light: #5BE4D0;
-  --desert-acid: #C0E986;
-  --desert-steel: #71645B;
-  --desert-rule: #A68E70;
+  /* Named source palette */
+  --journal-void: #17151b;
+  --journal-charcoal: #1e2428;
+  --journal-board: #20353a;
+  --journal-paper: #f5ecd8;
+  --journal-paper-deep: #e8dcc1;
+  --journal-paper-shadow: #d7cbb2;
+  --journal-ink: #21272a;
+  --journal-rust: #c9533d;
+  --journal-sun: #e6b65f;
+  --journal-teal: #288f88;
+  --journal-teal-light: #58beb1;
+  --journal-steel: #66706a;
+  --journal-rule: #807b70;
 
-  /* Legacy aliases — deliberately light working sheets inside a dusk shell. */
-  --ground:      var(--desert-paper);
-  --ground-deep: var(--desert-sand);
-  --ink:         var(--desert-paper); /* ink on signal/dark panels */
-  --paper:       var(--desert-ink);  /* working-sheet text and primary rules */
-  --signal:      var(--desert-rust);
-  --amber:       var(--signal);
-  --ion:         var(--desert-cyan); /* accessible cyan for text on paper */
-  --ion-light:   var(--desert-cyan-light);
-  --acid:        var(--desert-acid);
-  --steel:       var(--desert-steel);
-  --body:        #4D4845;
-  --glass:       #7B6C60;
-  --rule:        var(--desert-rule);
-  --rule-2:      #8D765D;
-  --rule-3:      #C7AA7F;
-  --panel:       #E7C691;
-  --panel-2:     var(--desert-sand-deep);
-  --border:      var(--desert-night);
+  /* Shared semantic aliases. `paper` is dark ink on a light field; `ink` is
+     light type on a dark case board. Existing components retain this contract. */
+  --ground: var(--journal-paper);
+  --ground-deep: var(--journal-paper-deep);
+  --ink: #fff6e1;
+  --paper: var(--journal-ink);
+  --signal: var(--journal-rust);
+  --amber: var(--journal-rust);
+  --ion: var(--journal-teal);
+  --ion-light: var(--journal-teal-light);
+  --acid: var(--journal-sun);
+  --steel: var(--journal-steel);
+  --body: #4f5954;
+  --glass: #777b72;
+  --rule: var(--journal-rule);
+  --rule-2: #69675f;
+  --rule-3: #c8bca5;
+  --panel: #f0e4ca;
+  --panel-2: #d9c9a9;
+  --border: var(--journal-void);
 
-  --inv-body:  #E5D0B0;
-  --inv-label: #B9AA97;
-  --inv-gold:  var(--acid);
+  --inv-body: #dbe0d1;
+  --inv-label: #aab8a9;
+  --inv-gold: var(--journal-sun);
 
-  --mat-asa:      #BBAA94;
-  --mat-petg:     #34434A;
-  --mat-nylon-cf: #8C6544;
+  /* Kept for neutral material evidence, not product marketing. */
+  --mat-asa: #b9ad9b;
+  --mat-petg: #36454a;
+  --mat-nylon-cf: #896443;
 
   --font-display: "Archivo Narrow", "Archivo", Impact, sans-serif;
-  --font-word:    "Archivo", "Helvetica Neue", Arial, sans-serif;
-  --font-mono:    "IBM Plex Mono", ui-monospace, "SF Mono", Consolas, monospace;
+  --font-word: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Consolas, monospace;
 
-  --h1: 70px; --h1-lh: .9; --h1-tr: .008em;
-  --h2: 42px; --h2-lh: .96; --h2-tr: .01em;
-  --h-card: 15px;
-  --h-step: 14px; --h-step-tr: .07em;
-  --h-fact: 30px;
+  --h1: 70px; --h1-lh: .86; --h1-tr: -.005em;
+  --h2: 42px; --h2-lh: .92; --h2-tr: .005em;
+  --h-card: 19px;
+  --h-step: 16px; --h-step-tr: .025em;
+  --h-fact: 34px;
 
-  --t-lead: 15px; --t-lead-lh: 1.75;
+  --t-lead: 14px; --t-lead-lh: 1.78;
   --t-section: 13.5px; --t-section-lh: 1.78;
-  --t-dense: 11.5px; --t-dense-lh: 1.65;
-  --t-nav: 11.5px;
-  --t-spec: 15px;
-  --t-eyebrow: 10.5px; --t-eyebrow-tr: .16em;
-  --t-micro: 9px; --t-micro-tr: .14em;
-  --t-button: 11px; --t-button-tr: .12em;
-  --t-zone: 10px;
+  --t-dense: 11px; --t-dense-lh: 1.68;
+  --t-nav: 9px;
+  --t-spec: 14px;
+  --t-eyebrow: 9px; --t-eyebrow-tr: .14em;
+  --t-micro: 8px; --t-micro-tr: .12em;
+  --t-button: 9px; --t-button-tr: .13em;
+  --t-zone: 9px;
 
-  --word-land: 26px; --word-port: 42px;
+  --word-land: 25px; --word-port: 40px;
 
-  --sheet-pad: 22px;
-  --sec-dense: 32px 28px;
-  --sec-state: 46px 28px;
-  --sec-hero: 64px 28px 52px;
+  --sheet-pad: 20px;
+  --sec-dense: 36px 30px;
+  --sec-state: 50px 34px;
+  --sec-hero: 66px 42px 54px;
   --gap-cards: 18px;
   --bd-sheet: 1px;
   --bd-section: 1px;
@@ -107,14 +108,12 @@
   --radius: 0;
 
   --hatch: repeating-linear-gradient(135deg,
-    var(--panel) 0 7px, var(--panel-2) 7px 14px);
-  --grid-28: linear-gradient(color-mix(in srgb, var(--ion) 32%, transparent) 1px, transparent 1px),
-             linear-gradient(90deg, color-mix(in srgb, var(--ion) 32%, transparent) 1px, transparent 1px);
+    #e5d4b6 0 7px, #d3bea0 7px 14px);
+  --grid-28: linear-gradient(color-mix(in srgb, var(--ion) 28%, transparent) 1px, transparent 1px),
+             linear-gradient(90deg, color-mix(in srgb, var(--ion) 28%, transparent) 1px, transparent 1px);
   --cosmos:
-    radial-gradient(circle at 83% 12%, color-mix(in srgb, var(--signal) 32%, transparent) 0 1px, transparent 1.8px),
-    radial-gradient(circle at 17% 72%, color-mix(in srgb, var(--ion-light) 28%, transparent) 0 1px, transparent 1.8px),
-    radial-gradient(ellipse at 81% -6%, #66425D 0%, transparent 42%),
-    repeating-linear-gradient(-9deg, transparent 0 5px, rgba(244,217,165,.035) 5px 6px),
-    linear-gradient(145deg, #302136 0%, var(--desert-night) 54%, #17131D 100%);
-  --transition: 140ms ease-out;
+    radial-gradient(ellipse at 18% 0%, #493548 0%, transparent 29%),
+    radial-gradient(ellipse at 88% 56%, #25444a 0%, transparent 33%),
+    linear-gradient(135deg, #1c1720 0%, var(--journal-void) 58%, #111719 100%);
+  --transition: 150ms ease-out;
 }

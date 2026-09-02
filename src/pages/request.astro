@@ -2,29 +2,25 @@
 import Base from "../layouts/Base.astro";
 import ServiceHeading from "../components/ServiceHeading.astro";
 ---
-<Base title="Log an Old Car Problem — OCP3D" sheet="INTAKE · FIELD FILE">
+<Base title="Discuss a Part for Your Old Car — OCP3D" sheet="INTAKE · FIELD FILE">
   <section class="request-page">
     <div class="wrap">
       <ServiceHeading
-        eyebrow="OCP3D INTAKE · LOG A PROBLEM"
-        title="Tell us what your old car needs next."
-        lede="Give us the car and the part — a part number if you have one, a description and photo if you do not. We trace the interface, state what is known, and map the next useful version."
-        file="INTAKE · FIELD FILE"
+        eyebrow="OCP3D INTAKE · OPEN AN INVESTIGATION"
+        title="Tell me what your old car needs."
+        lede="Start with a missing part, a broken original, or a useful improvement the car never had. Send the car and problem—plus a number, photo, donor, or mounting detail if you have one—and I will reply to discuss the honest path forward."
+        file="INTAKE · PARTS INVESTIGATION"
         signal="OBSERVE · TRACE · RESPOND"
       />
 
       <div class="case-content">
-        <p class="dp1-line">Filed as an <b>OCP3D FIELD FILE</b> — a practical record for a part
-          that is hard to find, discontinued, or has never existed in the form your car needs.</p>
+        <p class="dp1-line">This starts as an <b>OCP3D FIELD FILE</b>, then a human conversation—not
+          an automatic quote or a promise that every part can be printed. The first job is to find
+          the responsible next step.</p>
         <div class="tiers">
-          <div class="tier"><span class="tier-n">01</span><b>You have the old part (even broken)?</b> Best case — we measure it
-            and reproduce it. Mail-in or guided self-measurement.</div>
-          <div class="tier"><span class="tier-n">02</span><b>Part’s still on the car but stuck there?</b> We’ll guide you through
-            in-place photos, a few caliper readings, and — for sockets and holes — a $5 putty
-            impression that captures what matters.</div>
-          <div class="tier"><span class="tier-n">03</span><b>Part’s gone entirely?</b> The interfaces it clipped into are still
-            on your car, and those are what determine fit. Shape comes from records; fit comes
-            from your car. We’ll source a donor if one exists.</div>
+          <div class="tier"><span class="tier-n">01</span><b>You have the old part—even broken?</b> Best case for a restoration path. We can discuss measuring it, borrowing it, or using it as a donor for a documented replacement.</div>
+          <div class="tier"><span class="tier-n">02</span><b>The car needs something it never had?</b> A cup holder, small storage solution, or other convenience idea starts with the actual console, trim, clearance, and what must not be blocked.</div>
+          <div class="tier"><span class="tier-n">03</span><b>The part is gone or the route is unclear?</b> We can look for a donor, identify the interfaces that remain, or point you toward existing supply. Not every case starts with a print.</div>
         </div>
 
         <form id="case-form" class="case-file" method="post" action="/api/request">
@@ -47,28 +43,29 @@ import ServiceHeading from "../components/ServiceHeading.astro";
             <label>The car
               <input type="text" name="vehicle" required placeholder="1984 Toyota Celica Supra" />
             </label>
-            <label>The part
-              <input type="text" name="part" required placeholder="Sun visor clip, driver side" />
+            <label>The part or problem
+              <input type="text" name="part" required placeholder="Sun visor clip, driver side — or a console cup holder" />
             </label>
             <label>OEM part № <span class="opt">if you have it</span>
               <input type="text" name="oem" placeholder="e.g. 58908-14010" />
             </label>
-            <label>Where is the part now?
+            <label>Where does the investigation start?
               <select name="situation">
                 <option value="have-part">I have the old part (even broken)</option>
                 <option value="on-car">It’s on the car, and it’s staying there</option>
-                <option value="gone">Gone entirely</option>
+                <option value="gone">The original part is gone entirely</option>
+                <option value="improvement">It is a useful improvement the car never had</option>
                 <option value="" selected>Not sure / it’s complicated</option>
               </select>
             </label>
           </div>
           <label class="full">Anything else
-            <textarea name="message" rows="4" placeholder="Cracked where? Brittle how? Photos help — send them after you submit and we’ll match them to your case."></textarea>
+            <textarea name="message" rows="4" placeholder="What is missing, broken, inconvenient, or in the way? For an improvement, describe the mounting space and what must stay clear. Photos help — send them after you submit and we’ll match them to your case."></textarea>
           </label>
 
           <div class="cf-foot">
-            <button class="btn btn--primary" type="submit">Log this problem</button>
-            <span class="cap">We write back within a few days, with the paper trail. Never spam.</span>
+            <button class="btn btn--primary" type="submit">Open this investigation</button>
+            <span class="cap">I will write back within a few days to discuss the part or improvement and the useful next step. Never spam.</span>
           </div>
           <p class="form-error" id="form-error" hidden></p>
         </form>
@@ -77,8 +74,8 @@ import ServiceHeading from "../components/ServiceHeading.astro";
           <div class="done-stamp">Case opened</div>
           <p class="done-case">Case № <b id="case-id">—</b></p>
           <p>
-            The paper trail starts today. We’ll write from the workshop within a few days —
-            replies to that email go straight to your case file, photos welcome.
+            The conversation starts today. I’ll write from the workshop within a few days—replies
+            to that email go straight to your case file, and photos are welcome.
           </p>
           <p class="done-alt">
             Nothing after a week? Email <a href="mailto:requests@lostclipsociety.com">requests@lostclipsociety.com</a>
@@ -118,7 +115,7 @@ import ServiceHeading from "../components/ServiceHeading.astro";
     errBox.hidden = true;
     const btn = form.querySelector("button[type=submit]") as HTMLButtonElement;
     btn.disabled = true;
-    btn.textContent = "Logging…";
+    btn.textContent = "Sending…";
     try {
       const res = await fetch(form.action, {
         method: "POST",
@@ -134,10 +131,10 @@ import ServiceHeading from "../components/ServiceHeading.astro";
       } else if (data.unconfigured) {
         // Backend not wired yet — fall back to a prefilled email.
         const f = new FormData(form);
-        const subject = `Part request — ${f.get("part")} (${f.get("vehicle")})`;
+        const subject = `OCP3D investigation — ${f.get("part")} (${f.get("vehicle")})`;
         const body = [
           `Name: ${f.get("name")}`, `Email: ${f.get("email")}`, `Vehicle: ${f.get("vehicle")}`,
-          `Part: ${f.get("part")}`, `OEM №: ${f.get("oem") || "—"}`,
+          `Part or problem: ${f.get("part")}`, `OEM №: ${f.get("oem") || "—"}`
           `Situation: ${(f.get("situation") as string) || "—"}`, "", (f.get("message") as string) || "",
         ].join("\n");
         window.location.href = `mailto:requests@lostclipsociety.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
@@ -148,7 +145,7 @@ import ServiceHeading from "../components/ServiceHeading.astro";
       errBox.textContent = "That did not transmit. Check the required fields and try again — or email requests@lostclipsociety.com directly.";
       errBox.hidden = false;
       btn.disabled = false;
-      btn.textContent = "Log this problem";
+      btn.textContent = "Open this investigation";
     }
   });
 </script>

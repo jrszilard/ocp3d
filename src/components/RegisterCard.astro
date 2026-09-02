@@ -1,24 +1,25 @@
 ---
 /**
- * A field file in the archive. One card anatomy, used on the home page and on
- * the archive index — never two.
+ * One evidence-bearing field card, shared by home and archive.
  *
- * Card art: a real photograph if one exists, the standing hatched placeholder
- * if a photograph is owed, and NO art at all for a part with no original on
- * file. That last state is deliberate and must survive: it is the request
- * funnel, and it is the honest thing to show when there is nothing to slice.
- *
- * OEM numbers are fail-closed. A number publishes only when the private OEM
- * identity is `confirmed`; a disputed identity shows the material instead, so
- * the site never asserts a part number it cannot stand behind.
+ * It intentionally refuses a decorative generic car or invented part image.
+ * Requested parts retain the honest no-original state; a render/photo remains
+ * tied to the record it actually represents.
  */
 interface Props { part: any; sheet: number; total: number; href?: string }
 const { part, sheet, total } = Astro.props;
 const href = Astro.props.href ?? `/registry/${part.slug}/`;
 
 const measured = part.state === "measured";
+const fitted = part.state === "fitted";
 const requested = part.state === "requested";
+const identityDisputed = part.oemIdentityStatus === "disputed";
 const oemPublishable = part.oemIdentityStatus === "confirmed" && part.oemNumber;
+const application = part.fitmentStatus === "confirmed" && part.vehicleLabel && !identityDisputed
+  ? `${part.yearRange} ${part.vehicleLabel}`.trim()
+  : identityDisputed
+    ? "Application under investigation"
+    : "Application being verified";
 
 const art: Record<string, string> = {
   "sun-visor-clip": "/images/parts/sun-visor-clip.jpg",
@@ -26,16 +27,22 @@ const art: Record<string, string> = {
 };
 const photo = art[part.slug];
 
-const statusLabel = measured
-  ? `MEASURED · ${part.dimsConfirmed} DIMS`
-  : part.state === "development"
-    ? "IN DEVELOPMENT"
-    : "REQUESTED";
+const statusLabel = fitted
+  ? "FITTED ON A REAL CAR"
+  : measured
+    ? `MEASURED · ${part.dimsConfirmed} DIMS`
+    : part.state === "development"
+      ? "IN DEVELOPMENT"
+      : "REQUESTED";
 
-const action = measured ? "Order this part" : part.state === "development" ? "Reserve one" : "Vote or sponsor";
+const action = fitted
+  ? "Discuss this fitted part"
+  : measured
+    ? "See what is measured"
+    : part.state === "development"
+      ? "Follow this build"
+      : "Discuss this part";
 
-/* The archive index filters client-side over these two attributes. Kept on the
-   card rather than in the page so one card anatomy serves both screens. */
 const search = [part.title, part.vehicleLabel, part.yearRange, part.oemNumber, part.category, statusLabel]
   .filter(Boolean).join(" ").toLowerCase();
 ---
@@ -43,76 +50,40 @@ const search = [part.title, part.vehicleLabel, part.yearRange, part.oemNumber, p
   {requested ? (
     <div class="card-empty">
       <span class="empty-head">NO ORIGINAL ON FILE</span>
-      <small>Nothing to slice until<br />a donor part arrives</small>
+      <small>Nothing to trace until<br />a donor part arrives</small>
     </div>
   ) : (
     <div class="card-art">
-      <span class="sheet-no">FILE {sheet}/{total}</span>
-      {measured && <span class="layer">0.12 mm</span>}
+      <span class="sheet-no">FIELD FILE {sheet}/{total}</span>
+      {measured && <span class="layer">{part.dimsConfirmed} DIMS</span>}
       {photo
         ? <img src={photo} alt={`${part.title} — reproduction in neutral resin`} width="640" height="480" loading="lazy" />
         : <div class="placeholder art-ph"><span>PART VIEW</span></div>}
+      <span class="tape" aria-hidden="true"></span>
     </div>
   )}
 
   <dl class="card-spec">
     <dt class="eyebrow">PART</dt><dd class="part-name">{part.title}</dd>
-    <dt class="eyebrow">APPLIES TO</dt><dd>{part.yearRange} {part.vehicleLabel}</dd>
+    <dt class="eyebrow">APPLICATION</dt><dd>{application}</dd>
     {oemPublishable
       ? <><dt class="eyebrow">OEM №</dt><dd>{part.oemNumber}</dd></>
       : <><dt class="eyebrow">MATERIAL</dt><dd>ASA · neutral</dd></>}
     <dt class="eyebrow">STATUS</dt>
-    <dd class={measured ? "status status--amber" : "status"}>{statusLabel}</dd>
+    <dd class={measured ? "status status--amber" : fitted ? "status status--fitted" : "status"}>{statusLabel}</dd>
   </dl>
 
   <a class="card-action" href={href}>{action}<span aria-hidden="true">→</span></a>
 </article>
 
 <style>
-  .card { border: var(--bd-inner) solid var(--paper); display: flex; flex-direction: column; }
-  /* Author display:flex overrides the browser's hidden default unless we state it. */
+  .card { display: flex; flex-direction: column; border: 1px solid var(--paper); background: var(--ground); box-shadow: 4px 5px 0 color-mix(in srgb, var(--paper) 14%, transparent); }
   .card[hidden] { display: none; }
-
-  .card-art { position: relative; height: 200px; }
-  .card-art img { width: 100%; height: 100%; object-fit: cover; }
-  .art-ph { height: 100%; border: 0; }
-  .sheet-no, .layer {
-    position: absolute; top: 10px; z-index: 1;
-    font-size: var(--t-micro); letter-spacing: var(--t-micro-tr); text-transform: uppercase;
-    background: var(--ground); padding: 3px 6px;
-  }
-  .sheet-no { left: 10px; color: var(--steel); }
-  .layer { right: 10px; color: var(--amber); }
-
-  /* the empty state — dashed foot, and the reason stated plainly */
-  .card-empty {
-    height: 200px; display: flex; flex-direction: column; align-items: center;
-    justify-content: center; gap: 6px; text-align: center;
-    border-bottom: 1px dashed var(--rule-2);
-  }
-  .empty-head {
-    color: var(--amber); font-size: var(--t-eyebrow); letter-spacing: var(--t-eyebrow-tr);
-    text-transform: uppercase;
-  }
-  .card-empty small { color: var(--steel); font-size: var(--t-dense); line-height: 1.6; }
-
-  .card-spec {
-    display: grid; grid-template-columns: 78px 1fr; gap: 8px 12px;
-    padding: 16px; flex: 1; align-content: start;
-  }
-  .card-spec dd { margin: 0; font-size: var(--t-dense); color: var(--body); }
-  .part-name {
-    font-family: var(--font-display); font-weight: 700; text-transform: uppercase;
-    font-size: var(--h-card) !important; color: var(--paper) !important; line-height: 1.15;
-  }
-  .status--amber { color: var(--amber) !important; }
-
-  .card-action {
-    display: flex; align-items: center; justify-content: space-between; gap: 10px;
-    padding: 13px 16px; border-top: var(--bd-inner) solid var(--rule);
-    font-size: var(--t-dense); text-transform: uppercase; letter-spacing: .06em;
-    transition: background var(--transition), color var(--transition);
-  }
-  /* the whole row fills, not just the text */
-  .card-action:hover { background: var(--amber); color: var(--ink); }
+  .card-art { position: relative; height: 208px; overflow: hidden; border-bottom: 1px solid var(--rule); background: var(--ground-deep); }
+  .card-art img { width: 100%; height: 100%; object-fit: cover; filter: contrast(1.04) saturate(.84); }.art-ph { height: 100%; border: 0; }
+  .sheet-no, .layer { position: absolute; z-index: 2; top: 10px; padding: 4px 6px; background: var(--ground); font-size: var(--t-micro); letter-spacing: var(--t-micro-tr); text-transform: uppercase; }.sheet-no { left: 10px; color: var(--steel); }.layer { right: 10px; color: var(--signal); }
+  .tape { position: absolute; z-index: 3; top: -9px; left: 50%; width: 86px; height: 20px; background: rgba(211,177,109,.72); transform: translateX(-50%) rotate(-4deg); }
+  .card-empty { height: 208px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 7px; border-bottom: 1px dashed var(--rule-2); background: repeating-linear-gradient(0deg, transparent 0 30px, rgba(63,82,76,.12) 30px 31px), var(--ground-deep); text-align: center; }.empty-head { color: var(--signal); font-size: var(--t-eyebrow); letter-spacing: var(--t-eyebrow-tr); text-transform: uppercase; }.card-empty small { color: var(--steel); font-size: var(--t-dense); line-height: 1.6; }
+  .card-spec { display: grid; grid-template-columns: 93px 1fr; gap: 8px 11px; align-content: start; flex: 1; padding: 17px 16px; }.card-spec dd { margin: 0; color: var(--body); font-size: var(--t-dense); }.part-name { color: var(--paper) !important; font-family: var(--font-display); font-size: var(--h-card) !important; font-weight: 700; line-height: 1.08; text-transform: uppercase; }.status--amber { color: var(--signal) !important; }.status--fitted { color: var(--ion) !important; }
+  .card-action { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 13px 16px; border-top: 1px solid var(--rule); color: var(--paper); font-size: var(--t-dense); letter-spacing: .06em; text-transform: uppercase; }.card-action:hover { background: var(--journal-board); color: var(--ink); }.card-action span { color: var(--signal); font-size: 16px; }.card-action:hover span { color: var(--acid); }
 </style>
