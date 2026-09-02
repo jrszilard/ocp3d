@@ -134,7 +134,7 @@ import ServiceHeading from "../components/ServiceHeading.astro";
         const subject = `OCP3D investigation — ${f.get("part")} (${f.get("vehicle")})`;
         const body = [
           `Name: ${f.get("name")}`, `Email: ${f.get("email")}`, `Vehicle: ${f.get("vehicle")}`,
-          `Part or problem: ${f.get("part")}`, `OEM №: ${f.get("oem") || "—"}`
+          `Part or problem: ${f.get("part")}`, `OEM №: ${f.get("oem") || "—"}`,
           `Situation: ${(f.get("situation") as string) || "—"}`, "", (f.get("message") as string) || "",
         ].join("\n");
         window.location.href = `mailto:requests@lostclipsociety.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
