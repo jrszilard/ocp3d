@@ -7,6 +7,8 @@
  * `node scripts/sync-catalog.mjs`.
  *
  * State ladder: requested → development → measured → fitted (on a real car).
+ * An unresolved exterior/safety gate is orthogonal: `safetyGated` closes the
+ * public record to R&D evidence rather than promoting a state into an offer.
  */
 import raw from "../data/parts.json";
 
@@ -29,6 +31,8 @@ export interface Part {
   category: string;
   state: PartState;
   stateLabel: string;
+  /** True only when the non-safety-critical scope gate remains unresolved. */
+  safetyGated: boolean;
   colors: string[];
   supersededTo: string | null;
   dims: Dim[];

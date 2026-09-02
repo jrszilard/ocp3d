@@ -13,17 +13,24 @@ export function getStaticPaths() {
 const { part } = Astro.props;
 // A measured model is useful evidence, not a sellable-fit claim. Only a field file
 // that has earned the real-car state may offer a made-to-order discussion.
-const orderable = part.state === "fitted";
-const oemLabel = oemIdentityLabel(part);
+const safetyGated = Boolean(part.safetyGated);
+const orderable = !safetyGated && part.state === "fitted";
+const oemLabel = safetyGated ? "RESEARCH ONLY" : oemIdentityLabel(part);
 const identityDisputed = part.oemIdentityStatus === "disputed";
 const fitmentUnconfirmed = part.fitmentStatus !== "confirmed";
 const fitmentDisputed = part.fitmentStatus === "disputed";
-const vehicleFitment = identityDisputed ? "Application under investigation" : fitmentLabel(part);
-const identityTitle = part.oemNumber
-  ? `OEM ${part.oemNumber} reproduction`
+const vehicleFitment = safetyGated
+  ? "Exterior/cyclic work — no vehicle claim"
   : identityDisputed
-    ? "OEM identity under investigation"
-    : "OEM identity pending";
+    ? "Application under investigation"
+    : fitmentLabel(part);
+const identityTitle = safetyGated
+  ? "research record — not an offer"
+  : part.oemNumber
+    ? `OEM ${part.oemNumber} reproduction`
+    : identityDisputed
+      ? "OEM identity under investigation"
+      : "OEM identity pending";
 
 // Neutral-resin render, once the part is modeled (scripts/render-part.py).
 const imgSrc = `/images/parts/${part.slug}.jpg`;
@@ -41,12 +48,17 @@ const hasImage = fs.existsSync(path.join(process.cwd(), "public", "images", "par
         title={part.title}
         lede="A working record, not a sales gloss. The geometry, material, and real-car evidence each earn their own line."
         file={`FIELD FILE · ${part.slug.replaceAll("-", " ").toUpperCase()}`}
-        signal={part.stateLabel}
+        signal={safetyGated ? "RESEARCH ONLY" : part.stateLabel}
         unit
       />
 
       <div class="part-scope">
-        {hasImage ? (
+        {safetyGated ? (
+          <div class="media media--research placeholder">
+            <span>RESEARCH ONLY — TESTING PENDING</span>
+            <small>No product view, fit claim, or road-use claim is made from this file.</small>
+          </div>
+        ) : hasImage ? (
           <figure class="media">
             <img src={imgSrc} alt={`${part.title} — reproduction render, neutral resin`}
                  width="1024" height="768" />
@@ -68,9 +80,16 @@ const hasImage = fs.existsSync(path.join(process.cwd(), "public", "images", "par
               <p class="eyebrow">CURRENT EVIDENCE STATUS</p>
               <p class="status-caption">The label below is literal. It is not a fit, strength, or availability claim beyond the record.</p>
             </div>
-            <Stamp state={part.state} label={part.stateLabel} />
+            <Stamp state={part.state} label={safetyGated ? "RESEARCH ONLY" : part.stateLabel} safetyGated={safetyGated} />
           </div>
           <p class="brief-copy">{part.description}</p>
+          {safetyGated && (
+            <p class="safety-notice" role="note">
+              <b>Final testing is still pending.</b> This exterior adaptor work needs vibration,
+              UV-exposure, and rain-functionality validation—plus the remaining measured interface
+              evidence—before any product, installation, fit, or road-use discussion can exist.
+            </p>
+          )}
           {identityDisputed && (
             <p class="identity-notice" role="note">
               <b>OEM identity under investigation.</b> The measured object and this permanent case
@@ -79,7 +98,7 @@ const hasImage = fs.existsSync(path.join(process.cwd(), "public", "images", "par
               evidence agree.
             </p>
           )}
-          {fitmentUnconfirmed && (
+          {!safetyGated && fitmentUnconfirmed && (
             <p class="identity-notice" role="note">
               {fitmentDisputed ? (
                 <>
@@ -120,7 +139,12 @@ const hasImage = fs.existsSync(path.join(process.cwd(), "public", "images", "par
         <div class="actions">
           <div class="commission">
             <div class="blk-label">NEXT ACTION</div>
-            {orderable ? (
+            {safetyGated ? (
+              <div class="row">
+                <a class="btn btn--primary" href={`/request/?part=${encodeURIComponent(part.title)}&part_slug=${part.slug}`}>Share a research lead</a>
+                <span class="cap">A donor, measurement, hardware detail, or controlled vibration/UV/rain test evidence can strengthen this research record. It is not a product discussion.</span>
+              </div>
+            ) : orderable ? (
               <div class="row">
                 <a class="btn btn--primary" href={`/request/?part=${encodeURIComponent(part.title)}&part_slug=${part.slug}`}>Discuss getting this part</a>
                 <span class="cap">This field file has a real-car record. Tell me your vehicle configuration and we can discuss a made-to-order replacement.</span>
@@ -167,7 +191,7 @@ const hasImage = fs.existsSync(path.join(process.cwd(), "public", "images", "par
 
       <p class="record-line">
         OCP3D field file ·
-        {part.oemNumber ? `Case № ${part.oemNumber}` : "Case pending identification"}
+        {safetyGated ? "Research record — final testing pending" : part.oemNumber ? `Case № ${part.oemNumber}` : "Case pending identification"}
       </p>
     </div>
   </section>
@@ -183,14 +207,14 @@ const hasImage = fs.existsSync(path.join(process.cwd(), "public", "images", "par
   .media { display: flex; flex-direction: column; margin: 0; min-width: 0; border-right: var(--bd-inner) solid var(--rule); background: var(--ground-deep); }
   .media img { width: 100%; height: auto; min-height: 0; aspect-ratio: 4 / 3; object-fit: cover; }
   .media figcaption { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; padding: 10px 14px; border-top: var(--bd-inner) solid var(--rule); font-size: var(--t-micro); letter-spacing: var(--t-micro-tr); color: var(--steel); }
-  .media--pending { min-height: 360px; }
+  .media--pending, .media--research { min-height: 360px; }
+  .media--research { background: repeating-linear-gradient(135deg, transparent 0 17px, color-mix(in srgb, var(--signal) 18%, transparent) 17px 18px), var(--journal-charcoal); color: var(--acid); text-align: center; }.media--research small { max-width: 30ch; color: var(--inv-body); }
   .case-summary { padding: 28px 30px; }
   .case-status { display: flex; align-items: flex-start; justify-content: space-between; gap: 18px; padding-bottom: 18px; border-bottom: var(--bd-inner) solid var(--rule); }
   .status-caption { max-width: 38ch; margin-top: 6px; font-size: var(--t-dense); line-height: var(--t-dense-lh); color: var(--steel); }
   .brief-copy { margin: 20px 0 16px; color: var(--body); }
   .paper-trail { color: var(--steel); font-size: var(--t-dense); }
-  .identity-notice { padding: 13px 15px; margin: 14px 0; border-left: 3px solid var(--ion); background: color-mix(in srgb, var(--ion) 9%, transparent); color: var(--steel); font-size: var(--t-dense); line-height: var(--t-dense-lh); }
-  .identity-notice b { color: var(--paper); }
+  .identity-notice, .safety-notice { padding: 13px 15px; margin: 14px 0; color: var(--steel); font-size: var(--t-dense); line-height: var(--t-dense-lh); }.identity-notice { border-left: 3px solid var(--ion); background: color-mix(in srgb, var(--ion) 9%, transparent); }.safety-notice { border-left: 3px solid var(--signal); background: color-mix(in srgb, var(--signal) 10%, transparent); }.identity-notice b, .safety-notice b { color: var(--paper); }
 
   .record-panel { border: var(--bd-inner) solid var(--rule-2); background: var(--panel); }
   .record-head { display: flex; align-items: end; justify-content: space-between; gap: 24px; padding: 24px 30px 18px; border-bottom: var(--bd-inner) solid var(--rule); }
@@ -224,7 +248,7 @@ const hasImage = fs.existsSync(path.join(process.cwd(), "public", "images", "par
   @media (max-width: 600px) {
     .case-summary, .record-head, .record-panel :global(.table-holder), .commission, .assist, .testimony { padding-inline: 20px; }
     .record-head { align-items: flex-start; flex-direction: column; gap: 10px; }
-    .media--pending { min-height: 260px; }
+    .media--pending, .media--research { min-height: 260px; }
     .case-status { flex-direction: column; }
   }
 </style>

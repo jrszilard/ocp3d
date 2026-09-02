@@ -1,9 +1,9 @@
 ---
 import type { PartState } from "../lib/catalog";
-interface Props { state: PartState; label: string }
-const { state, label } = Astro.props;
+interface Props { state: PartState; label: string; safetyGated?: boolean }
+const { state, label, safetyGated = false } = Astro.props;
 ---
-<span class={`stamp ${state}`}>{label}</span>
+<span class:list={["stamp", state, safetyGated && "safety"]}>{label}</span>
 
 <style>
   /* The state stamp is semantic, not decorative. The journal may be atmospheric,
@@ -18,4 +18,5 @@ const { state, label } = Astro.props;
   .development { color: var(--body); }
   .measured { color: var(--amber); }
   .fitted { color: var(--ion); }
+  .safety { color: var(--signal); }
 </style>

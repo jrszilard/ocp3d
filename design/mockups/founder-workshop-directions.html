@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>OCP3D — Founder-Led Workshop Direction Studies</title>
+  <style>
+    @font-face { font-family: "Plex Mono"; src: url("../../public/fonts/plex-mono-400.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: swap; }
+    @font-face { font-family: "Archivo Narrow"; src: url("../../public/fonts/archivo-narrow-700.woff2") format("woff2"); font-weight: 700; font-style: normal; font-display: swap; }
+    @font-face { font-family: "Archivo"; src: url("../../public/fonts/archivo-600.woff2") format("woff2"); font-weight: 600; font-style: normal; font-display: swap; }
+
+    :root {
+      --void: #17151b;
+      --paper: #f2e2ba;
+      --ink: #241e2a;
+      --rust: #c85e47;
+      --teal: #23a89a;
+      --line: rgba(36,30,42,.28);
+      --mono: "Plex Mono", ui-monospace, monospace;
+      --display: "Archivo Narrow", Impact, sans-serif;
+      --body: "Archivo", Arial, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    html { background: var(--void); }
+    body { margin: 0; color: var(--paper); background: radial-gradient(circle at 18% 0%, #3b2d3e 0, transparent 25%), var(--void); font-family: var(--body); }
+    .notice { padding: 11px 20px; background: linear-gradient(90deg, var(--rust), #e5a85e 54%, var(--teal)); color: #1d1921; text-align: center; font: 600 10px/1.45 var(--mono); letter-spacing: .13em; text-transform: uppercase; }
+    .page { width: min(1460px, calc(100% - 36px)); margin: 0 auto; padding: 34px 0 72px; }
+    .brief { display: grid; grid-template-columns: 260px 1fr; border: 1px solid rgba(242,226,186,.36); background: rgba(24,21,28,.74); }
+    .brief-label { padding: 25px; border-right: 1px solid rgba(242,226,186,.25); }
+    .brief-label span, .eyebrow, .label { color: var(--teal); font: 400 9px/1.4 var(--mono); letter-spacing: .15em; text-transform: uppercase; }
+    .brief-label h1 { margin: 12px 0 0; color: var(--paper); font: 700 38px/.88 var(--display); text-transform: uppercase; }
+    .brief-copy { padding: 24px 29px; color: #c5b9a6; font: 400 13px/1.8 var(--mono); }
+    .brief-copy b { color: var(--paper); font-weight: 400; }
+    .brief-copy em { color: #f4ae6f; font-style: normal; }
+    .criteria { display: grid; grid-template-columns: repeat(4, 1fr); margin: 16px 0 38px; border: 1px solid rgba(242,226,186,.28); background: rgba(25,22,29,.8); }
+    .criteria div { min-height: 88px; padding: 14px 17px; border-left: 1px solid rgba(242,226,186,.18); color: #a9a59e; font: 400 10px/1.65 var(--mono); }
+    .criteria div:first-child { border-left: 0; }
+    .criteria b { display: block; margin-bottom: 5px; color: #f4ae6f; font-size: 8px; letter-spacing: .14em; }
+    .directions { display: grid; gap: 46px; }
+    .direction { border: 1px solid rgba(242,226,186,.36); background: #19171b; box-shadow: 0 24px 60px rgba(0,0,0,.25); }
+    .direction-head { display: grid; grid-template-columns: 210px 1fr 350px; min-height: 102px; border-bottom: 1px solid rgba(242,226,186,.35); }
+    .direction-index { padding: 18px 20px; border-right: 1px solid rgba(242,226,186,.24); color: var(--teal); font: 400 9px/1.5 var(--mono); letter-spacing: .14em; text-transform: uppercase; }
+    .direction-index strong { display: block; margin-top: 8px; color: var(--paper); font: 700 27px/.92 var(--display); letter-spacing: .02em; }
+    .direction-copy { padding: 18px 23px; color: #bab4aa; font: 400 10px/1.7 var(--mono); }
+    .direction-copy b { color: var(--paper); font-weight: 400; }
+    .direction-read { padding: 18px 22px; border-left: 1px solid rgba(242,226,186,.24); color: #b7afa2; font: 400 9px/1.65 var(--mono); }
+    .direction-read b { display: block; margin-bottom: 5px; color: #f4ae6f; font-size: 8px; letter-spacing: .13em; }
+    .screen { overflow: hidden; color: var(--ink); }
+    .screen * { box-sizing: border-box; }
+    .mock-button { display: inline-flex; align-items: center; justify-content: center; min-height: 35px; padding: 10px 12px; border: 1px solid currentColor; font: 400 8px/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; white-space: nowrap; }
+    .mock-button.primary { background: var(--rust); border-color: var(--rust); color: #fff6df; }
+    .mock-button.teal { background: var(--teal); border-color: var(--teal); color: #132627; }
+    .mock-button.light { color: var(--ink); }
+    .mock-photo { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+    /* --------------------------------------------------------------
+       01 / Bench Journal
+       Hand-built, personal, tactility. The pages still contain evidence.
+    ---------------------------------------------------------------- */
+    .journal { background: #efe2c1; color: #26232a; font-family: var(--body); }
+    .journal-top { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 16px 25px; border-bottom: 1px solid #6f695f; background: #f7edd4; }
+    .journal-brand { display: grid; gap: 3px; font: 700 23px/.9 var(--display); letter-spacing: .03em; }
+    .journal-brand small { color: #5c635d; font: 400 8px/1 var(--mono); letter-spacing: .16em; }
+    .journal-nav { display: flex; align-items: center; gap: 19px; color: #57534d; font: 400 9px var(--mono); letter-spacing: .08em; text-transform: uppercase; }
+    .journal-nav b { color: #9e4738; font-weight: 400; }
+    .journal-hero { display: grid; grid-template-columns: .82fr 1.18fr; min-height: 500px; background: repeating-linear-gradient(0deg, transparent 0 31px, rgba(79,91,85,.14) 31px 32px), #f4e8ca; }
+    .journal-photo-wrap { position: relative; padding: 36px 34px 31px; border-right: 1px solid #8d8578; background: #d4ccba; }
+    .journal-photo-card { position: relative; height: 100%; min-height: 400px; padding: 11px; transform: rotate(-1.2deg); background: #f9f0dc; box-shadow: 8px 10px 0 rgba(55,49,43,.17); }
+    .journal-photo-card::before, .journal-photo-card::after { content: ""; position: absolute; top: -8px; width: 92px; height: 20px; background: rgba(188,149,94,.62); transform: rotate(-5deg); }
+    .journal-photo-card::before { left: 35px; } .journal-photo-card::after { right: 22px; transform: rotate(4deg); }
+    .journal-photo-card img { height: calc(100% - 48px); }
+    .journal-photo-card figcaption { display: flex; justify-content: space-between; gap: 9px; padding: 11px 3px 0; color: #6e665d; font: 400 8px/1.45 var(--mono); letter-spacing: .1em; text-transform: uppercase; }
+    .journal-copy { position: relative; padding: 54px 53px 38px; }
+    .journal-copy::before { content: ""; position: absolute; top: 33px; left: 0; width: 150px; border-top: 5px solid #d06649; }
+    .journal-copy .eyebrow { color: #a14337; }
+    .journal-copy h2 { max-width: 10ch; margin: 15px 0 17px; font: 700 clamp(48px, 5.1vw, 73px)/.86 var(--display); letter-spacing: -.01em; text-transform: uppercase; }
+    .journal-copy > p { max-width: 47ch; margin: 0; color: #57544f; font: 400 14px/1.72 var(--mono); }
+    .journal-actions { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 24px; }
+    .journal-sticky { position: absolute; right: 39px; bottom: 34px; width: 230px; padding: 15px 16px; transform: rotate(2.4deg); background: #ead76d; box-shadow: 5px 6px 0 rgba(73,68,39,.13); color: #4b4631; font: italic 17px/1.32 Georgia, serif; }
+    .journal-sticky small { display: block; margin-top: 8px; font: 400 7px var(--mono); letter-spacing: .1em; text-transform: uppercase; }
+    .journal-ribbon { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid #8d8578; background: #f7eddb; }
+    .journal-ribbon article { min-height: 136px; padding: 18px 24px; border-left: 1px solid #b8ad9c; }
+    .journal-ribbon article:first-child { border-left: 0; }
+    .journal-ribbon span { color: #a14337; font: 400 8px var(--mono); letter-spacing: .14em; }
+    .journal-ribbon h3 { margin: 11px 0 6px; font: 700 23px/.95 var(--display); text-transform: uppercase; }
+    .journal-ribbon p { margin: 0; color: #5c5850; font: 400 10px/1.55 var(--mono); }
+
+    /* --------------------------------------------------------------
+       02 / Independent Parts Counter
+       Clear, practical, inventory-first. Less personal diary, more specialist supplier.
+    ---------------------------------------------------------------- */
+    .counter { background: #173138; color: #f2ecd8; font-family: var(--body); }
+    .counter-top { display: grid; grid-template-columns: 1fr auto auto; align-items: center; gap: 20px; min-height: 68px; padding: 0 28px; border-bottom: 1px solid rgba(230,239,220,.42); }
+    .counter-brand { color: #f0dfad; font: 700 27px/.9 var(--display); letter-spacing: .03em; }
+    .counter-brand small { margin-left: 9px; color: #8bb8af; font: 400 8px var(--mono); letter-spacing: .13em; vertical-align: middle; }
+    .counter-nav { display: flex; gap: 15px; color: #a9c5ba; font: 400 8px var(--mono); letter-spacing: .11em; text-transform: uppercase; }
+    .counter-nav span:last-child { color: #efb565; }
+    .counter-ticket { padding: 9px 12px; border: 1px dashed #e5b15d; color: #f4d79c; font: 400 8px var(--mono); letter-spacing: .11em; text-transform: uppercase; }
+    .counter-hero { display: grid; grid-template-columns: 1.05fr .95fr; min-height: 476px; }
+    .counter-copy { position: relative; padding: 51px 45px 37px; overflow: hidden; background: linear-gradient(122deg, #15343c 0 68%, #1e4143 68%); }
+    .counter-copy::after { content: ""; position: absolute; right: -15px; bottom: -24px; width: 250px; height: 160px; border: 1px solid rgba(136,196,180,.36); transform: rotate(-13deg); }
+    .counter-copy .label { color: #8fd2c2; }
+    .counter-copy h2 { max-width: 10ch; margin: 15px 0 16px; color: #f5e4ad; font: 700 clamp(50px, 5vw, 72px)/.86 var(--display); text-transform: uppercase; }
+    .counter-copy p { position: relative; z-index: 1; max-width: 48ch; margin: 0; color: #bdd2c4; font: 400 12px/1.72 var(--mono); }
+    .counter-copy .counter-actions { position: relative; z-index: 1; display: flex; flex-wrap: wrap; gap: 9px; margin-top: 26px; }
+    .counter-item { display: grid; grid-template-rows: 1fr auto; border-left: 1px solid rgba(230,239,220,.42); background: #203e40; }
+    .counter-tray { position: relative; min-height: 330px; padding: 32px; background: repeating-linear-gradient(90deg, rgba(255,255,255,.03) 0 1px, transparent 1px 22px), #2b4a4a; }
+    .counter-tray::before { content: ""; position: absolute; inset: 25px; border: 13px solid #162c30; box-shadow: inset 0 0 0 1px #476763, 8px 9px 0 rgba(0,0,0,.18); }
+    .counter-tray img { position: relative; z-index: 1; width: 100%; height: 100%; object-fit: cover; filter: contrast(1.06) saturate(.77); }
+    .counter-stamp { position: absolute; z-index: 2; top: 37px; left: 42px; padding: 6px 8px; background: #e3a85c; color: #1c3031; font: 600 8px var(--mono); letter-spacing: .11em; transform: rotate(-2deg); }
+    .counter-spec { display: grid; grid-template-columns: 1fr auto; gap: 8px 16px; padding: 20px 26px; border-top: 1px solid rgba(230,239,220,.32); font: 400 9px/1.5 var(--mono); }
+    .counter-spec b { color: #f4dda5; font: 400 10px var(--mono); letter-spacing: .08em; }.counter-spec span { color: #a9c9bd; }.counter-spec i { color: #e6b56a; font-style: normal; text-align: right; }
+    .counter-ledger { display: grid; grid-template-columns: 1fr 1fr 1fr; border-top: 1px solid rgba(230,239,220,.42); }
+    .counter-ledger div { min-height: 124px; padding: 17px 20px; border-left: 1px solid rgba(230,239,220,.25); }.counter-ledger div:first-child { border-left: 0; }
+    .counter-ledger b { display: block; margin-bottom: 12px; color: #8fd2c2; font: 400 8px var(--mono); letter-spacing: .13em; }.counter-ledger strong { display: block; color: #f4e4b4; font: 700 23px/.94 var(--display); text-transform: uppercase; }.counter-ledger p { margin: 7px 0 0; color: #afc7bd; font: 400 9px/1.55 var(--mono); }
+
+    /* --------------------------------------------------------------
+       03 / Restoration Field Manual
+       Quiet, authoritative, archival. A personal repair becoming an enduring manual.
+    ---------------------------------------------------------------- */
+    .manual { background: #e7e3d3; color: #23312e; font-family: var(--body); }
+    .manual-top { display: grid; grid-template-columns: 140px 1fr 150px; align-items: stretch; border-bottom: 2px solid #22312e; }
+    .manual-mark { padding: 17px 18px; border-right: 1px solid #65716b; color: #184e4c; font: 700 22px/.86 var(--display); letter-spacing: .02em; }.manual-mark small { display: block; margin-top: 5px; font: 400 7px var(--mono); letter-spacing: .14em; }
+    .manual-nav { display: flex; align-items: center; justify-content: center; gap: 20px; color: #596760; font: 400 8px var(--mono); letter-spacing: .12em; text-transform: uppercase; }.manual-id { display: grid; place-items: center; border-left: 1px solid #65716b; color: #9c4f3e; font: 400 8px var(--mono); letter-spacing: .1em; }
+    .manual-hero { display: grid; grid-template-columns: 115px .95fr 1.05fr; min-height: 490px; }
+    .manual-margin { display: flex; flex-direction: column; justify-content: space-between; padding: 22px 15px; border-right: 1px solid #65716b; background: #d6d5c8; color: #5a665f; font: 400 8px/1.6 var(--mono); letter-spacing: .1em; }.manual-margin b { color: #9c4f3e; font-weight: 400; }
+    .manual-photo { position: relative; padding: 31px; border-right: 1px solid #65716b; background: linear-gradient(135deg, #ced4c7, #dfe1d2); }.manual-photo::before { content: ""; position: absolute; inset: 20px; border: 1px solid #355e5a; }.manual-photo img { position: relative; width: 100%; height: 100%; object-fit: cover; filter: grayscale(.32) contrast(1.1); }.manual-photo figcaption { position: absolute; bottom: 40px; left: 42px; padding: 6px 8px; background: #e6e2d2; border: 1px solid #355e5a; color: #24413d; font: 400 7px var(--mono); letter-spacing: .1em; }
+    .manual-copy { padding: 55px 47px 34px; background: repeating-linear-gradient(0deg, transparent 0 29px, rgba(51,77,71,.13) 29px 30px), #e7e3d3; }.manual-copy .label { color: #a14f3f; }.manual-copy h2 { max-width: 10ch; margin: 16px 0; font: 700 clamp(48px, 4.8vw, 69px)/.86 var(--display); text-transform: uppercase; }.manual-copy p { max-width: 45ch; margin: 0; color: #475750; font: 400 12px/1.75 var(--mono); }.manual-actions { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 25px; }
+    .manual-record { display: grid; grid-template-columns: .8fr 1.2fr 1fr; border-top: 2px solid #22312e; }.manual-record div { min-height: 127px; padding: 17px 20px; border-left: 1px solid #65716b; }.manual-record div:first-child { border-left: 0; }.manual-record span { display: block; color: #a14f3f; font: 400 8px var(--mono); letter-spacing: .13em; }.manual-record b { display: block; margin-top: 12px; color: #23312e; font: 700 22px/.94 var(--display); text-transform: uppercase; }.manual-record p { margin: 8px 0 0; color: #586760; font: 400 9px/1.55 var(--mono); }
+
+    .review { margin-top: 38px; padding: 19px 23px; border: 1px solid rgba(242,226,186,.35); background: rgba(23,20,27,.82); color: #aaa397; font: 400 10px/1.7 var(--mono); }.review b { color: #f4ae6f; font-weight: 400; }.review em { color: var(--teal); font-style: normal; }
+
+    @media (max-width: 980px) {
+      .brief, .direction-head { grid-template-columns: 1fr; }.brief-label, .direction-index { border-right: 0; border-bottom: 1px solid rgba(242,226,186,.25); }.direction-read { border-left: 0; border-top: 1px solid rgba(242,226,186,.24); }.criteria { grid-template-columns: 1fr 1fr; }.criteria div:nth-child(odd) { border-left: 0; }.criteria div:nth-child(n + 3) { border-top: 1px solid rgba(242,226,186,.18); }.journal-hero, .counter-hero { grid-template-columns: 1fr; }.journal-photo-wrap { border-right: 0; border-bottom: 1px solid #8d8578; min-height: 430px; }.counter-item { border-left: 0; border-top: 1px solid rgba(230,239,220,.42); }.manual-hero { grid-template-columns: 90px 1fr; }.manual-copy { grid-column: 1 / -1; border-top: 1px solid #65716b; }.manual-photo { border-right: 0; }.manual-margin { border-right: 1px solid #65716b; }.manual-record { grid-template-columns: 1fr 1fr; }.manual-record div:nth-child(odd) { border-left: 0; }.manual-record div:last-child { grid-column: 1 / -1; border-top: 1px solid #65716b; }
+    }
+    @media (max-width: 600px) {
+      .page { width: min(100% - 20px, 1460px); padding-top: 16px; }.notice { padding: 10px 14px; font-size: 8px; }.brief-copy, .direction-copy, .direction-read { padding: 18px; }.brief-label { padding: 19px; }.criteria { grid-template-columns: 1fr; }.criteria div { border-left: 0 !important; border-top: 1px solid rgba(242,226,186,.18); }.criteria div:first-child { border-top: 0; }.direction-head { min-height: auto; }.journal-top { align-items: flex-start; flex-direction: column; padding: 17px; }.journal-nav { gap: 12px; flex-wrap: wrap; }.journal-photo-wrap { padding: 25px 18px; min-height: 340px; }.journal-photo-card { min-height: 300px; }.journal-copy { padding: 39px 22px 185px; }.journal-copy h2, .counter-copy h2, .manual-copy h2 { font-size: 48px; }.journal-sticky { right: 21px; bottom: 25px; width: 210px; }.journal-ribbon, .counter-ledger, .manual-record { grid-template-columns: 1fr; }.journal-ribbon article, .counter-ledger div, .manual-record div { border-left: 0 !important; border-top: 1px solid currentColor; }.journal-ribbon article:first-child, .counter-ledger div:first-child, .manual-record div:first-child { border-top: 0; }.counter-top { grid-template-columns: 1fr; gap: 10px; padding: 17px; }.counter-nav { flex-wrap: wrap; }.counter-copy { padding: 39px 23px 31px; }.counter-tray { min-height: 290px; padding: 25px; }.counter-ledger div { border-top-color: rgba(230,239,220,.25); }.manual-top { grid-template-columns: 1fr auto; }.manual-nav { display: none; }.manual-id { grid-column: 2; }.manual-hero { grid-template-columns: 1fr; }.manual-margin { min-height: 115px; flex-direction: row; border-right: 0; border-bottom: 1px solid #65716b; }.manual-photo { min-height: 340px; }.manual-copy { grid-column: auto; padding: 38px 23px 30px; }.manual-record div:last-child { grid-column: auto; }.review { margin-top: 24px; padding: 16px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="notice">OCP3D · founder-led workshop direction studies · local mockups only · no production implementation</div>
+
+  <main class="page">
+    <section class="brief">
+      <div class="brief-label">
+        <span>Design brief / 2026.09</span>
+        <h1>The look of a one-car workshop becoming a useful catalog.</h1>
+      </div>
+      <div class="brief-copy">
+        The new offer is not “a 3D-printing marketplace.” It is <b>a founder solving real parts
+        problems on his own 1983 A60, preserving the evidence, then helping the next owner.</b>
+        These are three deliberately different visual languages for that same honest promise.
+        <em>All use genuine bench imagery; none implies a fit, sale, or vehicle result that has not
+        been earned.</em>
+      </div>
+    </section>
+
+    <section class="criteria" aria-label="What every direction must preserve">
+      <div><b>PERSONAL</b>One real owner and one real workbench—not anonymous platform language.</div>
+      <div><b>PRACTICAL</b>Requesting a part should feel like talking to a capable specialist.</div>
+      <div><b>EVIDENCED</b>Measured, fitted, and requested remain distinct, literal states.</div>
+      <div><b>ORIGINAL</b>No copied OEM manual, aftermarket catalog, or franchise trade dress.</div>
+    </section>
+
+    <section class="directions">
+      <article class="direction">
+        <header class="direction-head">
+          <div class="direction-index">Direction 01 / tactile founder story<strong>Bench<br>Journal</strong></div>
+          <div class="direction-copy"><b>A warm, imperfect field notebook from a real garage.</b> Real parts, tape, graph paper, process notes, and a human first-person voice make the origin feel tangible. The evidence system is still there, but it feels earned rather than institutional.</div>
+          <div class="direction-read"><b>Best for</b>Trust, warmth, personal connection, donor requests.<br><br><b>Watch for</b>Too crafty or scrapbook-like if the measurement content loses precision.</div>
+        </header>
+        <div class="screen journal">
+          <nav class="journal-top"><div class="journal-brand">OCP3D <small>BENCH JOURNAL / 01</small></div><div class="journal-nav"><span>Field files</span><span>How I work</span><b>Discuss a part</b></div></nav>
+          <section class="journal-hero">
+            <div class="journal-photo-wrap">
+              <figure class="journal-photo-card"><img class="mock-photo" src="../../public/images/hero/measured.jpg" alt="Actual OCP3D part on a measurement bench" /><figcaption><span>My A60 / first field file</span><span>bench evidence</span></figcaption></figure>
+            </div>
+            <div class="journal-copy">
+              <span class="eyebrow">Started with my own 1983 Celica Supra</span>
+              <h2>I made the part my car needed. Then I kept the record.</h2>
+              <p>A brittle, hard-to-find part becomes measurements, a model, a real fit record, and—when it is ready—a useful path for the next owner.</p>
+              <div class="journal-actions"><span class="mock-button primary">See the field files</span><span class="mock-button light">Discuss your part</span></div>
+              <aside class="journal-sticky">“The next owner should not have to begin with a guess.”<small>Workshop note / A60</small></aside>
+            </div>
+          </section>
+          <section class="journal-ribbon"><article><span>01 / ON THE BENCH</span><h3>Start with what remains.</h3><p>A broken original or interface tells us more than a pretty render.</p></article><article><span>02 / ON THE RECORD</span><h3>Keep the useful facts.</h3><p>Measurements, material, version, and unknowns stay together.</p></article><article><span>03 / NEXT OWNER</span><h3>Discuss the path.</h3><p>Every request starts with a conversation—not a promise.</p></article></section>
+        </div>
+      </article>
+
+      <article class="direction">
+        <header class="direction-head">
+          <div class="direction-index">Direction 02 / practical specialist<strong>Independent<br>Parts Counter</strong></div>
+          <div class="direction-copy"><b>A niche supplier with a rigorous back room.</b> This puts the part and its current state first: clear inventory language, high contrast, strong product labels, and a direct route to ask for help. It feels ready to become commerce without pretending the catalog is already stocked.</div>
+          <div class="direction-read"><b>Best for</b>Conversion, clarity, future repair kits and made-to-order sales.<br><br><b>Watch for</b>It can feel more like a store than the founder story, or overstate availability if the states soften.</div>
+        </header>
+        <div class="screen counter">
+          <nav class="counter-top"><div class="counter-brand">OCP3D <small>INDEPENDENT PARTS COUNTER</small></div><div class="counter-nav"><span>Parts archive</span><span>Bench notes</span><span>Request desk</span></div><div class="counter-ticket">A60 / counter open</div></nav>
+          <section class="counter-hero">
+            <div class="counter-copy"><span class="label">Parts I started for my own car</span><h2>Useful replacements, not a file pile.</h2><p>I begin with the part, the donor, or the interface that is actually in front of me. The field file makes the evidence plain; when it earns a real-car record, I make the next one to order.</p><div class="counter-actions"><span class="mock-button primary">Browse the counter</span><span class="mock-button" style="color:#cbe1d2">Discuss a part</span></div></div>
+            <div class="counter-item"><div class="counter-tray"><span class="counter-stamp">MEASURED / NOT YET A SALE</span><img src="../../public/images/hero/measured.jpg" alt="Actual OCP3D part in the parts counter mockup" /></div><div class="counter-spec"><span>FIELD FILE / 001</span><i>20 CONFIRMED DIMS</i><b>SUN VISOR RETAINING CLIP</b><i>APPLICATION UNDER REVIEW</i></div></div>
+          </section>
+          <section class="counter-ledger"><div><b>ON THE BENCH</b><strong>Real parts<br>first.</strong><p>Founder car, donors, and useful interfaces.</p></div><div><b>THE COUNTER RULE</b><strong>Evidence<br>before offer.</strong><p>Measured and fitted never mean the same thing.</p></div><div><b>REQUEST DESK</b><strong>Bring the<br>problem.</strong><p>We will discuss existing supply before making anything.</p></div></section>
+        </div>
+      </article>
+
+      <article class="direction">
+        <header class="direction-head">
+          <div class="direction-index">Direction 03 / durable authority<strong>Restoration<br>Field Manual</strong></div>
+          <div class="direction-copy"><b>A repair archive that reads like a genuinely useful independent manual.</b> Calmer, more editorial, and less atmospheric: margin notes, plate numbers, reference grids, and carefully stated facts. The founder story enters as the first case in a longer body of knowledge.</div>
+          <div class="direction-read"><b>Best for</b>Authority, SEO/reference behavior, long-term catalog depth.<br><br><b>Watch for</b>Less emotional immediacy and less visual energy than the other two.</div>
+        </header>
+        <div class="screen manual">
+          <nav class="manual-top"><div class="manual-mark">OCP3D<small>RESTORATION FIELD MANUAL</small></div><div class="manual-nav"><span>Index</span><span>Method</span><span>Field requests</span></div><div class="manual-id">PLATE / 01</div></nav>
+          <section class="manual-hero">
+            <aside class="manual-margin"><span>1983 A60<br>FIRST CASE</span><span><b>FIELD RULE</b><br>Evidence before offer.</span><span>OCP3D / 2026</span></aside>
+            <figure class="manual-photo"><img src="../../public/images/hero/measured.jpg" alt="Actual OCP3D part in the field manual mockup" /><figcaption>FIG. 01 / PART ON BENCH</figcaption></figure>
+            <div class="manual-copy"><span class="label">A repair record begins with a real object</span><h2>My car became the first page of the manual.</h2><p>I am cataloging the parts I make for my own A60 so the useful details survive the repair. Send a request when your car needs a similar path; we will start with what is known and state what is not.</p><div class="manual-actions"><span class="mock-button teal">Read the field files</span><span class="mock-button light">Discuss a part</span></div></div>
+          </section>
+          <section class="manual-record"><div><span>RECORD / 01</span><b>Physical<br>starting point</b><p>Original, donor, or surviving interface.</p></div><div><span>PROOF / 02</span><b>Measured is not<br>fitted</b><p>Each claim earns its own explicit line.</p></div><div><span>REQUEST / 03</span><b>Start with<br>the details</b><p>Tell me the car, the part, and what remains.</p></div></section>
+        </div>
+      </article>
+    </section>
+
+    <footer class="review"><b>Decision required:</b> choose a primary direction, name the elements to borrow from the other two, or reject all three. <em>Nothing in this board is production UI, branding, or a claim about availability.</em> It is a visual conversation starter only.</footer>
+  </main>
+</body>
+</html>

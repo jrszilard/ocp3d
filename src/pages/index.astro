@@ -6,8 +6,9 @@ import RegisterCard from "../components/RegisterCard.astro";
 /* A founder's real A60 problem becomes a field file. The public offer must
    stay behind the evidence carried by each record—especially the fitted-only
    made-to-order invitation on individual part pages. */
-const pick = (state: string) => parts.find((p: any) => p.state === state);
-const cards = [pick("measured"), pick("development"), pick("requested")].filter(Boolean);
+const pick = (state: string) => parts.find((p: any) => p.state === state && !p.safetyGated);
+const wiperResearch = parts.find((p: any) => p.safetyGated);
+const cards = [wiperResearch, pick("measured"), pick("requested")].filter(Boolean);
 const visor: any = parts.find((p: any) => p.slug === "sun-visor-clip");
 const dimsOnRecord = visor?.dimsConfirmed ?? 0;
 
@@ -115,14 +116,14 @@ const paths = [
     <div class="cards">
       {cards.map((p: any, i: number) => <RegisterCard part={p} sheet={i + 1} total={parts.length} />)}
     </div>
-    <p class="index-note">These early files are restoration investigations. A future OCP3D-original improvement will carry its own purpose, interface, and functional evidence rather than borrowing a replacement part’s identity.</p>
+    <p class="index-note">These early files are restoration investigations. The wiper-adaptor file is deliberately different: it stays research-only until final vibration, UV-exposure, and rain-functionality testing is complete. Any future OCP3D-original improvement must also carry its own purpose, interface, and functional evidence rather than borrowing a replacement part’s identity.</p>
   </section>
 
   <section class="proof-section">
     <div class="proof-copy">
       <p class="eyebrow">THE OPERATING LIMIT</p>
       <h2>Evidence before an offer.</h2>
-      <p>OCP3D works on pre-2000, unbranded, non-safety-critical parts. A render is not a fit, a photo is not a dimension, and a useful idea is not a product until its own record supports the claim.</p>
+      <p>OCP3D works on pre-2000, unbranded, non-safety-critical parts. The exterior wiper-adaptor record remains research-only while final vibration, UV, and rain testing are pending. A render is not a fit, a photo is not a dimension, and a useful idea is not a product until its own record supports the claim.</p>
       <a href="/method/">READ THE METHOD →</a>
     </div>
     <div class="proof-facts">

@@ -58,6 +58,10 @@ parts trail, but the story always returns to the physical interface on the bench
 - Status stamps (Requested / In development / Measured / Fitted on a real car) describe real
   evidence and must remain semantically distinct. Restore and Improve are separate **part paths**,
   not status levels; an OCP3D-original improvement gets its own interface and function evidence.
+- **Research-only / final-testing boundary** is a closed scope gate, not a status level or an
+  offer. For the wiper adaptor it plainly says vibration, UV-exposure, and rain-functionality
+  testing remain pending; it may invite evidence only—never purchase, installation, fit, or
+  road-use discussion.
 - The no-original placeholder remains an honest request funnel.
 - Dimension tables and per-material fit reports are the product’s trust core.
 - “Fits or we remake it free” applies only where the evidence and offer actually support it.

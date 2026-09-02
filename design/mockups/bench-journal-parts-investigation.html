@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>OCP3D — Bench Journal / Parts Investigation Study</title>
+  <style>
+    @font-face { font-family: "Plex Mono"; src: url("../../public/fonts/plex-mono-400.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: swap; }
+    @font-face { font-family: "Plex Mono"; src: url("../../public/fonts/plex-mono-600.woff2") format("woff2"); font-weight: 600; font-style: normal; font-display: swap; }
+    @font-face { font-family: "Archivo Narrow"; src: url("../../public/fonts/archivo-narrow-700.woff2") format("woff2"); font-weight: 700; font-style: normal; font-display: swap; }
+    @font-face { font-family: "Archivo"; src: url("../../public/fonts/archivo-600.woff2") format("woff2"); font-weight: 600; font-style: normal; font-display: swap; }
+
+    :root {
+      --void: #1b1820;
+      --ink: #22272a;
+      --paper: #efe3c8;
+      --paper-light: #f6edd9;
+      --paper-deep: #d8cfb8;
+      --carbon: #23343a;
+      --carbon-deep: #17272c;
+      --rust: #c9533d;
+      --sun: #eab95f;
+      --teal: #2da8a1;
+      --blue: #3a6474;
+      --line: rgba(34,39,42,.32);
+      --mono: "Plex Mono", ui-monospace, monospace;
+      --display: "Archivo Narrow", Impact, sans-serif;
+      --body: "Archivo", Arial, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    html { background: var(--void); }
+    body { margin: 0; color: var(--paper); background: radial-gradient(ellipse at 20% 0%, #463347 0, transparent 29%), linear-gradient(135deg, #1b1820, #12171b); font-family: var(--body); }
+    .notice { padding: 11px 18px; background: linear-gradient(90deg, var(--rust), var(--sun) 49%, var(--teal)); color: #202328; text-align: center; font: 600 9px/1.45 var(--mono); letter-spacing: .14em; text-transform: uppercase; }
+    .page { width: min(1400px, calc(100% - 36px)); margin: 0 auto; padding: 32px 0 68px; }
+    .study-intro { display: grid; grid-template-columns: 245px 1fr; margin-bottom: 18px; border: 1px solid rgba(246,237,217,.36); background: rgba(28,24,31,.78); }
+    .study-title { padding: 20px 22px; border-right: 1px solid rgba(246,237,217,.25); }
+    .study-title span, .kicker { color: var(--teal); font: 400 9px/1.4 var(--mono); letter-spacing: .15em; text-transform: uppercase; }
+    .study-title h1 { margin: 11px 0 0; color: var(--paper); font: 700 34px/.88 var(--display); text-transform: uppercase; }
+    .study-copy { padding: 20px 25px; color: #c3bbaf; font: 400 11px/1.75 var(--mono); }
+    .study-copy b { color: var(--paper); font-weight: 400; }.study-copy em { color: #efb76c; font-style: normal; }
+
+    /* The page inside the study */
+    .site { overflow: hidden; border: 1px solid rgba(246,237,217,.46); color: var(--ink); background: var(--paper); box-shadow: 0 30px 70px rgba(0,0,0,.3); }
+    .site-header { display: grid; grid-template-columns: 1fr auto auto; align-items: stretch; min-height: 73px; border-bottom: 2px solid var(--ink); background: var(--paper-light); }
+    .brand { display: flex; align-items: center; gap: 13px; padding: 14px 24px; font: 700 27px/.9 var(--display); letter-spacing: .02em; }
+    .brand-mark { width: 31px; height: 31px; display: grid; place-items: center; border: 2px solid var(--ink); font: 600 10px/1 var(--mono); }
+    .brand small { display: block; margin-top: 4px; color: #5b625d; font: 400 7px/1 var(--mono); letter-spacing: .14em; }
+    .site-nav { display: flex; align-items: center; gap: 20px; padding: 0 23px; color: #5b625d; font: 400 8px var(--mono); letter-spacing: .1em; text-transform: uppercase; }
+    .site-nav span:last-child { color: #a14335; }
+    .case-button { display: grid; place-items: center; min-width: 175px; padding: 0 17px; border-left: 1px solid var(--line); background: var(--rust); color: #fff6e0; font: 600 8px/1.3 var(--mono); letter-spacing: .13em; text-align: center; text-transform: uppercase; }
+
+    .hero { display: grid; grid-template-columns: 48% 52%; min-height: 572px; }
+    .investigation-board { position: relative; overflow: hidden; border-right: 2px solid var(--ink); background: linear-gradient(150deg, var(--carbon), var(--carbon-deep)); }
+    .investigation-board::before { content: ""; position: absolute; inset: 0; opacity: .19; background-image: radial-gradient(circle at 1px 1px, #d9d4bd 1px, transparent 1.4px); background-size: 14px 14px; }
+    .board-head { position: absolute; z-index: 3; top: 21px; left: 23px; right: 23px; display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; color: #e9e1c9; font: 400 8px/1.5 var(--mono); letter-spacing: .12em; text-transform: uppercase; }
+    .board-head b { color: var(--sun); font-weight: 400; }.board-head span:last-child { max-width: 130px; text-align: right; color: #9db7ac; }
+    .route-map { position: absolute; z-index: 0; inset: 40px 14px 106px 14px; width: calc(100% - 28px); height: calc(100% - 146px); opacity: .9; }
+    .route-map text { font-family: var(--mono); font-size: 8px; letter-spacing: 1px; }
+    .photo { position: absolute; z-index: 2; padding: 9px 9px 29px; background: #f5eddb; box-shadow: 8px 10px 0 rgba(0,0,0,.24); }
+    .photo::before { content: ""; position: absolute; top: -10px; left: 50%; width: 88px; height: 23px; background: rgba(213,177,109,.76); transform: translateX(-50%) rotate(-4deg); }
+    .photo img { display: block; width: 100%; height: 100%; object-fit: cover; filter: contrast(1.04) saturate(.85); }
+    .photo small { position: absolute; bottom: 9px; left: 10px; color: #55544c; font: 400 7px var(--mono); letter-spacing: .08em; text-transform: uppercase; }
+    .photo-a { top: 97px; left: 14%; width: 45%; height: 282px; transform: rotate(-3.5deg); }.photo-a img { object-position: 50% 43%; }
+    .photo-b { top: 213px; right: 8%; width: 38%; height: 222px; transform: rotate(4.1deg); }.photo-b::before { width: 73px; background: rgba(94,150,145,.78); transform: translateX(-50%) rotate(4deg); }.photo-b img { object-position: 44% 53%; }
+    .pin { position: absolute; z-index: 4; width: 13px; height: 13px; border-radius: 50%; border: 2px solid #f8e8b6; box-shadow: 0 1px 3px rgba(0,0,0,.55); }.pin.one { top: 142px; left: 10.5%; background: var(--rust); }.pin.two { top: 205px; right: 10%; background: var(--sun); }.pin.three { bottom: 150px; left: 23%; background: var(--teal); }
+    .problem-card { position: absolute; z-index: 3; top: 72px; right: 25px; width: 164px; padding: 10px 11px; border: 1px solid #f5dd9d; background: #e6b85f; color: #26363a; box-shadow: 4px 5px 0 rgba(0,0,0,.2); font: 400 7px/1.48 var(--mono); letter-spacing: .08em; text-transform: uppercase; transform: rotate(2deg); }.problem-card span { display: block; color: #aa4737; }.problem-card b { display: block; margin: 5px 0; font: 600 9px/1.18 var(--mono); }.problem-card i { color: #4d5e59; font-style: normal; }
+    .roadbook { position: absolute; z-index: 4; right: 22px; bottom: 22px; left: 22px; display: grid; grid-template-columns: 94px 1fr auto; align-items: center; gap: 12px; padding: 12px 14px; border-top: 2px solid #e8bd65; background: #f0e2bb; color: #253238; box-shadow: 5px 6px 0 rgba(0,0,0,.22); font: 400 8px/1.45 var(--mono); letter-spacing: .07em; text-transform: uppercase; }
+    .roadbook b { color: #b94636; font-weight: 600; }.roadbook .arrow { position: relative; width: 40px; height: 22px; border-top: 3px solid #2f7976; }.roadbook .arrow::after { content: ""; position: absolute; top: -7px; right: 0; width: 12px; height: 12px; border-top: 3px solid #2f7976; border-right: 3px solid #2f7976; transform: rotate(45deg); }.roadbook i { color: #68706c; font-style: normal; }
+
+    .hero-copy { position: relative; padding: 61px 54px 38px; overflow: hidden; background: repeating-linear-gradient(0deg, transparent 0 31px, rgba(65,82,76,.14) 31px 32px), var(--paper-light); }
+    .hero-copy::after { content: ""; position: absolute; right: -40px; bottom: -76px; width: 250px; height: 250px; border: 1px solid rgba(48,94,89,.24); border-radius: 50%; box-shadow: 0 0 0 24px rgba(48,94,89,.08), 0 0 0 48px rgba(48,94,89,.05); }
+    .stamp { position: absolute; z-index: 1; top: 38px; right: 42px; width: 97px; height: 97px; display: grid; place-items: center; border: 2px solid rgba(174,66,49,.8); border-radius: 50%; color: #a54336; font: 600 8px/1.45 var(--mono); letter-spacing: .1em; text-align: center; text-transform: uppercase; transform: rotate(10deg); }.stamp::before { content: ""; position: absolute; inset: 5px; border: 1px dashed currentColor; border-radius: 50%; }.stamp span { position: relative; z-index: 1; }
+    .hero-copy .kicker { position: relative; z-index: 2; color: #a54336; }.hero-copy h2 { position: relative; z-index: 2; max-width: 10ch; margin: 15px 0 18px; color: var(--ink); font: 700 clamp(52px, 5.5vw, 78px)/.84 var(--display); letter-spacing: -.01em; text-transform: uppercase; }.hero-copy p { position: relative; z-index: 2; max-width: 48ch; margin: 0; color: #4f5954; font: 400 12px/1.75 var(--mono); }.actions { position: relative; z-index: 2; display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }.button { display: inline-flex; justify-content: center; align-items: center; min-height: 38px; padding: 10px 13px; border: 1px solid var(--ink); color: var(--ink); background: transparent; font: 400 8px/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; }.button.main { border-color: var(--rust); background: var(--rust); color: #fff4de; }
+    .copy-note { position: absolute; z-index: 2; right: 41px; bottom: 31px; max-width: 244px; padding: 11px 12px; border-left: 4px solid var(--teal); background: rgba(239,227,200,.92); color: #4c5652; font: italic 15px/1.35 Georgia, serif; }.copy-note small { display: block; margin-top: 5px; color: #6d726d; font: 400 7px var(--mono); letter-spacing: .1em; text-transform: uppercase; }
+
+    .trail { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 2px solid var(--ink); background: var(--paper); }.trail article { min-height: 148px; padding: 19px 20px; border-left: 1px solid var(--line); }.trail article:first-child { border-left: 0; }.trail span { color: #ae4939; font: 400 8px var(--mono); letter-spacing: .13em; }.trail h3 { margin: 11px 0 7px; font: 700 22px/.93 var(--display); text-transform: uppercase; }.trail p { margin: 0; color: #5a615b; font: 400 9px/1.62 var(--mono); }
+
+    .bottom { display: grid; grid-template-columns: .85fr 1.15fr; margin-top: 18px; border: 1px solid rgba(246,237,217,.38); background: rgba(27,24,32,.84); }.bottom-title { padding: 23px; border-right: 1px solid rgba(246,237,217,.2); }.bottom-title span { color: var(--teal); font: 400 8px var(--mono); letter-spacing: .13em; }.bottom-title h2 { margin: 10px 0 0; color: var(--paper); font: 700 29px/.9 var(--display); text-transform: uppercase; }.bottom-copy { padding: 22px 26px; color: #bdb4a6; font: 400 10px/1.75 var(--mono); }.bottom-copy b { color: #efc470; font-weight: 400; }
+
+    @media (max-width: 960px) {
+      .study-intro { grid-template-columns: 1fr; }.study-title { border-right: 0; border-bottom: 1px solid rgba(246,237,217,.25); }.hero { grid-template-columns: 1fr; }.investigation-board { min-height: 520px; border-right: 0; border-bottom: 2px solid var(--ink); }.trail { grid-template-columns: 1fr 1fr; }.trail article:nth-child(odd) { border-left: 0; }.trail article:nth-child(n+3) { border-top: 1px solid var(--line); }.bottom { grid-template-columns: 1fr; }.bottom-title { border-right: 0; border-bottom: 1px solid rgba(246,237,217,.2); }
+    }
+    @media (max-width: 600px) {
+      .page { width: min(100% - 20px, 1400px); padding-top: 14px; }.notice { font-size: 7px; }.study-title, .study-copy { padding: 17px; }.site-header { grid-template-columns: 1fr auto; }.brand { padding: 14px 16px; }.site-nav { display: none; }.case-button { min-width: 126px; padding: 0 10px; }.investigation-board { min-height: 448px; }.board-head { top: 16px; left: 16px; right: 16px; font-size: 7px; }.problem-card { top: 64px; right: 13px; width: 141px; padding: 8px; font-size: 6px; }.problem-card b { font-size: 8px; }.photo-a { top: 82px; left: 8%; width: 51%; height: 225px; }.photo-b { top: 187px; right: 5%; width: 44%; height: 180px; }.route-map { inset: 30px 7px 92px 7px; width: calc(100% - 14px); height: calc(100% - 122px); }.roadbook { right: 14px; bottom: 14px; left: 14px; grid-template-columns: 74px 1fr; padding: 9px 10px; font-size: 7px; }.roadbook .arrow { display: none; }.roadbook i { grid-column: 2; }.hero-copy { padding: 40px 23px 176px; }.hero-copy h2 { font-size: 53px; }.stamp { top: 28px; right: 21px; width: 82px; height: 82px; font-size: 7px; }.copy-note { right: 20px; bottom: 24px; left: 23px; max-width: none; }.trail { grid-template-columns: 1fr; }.trail article { border-left: 0 !important; border-top: 1px solid var(--line); }.trail article:first-child { border-top: 0; }.bottom-title, .bottom-copy { padding: 17px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="notice">OCP3D · Bench Journal evolved · parts investigation / roadbook visual language · local mockup only</div>
+
+  <main class="page">
+    <section class="study-intro">
+      <div class="study-title"><span>Focused direction / 01A</span><h1>Bench Journal<br>as a parts<br>investigation.</h1></div>
+      <div class="study-copy"><b>This evolves the chosen Bench Journal route, rather than adding a fourth unrelated identity.</b> The warm, physical evidence wall gains the visual grammar of a roadbook and a long-distance parts trail: taped photos, pins, route lines, case stamps, and lead cards. <em>It is an investigative mood, not a claim that OCP3D races, travels globally, or offers racing / safety parts.</em></div>
+    </section>
+
+    <section class="site" aria-label="OCP3D parts investigation homepage mockup">
+      <header class="site-header">
+        <div class="brand"><span class="brand-mark">O3</span><span>OCP3D<small>OLD CAR PROBLEMS / PARTS INVESTIGATION</small></span></div>
+        <nav class="site-nav"><span>Field files</span><span>How I investigate</span><span>Parts trail</span></nav>
+        <span class="case-button">Open a part<br>discussion</span>
+      </header>
+
+      <section class="hero">
+        <aside class="investigation-board" aria-label="Illustrated evidence board">
+          <div class="board-head"><span><b>CASE A60 / 001</b><br>PARTS TRAIL OPEN</span><span>Every lead returns to the physical part.</span></div>
+          <svg class="route-map" viewBox="0 0 620 430" role="img" aria-label="Abstract route map connecting investigation leads to a workbench">
+            <defs><pattern id="map-grid" width="36" height="36" patternUnits="userSpaceOnUse"><path d="M36 0H0V36" fill="none" stroke="#9eb9ad" stroke-opacity=".25" stroke-width="1"/></pattern></defs>
+            <rect width="620" height="430" fill="url(#map-grid)" />
+            <path d="M20 324 C105 286, 115 135, 236 157 S339 282, 401 215 S521 59, 598 83" fill="none" stroke="#e9b85d" stroke-width="2" stroke-dasharray="8 8" />
+            <path d="M20 342 C106 305, 119 153, 236 175 S341 300, 415 233 S526 77, 600 101" fill="none" stroke="#31aaa1" stroke-width="1" opacity=".9" />
+            <circle cx="25" cy="328" r="7" fill="#ca513c"/><circle cx="235" cy="157" r="7" fill="#e9b85d"/><circle cx="404" cy="215" r="7" fill="#31aaa1"/><circle cx="598" cy="83" r="7" fill="#ca513c"/>
+            <text x="35" y="360" fill="#d6dfcf">PROBLEM</text><text x="183" y="138" fill="#d6dfcf">INTERFACE</text><text x="365" y="245" fill="#d6dfcf">DESIGN LEAD</text><text x="514" y="66" fill="#d6dfcf">BENCH PROOF</text>
+            <path d="M45 89H201M418 345H574" stroke="#9eb9ad" stroke-opacity=".5" stroke-width="1"/><text x="47" y="81" fill="#e9b85d">TWO PATHS / ONE TEST</text><text x="420" y="337" fill="#e9b85d">RETURN TO PROOF</text>
+          </svg>
+          <figure class="photo photo-a"><img src="../../public/images/process/original.jpg" alt="Genuine OCP3D original part photo" /><small>Lead 01 / original in hand</small></figure>
+          <figure class="photo photo-b"><img src="../../public/images/process/measurement.jpg" alt="Genuine OCP3D measurement bench photo" /><small>Lead 03 / measure what remains</small></figure>
+          <i class="pin one" aria-hidden="true"></i><i class="pin two" aria-hidden="true"></i><i class="pin three" aria-hidden="true"></i>
+          <div class="problem-card"><span>New case type</span><b>Owner improvement</b><i>Cup holder / start with console</i></div>
+          <div class="roadbook"><b>ROADBOOK / 01</b><span class="arrow" aria-hidden="true"></span><i>Missing part or useful addition → interface → bench evidence</i></div>
+        </aside>
+
+        <div class="hero-copy">
+          <span class="stamp"><span>CASE<br>OPEN<br>RETURN<br>TO BENCH</span></span>
+          <span class="kicker">The parts investigation / opening entry</span>
+          <h2>An old-car problem leaves a trail.</h2>
+          <p>Sometimes that trail begins with a broken original. Sometimes it begins with something the car never had—like a cup holder that respects the console it lives in. Either way, the claim only comes home when the physical interface is on the bench.</p>
+          <div class="actions"><span class="button main">Follow the field files</span><span class="button">Bring a lead / discuss a part</span></div>
+          <aside class="copy-note">“The route is not the story. The evidence is.”<small>OCP3D field rule / 01</small></aside>
+        </div>
+      </section>
+
+      <section class="trail" aria-label="The OCP3D parts investigation process">
+        <article><span>LEG 01 / PROBLEM</span><h3>Start with the car.</h3><p>A broken original or an old-car annoyance—such as no useful place for a drink—can open a field file.</p></article>
+        <article><span>LEG 02 / BOUNDARY</span><h3>Measure what it meets.</h3><p>A reproduction starts at the original. An improvement starts at the console, trim, and what must not be blocked.</p></article>
+        <article><span>LEG 03 / ROUTE</span><h3>Restore or improve.</h3><p>Every file states whether it is a faithful replacement, a repair aid, or an original OCP3D accessory.</p></article>
+        <article><span>LEG 04 / PROVE</span><h3>Earn the record.</h3><p>Fit and function each earn their own result—never a conclusion drawn from a route, render, or story.</p></article>
+      </section>
+    </section>
+
+    <section class="bottom">
+      <div class="bottom-title"><span>What expands beyond a missing part</span><h2>Two part paths.<br>One evidence standard.</h2></div>
+      <div class="bottom-copy"><b>Restore:</b> faithfully reproduce or repair what the car originally had. <b>Improve:</b> make an explicit OCP3D-original accessory for a real old-car annoyance—for example, a console cup holder—not a disguised factory replacement. Both begin at a measured interface and state their claims separately. <b>Keep out:</b> false travel claims, real rally-event or OEM branding, generic race-car imagery, performance/safety product promises, and detective-fiction theatrics.</div>
+    </section>
+  </main>
+</body>
+</html>

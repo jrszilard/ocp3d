@@ -22,13 +22,12 @@ npm test
 - The design system lives in [`src/styles/tokens.css`](src/styles/tokens.css). Components consume
   tokens rather than hard-coded visual values.
 - `src/components/ServiceHeading.astro` is the common page masthead: literal field-file labels,
-  a High Desert station-status surface, and responsive route framing. `BenchUnit.astro` is the
-  small docked non-humanoid physical scan cue, used sparingly.
+  a compact Parts Investigation record, and responsive route framing.
 - Live reference: `/styleguide`.
 - Brand and voice rules: [`BRAND.md`](BRAND.md).
-- Visual direction is original retrofuturist **High Desert Retrofit** — sun-faded inherited
-  service equipment meets precise newer scan/record tools. No generic car hero art; use real
-  evidence when a vehicle image is needed. Do not copy proprietary game/film visual language.
+- Visual direction is original **Bench Journal / Parts Investigation** — warm ruled-paper records,
+  genuine taped bench evidence, and abstract roadbook research grammar. No generic-car/AI/stock
+  evidence or race/travel/performance implication; do not copy proprietary visual language.
 
 ## Pages
 
@@ -38,5 +37,8 @@ npm test
 
 ## Catalog data
 
-`src/data/parts.json` is a generated snapshot — don't hand-edit it. It is refreshed from the
-workshop’s private catalog with `node scripts/sync-catalog.mjs` (workshop machine only).
+`src/data/parts.json` is a generated snapshot — don't hand-edit it. On the workshop machine,
+`node scripts/sync-catalog.mjs` reads the authoritative Supabase catalog through
+`SUPABASE_URL` + `SUPABASE_SERVICE_ROLE_KEY` (or `.env.local`). It omits archived/blocked records
+and carries an unresolved scope gate as a visibly closed research/final-testing boundary; the
+archive is never a product/release feed.

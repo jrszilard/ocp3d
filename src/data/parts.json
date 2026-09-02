@@ -1,5 +1,26 @@
 [
   {
+    "slug": "wiper-arm-adaptor",
+    "catalogId": "toyota/celica-supra/a60/wiper-arm-adaptor",
+    "oemIdentityStatus": "unknown",
+    "oemNumber": null,
+    "title": "A60 Wiper Blade Adaptors",
+    "description": "A60 wiper-carrier-to-modern-blade adaptor investigation. Work to date includes labelled review geometry and measurement-gauge paths across front-driver, front-passenger, and rear arrangements.\n\nThis is not a product, fit claim, installation recommendation, or road-use claim. The next evidence is final vibration, UV-exposure, and rain-functionality testing—alongside the remaining physical interface and controlled bench evidence—before any service or availability discussion.",
+    "fitmentStatus": "unknown",
+    "vehicleLabel": null,
+    "yearRange": "",
+    "category": "exterior/wipers",
+    "state": "requested",
+    "stateLabel": "Requested",
+    "safetyGated": true,
+    "colors": [],
+    "supersededTo": null,
+    "dims": [],
+    "dimsConfirmed": 0,
+    "dimsTotal": 0,
+    "fitReports": []
+  },
+  {
     "slug": "sun-visor-clip",
     "catalogId": "toyota/celica-supra/a60/sun-visor-clip",
     "oemIdentityStatus": "disputed",
@@ -8,26 +29,17 @@
     "description": "Measured crescent-wedge/C-hook visor retainer with a fir-tree mounting pin, copied from the founder's physical A60 part. Its exact Toyota OEM identity is under investigation. An earlier 74348-12010 assignment is now quarantined: MA61 section MBC673D and an exact-number reproduction both show 74348 as a conventional screw-mounted visor holder, which does not match this object. Adjacent diagram family 74336, \"CLIP, VISOR ARM SET,\" is the leading candidate only; no matching orderable number or verified donor has closed that identity. The stable case-file slug and physical measurements remain valid independently of the number.",
     "fitmentStatus": "confirmed",
     "vehicleLabel": "Toyota Celica Supra",
-    "yearRange": "’81–’86",
+    "yearRange": "",
     "category": "interior/trim",
     "state": "measured",
     "stateLabel": "Measured",
+    "safetyGated": false,
     "colors": [],
     "supersededTo": null,
     "dims": [
       {
-        "name": "overall_length",
-        "mm": 37.01,
-        "confidence": "confirmed"
-      },
-      {
-        "name": "overall_width",
-        "mm": 20.62,
-        "confidence": "confirmed"
-      },
-      {
-        "name": "hook_depth",
-        "mm": 25.4,
+        "name": "counterbore_depth",
+        "mm": 7,
         "confidence": "confirmed"
       },
       {
@@ -41,8 +53,8 @@
         "confidence": "confirmed"
       },
       {
-        "name": "jaw_ledge_depth",
-        "mm": 8.33,
+        "name": "hook_depth",
+        "mm": 25.4,
         "confidence": "confirmed"
       },
       {
@@ -51,38 +63,13 @@
         "confidence": "confirmed"
       },
       {
-        "name": "hook_wall_thickness",
-        "mm": 5,
-        "confidence": "confirmed"
-      },
-      {
         "name": "hook_throat_opening",
         "mm": 7.52,
         "confidence": "confirmed"
       },
       {
-        "name": "pin_protrusion",
-        "mm": 14.21,
-        "confidence": "confirmed"
-      },
-      {
-        "name": "pin_core_diameter",
-        "mm": 3.07,
-        "confidence": "confirmed"
-      },
-      {
-        "name": "pin_barb_max_diameter",
-        "mm": 5.34,
-        "confidence": "confirmed"
-      },
-      {
-        "name": "pin_smooth_side_diameter",
-        "mm": 4.98,
-        "confidence": "confirmed"
-      },
-      {
-        "name": "peg_to_hole_edge_gap",
-        "mm": 9,
+        "name": "hook_wall_thickness",
+        "mm": 5,
         "confidence": "confirmed"
       },
       {
@@ -91,13 +78,53 @@
         "confidence": "confirmed"
       },
       {
+        "name": "jaw_ledge_depth",
+        "mm": 8.33,
+        "confidence": "confirmed"
+      },
+      {
+        "name": "overall_length",
+        "mm": 36.385,
+        "confidence": "confirmed"
+      },
+      {
+        "name": "overall_width",
+        "mm": 20.62,
+        "confidence": "confirmed"
+      },
+      {
+        "name": "peg_to_hole_edge_gap",
+        "mm": 9,
+        "confidence": "confirmed"
+      },
+      {
         "name": "pin_barb_count",
-        "mm": 12,
+        "mm": 6,
+        "confidence": "confirmed"
+      },
+      {
+        "name": "pin_barb_max_diameter",
+        "mm": 5.34,
+        "confidence": "confirmed"
+      },
+      {
+        "name": "pin_core_diameter",
+        "mm": 3.07,
         "confidence": "confirmed"
       },
       {
         "name": "pin_first_barb_offset",
         "mm": 1,
+        "confidence": "confirmed"
+      },
+      {
+        "name": "pin_protrusion",
+        "mm": 14.21,
+        "confidence": "confirmed"
+      },
+      {
+        "name": "pin_smooth_side_diameter",
+        "mm": 4.98,
         "confidence": "confirmed"
       },
       {
@@ -111,64 +138,13 @@
         "confidence": "confirmed"
       },
       {
-        "name": "counterbore_depth",
-        "mm": 7,
-        "confidence": "confirmed"
+        "name": "total_height_incl_pin",
+        "mm": 39.61,
+        "confidence": "standard_inferred"
       }
     ],
     "dimsConfirmed": 20,
-    "dimsTotal": 20,
-    "fitReports": []
-  },
-  {
-    "slug": "heater-control-knob",
-    "catalogId": "toyota/celica-supra/a60/heater-control-knob",
-    "oemIdentityStatus": "confirmed",
-    "oemNumber": "55905-12060",
-    "title": "Heater Control Knob",
-    "description": "Hand-turned knob on the heater/climate control lever on the dash. Toyota's own OEM catalog designation for the original documented part is \"KNOB, HEATER CONTROL LEVER\" (55905-12060, mfr note \"W(BOOST VENTILATOR)\"), confirmed via toyotapartsdeal.com's dedicated OEM part page -- its own fitment table explicitly lists chassis codes MA61L-BLMQFA/K and MA61L-BLPQFA/K (1982-1985 Celica GT/GTS/ST/Supra, A60 generation). That part is marked \"Replaced By: 55905-12070\" (\"Control Knob Sub-Assembly\"), whose own dedicated page's fitment table likewise explicitly lists the same MA61L codes under \"1982-1989 Toyota Celica: GT, GTS, ST, Supra, Turbo 4WD, Turbo All Trac\". epc-data.com (primary reference drawing source) returned HTTP 429 this session before its MA61 heater-control diagram group could be located.",
-    "fitmentStatus": "confirmed",
-    "vehicleLabel": "Toyota Celica Supra",
-    "yearRange": "’82–’85",
-    "category": "interior/hvac",
-    "state": "development",
-    "stateLabel": "In development",
-    "colors": [],
-    "supersededTo": "55905-12070",
-    "dims": [
-      {
-        "name": "overall_diameter",
-        "mm": 20,
-        "confidence": "estimated"
-      },
-      {
-        "name": "overall_height",
-        "mm": 15,
-        "confidence": "estimated"
-      },
-      {
-        "name": "top_dome_fillet_radius",
-        "mm": 6,
-        "confidence": "estimated"
-      },
-      {
-        "name": "shaft_bore_diameter",
-        "mm": 4,
-        "confidence": "estimated"
-      },
-      {
-        "name": "shaft_bore_depth",
-        "mm": 8,
-        "confidence": "estimated"
-      },
-      {
-        "name": "base_chamfer",
-        "mm": 0.6,
-        "confidence": "estimated"
-      }
-    ],
-    "dimsConfirmed": 0,
-    "dimsTotal": 6,
+    "dimsTotal": 21,
     "fitReports": []
   },
   {
@@ -184,6 +160,7 @@
     "category": "interior/trim",
     "state": "requested",
     "stateLabel": "Requested",
+    "safetyGated": false,
     "colors": [],
     "supersededTo": null,
     "dims": [],
@@ -200,10 +177,11 @@
     "description": "Small cabin hook for hanging garments, identified as Toyota 74631-14010 \"HOOK, COAT, A.\" MA61 section MBC673D places callout 74631 in the Armrest & Visor assembly, while exact color-suffix catalog rows document Ivory, Blue, Gray, and Beige variants. That closes the earlier shared-page identity ambiguity, but no mounting-interface dimensions, reusable mesh, or dimensional drawing has been found. A physical donor is still required before CAD.",
     "fitmentStatus": "confirmed",
     "vehicleLabel": "Toyota Celica Supra",
-    "yearRange": "’81–’86",
+    "yearRange": "",
     "category": "interior/trim",
     "state": "requested",
     "stateLabel": "Requested",
+    "safetyGated": false,
     "colors": [
       "Ivory",
       "Blue",
@@ -225,37 +203,13 @@
     "description": "Small lock/latch mechanism that keeps the center-console compartment lid closed. Toyota's own OEM catalog designation for the documented part is \"LOCK SUB-ASSY, CONSOLE COMPARTMENT DOOR\" (58908-14010), confirmed via toyotapartsdeal.com's dedicated 'Center Console Latch' category page (its own fitment table explicitly lists chassis code MA61L among others) and the 1982 Toyota Celica \"Console Box & Bracket\" parts-list page (which tags this exact number MA61). epc-data.com (primary reference drawing source) confirmed the existence of a \"CONSOLE BOX & BRACKET\" diagram group (58-06) for this MA61 complectation, but rate-limited (HTTP 429) before the group's own page could be fetched for a figure/scheme callout.",
     "fitmentStatus": "confirmed",
     "vehicleLabel": "Toyota Celica Supra",
-    "yearRange": "’81–’86",
+    "yearRange": "",
     "category": "interior/trim",
     "state": "requested",
     "stateLabel": "Requested",
+    "safetyGated": false,
     "colors": [],
     "supersededTo": null,
-    "dims": [],
-    "dimsConfirmed": 0,
-    "dimsTotal": 0,
-    "fitReports": []
-  },
-  {
-    "slug": "dash-vent-register",
-    "catalogId": "toyota/celica-supra/a60/dash-vent-register",
-    "oemIdentityStatus": "confirmed",
-    "oemNumber": "55650-14080-01",
-    "title": "Instrument Panel Vent Register",
-    "description": "Register (vent) assembly set into the instrument panel that directs HVAC airflow into the cabin. Toyota's own OEM catalog designation for the documented part below is \"REGISTER ASSY, INSTRUMENT PANEL, NO.1\" (part family 55650-14080), confirmed via toyotapartsdeal.com (secondary; 1982 + 1985 Toyota Celica \"Instrument Panel & Glove Compartment\" parts-list pages) for chassis MA61 (Celica Supra, A60 generation). epc-data.com (primary reference drawing source) returned HTTP 429 both times it was tried this session, before its MA61 register/vent diagram group could be located -- see notes on oem.diagram_refs.",
-    "fitmentStatus": "confirmed",
-    "vehicleLabel": "Toyota Celica Supra",
-    "yearRange": "’81–’86",
-    "category": "interior/hvac",
-    "state": "requested",
-    "stateLabel": "Requested",
-    "colors": [
-      "Black",
-      "Terra Cotta",
-      "Blue",
-      "Deep Maroon"
-    ],
-    "supersededTo": "55650-14080-01",
     "dims": [],
     "dimsConfirmed": 0,
     "dimsTotal": 0,
@@ -274,12 +228,40 @@
     "category": "interior/trim",
     "state": "requested",
     "stateLabel": "Requested",
+    "safetyGated": false,
     "colors": [
       "Black",
       "Blue",
       "Dark Brown"
     ],
     "supersededTo": "69260-22030-14",
+    "dims": [],
+    "dimsConfirmed": 0,
+    "dimsTotal": 0,
+    "fitReports": []
+  },
+  {
+    "slug": "dash-vent-register",
+    "catalogId": "toyota/celica-supra/a60/dash-vent-register",
+    "oemIdentityStatus": "confirmed",
+    "oemNumber": "55650-14080-01",
+    "title": "Instrument Panel Vent Register",
+    "description": "Register (vent) assembly set into the instrument panel that directs HVAC airflow into the cabin. Toyota's own OEM catalog designation for the documented part below is \"REGISTER ASSY, INSTRUMENT PANEL, NO.1\" (part family 55650-14080), confirmed via toyotapartsdeal.com (secondary; 1982 + 1985 Toyota Celica \"Instrument Panel & Glove Compartment\" parts-list pages) for chassis MA61 (Celica Supra, A60 generation). epc-data.com (primary reference drawing source) returned HTTP 429 both times it was tried this session, before its MA61 register/vent diagram group could be located -- see notes on oem.diagram_refs.",
+    "fitmentStatus": "confirmed",
+    "vehicleLabel": "Toyota Celica Supra",
+    "yearRange": "",
+    "category": "interior/hvac",
+    "state": "requested",
+    "stateLabel": "Requested",
+    "safetyGated": false,
+    "colors": [
+      "Black",
+      "Terra Cotta",
+      "Blue",
+      "Dark Brown",
+      "Deep Maroon"
+    ],
+    "supersededTo": "55650-14080-01",
     "dims": [],
     "dimsConfirmed": 0,
     "dimsTotal": 0,
