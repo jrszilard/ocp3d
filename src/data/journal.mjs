@@ -4,6 +4,9 @@
 // happened at the bench and on the car; the field file's evidence state stays the source of
 // truth for fit, identity, and what the page may offer. An entry for a safety-gated record is a
 // research log only: no product, installation, road-use, or availability language.
+//
+// `cover` is the card image on the home page. A research log's cover shows the problem (the stock
+// part), never research geometry that could read as a product.
 
 export const journal = [
   {
@@ -17,6 +20,12 @@ export const journal = [
       "the car in ASA. Two deliberate changes from the original, and a part-number question still open.",
     updated: "2026-09-17",
     researchOnly: false,
+    cover: {
+      src: "/images/journal/sun-visor-clip/v8-vs-v12.jpg",
+      alt: "The orange v8 visor clip beside the smoother tan v12, both mounted on the headliner.",
+      width: 1600,
+      height: 1055,
+    },
   },
   {
     slug: "wiper-adaptors",
@@ -29,6 +38,12 @@ export const journal = [
       "Research in progress: nothing here is for sale, installed, or road-tested.",
     updated: "2026-09-17",
     researchOnly: true,
+    cover: {
+      src: "/images/journal/wiper-adaptors/stock-driver-carrier.jpg",
+      alt: "The stock driver-side wiper carrier on the end of the arm, next to a checkerboard scale bar.",
+      width: 1600,
+      height: 1205,
+    },
   },
 ];
 

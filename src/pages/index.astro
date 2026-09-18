@@ -2,6 +2,7 @@
 import Base from "../layouts/Base.astro";
 import parts from "../data/parts.json";
 import RegisterCard from "../components/RegisterCard.astro";
+import BenchLogs from "../components/BenchLogs.astro";
 
 /* A founder's real A60 problem becomes a field file. The public offer must
    stay behind the evidence carried by each record—especially the fitted-only
@@ -85,6 +86,8 @@ const paths = [
       <article><span>LEG {n}</span><h2>{title}</h2><p>{body}</p></article>
     ))}
   </section>
+
+  <BenchLogs />
 
   <section class="path-section">
     <div class="path-intro">

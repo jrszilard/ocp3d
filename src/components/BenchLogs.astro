@@ -1,0 +1,84 @@
+---
+/**
+ * Home-page block for the bench journal: the latest build logs, each linked to its entry.
+ *
+ * Stamps come from the live field-file state, so a card never claims more than its record.
+ * A research log always wears the research boundary.
+ */
+import Stamp from "./Stamp.astro";
+import { allParts } from "../lib/catalog";
+import { journal } from "../data/journal.mjs";
+
+interface Props { limit?: number }
+const { limit = 3 } = Astro.props;
+
+const partsBySlug = new Map(allParts().map((part) => [part.slug, part]));
+const entries = journal.slice(0, limit).flatMap((entry) => {
+  const part = partsBySlug.get(entry.partSlug);
+  if (!part) return [];
+  const safetyGated = entry.researchOnly || Boolean(part.safetyGated);
+  return [{ ...entry, part, safetyGated, stampLabel: safetyGated ? "RESEARCH ONLY" : part.stateLabel }];
+});
+---
+{entries.length > 0 && (
+  <section class="bench-logs" aria-labelledby="bench-logs-title">
+    <div class="logs-head">
+      <div>
+        <p class="eyebrow">FROM THE BENCH / BUILD LOGS</p>
+        <h2 id="bench-logs-title">The work, one part at a time.</h2>
+        <p class="logs-lede">What was measured, what went wrong, and where each record stands.</p>
+      </div>
+      <a class="logs-link" href="/journal/">ALL BUILD LOGS →</a>
+    </div>
+    <div class="log-cards">
+      {entries.map((entry) => (
+        <a class="log-card" href={`/journal/${entry.slug}/`}>
+          {entry.cover && (
+            <img src={entry.cover.src} alt={entry.cover.alt} width={entry.cover.width}
+                 height={entry.cover.height} loading="lazy" />
+          )}
+          <div class="log-body">
+            <div class="log-meta">
+              <span class="log-no">№ {entry.number}</span>
+              <Stamp state={entry.part.state} label={entry.stampLabel} safetyGated={entry.safetyGated} />
+            </div>
+            <p class="eyebrow">{entry.eyebrow}</p>
+            <h3>{entry.title}</h3>
+            <p class="log-summary">{entry.summary}</p>
+            <span class="log-read">READ THE LOG →</span>
+          </div>
+        </a>
+      ))}
+    </div>
+  </section>
+)}
+
+<style>
+  .bench-logs { padding: var(--sec-state); background: var(--ground); }
+  .logs-head { display: flex; align-items: end; justify-content: space-between; gap: 24px; }
+  .logs-head h2 { margin-top: 10px; }
+  .logs-lede { margin-top: 10px; max-width: 60ch; color: var(--body); font-size: var(--t-dense); line-height: var(--t-dense-lh); }
+  .logs-link { color: var(--ion); font-size: var(--t-eyebrow); letter-spacing: var(--t-eyebrow-tr); text-align: right; white-space: nowrap; }
+  .logs-link:hover { color: var(--signal); }
+
+  .log-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: var(--gap-cards); margin-top: 23px; }
+  .log-card { display: flex; flex-direction: column; min-width: 0; border: var(--bd-inner) solid var(--rule-2); background: var(--panel); color: var(--paper); transition: border-color var(--transition); }
+  .log-card:hover { border-color: var(--ion); color: var(--paper); }
+  .log-card img { width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; border-bottom: var(--bd-inner) solid var(--rule); background: var(--journal-charcoal); }
+  .log-body { display: flex; flex-direction: column; gap: 9px; padding: 18px 20px 20px; }
+  .log-meta { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .log-no { color: var(--signal); font-family: var(--font-display); font-size: 24px; line-height: 1; }
+  .log-card h3 { font-family: var(--font-display); font-size: 22px; line-height: 1.05; text-transform: uppercase; }
+  .log-summary { color: var(--body); font-size: var(--t-dense); line-height: var(--t-dense-lh); }
+  .log-read { margin-top: auto; padding-top: 4px; color: var(--ion); font-family: var(--font-mono); font-size: var(--t-eyebrow); letter-spacing: var(--t-eyebrow-tr); }
+  .log-card:hover .log-read { color: var(--signal); }
+
+  @media (max-width: 760px) {
+    .logs-head { align-items: flex-start; flex-direction: column; gap: 12px; }
+    .logs-link { text-align: left; }
+  }
+  @media (max-width: 600px) {
+    .bench-logs { padding: 36px 20px; }
+    .log-cards { grid-template-columns: 1fr; }
+  }
+</style>

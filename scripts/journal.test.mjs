@@ -40,3 +40,20 @@ test("a log for a safety-gated field file stays research-only", () => {
     assert.doesNotMatch(source, /Discuss getting this part|made-to-order|Order this part|Add to cart/i, `${entry.slug}: offer CTA`);
   }
 });
+
+test("every home-page card has a committed cover image", () => {
+  for (const entry of journal) {
+    if (!entry.cover) continue;
+    assert.ok(existsSync(new URL(`public${entry.cover.src}`, root)), `${entry.slug}: missing cover ${entry.cover.src}`);
+    assert.ok(entry.cover.alt?.length > 10, `${entry.slug}: cover needs real alt text`);
+  }
+});
+
+// Founder direction 2026-09-17: the journal must be easy to find from the main page. A layout or
+// home-page rewrite has to carry both entry points forward, not quietly drop them.
+test("the journal stays reachable from the main nav and the home page", () => {
+  const base = readFileSync(new URL("src/layouts/Base.astro", root), "utf8");
+  const home = readFileSync(new URL("src/pages/index.astro", root), "utf8");
+  assert.match(base, /href:\s*"\/journal\/"/, "main nav must link to /journal/");
+  assert.match(home, /<BenchLogs\b/, "home page must include the BenchLogs block");
+});
