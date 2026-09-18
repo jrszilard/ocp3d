@@ -6,6 +6,7 @@ import ServiceHeading from "../../components/ServiceHeading.astro";
 import Stamp from "../../components/Stamp.astro";
 import SpecTable from "../../components/SpecTable.astro";
 import { allParts, fitmentLabel, oemIdentityLabel } from "../../lib/catalog";
+import { journalForPart } from "../../data/journal.mjs";
 
 export function getStaticPaths() {
   return allParts().map((part) => ({ params: { slug: part.slug }, props: { part } }));
@@ -31,6 +32,9 @@ const identityTitle = safetyGated
     : identityDisputed
       ? "OEM identity under investigation"
       : "OEM identity pending";
+
+// Bench-journal build log for this field file, if one exists.
+const journalEntry = journalForPart(part.slug);
 
 // Neutral-resin render, once the part is modeled (scripts/render-part.py).
 const imgSrc = `/images/parts/${part.slug}.jpg`;
@@ -83,6 +87,13 @@ const hasImage = fs.existsSync(path.join(process.cwd(), "public", "images", "par
             <Stamp state={part.state} label={safetyGated ? "RESEARCH ONLY" : part.stateLabel} safetyGated={safetyGated} />
           </div>
           <p class="brief-copy">{part.description}</p>
+          {journalEntry && (
+            <p class="journal-link">
+              <a href={`/journal/${journalEntry.slug}/`}>
+                {journalEntry.researchOnly ? "Read the research log" : "Read the build log"} →
+              </a>
+            </p>
+          )}
           {safetyGated && (
             <p class="safety-notice" role="note">
               <b>Final testing is still pending.</b> This exterior adaptor work needs vibration,
@@ -213,6 +224,9 @@ const hasImage = fs.existsSync(path.join(process.cwd(), "public", "images", "par
   .case-status { display: flex; align-items: flex-start; justify-content: space-between; gap: 18px; padding-bottom: 18px; border-bottom: var(--bd-inner) solid var(--rule); }
   .status-caption { max-width: 38ch; margin-top: 6px; font-size: var(--t-dense); line-height: var(--t-dense-lh); color: var(--steel); }
   .brief-copy { margin: 20px 0 16px; color: var(--body); }
+  .journal-link { margin: -4px 0 16px; }
+  .journal-link a { color: var(--ion); border-bottom: 1px solid currentColor; font-family: var(--font-mono); font-size: var(--t-eyebrow); letter-spacing: var(--t-eyebrow-tr); text-transform: uppercase; }
+  .journal-link a:hover { color: var(--signal); }
   .paper-trail { color: var(--steel); font-size: var(--t-dense); }
   .identity-notice, .safety-notice { padding: 13px 15px; margin: 14px 0; color: var(--steel); font-size: var(--t-dense); line-height: var(--t-dense-lh); }.identity-notice { border-left: 3px solid var(--ion); background: color-mix(in srgb, var(--ion) 9%, transparent); }.safety-notice { border-left: 3px solid var(--signal); background: color-mix(in srgb, var(--signal) 10%, transparent); }.identity-notice b, .safety-notice b { color: var(--paper); }
 

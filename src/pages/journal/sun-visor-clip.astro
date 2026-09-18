@@ -1,0 +1,253 @@
+---
+import Base from "../../layouts/Base.astro";
+import ServiceHeading from "../../components/ServiceHeading.astro";
+import Stamp from "../../components/Stamp.astro";
+import { allParts } from "../../lib/catalog";
+import { journal } from "../../data/journal.mjs";
+
+const entry = journal.find((item) => item.slug === "sun-visor-clip");
+const part = allParts().find((item) => item.slug === entry.partSlug);
+if (!part) throw new Error(`journal/${entry.slug}: field file ${entry.partSlug} is not in the snapshot`);
+const requestHref = `/request/?part=${encodeURIComponent(part.title)}&part_slug=${part.slug}`;
+const img = (file: string) => `/images/journal/sun-visor-clip/${file}`;
+---
+<Base title="Case File 001: Rebuilding the sun visor clip — OCP3D"
+      description="How a broken sun visor clip on a 1983 Celica Supra became twelve versions, two deliberate changes from the original, and a v12 in ASA that is back in the car."
+      sheet="BENCH JOURNAL · CASE FILE 001">
+  <article class="entry-page">
+    <div class="wrap entry-wrap">
+      <nav class="crumbs" aria-label="Breadcrumb"><a href="/journal/">Bench journal</a><span>/</span><span>Case file 001</span></nav>
+
+      <ServiceHeading
+        eyebrow={entry.eyebrow}
+        title="Rebuilding the sun visor clip."
+        lede="One of the clips that holds the sun visor up on my '83 had broken, and replacements are hard to find. I still had an original to measure. Twelve versions later, v12 is in the car. This is how it got there, including two deliberate changes from the original."
+        file="CASE FILE 001 · SUN VISOR CLIP"
+        signal="V12 · ASA · IN THE CAR"
+      />
+
+      <figure class="lead-figure">
+        <img src={img("v8-vs-v12.jpg")} width="1600" height="1055"
+             alt="Two printed visor clips mounted on the same headliner: a boxy orange v8 on the left and a smoother tan v12 on the right." />
+        <figcaption>
+          <span>LEFT · V8 · ORANGE ASA · AUG 20, 2026</span>
+          <span>RIGHT · V12 · TAN ASA · SEPT 8, 2026</span>
+        </figcaption>
+      </figure>
+
+      <dl class="entry-facts">
+        <div><dt>Part</dt><dd>Sun visor retaining clip</dd></div>
+        <div><dt>Car</dt><dd>1983 Toyota Celica Supra (A60), US</dd></div>
+        <div><dt>Version</dt><dd>v12 · ASA</dd></div>
+        <div><dt>In the car</dt><dd>Sept 8, 2026</dd></div>
+        <div><dt>Print</dt><dd>About 5 g · 21 min</dd></div>
+        <div><dt>OEM number</dt><dd>Under investigation</dd></div>
+        <div><dt>Field file</dt><dd><Stamp state={part.state} label={part.stateLabel} /></dd></div>
+      </dl>
+
+      <div class="entry-body">
+        <section class="entry-section">
+          <p class="step-n">01</p>
+          <div class="section-copy">
+            <h2>The problem</h2>
+            <p>This little clip holds the sun visor up against the headliner. After forty-some years the
+              plastic gets brittle, and one of mine had broken. Replacements are hard to find, but I still
+              had an original to measure, so it became the first part I properly reverse-engineered.</p>
+          </div>
+        </section>
+
+        <section class="entry-section">
+          <p class="step-n">02</p>
+          <div class="section-copy">
+            <h2>A part-number question</h2>
+            <p>The part number I first found in online diagrams, 74348-12010, turned out to describe a
+              different, screw-mounted holder. Mine is a crescent-shaped clip that mounts with a push-in
+              fir-tree pin and one screw. The closest candidate so far is the 74336 series, but I haven't
+              confirmed it.</p>
+            <p>If you have an A60 with this clip and a parts diagram, an old invoice, or a bag with the
+              number on it, I'd like to compare notes.</p>
+            <p class="inline-cta"><a class="btn btn--secondary" href={requestHref}>Share a lead</a></p>
+          </div>
+        </section>
+
+        <section class="entry-section">
+          <p class="step-n">03</p>
+          <div class="section-copy">
+            <h2>From photos to calipers (v1 to v5)</h2>
+            <p><strong>v1 came from online diagrams and photos only, and it modeled the wrong mechanism
+              entirely:</strong> a screw plate with a snap-in channel. Photos can show that a feature exists.
+              They can't show what it does.</p>
+            <p><strong>v2 came from calipers.</strong> Seven rounds of measuring the original, 18 critical
+              dimensions:</p>
+            <ul class="ticks">
+              <li>the crescent-shaped body</li>
+              <li>the C-hook that cradles the 8.1 mm visor rod, with a 7.52 mm throat</li>
+              <li>a fir-tree push pin with 12 barbs</li>
+              <li>a counterbored screw hole</li>
+            </ul>
+            <p><strong>v3 to v5 were the first prints, in PLA and PETG,</strong> held next to the original and
+              corrected:</p>
+            <ul class="ticks">
+              <li>the fir-tree ribs are on both sides, not one</li>
+              <li>the hook's jaw came in about 3 mm</li>
+              <li>the pin-to-hole spacing was corrected to a measured 9.0 mm</li>
+              <li>bevels on the corners, with the edges that locate the part kept crisp</li>
+            </ul>
+          </div>
+          <figure class="shot shot--cad">
+            <img src={img("cad-v12.png")} width="800" height="600" loading="lazy"
+                 alt="CAD render of the v12 visor clip: crescent body, C-hook, screw hole, and a six-barb fir-tree pin." />
+            <figcaption><span>CAD MODEL · V12</span><span>RENDER, NOT A PHOTO</span></figcaption>
+          </figure>
+        </section>
+
+        <section class="entry-section">
+          <p class="step-n">04</p>
+          <div class="section-copy">
+            <h2>First fit in the car, and two deliberate changes (v5 to v8)</h2>
+            <p><strong>Aug 16: v5, printed in PLA, mounted and held the visor,</strong> but the visor had to be
+              forced up to hook and unhook it. Measuring showed why: the gap the rod passes through on its way
+              in was 7.73 mm, and the rod is 8.10 mm. The original shape is tighter than the rod it has to let
+              in.</p>
+            <p><strong>Deliberate change 1 (v6):</strong> a shorter lip at the entry turns 0.37 mm of
+              interference into 0.62 mm of clearance. The part of the hook that actually holds the rod, the
+              7.52 mm throat and the 8.10 mm cradle, didn't change. That makes this a corrected part, not an
+              exact copy, and the record says so.</p>
+            <p><strong>Deliberate change 2 (v8):</strong> the v7 print came out with its fir-tree barbs fused
+              into a ribbed cone. The original has 12 barbs packed into 11.2 mm, which leaves gaps of 0.23 mm,
+              narrower than the 0.4 mm nozzle can draw. Injection molding doesn't care about that; FDM printing
+              does. v8 has 6 barbs at the same outer diameter, so it grips the same mounting hole with fewer,
+              properly formed steps.</p>
+          </div>
+        </section>
+
+        <section class="entry-section">
+          <p class="step-n">05</p>
+          <div class="section-copy">
+            <h2>ASA, and making it look right (v8 to v12)</h2>
+            <p><strong>Why ASA.</strong> A car interior bakes in the summer, and PLA starts to soften around
+              60 °C. ASA holds up to heat (its glass transition is around 100 °C) and to UV. It needs an enclosed
+              printer with the chamber warmed up first, so it prints in a Prusa Core One with the vent closed.</p>
+            <p><strong>Aug 20: v8 in orange ASA worked, but it looked boxy.</strong> v9 to v12 were about
+              looks:</p>
+            <ul class="ticks">
+              <li>softer edges</li>
+              <li>a rounded front</li>
+              <li>a clean shelf under the visor opening</li>
+              <li>a smoother visor opening itself</li>
+            </ul>
+            <p>The v12 rounding reaches into the spot where the rod goes in, so it needed its own test in the
+              car instead of borrowing v8's result.</p>
+            <p><strong>Sept 8: v12 printed in tan ASA,</strong> much closer to the headliner: about 5 g of
+              plastic and 21 minutes of printer time. The material under it on the bed is print support, and it
+              comes off. Every print is checked before it runs, including that no support ends up inside the
+              screw hole.</p>
+            <p><strong>Installed the same day.</strong> It mounts solidly, holds the visor up, and the visor
+              hooks in and out without forcing it, which is the problem v6 set out to fix.</p>
+          </div>
+          <div class="shots">
+            <figure class="shot shot--portrait">
+              <img src={img("v12-on-the-bed.jpg")} width="1205" height="1600" loading="lazy"
+                   alt="A tan v12 visor clip on the Prusa Core One print bed, with support material underneath." />
+              <figcaption><span>V12 · ON THE BED</span><span>SEPT 8, 2026</span></figcaption>
+            </figure>
+            <figure class="shot shot--portrait">
+              <img src={img("v12-installed.jpg")} width="1205" height="1600" loading="lazy"
+                   alt="The tan v12 clip mounted on the headliner above the windshield." />
+              <figcaption><span>V12 · INSTALLED</span><span>SEPT 8, 2026</span></figcaption>
+            </figure>
+            <figure class="shot shot--portrait">
+              <video src="/video/journal/visor-v12-snap.mp4" poster={img("v12-snap-poster.jpg")}
+                     width="720" height="1280" controls muted loop playsinline preload="none"
+                     aria-label="Short silent clip: the visor is pushed up and the tan clip catches and holds its rod."></video>
+              <figcaption><span>V12 · VISOR UP, CLIP HOLDS</span><span>SILENT CLIP · 7 S</span></figcaption>
+            </figure>
+          </div>
+        </section>
+
+        <section class="entry-section">
+          <p class="step-n">06</p>
+          <div class="section-copy">
+            <h2>What's next</h2>
+            <ul class="ticks">
+              <li><strong>Time in the car.</strong> Summer heat and sun are the real test, and I'll report
+                back.</li>
+              <li><strong>Other cars.</strong> If you have an A60 with a broken or missing clip, I'm looking for
+                a few owners to test-fit this one.</li>
+              <li><strong>The part number.</strong> Still open. A spare original, even a broken one, helps
+                too.</li>
+            </ul>
+          </div>
+        </section>
+      </div>
+
+      <aside class="evidence-note">
+        <div>
+          <p class="eyebrow">WHAT THIS RECORD COVERS</p>
+          <p>One car (a 1983 US Celica Supra), one clip, one material (ASA), installed Sept 8, 2026. It shows
+            the clip fits and holds; it is not a durability claim. The field file carries the measurements and
+            the current evidence state.</p>
+        </div>
+        <div class="note-actions">
+          <a class="btn btn--primary" href={`/registry/${part.slug}/`}>Open the field file</a>
+          <a class="btn btn--secondary" href={requestHref}>Share a lead</a>
+        </div>
+      </aside>
+    </div>
+  </article>
+</Base>
+
+<style>
+  .entry-page { background: linear-gradient(180deg, color-mix(in srgb, var(--ground-deep) 28%, transparent), transparent 32%); }
+  .entry-wrap { display: grid; gap: 18px; }
+  .crumbs { display: flex; gap: 8px; flex-wrap: wrap; font-size: var(--t-eyebrow); color: var(--steel); text-transform: uppercase; letter-spacing: .1em; }
+  .crumbs a { color: var(--ion); }
+
+  .lead-figure { border: var(--bd-inner) solid var(--rule-2); background: var(--ground-deep); }
+  .lead-figure img { width: 100%; height: auto; }
+  figcaption { display: flex; justify-content: space-between; gap: 8px 14px; flex-wrap: wrap; padding: 10px 14px; border-top: var(--bd-inner) solid var(--rule); font-family: var(--font-mono); font-size: var(--t-micro); letter-spacing: var(--t-micro-tr); color: var(--steel); }
+
+  .entry-facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); margin: 0; border-top: var(--bd-inner) solid var(--rule); border-left: var(--bd-inner) solid var(--rule); background: var(--ground); }
+  .entry-facts > div { padding: 14px 16px; border-right: var(--bd-inner) solid var(--rule); border-bottom: var(--bd-inner) solid var(--rule); }
+  .entry-facts dt { font-family: var(--font-mono); font-size: var(--t-micro); letter-spacing: var(--t-micro-tr); text-transform: uppercase; color: var(--steel); }
+  .entry-facts dd { margin: 5px 0 0; color: var(--paper); font-size: var(--t-dense); line-height: var(--t-dense-lh); }
+
+  .entry-body { border: var(--bd-inner) solid var(--rule-2); background: var(--panel); }
+  .entry-section { display: grid; grid-template-columns: 58px minmax(0, 1fr); gap: 0 16px; padding: 26px 30px; border-top: var(--bd-inner) solid var(--rule); }
+  .entry-section:first-child { border-top: 0; }
+  .entry-section > :not(.step-n) { grid-column: 2; }
+  .step-n { width: 34px; height: 34px; display: grid; place-items: center; border: 1px solid var(--signal); color: var(--signal); font-family: var(--font-mono); font-size: var(--t-eyebrow); letter-spacing: .08em; }
+  .section-copy { max-width: 70ch; }
+  .section-copy h2 { font-size: 24px; margin-bottom: 12px; }
+  .section-copy p { margin-top: 12px; color: var(--body); }
+  .section-copy h2 + p { margin-top: 0; }
+  .section-copy strong { color: var(--paper); }
+  .ticks { display: grid; gap: 7px; margin-top: 10px; color: var(--body); }
+  .ticks li { position: relative; padding-left: 18px; }
+  .ticks li::before { content: ""; position: absolute; left: 0; top: .72em; width: 8px; border-top: 2px solid var(--signal); }
+  .inline-cta { margin-top: 16px; }
+
+  .shots { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin-top: 20px; align-items: start; }
+  .shot { margin: 0; border: var(--bd-inner) solid var(--rule); background: var(--ground-deep); min-width: 0; }
+  .shot img, .shot video { width: 100%; height: auto; display: block; background: var(--journal-charcoal); }
+  .shot--cad { margin-top: 20px; max-width: 520px; }
+  .shot--portrait img, .shot--portrait video { aspect-ratio: 3 / 4; object-fit: cover; }
+  .shot--cad-tile img { aspect-ratio: 3 / 4; object-fit: contain; }
+  .shot--cad img { background: #f7f7f7; }
+
+  .evidence-note { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 22px; padding: 22px 26px; border: var(--bd-inner) solid var(--rule); background: color-mix(in srgb, var(--ground-deep) 84%, transparent); }
+  .evidence-note p:not(.eyebrow) { margin-top: 7px; color: var(--steel); font-size: var(--t-dense); max-width: 70ch; }
+  .note-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+
+  @media (max-width: 820px) {
+    .shots { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .evidence-note { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 600px) {
+    .entry-section { grid-template-columns: 1fr; padding: 22px 20px; }
+    .entry-section > :not(.step-n) { grid-column: 1; }
+    .step-n { margin-bottom: 12px; }
+    .shots { grid-template-columns: 1fr; }
+    .evidence-note { padding: 20px; }
+  }
+</style>

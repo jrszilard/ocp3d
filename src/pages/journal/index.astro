@@ -1,0 +1,76 @@
+---
+import Base from "../../layouts/Base.astro";
+import ServiceHeading from "../../components/ServiceHeading.astro";
+import Stamp from "../../components/Stamp.astro";
+import { allParts } from "../../lib/catalog";
+import { journal } from "../../data/journal.mjs";
+
+const partsBySlug = new Map(allParts().map((part) => [part.slug, part]));
+const entries = journal.map((entry) => {
+  const part = partsBySlug.get(entry.partSlug);
+  if (!part) throw new Error(`journal/${entry.slug}: field file ${entry.partSlug} is not in the snapshot`);
+  // A research-only entry always wears the research boundary, whatever the maturity state.
+  const safetyGated = entry.researchOnly || Boolean(part.safetyGated);
+  return { ...entry, part, safetyGated, stampLabel: safetyGated ? "RESEARCH ONLY" : part.stateLabel };
+});
+const formatDate = (iso: string) =>
+  new Date(`${iso}T12:00:00Z`).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric", timeZone: "UTC" });
+---
+<Base title="Bench journal — build logs — OCP3D"
+      description="Build logs from the OCP3D bench: what was measured, what went wrong, and where each part's record stands."
+      sheet="BENCH JOURNAL · BUILD LOGS">
+  <section class="journal-page">
+    <div class="wrap journal-wrap">
+      <ServiceHeading
+        eyebrow="BENCH JOURNAL · BUILD LOGS"
+        title="Build logs from the bench."
+        lede="Working notes on specific parts: what was measured, what went wrong, and where the record stands. Each entry links back to its field file, which stays the record of what a part has actually earned."
+        file="BENCH JOURNAL"
+        signal="TRACE · MEASURE · RECORD"
+        compact
+      />
+
+      <ol class="entries">
+        {entries.map((entry) => (
+          <li class="entry-card">
+            <div class="entry-meta">
+              <p class="entry-no">№ {entry.number}</p>
+              <Stamp state={entry.part.state} label={entry.stampLabel} safetyGated={entry.safetyGated} />
+            </div>
+            <div class="entry-copy">
+              <p class="eyebrow">{entry.eyebrow}</p>
+              <h2><a href={`/journal/${entry.slug}/`}>{entry.title}</a></h2>
+              <p class="entry-summary">{entry.summary}</p>
+              <p class="entry-links">
+                <a href={`/journal/${entry.slug}/`}>Read the log</a>
+                <a href={`/registry/${entry.part.slug}/`}>Field file</a>
+                <span>Updated {formatDate(entry.updated)}</span>
+              </p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .journal-page { background: linear-gradient(180deg, color-mix(in srgb, var(--ground-deep) 28%, transparent), transparent 32%); }
+  .journal-wrap { display: grid; gap: 18px; }
+  .entries { display: grid; border: var(--bd-inner) solid var(--rule-2); background: var(--panel); }
+  .entry-card { display: grid; grid-template-columns: 170px minmax(0, 1fr); gap: 18px; padding: 24px 30px; border-top: var(--bd-inner) solid var(--rule); }
+  .entry-card:first-child { border-top: 0; }
+  .entry-meta { display: grid; align-content: start; justify-items: start; gap: 12px; }
+  .entry-no { color: var(--signal); font-family: var(--font-display); font-size: 30px; line-height: 1; }
+  .entry-copy h2 { margin-top: 8px; font-size: 26px; }
+  .entry-copy h2 a:hover { color: var(--ion); }
+  .entry-summary { margin-top: 10px; max-width: 70ch; color: var(--body); }
+  .entry-links { display: flex; gap: 8px 18px; flex-wrap: wrap; align-items: baseline; margin-top: 14px; font-family: var(--font-mono); font-size: var(--t-eyebrow); letter-spacing: var(--t-eyebrow-tr); text-transform: uppercase; }
+  .entry-links a { color: var(--ion); border-bottom: 1px solid currentColor; }
+  .entry-links a:hover { color: var(--signal); }
+  .entry-links span { color: var(--steel); }
+  @media (max-width: 600px) {
+    .entry-card { grid-template-columns: 1fr; padding: 22px 20px; }
+    .entry-meta { grid-auto-flow: column; justify-content: start; align-items: center; }
+  }
+</style>

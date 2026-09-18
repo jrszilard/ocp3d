@@ -1,0 +1,295 @@
+---
+import Base from "../../layouts/Base.astro";
+import ServiceHeading from "../../components/ServiceHeading.astro";
+import Stamp from "../../components/Stamp.astro";
+import { allParts } from "../../lib/catalog";
+import { journal } from "../../data/journal.mjs";
+
+// Research log for a safety-gated field file. It may report the work and invite donor,
+// measurement, hardware, or controlled-test leads. It never offers, installs, or claims fit
+// or road use (see the field file's research boundary).
+const entry = journal.find((item) => item.slug === "wiper-adaptors");
+const part = allParts().find((item) => item.slug === entry.partSlug);
+if (!part) throw new Error(`journal/${entry.slug}: field file ${entry.partSlug} is not in the snapshot`);
+const leadHref = `/request/?part=${encodeURIComponent(part.title)}&part_slug=${part.slug}`;
+const img = (file: string) => `/images/journal/wiper-adaptors/${file}`;
+---
+<Base title="Research Log 002: Modern wiper blades on the original arms — OCP3D"
+      description="Work in progress: printed adaptors so modern wiper blades can run on a 1983 Celica Supra's original arms without drilling them. Research only; not for sale, installed, or road-tested."
+      sheet="BENCH JOURNAL · RESEARCH LOG 002">
+  <article class="entry-page">
+    <div class="wrap entry-wrap">
+      <nav class="crumbs" aria-label="Breadcrumb"><a href="/journal/">Bench journal</a><span>/</span><span>Research log 002</span></nav>
+
+      <ServiceHeading
+        eyebrow={entry.eyebrow}
+        title="Modern wiper blades on the original arms."
+        lede="Research in progress on my '83 Celica Supra: printed adaptors so the modern blades you can buy at any parts store can run on the original wiper arms, without drilling them. This is a log of the work so far."
+        file="RESEARCH LOG · WIPER ADAPTORS"
+        signal="RESEARCH ONLY"
+      />
+
+      <p class="research-notice" role="note">
+        <b>Work in progress. Research only.</b> Wipers are safety equipment. Final testing is still
+        pending: vibration, UV exposure, and rain function, plus the remaining measured interface evidence,
+        before any product, installation, fit, or road-use discussion can exist. Nothing on this page is
+        for sale, installed, or road-tested.
+      </p>
+
+      <dl class="entry-facts">
+        <div><dt>Car</dt><dd>1983 Toyota Celica Supra (A60)</dd></div>
+        <div><dt>Positions</dt><dd>Driver, passenger, rear hatch</dd></div>
+        <div><dt>Latest</dt><dd>ASA set sliced and queued, not printed</dd></div>
+        <div><dt>On the car</dt><dd>Nothing yet</dd></div>
+        <div><dt>Field file</dt><dd><Stamp state={part.state} label="RESEARCH ONLY" safetyGated /></dd></div>
+      </dl>
+
+      <div class="entry-body">
+        <section class="entry-section">
+          <p class="step-n">01</p>
+          <div class="section-copy">
+            <h2>The problem, and the plan</h2>
+            <p><strong>On the A60, each front blade clips into a black plastic carrier on the end of the
+              arm.</strong> Two screws come through the arm and thread into the carrier, and alignment pins
+              and bores keep it square. The carrier holds an old-style blade. The rear uses a plastic U-hook,
+              and forty years shows.</p>
+            <p><strong>The goal:</strong> run the modern blades you can buy at any parts store on the original
+              arms, for all three positions, without drilling or modifying the arms. No dimensions are taken
+              from anyone else's adaptor: everything comes from my own calipers on these parts and the published
+              blade-connector standards.</p>
+            <p><strong>First lesson:</strong> from photos alone, the front carriers looked like a pantograph
+              linkage. With the parts in hand, the two holes turned out to be screw holes. Photos show that a
+              feature exists, not what it does.</p>
+          </div>
+          <div class="shots">
+            <figure class="shot">
+              <img src={img("stock-driver-carrier.jpg")} width="1600" height="1205" loading="lazy"
+                   alt="The stock driver-side wiper carrier on the end of the arm, next to a checkerboard scale bar." />
+              <figcaption><span>STOCK · DRIVER CARRIER</span><span>AUG 18, 2026</span></figcaption>
+            </figure>
+            <figure class="shot">
+              <img src={img("stock-passenger-carrier.jpg")} width="1600" height="1205" loading="lazy"
+                   alt="The stock passenger-side wiper carrier on the arm, next to a checkerboard scale bar." />
+              <figcaption><span>STOCK · PASSENGER CARRIER</span><span>AUG 18, 2026</span></figcaption>
+            </figure>
+            <figure class="shot">
+              <img src={img("stock-rear-hook-worn.jpg")} width="1600" height="1205" loading="lazy"
+                   alt="Close-up of the worn original rear wiper U-hook." />
+              <figcaption><span>STOCK · REAR U-HOOK</span><span>FORTY YEARS OF WEAR</span></figcaption>
+            </figure>
+          </div>
+        </section>
+
+        <section class="entry-section">
+          <p class="step-n">02</p>
+          <div class="section-copy">
+            <h2>Let the shape do the work</h2>
+            <p>Plastic is roughly a hundred times less stiff than steel. A flat plastic plate would need to be
+              about 12 mm thick to match a thin steel one, and there's no room for that between the arm and the
+              glass. So the shape has to carry it: a 12 × 8 mm box with 2.4 mm walls is about 26 times stiffer
+              than a 12 mm-wide plate 2.66 mm thick. Printing makes that kind of shape possible where a flat cut
+              part can't have it.</p>
+          </div>
+        </section>
+
+        <section class="entry-section">
+          <p class="step-n">03</p>
+          <div class="section-copy">
+            <h2>The blade end: nine test pieces (Aug 18)</h2>
+            <p>Modern blades clip onto a handful of standard arm ends. The common one in the US is the J-hook:
+              a 9 mm-wide bar, 3 or 4 mm thick, curled over. I printed nine test pieces at the published
+              dimensions, in PLA:</p>
+            <ul class="ticks">
+              <li>J-hooks, 9 × 3 and 9 × 4 (two of each)</li>
+              <li>side pins, 3/16 in and 1/4 in, plain and grooved</li>
+              <li>a bayonet</li>
+            </ul>
+            <p><strong>The hooks went onto a real Bosch Micro Edge blade connector.</strong> Both fit, and the
+              9 × 4 felt more solid. The printed width measured 9.00 mm, right on the number.</p>
+            <p><strong>Small lesson:</strong> the second insertion was easier than the first. That's PLA yielding
+              on the first push, so the fit really was a hair tight. The usual suspect is the thickness, which
+              the nozzle's extrusion width sets, rather than the width, which the stacked layers set.</p>
+          </div>
+          <figure class="shot shot--cad">
+            <img src={img("cad-nine-test-pieces.png")} width="800" height="600" loading="lazy"
+                 alt="CAD render of nine labelled test pieces: two 9 × 3 J-hooks, two 9 × 4 J-hooks, four side pins, and a bayonet." />
+            <figcaption><span>CAD RENDER · TEST PIECES</span><span>NOT A PRODUCT</span></figcaption>
+          </figure>
+        </section>
+
+        <section class="entry-section">
+          <p class="step-n">04</p>
+          <div class="section-copy">
+            <h2>The blade I actually wanted to run (Aug 24 to 26)</h2>
+            <p><strong>The blade I bought for the car, a Rain-X Latitude, didn't latch on my J-hook.</strong>
+              The hook went in, but the connector's clip wouldn't close over it. I tried two routes side by
+              side: narrowing the hook, and building the arm style the connector was made for.</p>
+            <p><strong>The hook route gave me a mistake worth sharing.</strong> I printed a ladder of hook
+              widths stepping 0.15 mm apart, and the rungs came out essentially the same width:</p>
+            <ul class="ticks">
+              <li>the steps were smaller than the 0.20 mm layers on that axis, so the printer couldn't draw
+                them</li>
+              <li>the narrow section sat over an unsupported bridge that sagged</li>
+            </ul>
+            <p>It probably cost me the blade's retaining tabs, too.</p>
+            <p><strong>The other route won.</strong> The Rain-X connector is designed to fit several arm styles.
+              One of them is a U-channel arm end with a window that the connector's push tab snaps up into, so
+              the adaptor's blade end became that U-channel.</p>
+            <ul class="ticks">
+              <li><strong>The gauge beat the calipers.</strong> Calipers gave me 18.55 mm for the connector
+                housing, and later 18.84. A printed ladder of collars, plus a coupon that checks the printer's
+                own offset (it read 10.00 on 10.00, so no correction), said the 18.35 mm collar fit best, with
+                room to spare. Neither caliper reading could be right: an 18.35 mm channel can't slide over an
+                18.84 mm housing. I'd been measuring the wrong spot.</li>
+              <li><strong>The deciding number was one I'd never measured.</strong> Short printed arm ends
+                settled the rest in three rounds, and what decided it was the roof thickness: I'd guessed
+                2.5 mm, and 2.0 fit.</li>
+              <li><strong>Five tries at the wrong feature.</strong> I spent five attempts designing a press
+                button into the channel before research showed the button belongs to the blade's connector.
+                The arm end is passive; its window just has to catch the tab.</li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="entry-section">
+          <p class="step-n">05</p>
+          <div class="section-copy">
+            <h2>The car end, and all three adaptors (Aug 19 to 31)</h2>
+            <p><strong>Printed gauges measured the arm ends too.</strong> The gauge below plugs into the two
+              holes I already knew and puts a numbered window over the ones I didn't. It showed the driver-side
+              hole pattern is a dog-leg, not a straight line. The passenger and rear arms carry a pin of their
+              own, so those adaptors need a matching hole. The passenger and rear pattern plates seated on the
+              car on the first try.</p>
+            <p><strong>Then full adaptors for all three positions, on one print plate:</strong></p>
+            <ul class="ticks">
+              <li><strong>Print orientation is decided in the design.</strong> Printed arm-face down, every bolt
+                hole comes out vertical and support-free, and the blade channel opens upward.</li>
+              <li><strong>The joint took four tries.</strong> The joint between the mounting plate and the blade
+                channel had to be strong without blocking the channel ends or the push-tab window.</li>
+              <li><strong>The pin came off.</strong> The driver side had an alignment pin standing up from the
+                face that sits against the arm. It was the third locator on a part that already had two: a
+                tapered bore that locks onto the arm's boss, and two screws. Removing it lets that face print
+                flat on the bed. Contact with the bed went from 28 mm² to 1,324 mm², and support points under
+                that face went from 1,221 to zero.</li>
+            </ul>
+          </div>
+          <div class="shots">
+            <figure class="shot shot--portrait">
+              <img src={img("printed-registration-gauge.jpg")} width="1205" height="1600" loading="lazy"
+                   alt="A white printed registration gauge with a numbered window laid over the black stock carrier plate." />
+              <figcaption><span>PRINTED GAUGE · OVER THE CARRIER</span><span>AUG 19, 2026</span></figcaption>
+            </figure>
+            <figure class="shot shot--portrait">
+              <img src={img("calipers-on-the-holder.jpg")} width="1205" height="1600" loading="lazy"
+                   alt="Digital calipers measuring the blade holder on the stock wiper." />
+              <figcaption><span>CALIPERS · STOCK HOLDER</span><span>AUG 19, 2026</span></figcaption>
+            </figure>
+            <figure class="shot shot--cad-tile">
+              <img src={img("cad-current-research-geometry.png")} width="800" height="600" loading="lazy"
+                   alt="CAD render of the current research geometry for the three adaptors: a driver plate with its U-channel, and two U-channels for passenger and rear." />
+              <figcaption><span>CAD RENDER · CURRENT RESEARCH GEOMETRY</span><span>NOT A PRODUCT</span></figcaption>
+            </figure>
+          </div>
+        </section>
+
+        <section class="entry-section">
+          <p class="step-n">06</p>
+          <div class="section-copy">
+            <h2>Screws, inserts and material (Sept 5 to 17)</h2>
+            <p><strong>Screws.</strong> The arm's original screw holes are 3.4 and 3.8 mm, so an M4 screw won't
+              pass either one and M3 is the ceiling. I won't drill the arms. The thread used to live in the
+              plastic carrier, so the adaptor gets brass M3 heat-set inserts. Small test coupons picked the hole
+              size for them: 4.1 mm.</p>
+            <p><strong>Material.</strong> PLA is for fit prototypes. The research parts move to ASA, which is
+              UV-stable, handles heat, and needs the enclosed printer with the chamber warmed up. The ASA set is
+              sliced with 4 walls and 40% infill, because the walls around the inserts carry the clamping load.
+              It's queued, not printed yet.</p>
+          </div>
+        </section>
+
+        <section class="entry-section">
+          <p class="step-n">07</p>
+          <div class="section-copy">
+            <h2>Where it stands</h2>
+            <ul class="ticks">
+              <li>Nothing is on the car yet.</li>
+              <li><strong>Next:</strong> print the ASA set, measure the mounting section at all six insert
+                points, then a static check on the car with the engine off.</li>
+              <li><strong>Before any road use:</strong> real testing, meaning the full wiper sweep at speed, wet
+                and dry, heat, UV, vibration, and time. This is the first part I've worked on where "it fits"
+                isn't close to enough.</li>
+            </ul>
+          </div>
+        </section>
+      </div>
+
+      <aside class="evidence-note">
+        <div>
+          <p class="eyebrow">HOW TO HELP THIS RESEARCH</p>
+          <p>Have an A60? Photos or measurements of your wiper arm ends, spare original carriers (even broken
+            ones), or hardware details make this record stronger. This is a research conversation, not a
+            product discussion.</p>
+        </div>
+        <div class="note-actions">
+          <a class="btn btn--primary" href={leadHref}>Share a research lead</a>
+          <a class="btn btn--secondary" href={`/registry/${part.slug}/`}>Open the field file</a>
+        </div>
+      </aside>
+    </div>
+  </article>
+</Base>
+
+<style>
+  .entry-page { background: linear-gradient(180deg, color-mix(in srgb, var(--ground-deep) 28%, transparent), transparent 32%); }
+  .entry-wrap { display: grid; gap: 18px; }
+  .crumbs { display: flex; gap: 8px; flex-wrap: wrap; font-size: var(--t-eyebrow); color: var(--steel); text-transform: uppercase; letter-spacing: .1em; }
+  .crumbs a { color: var(--ion); }
+
+  .research-notice { padding: 15px 18px; border: var(--bd-inner) solid var(--signal); border-left-width: 4px; background: color-mix(in srgb, var(--signal) 8%, var(--ground)); color: var(--body); font-size: var(--t-dense); line-height: var(--t-dense-lh); }
+  .research-notice b { color: var(--signal); }
+
+  figcaption { display: flex; justify-content: space-between; gap: 8px 14px; flex-wrap: wrap; padding: 10px 14px; border-top: var(--bd-inner) solid var(--rule); font-family: var(--font-mono); font-size: var(--t-micro); letter-spacing: var(--t-micro-tr); color: var(--steel); }
+
+  .entry-facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); margin: 0; border-top: var(--bd-inner) solid var(--rule); border-left: var(--bd-inner) solid var(--rule); background: var(--ground); }
+  .entry-facts > div { padding: 14px 16px; border-right: var(--bd-inner) solid var(--rule); border-bottom: var(--bd-inner) solid var(--rule); }
+  .entry-facts dt { font-family: var(--font-mono); font-size: var(--t-micro); letter-spacing: var(--t-micro-tr); text-transform: uppercase; color: var(--steel); }
+  .entry-facts dd { margin: 5px 0 0; color: var(--paper); font-size: var(--t-dense); line-height: var(--t-dense-lh); }
+
+  .entry-body { border: var(--bd-inner) solid var(--rule-2); background: var(--panel); }
+  .entry-section { display: grid; grid-template-columns: 58px minmax(0, 1fr); gap: 0 16px; padding: 26px 30px; border-top: var(--bd-inner) solid var(--rule); }
+  .entry-section:first-child { border-top: 0; }
+  .entry-section > :not(.step-n) { grid-column: 2; }
+  .step-n { width: 34px; height: 34px; display: grid; place-items: center; border: 1px solid var(--signal); color: var(--signal); font-family: var(--font-mono); font-size: var(--t-eyebrow); letter-spacing: .08em; }
+  .section-copy { max-width: 70ch; }
+  .section-copy h2 { font-size: 24px; margin-bottom: 12px; }
+  .section-copy p { margin-top: 12px; color: var(--body); }
+  .section-copy h2 + p { margin-top: 0; }
+  .section-copy strong { color: var(--paper); }
+  .ticks { display: grid; gap: 7px; margin-top: 10px; color: var(--body); }
+  .ticks li { position: relative; padding-left: 18px; }
+  .ticks li::before { content: ""; position: absolute; left: 0; top: .72em; width: 8px; border-top: 2px solid var(--signal); }
+
+  .shots { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin-top: 20px; align-items: start; }
+  .shot { margin: 0; border: var(--bd-inner) solid var(--rule); background: var(--ground-deep); min-width: 0; }
+  .shot img { width: 100%; height: auto; display: block; background: var(--journal-charcoal); }
+  .shot--cad { margin-top: 20px; max-width: 520px; }
+  .shot--portrait img, .shot--portrait video { aspect-ratio: 3 / 4; object-fit: cover; }
+  .shot--cad-tile img { aspect-ratio: 3 / 4; object-fit: contain; }
+  .shot--cad img, .shot--cad-tile img { background: #f7f7f7; }
+
+  .evidence-note { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 22px; padding: 22px 26px; border: var(--bd-inner) solid var(--rule); background: color-mix(in srgb, var(--ground-deep) 84%, transparent); }
+  .evidence-note p:not(.eyebrow) { margin-top: 7px; color: var(--steel); font-size: var(--t-dense); max-width: 70ch; }
+  .note-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+
+  @media (max-width: 820px) {
+    .shots { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .evidence-note { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 600px) {
+    .entry-section { grid-template-columns: 1fr; padding: 22px 20px; }
+    .entry-section > :not(.step-n) { grid-column: 1; }
+    .step-n { margin-bottom: 12px; }
+    .shots { grid-template-columns: 1fr; }
+    .evidence-note { padding: 20px; }
+  }
+</style>
