@@ -1,0 +1,44 @@
+---
+import { allParts } from "../lib/catalog";
+// Mirrors the existing field-file discussion boundary; this is not stock or checkout eligibility.
+const hasFitRecordedPart = allParts().some((part) => part.state === "fitted" && !part.safetyGated);
+---
+<section class="offer-paths" aria-labelledby="offer-title">
+  <div class="offer-heading"><p class="eyebrow">A PART YOU NEED. AN IDEA YOU HAVE.</p><h2 id="offer-title">Two ways to get started.</h2></div>
+  <div class="offer-grid">
+    <article class="offer-card">
+      <p class="offer-number">01 / EXISTING PARTS</p>
+      <h3>Something already<br />on the bench?</h3>
+      <p>Explore the designs we’ve started. Each record shows the actual fit, material and development evidence—not just a good-looking image.</p>
+      <a class="offer-link" href="/registry/">Explore parts &amp; projects <span aria-hidden="true">↗</span></a>
+      <p class="offer-note" data-collection-readiness={hasFitRecordedPart ? "fit-recorded" : "in-development"}>{hasFitRecordedPart ? "Fit-recorded parts may support a made-to-order discussion. Your configuration and material still need checking." : "The current collection is research & development, not a ready-to-buy range."}</p>
+    </article>
+    <article class="offer-card offer-card--custom">
+      <p class="offer-number">02 / CUSTOM DESIGN &amp; PROTOTYPING</p>
+      <h3>Something that<br />doesn’t exist yet?</h3>
+      <p>A missing piece, a broken original, or a useful addition the car never had. Bring the problem; you don’t need to bring a CAD file.</p>
+      <a class="offer-link" href="/custom/">Explore custom design <span aria-hidden="true">↗</span></a>
+      <p class="offer-note">A conversation first. Design and prototyping are paid work, scoped and quoted before they begin.</p>
+    </article>
+  </div>
+</section>
+<style>
+  .offer-paths { padding: 42px 48px 48px; border-top: 1px solid var(--paper); background: var(--ground); }
+  .offer-heading { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 12px 28px; margin-bottom: 26px; }
+  .offer-heading h2 { font-size: 34px; line-height: 1.05; }
+  .offer-grid { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid var(--paper); }
+  .offer-card { display: flex; flex-direction: column; min-width: 0; padding: 30px 32px 25px; background: var(--panel); }
+  .offer-card--custom { border-left: 1px solid var(--paper); background: var(--journal-board); color: var(--ink); }
+  .offer-number { color: var(--ion); font-family: var(--font-mono); font-size: var(--t-eyebrow); font-weight: 600; letter-spacing: .09em; }
+  .offer-card h3 { margin: 17px 0; font-size: clamp(29px, 3vw, 40px); line-height: 1.03; }
+  .offer-card > p:not(.offer-number):not(.offer-note) { max-width: 58ch; color: var(--body); font-size: var(--t-section); line-height: 1.6; }
+  .offer-link { display: flex; align-items: center; justify-content: space-between; gap: 20px; margin-top: 28px; padding: 15px 0; border-bottom: 1px solid var(--rule); font-family: var(--font-word); font-size: 17px; }
+  .offer-link span { font-size: 23px; }
+  .offer-note { margin-top: auto; padding-top: 16px; font-size: 14px; line-height: 1.55; color: var(--body); }
+  .offer-card--custom .offer-number { color: var(--ion-light); }
+  .offer-card--custom > p:not(.offer-number):not(.offer-note), .offer-card--custom .offer-note { color: var(--inv-body); }
+  .offer-card--custom .offer-link { color: var(--acid); border-color: var(--inv-label); }
+  .offer-card--custom .offer-link:hover { color: var(--ink); }
+  @media (max-width: 1050px) { .offer-paths { padding-inline: 30px; } .offer-card { padding: 25px; } }
+  @media (max-width: 650px) { .offer-paths { padding: 32px 22px; } .offer-grid { grid-template-columns: 1fr; } .offer-card--custom { border-left: 0; border-top: 1px solid var(--paper); } .offer-heading h2 { font-size: 30px; } .offer-card { padding: 25px 21px; } }
+</style>

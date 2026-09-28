@@ -1,47 +1,65 @@
 ---
 /**
- * Shared Bench Journal masthead.
+ * Shared page masthead.
  *
- * Each route opens like a usable investigation sheet: literal title, visible
- * field-file identity, and a compact reminder that every route returns to a
- * physical interface. It carries no speculative product or fitment claim.
+ * A literal title on ruled paper, plus a dark side panel of plain, page-specific
+ * facts (the build log's versions and material, a part's status, the workshop's
+ * location). The panel never repeats a slogan and carries no speculative product
+ * or fitment claim: pass `facts` from the record, or it falls back to plain,
+ * always-true workshop facts.
  */
 interface Props {
   eyebrow: string;
   title: string;
   lede?: string;
+  /** Panel title. */
   file?: string;
+  /** Legacy: a one-line status shown as a STATUS fact when no `facts` are given. */
   signal?: string;
+  /** Page-specific [label, value] pairs for the side panel. */
+  facts?: [string, string][];
+  /** Optional closing line under the facts. */
+  note?: string;
   compact?: boolean;
   unit?: boolean;
+  audience?: "record" | "owner";
 }
 
 const {
   eyebrow,
   title,
   lede,
-  file = "OCP3D FIELD FILE",
-  signal = "TRACE · MEASURE · RECORD",
+  file = "OCP3D",
+  signal,
+  facts,
+  note,
   compact = false,
   unit = false,
+  audience = "record",
 } = Astro.props;
+const owner = audience === "owner";
+const workshopFacts: [string, string][] = [["WORKSHOP", "LAKES REGION, NH"], ["CARS", "PRE-2000 · ACROSS MAKES"], ["FIRST STEP", "A CONVERSATION"]];
+const contextRows: [string, string][] = facts
+  ?? (owner
+    ? [["START", "YOUR CAR & PROBLEM"], ["TALK TO", "THE PERSON DOING THE WORK"], ["NEXT", "SUITABILITY FIRST"]]
+    : signal ? [...workshopFacts.slice(0, 2), ["STATUS", signal]] : workshopFacts);
+const closing = note ?? (owner ? "No CAD file. No technical brief required." : undefined);
 ---
-<header class:list={["service-heading", { "is-compact": compact, "has-unit": unit }]}>
+<header class:list={["service-heading", { "is-compact": compact, "has-unit": unit, "is-owner": owner }]}>
   <div class="heading-copy">
     <p class="eyebrow heading-kicker">{eyebrow}</p>
     <h1>{title}</h1>
     {lede && <p class="lead heading-lede">{lede}</p>}
+    <slot name="actions" />
   </div>
 
-  <aside class="case-note" aria-label="Field-file context">
-    <div class="case-note-head"><span>PARTS INVESTIGATION</span><i aria-hidden="true"></i></div>
+  <aside class="case-note" aria-label={owner ? "Your enquiry" : "At a glance"}>
+    <div class="case-note-head"><span>{owner ? "A SMALL, INDEPENDENT WORKSHOP" : "AT A GLANCE"}</span><i aria-hidden="true"></i></div>
     <p class="case-file">{file}</p>
     <dl>
-      <div><dt>START</dt><dd>PHYSICAL INTERFACE</dd></div>
-      <div><dt>PATHS</dt><dd>RESTORE · IMPROVE</dd></div>
-      <div><dt>ROUTE</dt><dd>{signal}</dd></div>
+      {contextRows.map(([label, value]) => <div><dt>{label}</dt><dd>{value}</dd></div>)}
     </dl>
-    <p class="case-rule">A lead is useful only when it returns to evidence.</p>
+    {closing && <p class="case-rule">{closing}</p>}
   </aside>
 </header>
 
@@ -53,27 +71,31 @@ const {
       var(--ground);
     overflow: hidden;
   }
-  .heading-copy { display: flex; flex-direction: column; align-items: flex-start; justify-content: center; padding: 41px 43px; }
+  .heading-copy { min-width: 0; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; padding: 41px 43px; }
   .heading-kicker { color: var(--signal); margin-bottom: 15px; }
   h1 { max-width: 13ch; }
   .heading-lede { max-width: 62ch; margin-top: 17px; color: var(--body); }
 
   .case-note { align-self: stretch; position: relative; padding: 24px 24px 20px; border-left: 2px solid var(--paper); background: var(--journal-board); color: var(--ink); }
   .case-note::after { content: ""; position: absolute; right: -43px; bottom: -45px; width: 190px; height: 190px; border: 1px solid rgba(230,182,95,.58); border-radius: 50%; box-shadow: 0 0 0 22px rgba(230,182,95,.12), 0 0 0 44px rgba(230,182,95,.06); }
-  .case-note-head { position: relative; z-index: 1; display: flex; align-items: center; justify-content: space-between; gap: 10px; color: var(--ion-light); font-family: var(--font-mono); font-size: var(--t-micro); letter-spacing: var(--t-micro-tr); }
+  .case-note-head { position: relative; z-index: 1; display: flex; align-items: center; justify-content: space-between; gap: 10px; color: var(--ion-light); font-family: var(--font-mono); font-size: var(--t-micro); font-weight: 600; letter-spacing: var(--t-micro-tr); }
   .case-note-head i { width: 28px; border-top: 2px solid var(--acid); }
   .case-file { position: relative; z-index: 1; margin: 18px 0 15px; color: var(--ink); font-family: var(--font-display); font-size: 25px; line-height: .92; text-transform: uppercase; }
   dl { position: relative; z-index: 1; margin: 0; }
   dl > div { display: flex; justify-content: space-between; gap: 12px; padding: 9px 0; border-top: 1px solid rgba(246,237,217,.24); }
-  dt, dd { margin: 0; font-family: var(--font-mono); font-size: var(--t-micro); letter-spacing: .08em; }
+  dt, dd { margin: 0; font-family: var(--font-mono); font-size: var(--t-micro); letter-spacing: .06em; line-height: 1.35; }
   dt { color: var(--acid); } dd { max-width: 62%; color: var(--inv-body); text-align: right; text-transform: uppercase; }
-  .case-rule { position: relative; z-index: 1; max-width: 27ch; margin-top: 17px; padding-top: 11px; border-top: 1px solid rgba(246,237,217,.24); color: var(--inv-label); font-family: Georgia, serif; font-size: 14px; font-style: italic; line-height: 1.35; }
+  .case-rule { position: relative; z-index: 1; max-width: 27ch; margin-top: 17px; padding-top: 11px; border-top: 1px solid rgba(246,237,217,.24); color: var(--inv-body); font-family: var(--font-text); font-size: var(--t-dense); line-height: 1.45; }
 
-  .is-compact { min-height: 210px; }.is-compact .heading-copy { padding-block: 31px; }.is-compact .case-file { font-size: 20px; margin-block: 13px; }.is-compact .case-rule { display: none; }
+  .is-compact { min-height: 210px; }.is-compact .heading-copy { padding-block: 31px; }.is-compact h1 { max-width: 19ch; font-size: clamp(38px, 4.3vw, 58px); line-height: .98; }.is-compact .case-file { font-size: 20px; margin-block: 13px; }.is-compact .case-rule { display: none; }
 
   @media (max-width: 720px) {
     .service-heading { grid-template-columns: 1fr; }
     .heading-copy { padding: 34px 24px; }
     .case-note { border-left: 0; border-top: 2px solid var(--paper); padding: 22px 24px; }
+    .is-owner .case-note { padding: 16px 24px; }
+    .is-owner .case-note::after, .is-owner .case-note dl, .is-owner .case-rule { display: none; }
+    .is-owner .case-file { font-size: 19px; margin: 10px 0 0; }
+    .is-owner.is-compact .case-note { display: none; }
   }
 </style>

@@ -264,10 +264,10 @@ export const POST: APIRoute = async ({ request }) => {
         return respond(request, { ok: false, unconfigured: true }, 503, mailtoFallback("OCP3D Dispatch signup", `Sign me up: ${email}`));
       }
       const leave = await unsubLink(email);
-      await acknowledge(email, `OCP3D Dispatch file — ${caseId}`, text(
-        "You’re on the OCP3D Dispatch.", "",
-        ["Member №:", caseId], "",
-        "The OCP3D Dispatch signals when a part moves forward — never for noise.",
+      await acknowledge(email, `OCP3D email updates — ${caseId}`, text(
+        "You’re on the OCP3D email updates list.", "",
+        ["Your number:", caseId], "",
+        "I only write when a part actually moves forward — never for noise.",
         "Reply to this email any time; it reaches the workshop.", "",
         ...(leave ? [`Leaving is one click, any time:\n${leave}`, ""] : []),
         "— OCP3D · Old Car Problems",
@@ -339,15 +339,15 @@ export const POST: APIRoute = async ({ request }) => {
       part_text: part, oem: oem || null, situation: situationLabel || null,
       part_slug: /^[a-z0-9-]+$/.test(partSlug) ? partSlug : null,
     });
-    await acknowledge(email, `Case ${caseId} — received`, text(
-      "Your OCP3D part investigation is on file.", "",
-      ["Case:", caseId],
+    await acknowledge(email, `Your OCP3D enquiry ${caseId} — received`, text(
+      "Your OCP3D enquiry is in.", "",
+      ["Reference:", caseId],
       ["Vehicle:", vehicle],
       ["Part or problem:", part], "",
       "The conversation starts today. I’ll review what you sent and write from the workshop within a few",
-      "days — reply to this email and it goes straight to your case file.",
+      "days — reply to this email and it reaches the workshop directly.",
       "Photos of the original are welcome, broken or not.", "",
-      "Nothing after a week? Reply here and reference your case number.", "",
+      "Nothing after a week? Reply here and include your reference.", "",
       "— OCP3D · Old Car Problems",
       "  ocp3d.com",
     ), caseId);

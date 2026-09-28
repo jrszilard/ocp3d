@@ -21,19 +21,51 @@ npm test
 
 - The design system lives in [`src/styles/tokens.css`](src/styles/tokens.css). Components consume
   tokens rather than hard-coded visual values.
-- `src/components/ServiceHeading.astro` is the common page masthead: literal field-file labels,
-  a compact Parts Investigation record, and responsive route framing.
-- Live reference: `/styleguide`.
-- Brand and voice rules: [`BRAND.md`](BRAND.md).
-- Visual direction is original **Bench Journal / Parts Investigation** — warm ruled-paper records,
-  genuine taped bench evidence, and abstract roadbook research grammar. No generic-car/AI/stock
-  evidence or race/travel/performance implication; do not copy proprietary visual language.
+- `src/components/ServiceHeading.astro` is the common page masthead: a literal title plus a dark
+  panel of page-specific `facts` (never a repeated slogan).
+- Live reference: `/styleguide`. Brand and voice rules: [`BRAND.md`](BRAND.md).
+- Type: sentences in Archivo (`--font-text`), labels and data in IBM Plex Mono; 15 px reading
+  sizes and an 11 px floor. Mark: the stamp (`Insignia.astro`, `public/favicon.svg`). Status:
+  one ink per rung (`Stamp.astro`, `EvidenceLadder.astro`, `LadderKey.astro`). Requested parts
+  with no original: `WantedList.astro`. The founder's car: `TheCar.astro`, `src/data/car.mjs`.
+- `scripts/brand.test.mjs` locks the 2026-09-28 brand decisions (type floor, mark, ladder inks,
+  wanted-list honesty, plain vocabulary, EXIF-free car photos).
+- Warm ruled paper, real photographs and status stamps. No generic-car/AI/stock evidence or
+  race/travel/performance implication; do not copy proprietary visual language.
 
 ## Pages
 
-- `/` home · `/registry/` parts archive · `/registry/<slug>/` part pages
-- `/request/` log an old-car problem · `/method/` fit lab · `/charter/` mission
+- `/` home · `/registry/` parts & projects · `/registry/<slug>/` evidence records
+- `/custom/` owner-facing custom design & prototyping offer
+- `/materials/` plain-English materials and durability guide
+- `/request/` start an enquiry · `/method/` development process · `/charter/` about the workshop
 - `/styleguide/` design-system reference
+
+## Owner-first redesign (2026-09-08; released with the 2026-09-28 brand refresh)
+
+The local homepage keeps **Old cars. Modern materials.**, with two explicit paths: existing
+parts/projects and custom design/prototyping. `/custom/` explains paid scoped development without
+inventing prices or turnaround; the collection stays visibly research/development. The Supra is
+founder evidence, not the market boundary. NH Lakes Region/Rochester/selected Maine access is by
+arrangement, with online enquiries first. The founder approved releasing it on 2026-09-28 together
+with the brand refresh described in `BRAND.md`.
+
+The materials guide and shared FAQ still explain suitability before process. General guidance in
+`src/data/materials.mjs` and `src/data/project-questions.mjs` is editorial, not a shadow catalog or
+part approval. No new analytics, third-party assets, ordering endpoint or backend data fields.
+
+`src/lib/request-context.mjs` resolves safe situation prefill and canonical known-record titles.
+Safety-gated records suppress commercial guidance and retain research-only enquiries. This is a
+client presentation guard, not authorization or a replacement for human scope review. Both forms
+retain multipart payloads, the existing `/api/request` contract, and native HTML fallbacks; photos
+are sent in later email, not uploaded by the form.
+
+`npm test` covers catalog projection, guide/offer boundaries, request context and the email-updates
+transport regression (the API parses `request.formData()`, not JSON). Browser checks should cover
+both offer paths, keyboard FAQs, responsive layouts, archive search/filter/reset, actual query
+prefill, research-only suppression, and form validation/error/retry/receipt. **Intercept `/api/**`
+during all form tests** and parse the intercepted form payloads; blindly returning success can
+conceal a client/API format mismatch. Never write real demand signals or send email from a test.
 
 ## Catalog data
 

@@ -1,0 +1,116 @@
+---
+import Base from "../layouts/Base.astro";
+import ServiceHeading from "../components/ServiceHeading.astro";
+import MaterialQuestions from "../components/MaterialQuestions.astro";
+import { materials, materialSources } from "../data/materials.mjs";
+
+const proof = [
+  { label: "THE MATERIAL", title: "A useful starting point.", body: "A supplier’s data describes a particular grade and test specimen. It helps select a candidate. It does not automatically give a printed clip the same performance." },
+  { label: "THE FINISHED PART", title: "Designed for its job.", body: "Wall thickness, layer direction, print quality and the mounting interface all change how a part behaves. A material name cannot compensate for the wrong construction." },
+  { label: "THE EVIDENCE", title: "Checked in context.", body: "Fit, heat under load, repeated use, and exposure need evidence appropriate to the part. A result belongs to that version, material and set of conditions—not every future print." },
+];
+---
+<Base
+  title="Materials & durability — OCP3D · Old Car Problems"
+  description="A plain-English guide to PLA, PETG, ASA and nylon for old-car part investigations. Understand heat, sunlight, load and the evidence a printed part needs."
+  sheet="MATERIALS · PLAIN-ENGLISH GUIDE"
+>
+  <div class="wrap materials-guide">
+    <ServiceHeading
+      eyebrow="MATERIALS & DURABILITY / THE PLAIN-ENGLISH GUIDE"
+      title="Not all plastic is the same."
+      lede="3D printing is how a part is made—not what it is made of. A desktop model and a functional car part can come from a printer but use very different materials and design decisions."
+      file="MATERIALS & DURABILITY"
+      facts={[["FAMILIES", "PLA · PETG · ASA · NYLON"], ["START WITH", "WHERE THE PART LIVES"], ["NOT", "A “CAR-SAFE” RATING"]]}
+    />
+
+    <section class="guide-opening" aria-labelledby="guide-question">
+      <div><p class="eyebrow">THE SHORT ANSWER</p><h2 id="guide-question">Can a printed part<br />last in a car?</h2></div>
+      <div class="guide-prose"><p><strong>Yes—when its material, construction and validation suit the job.</strong> Cars already use plastic clips, knobs, trim and housings. Metal is essential for some jobs, but it is not a universal upgrade for all of them.</p><p>Printing makes small runs possible without a dedicated mould. It also brings its own design considerations, including direction-dependent strength across layers. A printed part needs its own evidence; it does not inherit the performance of a moulded original.</p></div>
+    </section>
+
+    <section class="material-comparison" id="compare" aria-labelledby="compare-title">
+      <header class="comparison-heading"><p class="eyebrow">FOUR MATERIAL FAMILIES / DIFFERENT JOBS</p><h2 id="compare-title">Start with the conditions.<br />Then consider the plastic.</h2><p>These are general material characteristics, not OCP3D stock options, product approvals or a recommendation for your car. Exact grades vary.</p></header>
+      <nav class="material-jumps" aria-label="Jump to a material">{materials.map((material) => <a href={`#material-${material.id}`}>{material.name} <span aria-hidden="true">↓</span></a>)}</nav>
+      <div class="material-grid">
+        {materials.map((material, i) => (
+          <article class:list={["material-card", `material-card--${material.id}`]} id={`material-${material.id}`}>
+            <div class="material-card-head"><span>FAMILY / 0{i + 1}</span><a href={`#source-${material.source}`}>SOURCE ↗</a></div>
+            <h3>{material.name}</h3><p class="material-label">{material.label}</p>
+            <dl><div><dt>WHY CONSIDER IT</dt><dd>{material.benefit}</dd></div><div><dt>WHAT TO WATCH</dt><dd>{material.limitation}</dd></div></dl>
+            <div class="material-question"><span>THE USEFUL QUESTION</span><p>{material.question}</p></div>
+          </article>
+        ))}
+      </div>
+      <aside class="rating-note"><h3>Why there is no “safe to X degrees” badge here.</h3><p>A datasheet’s heat-deflection or softening temperature depends on its test method and load. It is not a universal continuous-use limit. Time, stress, sunlight and the exact printed geometry change the answer. We would rather explain that than put a reassuring but misleading number on a card.</p></aside>
+    </section>
+
+    <section class="proof-section" aria-labelledby="proof-title"><header><p class="eyebrow">CAPABILITY IS NOT QUALIFICATION</p><h2 id="proof-title">Three things have to agree.</h2><p>This is the evidence to look for—not a list of tests OCP3D claims to have completed.</p></header><div class="proof-grid">{proof.map((item) => <article><p class="eyebrow">{item.label}</p><h3>{item.title}</h3><p>{item.body}</p></article>)}</div><a href="/registry/">See the actual status of OCP3D’s parts →</a></section>
+
+    <section class="guide-questions" aria-labelledby="guide-faq-title"><div><p class="eyebrow">BEFORE YOU TRUST A PART</p><h2 id="guide-faq-title">Good questions<br /> to ask.</h2></div><MaterialQuestions /></section>
+
+    <section class="source-section" aria-labelledby="sources-title"><div><p class="eyebrow">READ THE REFERENCES</p><h2 id="sources-title">Sources, not slogans.</h2><p>Manufacturer guidance supports the general material descriptions above. It is not certification or a test result for an OCP3D part. Reviewed 8 September 2026.</p></div><ol class="source-list">{materialSources.map((source) => <li id={`source-${source.id}`}><span>{source.publisher}</span><a href={source.href}>{source.title} <span aria-hidden="true">↗</span></a>{source.id === "porsche" && <p>Porsche Classic’s 2018 account includes powder-based SLS plastic parts. OCP3D uses filament printing, a different process. The example establishes neither equivalence nor endorsement.</p>}</li>)}</ol></section>
+
+    <aside class="guide-cta"><div><h2>Tell me where the part lives.</h2><p>What car? What does the part do? Does it see heat, sun, flex or load? You don’t need to choose the filament before we talk.</p><p class="scope-note">Pre-2000, unbranded, non-safety-critical work only. A discussion is not a quote or a promise that printing is the right answer.</p></div><a class="btn btn--primary" href="/request/">DISCUSS YOUR PART →</a></aside>
+  </div>
+</Base>
+<style>
+  .materials-guide { display: grid; gap: 45px; }
+  .guide-opening { display: grid; grid-template-columns: .8fr 1.2fr; gap: 46px; padding: 0 10px; }
+  .guide-opening h2 { margin-top: 13px; font-size: 36px; line-height: 1; }
+  .guide-prose { color: var(--body); font-size: var(--t-section); line-height: 1.6; }
+  .guide-prose p + p { margin-top: 17px; }
+  .guide-prose strong { color: var(--paper); font-weight: 600; }
+  #compare, .material-card, .source-list li { scroll-margin-top: 24px; }
+  .comparison-heading { padding-top: 34px; border-top: 1px solid var(--rule); }
+  .comparison-heading h2 { margin: 14px 0 19px; line-height: 1; }
+  .comparison-heading > p:last-child { max-width: 76ch; color: var(--body); font-size: var(--t-dense); line-height: 1.6; }
+  .material-jumps { display: flex; flex-wrap: wrap; gap: 10px; margin: 24px 0; }
+  .material-jumps a { display: inline-flex; align-items: center; justify-content: space-between; gap: 30px; padding: 10px 15px; min-height: 44px; border: 1px solid var(--rule); font-size: var(--t-eyebrow); font-weight: 600; }
+  .material-jumps a:hover { background: var(--journal-board); color: var(--ink); }
+  .material-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .material-card { display: flex; flex-direction: column; border: 1px solid var(--rule); background: var(--panel); }
+  .material-card-head { display: flex; justify-content: space-between; gap: 20px; padding: 12px 24px; border-bottom: 1px solid var(--rule-3); color: var(--body); font-size: var(--t-micro); letter-spacing: .08em; }
+  .material-card-head a { color: var(--paper); text-decoration: underline; text-underline-offset: 3px; }
+  .material-card h3 { margin: 23px 24px 9px; font-size: 42px; line-height: 1; }
+  .material-label { margin: 0 24px; color: var(--body); font: 600 17px/1.4 var(--font-word); }
+  .material-card dl { display: grid; gap: 22px; margin: 25px 24px; }
+  .material-card dt, .material-question > span { font-size: var(--t-micro); letter-spacing: .1em; color: var(--body); }
+  .material-card dd { margin: 8px 0 0; color: var(--body); font-family: var(--font-text); font-size: var(--t-dense); line-height: 1.55; }
+  .material-question { margin-top: auto; padding: 17px 24px 20px; border-top: 1px solid var(--rule-3); background: var(--ground-deep); }
+  .material-question p { margin-top: 7px; color: var(--paper); font-size: var(--t-dense); font-weight: 600; line-height: 1.5; }
+  .material-card--asa { border-top: 3px solid var(--ion); }
+  .material-card--pla { border-top: 3px solid var(--rule); }
+  .material-card--petg { border-top: 3px solid var(--mat-petg); }
+  .material-card--nylon { border-top: 3px solid var(--mat-nylon-cf); }
+  .rating-note { display: grid; grid-template-columns: .7fr 1.3fr; gap: 30px; padding: 23px 25px; margin-top: 20px; border-left: 3px solid var(--signal); background: var(--ground-deep); }
+  .rating-note h3 { max-width: 23ch; font-size: 23px; line-height: 1.15; }
+  .rating-note p { color: var(--body); font-size: var(--t-dense); line-height: 1.6; }
+  .proof-section { padding: 30px; background: var(--journal-board); color: var(--ink); }
+  .proof-section > header > .eyebrow { color: var(--acid); }
+  .proof-section h2 { margin: 13px 0 15px; font-size: 35px; line-height: 1; }
+  .proof-section > header > p:last-child { color: var(--inv-body); font-size: var(--t-dense); }
+  .proof-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; margin-top: 26px; }
+  .proof-grid article { padding-top: 17px; border-top: 1px solid var(--inv-label); }
+  .proof-grid .eyebrow { color: var(--ion-light); }
+  .proof-grid h3 { margin: 13px 0; font-size: 26px; line-height: 1.05; }
+  .proof-grid article > p:last-child { color: var(--inv-body); font-size: var(--t-dense); line-height: 1.6; }
+  .proof-section > a { display: inline-block; margin-top: 28px; color: var(--acid); font-family: var(--font-text); font-size: var(--t-dense); font-weight: 600; text-decoration: underline; text-underline-offset: 4px; }
+  .guide-questions { display: grid; grid-template-columns: .7fr 1.3fr; gap: 40px; }
+  .guide-questions h2 { margin-top: 14px; font-size: 38px; line-height: 1; }
+  .source-section { display: grid; grid-template-columns: .7fr 1.3fr; gap: 40px; padding-top: 30px; border-top: 1px solid var(--rule); }
+  .source-section h2 { margin: 13px 0 17px; font-size: 32px; line-height: 1; }
+  .source-section > div > p:last-child { color: var(--body); font-size: var(--t-dense); line-height: 1.6; }
+  .source-list li { padding: 15px 0; border-bottom: 1px solid var(--rule-3); }
+  .source-list li:first-child { padding-top: 0; }
+  .source-list li > span { display: block; margin-bottom: 7px; color: var(--body); font-family: var(--font-mono); font-size: var(--t-micro); }
+  .source-list a { color: var(--paper); font-size: var(--t-dense); font-weight: 600; text-decoration: underline; text-underline-offset: 4px; }
+  .source-list p { margin-top: 12px; color: var(--body); font-size: 14px; line-height: 1.55; }
+  .guide-cta { display: flex; align-items: center; justify-content: space-between; gap: 35px; padding: 27px 30px; border: 1px solid var(--rule); background: var(--panel); }
+  .guide-cta h2 { margin-bottom: 13px; font-size: 32px; line-height: 1; }
+  .guide-cta p { max-width: 65ch; color: var(--body); font-size: var(--t-dense); line-height: 1.6; }
+  .guide-cta .scope-note { margin-top: 13px; font-size: 14px; }
+  .guide-cta > a { flex-shrink: 0; min-height: 44px; }
+  @media (max-width: 850px) { .proof-grid { grid-template-columns: 1fr; } .guide-opening { gap: 25px; } .guide-questions, .source-section { grid-template-columns: 1fr; gap: 25px; } .guide-questions h2 br { display: none; } .guide-cta { align-items: flex-start; flex-direction: column; gap: 22px; } }
+  @media (max-width: 600px) { .materials-guide { gap: 32px; } .guide-opening, .material-grid, .rating-note { grid-template-columns: 1fr; } .guide-opening { padding: 0; } .guide-opening h2, .guide-questions h2 { font-size: 30px; } .comparison-heading h2 { font-size: 30px; } .material-jumps { gap: 8px; } .material-jumps a { flex: 1 1 40%; gap: 10px; } .material-grid { gap: 16px; } .material-card-head { padding-inline: 19px; } .material-card h3 { margin-inline: 19px; } .material-label { margin-inline: 19px; } .material-card dl { margin-inline: 19px; } .material-question { padding-inline: 19px; } .rating-note, .proof-section, .guide-cta { padding: 22px 19px; } .rating-note { gap: 17px; } .proof-section h2 { font-size: 30px; } }
+</style>

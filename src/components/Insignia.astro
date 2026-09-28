@@ -1,34 +1,55 @@
 ---
 /**
- * OCP3D original fixture mark.
+ * OCP3D stamp mark (2026-09-28; comparison board: design/mockups/ocp3d-mark-options.html).
  *
- * Service rail, fixture head, and additive layer courses: a compact bench
- * symbol for the Journal. It intentionally avoids a generic car silhouette.
+ * A drafting dimension (measure) over a part built in layers (make), inside a
+ * rubber-stamp ring. One colour, drawn from the 16 px silhouette outward. It
+ * depicts the method, never a single part, a car silhouette or a shield.
+ * public/favicon.svg carries the same geometry on a paper disc.
+ *
+ * `stamp` is the everyday mark (header, favicon, avatar). `seal` adds the
+ * double ring and rim lettering for large uses only (120 px and up). Give each
+ * seal on a page its own `id` so the lettering paths stay unique.
  */
 interface Props {
   size?: number;
-  knockout?: string;
+  variant?: "stamp" | "seal";
   class?: string;
+  label?: string;
+  id?: string;
 }
-const { size = 48, knockout = "var(--ground)", class: cls = "" } = Astro.props;
+const {
+  size = 48,
+  variant = "stamp",
+  class: cls = "",
+  label = "OCP3D — Old Car Problems",
+  id = "ocp3d-seal",
+} = Astro.props;
+const seal = variant === "seal";
 ---
-<svg
-  class={cls}
-  width={size}
-  height={size}
-  viewBox="0 0 64 64"
-  role="img"
-  aria-label="OCP3D fixture mark"
-  fill="none"
-  xmlns="http://www.w3.org/2000/svg"
->
-  <rect x="7" y="8" width="50" height="42" stroke="currentColor" stroke-width="2" />
-  <path d="M14 18H50M18 18V37M46 18V37" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" />
-  <path d="M23 37V29L32 24L40 31" stroke="currentColor" stroke-width="2.4" stroke-linecap="square" />
-  <circle cx="23" cy="29" r="2.8" fill="currentColor" />
-  <circle cx="32" cy="24" r="2.8" fill="currentColor" />
-  <path d="M40 31L46 26" stroke="currentColor" stroke-width="2.4" stroke-linecap="square" />
-  <rect x="45" y="23" width="7" height="7" fill={knockout} stroke="currentColor" stroke-width="1.6" />
-  <path d="M16 42H47" stroke="currentColor" stroke-width="2" stroke-linecap="square" />
-  <path d="M18 54H46M21 58H43M24 62H40" stroke="currentColor" stroke-width="1.6" stroke-linecap="square" />
-</svg>
+{seal ? (
+  <svg class={cls} width={size} height={size} viewBox="0 0 120 120" role="img" aria-label={label} fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="60" cy="60" r="57" stroke="currentColor" stroke-width="3" />
+    <circle cx="60" cy="60" r="39" stroke="currentColor" stroke-width="3" />
+    <path id={`${id}-top`} d="M 14 60 A 46 46 0 0 1 106 60" />
+    <path id={`${id}-bottom`} d="M 8.5 60 A 51.5 51.5 0 0 0 111.5 60" />
+    <text font-family="IBM Plex Mono, monospace" font-size="10" letter-spacing="2" fill="currentColor">
+      <textPath href={`#${id}-top`} startOffset="50%" text-anchor="middle">OLD CAR PROBLEMS</textPath>
+    </text>
+    <text font-family="IBM Plex Mono, monospace" font-size="8" letter-spacing="2.2" fill="currentColor">
+      <textPath href={`#${id}-bottom`} startOffset="50%" text-anchor="middle">· NEW HAMPSHIRE ·</textPath>
+    </text>
+    <g transform="translate(23.2 20.4) scale(1.15)">
+      <path d="M18 13.5V28.5M46 13.5V28.5M23.5 20H40.5" stroke="currentColor" stroke-width="2.6" />
+      <path d="M17.5 20L25.5 15.4V24.6Z M46.5 20L38.5 15.4V24.6Z M18 30H46V34.2H18Z M18 35.6H46V39.8H18Z M18 41.2H46V45.4H18Z" fill="currentColor" />
+    </g>
+  </svg>
+) : (
+  <svg class={cls} width={size} height={size} viewBox="0 0 64 64" role="img" aria-label={label} fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="32" cy="32" r="29" stroke="currentColor" stroke-width="4.5" />
+    <g transform="translate(0 2.5)">
+      <path d="M18 13.5V28.5M46 13.5V28.5M23.5 20H40.5" stroke="currentColor" stroke-width="2.6" />
+      <path d="M17.5 20L25.5 15.4V24.6Z M46.5 20L38.5 15.4V24.6Z M18 30H46V34.2H18Z M18 35.6H46V39.8H18Z M18 41.2H46V45.4H18Z" fill="currentColor" />
+    </g>
+  </svg>
+)}

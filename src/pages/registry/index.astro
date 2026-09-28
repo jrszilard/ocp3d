@@ -2,36 +2,44 @@
 import Base from "../../layouts/Base.astro";
 import RegisterCard from "../../components/RegisterCard.astro";
 import ServiceHeading from "../../components/ServiceHeading.astro";
-import { allParts } from "../../lib/catalog";
+import WantedList from "../../components/WantedList.astro";
+import LadderKey from "../../components/LadderKey.astro";
+import { allParts, isWanted } from "../../lib/catalog";
 const parts = allParts();
+// Parts with evidence (or a closed research boundary) get cards; requested parts with
+// no original yet go on the wanted list instead of rendering as empty product cards.
+const carded = parts.filter((part) => !isWanted(part));
+const hasFitRecord = parts.some((part) => part.state === "fitted" && !part.safetyGated);
 ---
-<Base title="Parts I Started Building for My Own Car — OCP3D"
-      description="The growing OCP3D archive began with a 1983 Celica Supra. See what is measured, still needs a donor, or remains closed while final vibration, UV, and rain testing are pending."
-      sheet={`ARCHIVE · ${parts.length} FILES`}>
+<Base title="Parts & Projects — OCP3D"
+      description="Explore existing OCP3D designs and their real development status. The collection began with the founder’s Supra; custom enquiries are welcome across eligible old-car makes."
+      sheet={`PARTS & PROJECTS · ${parts.length}`}>
   <section class="archive-page">
     <div class="wrap archive-wrap">
       <ServiceHeading
-        eyebrow="OCP3D PARTS INVESTIGATION · A60 STARTING POINT"
-        title="Field files from the bench."
-        lede="This archive began with my 1983 Celica Supra. It records restoration investigations already on the trail—what is measured, what is still on the bench, and what has earned a real-car record. A separate exterior case stays closed while final vibration, UV, and rain testing are pending."
-        file={`FIELD INDEX · ${parts.length} FILES`}
-        signal="SEARCH · TRACE · RECORD"
+        eyebrow="EXISTING DESIGNS / THEIR ACTUAL STATUS"
+        title="Parts & projects."
+        lede="See what is already on the bench and where each design stands. The collection began with my Supra; it is not a limit on the makes and models you can bring to a custom enquiry."
+        file={`${parts.length} PROJECT RECORDS`}
+        audience="owner"
       />
+
+      <aside class="collection-notice"><div><p class="eyebrow">LOOKING FOR A PART TO BUY?</p><h2>{hasFitRecord ? "Check the record. Then discuss your car." : "In development. Not a ready-to-buy range."}</h2><p>{hasFitRecord ? "Only fit-recorded parts with an open scope can support a made-to-order discussion. Your configuration, material and required checks still need confirming." : "These are current development and research records, not stock listings. A measured design or CAD render is not a finished, qualified part."}</p></div><a href="/custom/">Have a different problem?<br />Explore custom design ↗</a></aside>
 
       <div class="archive-tools">
         <div class="tools-head">
-          <p class="eyebrow">INVESTIGATION DESK</p>
-          <a class="all-sheets" href="/request/">Missing part or useful improvement? Start a conversation →</a>
+          <p class="eyebrow">FIND A PART OR PROJECT</p>
+          <a class="all-sheets" href="/custom/">Missing piece or new idea? Explore custom design →</a>
         </div>
         <div class="tools">
           <label class="search-field" for="q">
-            <span class="eyebrow">SEARCH THE FIELD INDEX</span>
+            <span class="eyebrow">SEARCH PARTS &amp; PROJECTS</span>
             <input id="q" type="search" enterkeyhint="search"
-                   placeholder="PART NAME, OEM №, KEYWORD…"
-                   aria-label="Search the parts archive" autocomplete="off" spellcheck="false" />
+                   placeholder="Part name, OEM №, keyword…"
+                   aria-label="Search parts and projects" autocomplete="off" spellcheck="false" />
           </label>
           <div class="filters" role="group" aria-label="Filter by state">
-            <button type="button" class="chip on" data-state="">All</button>
+            <button type="button" class="chip on" data-state="" aria-pressed="true">All</button>
             <button type="button" class="chip" data-state="fitted">Fitted on a real car</button>
             <button type="button" class="chip" data-state="measured">Measured</button>
             <button type="button" class="chip" data-state="development">In development</button>
@@ -40,20 +48,24 @@ const parts = allParts();
           </div>
         </div>
         <p class="eyebrow count" id="count" aria-live="polite"></p>
-        <p class="route-note">These files document restoration paths. The exterior wiper record remains closed until final vibration, UV-exposure, and rain-functionality testing is complete; it is not a product, fit claim, installation recommendation, or scope exception.</p>
+        <p class="route-note">Each record shows where a part stands on the ladder: requested, in development, measured, or fitted on a real car. The exterior wiper record stays closed until final vibration, UV-exposure and rain-functionality testing is complete; it is not a product, fit claim, installation recommendation or scope exception.</p>
       </div>
 
       <div class="cards" id="grid">
-        {parts.map((p, i) => <RegisterCard part={p} sheet={i + 1} total={parts.length} />)}
+        {carded.map((p) => <RegisterCard part={p} />)}
+        <LadderKey />
       </div>
 
+      <WantedList parts={parts} />
+
       <div class="empty" id="empty" hidden>
-        <p class="eyebrow eyebrow--amber">NO MATCH IN THE ARCHIVE</p>
+        <p class="eyebrow eyebrow--amber">NO MATCH HERE YET</p>
         <p class="dense">
           It may be something I can research, locate, or investigate as a useful improvement. Send
           the car and problem details, and we can discuss whether there is a responsible path forward.
         </p>
         <a class="btn btn--primary" id="empty-cta" href="/request/">Discuss this part →</a>
+        <button class="reset-filters" id="reset-filters" type="button">Clear search &amp; filters</button>
       </div>
     </div>
   </section>
@@ -62,7 +74,9 @@ const parts = allParts();
 <script>
   const input = document.getElementById("q") as HTMLInputElement;
   const chips = [...document.querySelectorAll<HTMLButtonElement>(".chip")];
-  const cards = [...document.querySelectorAll<HTMLElement>("#grid .card")];
+  // Cards and wanted-list rows share one search/filter contract (data-state, data-search).
+  const cards = [...document.querySelectorAll<HTMLElement>("#grid .card, #wanted .wanted-row")];
+  const wantedSection = document.getElementById("wanted");
   const count = document.getElementById("count")!;
   const empty = document.getElementById("empty")!;
   const emptyCta = document.getElementById("empty-cta") as HTMLAnchorElement;
@@ -83,6 +97,7 @@ const parts = allParts();
       if (show) shown++;
     }
     count.textContent = `SHOWING ${shown} OF ${cards.length}`;
+    if (wantedSection) wantedSection.hidden = !wantedSection.querySelector(".wanted-row:not([hidden])");
     empty.hidden = shown !== 0;
     emptyCta.href = q ? `/request/?part=${encodeURIComponent(input.value.trim())}` : "/request/";
     if (updateUrl) {
@@ -95,11 +110,19 @@ const parts = allParts();
   input.addEventListener("input", () => apply());
   chips.forEach((chip) =>
     chip.addEventListener("click", () => {
-      chips.forEach((c) => c.classList.toggle("on", c === chip));
+      chips.forEach((c) => { c.classList.toggle("on", c === chip); c.setAttribute("aria-pressed", String(c === chip)); });
       state = chip.dataset.state ?? "";
       apply(false);
     }),
   );
+  chips.forEach((chip) => chip.setAttribute("aria-pressed", String(chip.dataset.state === state)));
+  document.getElementById("reset-filters")!.addEventListener("click", () => {
+    input.value = "";
+    state = "";
+    chips.forEach((chip) => { chip.classList.toggle("on", chip.dataset.state === ""); chip.setAttribute("aria-pressed", String(chip.dataset.state === "")); });
+    apply();
+    input.focus();
+  });
   const initial = new URL(location.href).searchParams.get("q");
   if (initial) input.value = initial;
   apply(false);
@@ -108,6 +131,12 @@ const parts = allParts();
 <style>
   .archive-page { background: repeating-linear-gradient(0deg, transparent 0 31px, rgba(65,82,76,.08) 31px 32px), var(--ground); }
   .archive-wrap { display: grid; gap: 18px; }
+  .collection-notice { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 22px; padding: 25px; border-left: 4px solid var(--ion); background: var(--ground-deep); }
+  .collection-notice > div { flex: 1 1 360px; }
+  .collection-notice h2 { margin: 10px 0 13px; font-size: 27px; line-height: 1.1; }
+  .collection-notice p:not(.eyebrow) { max-width: 74ch; color: var(--body); font-size: var(--t-dense); line-height: var(--t-dense-lh); }
+  .collection-notice a { color: var(--ion); font-family: var(--font-text); font-size: var(--t-dense); font-weight: 600; line-height: 1.5; text-decoration: underline; text-underline-offset: 4px; }
+  .reset-filters { color: var(--ion); padding: 12px; background: none; border: 0; text-decoration: underline; text-underline-offset: 4px; font-size: var(--t-eyebrow); cursor: pointer; }
   .archive-tools {
     padding: 19px 20px 16px;
     border: var(--bd-inner) solid var(--rule);
@@ -120,9 +149,9 @@ const parts = allParts();
   #q {
     width: 100%; background: var(--ground); color: var(--paper);
     border: var(--bd-input) solid var(--rule-2); padding: 12px 14px;
-    font: inherit; font-size: var(--t-dense); letter-spacing: .06em;
+    font-family: var(--font-text); font-size: var(--t-dense);
   }
-  #q::placeholder { color: var(--rule-2); }
+  #q::placeholder { color: var(--steel); }
   #q:focus { outline: 2px solid var(--ion); outline-offset: 2px; }
   .filters { display: flex; gap: 8px; flex-wrap: wrap; }
   .chip {
@@ -134,6 +163,7 @@ const parts = allParts();
   .chip:hover { color: var(--paper); border-color: var(--paper); }
   .chip.on { color: var(--ink); border-color: var(--signal); background: var(--signal); }
   .count { display: block; color: var(--ion); }
+  .all-sheets { font-weight: 600; }
   .route-note { max-width: 84ch; margin-top: 12px; color: var(--steel); font-size: var(--t-dense); line-height: var(--t-dense-lh); }
 
   .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--gap-cards); }

@@ -62,3 +62,36 @@ export function oemIdentityLabel(part: Part): string {
   if (part.oemIdentityStatus === "candidate") return "OEM identity being verified";
   return "OEM № pending";
 }
+
+/** The evidence ladder, in order. Labels are literal claims; see EvidenceLadder.astro. */
+export const ladderRungs: { state: PartState; label: string }[] = [
+  { state: "requested", label: "Requested" },
+  { state: "development", label: "In development" },
+  { state: "measured", label: "Measured" },
+  { state: "fitted", label: "Fitted on a real car" },
+];
+
+export function rungIndex(state: PartState): number {
+  const i = ladderRungs.findIndex((rung) => rung.state === state);
+  if (i < 0) throw new Error(`unknown part state: ${state}`);
+  return i;
+}
+
+/** The vehicle application a card or list may show. A gate or a disputed identity wins. */
+export function applicationLabel(part: Part): string {
+  if (part.safetyGated) return "Safety review open — no vehicle claim";
+  if (part.fitmentStatus === "confirmed" && part.vehicleLabel && part.oemIdentityStatus !== "disputed") {
+    return `${part.yearRange} ${part.vehicleLabel}`.trim();
+  }
+  if (part.oemIdentityStatus === "disputed") return "Application under investigation";
+  return "Application being verified";
+}
+
+/**
+ * Requested parts with no original on the bench yet. They are shown as a wanted
+ * list (an honest ask for an original), not as empty product cards. A safety-gated
+ * record is never on the wanted list: it only accepts research evidence.
+ */
+export function isWanted(part: Part): boolean {
+  return part.state === "requested" && !part.safetyGated;
+}

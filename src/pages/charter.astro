@@ -1,16 +1,21 @@
 ---
 import Base from "../layouts/Base.astro";
 import ServiceHeading from "../components/ServiceHeading.astro";
+import TheCar from "../components/TheCar.astro";
 
 const articles = [
   {
     n: "01",
     title: "The work",
     body: [
-      `OCP3D solves old car problems with measured parts, engineering, and 3D printing. A surviving
-       original goes on the bench; its critical dimensions go on the record; a new part earns its
-       own status on a real vehicle. When the car never had a useful convenience in the first place,
-       we investigate a clearly labeled OCP3D-original improvement instead of pretending it was OEM.`,
+      `OCP3D is a small, founder-led workshop in New Hampshire’s Lakes Region. I design and prototype
+       parts for old-car problems across makes and models: replacing what is missing, or exploring
+       a useful addition the car never had. An original convenience design is labelled as such,
+       rather than presented as an OEM replacement.`,
+      `Start with an existing project record, or tell me about a different problem. Custom design
+       and prototyping are paid work, scoped and quoted before they begin. You do not need a CAD
+       file to start a conversation. Visits around Rochester, NH, and selected Maine locations
+       are by arrangement. Please get in touch before sending a part.`,
       `Pre-2000, unbranded, non-safety-critical parts only. Every measured dimension is published
        free. The parts cost money. The measurements never do.`,
     ],
@@ -29,12 +34,15 @@ const articles = [
   },
   {
     n: "03",
-    title: "The first signal",
+    title: "Where it started. Not where it stops.",
     body: [
-      `File 01 was a sun visor clip for a 1983 Toyota Celica Supra. It was small, unavailable, and
-       exactly the kind of failure that can sideline a car over a few grams of plastic. We measured
-       it, printed it, revised it from physical evidence, and kept every result on the record.`,
-      `Everything after it is the same promise: old car problem in, documented part path out.`,
+      `My 1983 Celica Supra started the search for a better way to deal with small, difficult-to-find
+       parts. The sun visor clip is founder work, not a customer success story. Version 12 has been in
+       the car since September 8; its fit record is not filed yet, and durability is not established.
+       The part record states those limits.`,
+      `The Supra is an example, not the customer market. You can bring an eligible problem from
+       another make or model. We work out how to access and measure its actual interface rather
+       than assume it fits because something similar worked on my car.`,
     ],
   },
   {
@@ -45,7 +53,7 @@ const articles = [
        and subscribed to. We do not need to argue with that system to know that a car without a
        modem remains an unusually private machine. Keeping it running is practical independence.`,
       `OCP3D follows the same rule: no trackers, no analytics, no ad pixels, and no third-party
-       scripts. We retain only what a request or Dispatch signup genuinely needs, and say exactly
+       scripts. We retain only what an enquiry or email-updates signup genuinely needs, and say exactly
        what that is below.`,
     ],
   },
@@ -55,33 +63,36 @@ const retention = [
   ["TRACKERS", "0"],
   ["THIRD-PARTY SCRIPTS", "0"],
   ["ANALYTICS, AD PIXELS, SESSION RECORDING", "0"],
-  ["FIELDS STORED ON DISPATCH SIGNUP", "1 — your email address"],
-  ["WHAT IT IS USED FOR", "OCP3D Dispatch. Nothing else."],
-  ["SOLD OR SHARED", "Never"],
-  ["WAY OUT", "One click, on every issue"],
-  ["DATA COLLECTED BY YOUR 1983 SUPRA SINCE 1983", "None"],
+  ["DETAILS ASKED FOR ON EMAIL-UPDATES SIGNUP", "Your email address"],
+  ["WHAT IT IS USED FOR", "OCP3D email updates. Nothing else."],
+  ["SOLD FOR ADVERTISING", "Never"],
+  ["PART ENQUIRIES", "Contact and project details, used to respond to you"],
+  ["AUTOMATIC EMAIL-UPDATES SIGNUP FROM AN ENQUIRY", "No"],
+  ["WAY OUT", "Unsubscribe from email updates, or email the workshop"],
 ];
 ---
-<Base title="Mission — OCP3D · Old Car Problems" sheet="MISSION · OCP3D">
+<Base title="About the Workshop — OCP3D" description="An independent old-car design and prototyping workshop in New Hampshire’s Lakes Region. The founder’s Supra is the origin, not the market boundary." sheet="ABOUT · THE WORKSHOP">
   <section class="charter-page">
     <div class="wrap charter-wrap">
       <ServiceHeading
-        eyebrow="OCP3D MISSION · PARTS INVESTIGATION EST. 2026"
+        eyebrow="ONE PERSON’S WORKSHOP / NH’S LAKES REGION"
         title="Keep the old car useful."
-        lede="OCP3D exists to make the next useful part path visible: restore what is missing, improve what the car never had, and stay honest about every stage in between."
-        file="MISSION · OCP3D"
-        signal="RESTORE · IMPROVE · RECORD"
+        lede="I started with the small problems on my own car. OCP3D is here to explore yours too—with useful design, appropriate materials and an honest record of what has been checked."
+        file="THE PERSON BEHIND THE PART"
+        audience="owner"
       />
+
+      <TheCar />
 
       <div class="mission-rule">
         <span class="rule-mark" aria-hidden="true">OCP3D</span>
-        <p>Old cars are not a retreat from the future. They are machines worth carrying forward — with better evidence, more useful interfaces, and less surveillance attached.</p>
+        <p>You shouldn’t need to learn CAD just to ask about a missing part. Bring the problem. We’ll discuss what a useful, responsible next step would look like.</p>
       </div>
 
       <div class="articles">
         {articles.map((a) => (
           <article class="article">
-            <div class="art-no"><span class="eyebrow">TRANSMISSION</span><span class="numeral">{a.n}</span></div>
+            <div class="art-no"><span class="eyebrow">WORKSHOP NOTE</span><span class="numeral">{a.n}</span></div>
             <div class="art-body prose">
               <h2>{a.title}</h2>
               {a.body.map((p) => <p>{p}</p>)}
@@ -92,7 +103,7 @@ const retention = [
 
       <section class="retention-panel">
         <div class="retention-head">
-          <div><p class="eyebrow eyebrow--amber">TRANSMISSION 04 — THE FACTS, STATED EXACTLY</p><h2>What we keep. What we do not.</h2></div>
+          <div><p class="eyebrow eyebrow--amber">PRIVACY — THE FACTS, STATED EXACTLY</p><h2>What we keep. What we do not.</h2></div>
           <p class="dense">Privacy is a working specification, not atmospheric copy. If the facts change, this record changes first.</p>
         </div>
         <div class="retention">
@@ -100,12 +111,12 @@ const retention = [
             <><div><span class="eyebrow">{k}</span></div><div><span class="ret-v">{v}</span></div></>
           ))}
         </div>
-        <p class="dense note">If measurement is ever needed, it will be first-party, aggregate, and stated here before it is switched on.</p>
+        <p class="dense note">Hosting, email and database services process enquiries so I can respond. An enquiry does not subscribe you to email updates. If analytics are ever proposed, this privacy information must change before they are enabled.</p>
       </section>
 
       <div class="mission-actions">
-        <a class="btn btn--primary" href="/registry/">Browse parts</a>
-        <a class="btn btn--secondary" href="/request/">Discuss a part</a>
+        <a class="btn btn--primary" href="/request/">Tell me about your project</a>
+        <a class="btn btn--secondary" href="/custom/">Explore custom design</a>
       </div>
     </div>
   </section>
@@ -132,7 +143,7 @@ const retention = [
   .retention-head .dense { max-width: 42ch; color: var(--steel); }
   .retention { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(240px, .7fr); background: var(--rule); gap: var(--bd-inner); }
   .retention > div { padding: 12px 16px; background: var(--ground-deep); }
-  .ret-v { color: var(--paper); font-size: var(--t-dense); font-weight: 600; }
+  .ret-v { color: var(--paper); font-family: var(--font-text); font-size: var(--t-dense); font-weight: 600; }
   .note { margin: 15px 30px 22px; color: var(--steel); max-width: 620px; }
   .mission-actions { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; padding: 10px 0; }
   @media (max-width: 760px) { .mission-rule, .article { grid-template-columns: 1fr; } .mission-rule { gap: 8px; } .art-no { flex-direction: row; align-items: baseline; gap: 10px; } .retention-head { align-items: flex-start; flex-direction: column; } .retention { grid-template-columns: 1fr; } }

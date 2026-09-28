@@ -3,28 +3,29 @@ import Base from "../layouts/Base.astro";
 import ServiceHeading from "../components/ServiceHeading.astro";
 
 const stages = [
-  ["01", "Start with an original or a real interface.", "A restoration path starts from a surviving original, donor, or measured mating surface. An OCP3D-original improvement starts from the actual mounting space and the things it must not obstruct—not a photo or a wish."],
-  ["02", "State which part path it is.", "A faithful replacement, repair aid, and OCP3D-original improvement do not make the same claim. The field file keeps its purpose, known facts, and unknowns visible."],
+  ["01", "Start with an original or a real interface.", "A replacement starts from a surviving original, donor, or measured mating surface. A new convenience design starts from the actual mounting space and what must stay clear. Photos help explain the problem; measurements establish the fitting dimensions."],
+  ["02", "Separate a replacement from a new idea.", "A faithful replacement, repair aid, and OCP3D-original improvement do not make the same claim. The part record keeps its purpose, known facts, and unknowns visible."],
   ["03", "Label drafts as drafts.", "Until a real object or interface has met the calipers, a design is marked In development — visibly, everywhere. A render can show a proposed geometry; it cannot prove fit or function."],
-  ["04", "Choose material for where it lives.", "PETG can support a proof print and shaded interiors; ASA can suit sun and heat when the record supports it. Fit or function in one material never transfers automatically to another."],
-  ["05", "Earn fit and function separately.", "A real-car installation earns a fit record. An original improvement also needs its own clearance, retention, and function evidence. The next version changes only when the record says why."],
+  ["04", "Choose material for where it lives.", "A proof-print material is not automatically a final material. Even shaded interiors can get hot. Choose the exact grade for temperature, sunlight, moisture and load, then evaluate the finished part. Fit or function in one material never transfers automatically to another."],
+  ["05", "Check fit, function and conditions.", "A successful fit alone does not prove durability. Check clearance, retention and function, plus the heat, exposure and repeated use relevant to the job. Records stay tied to the actual version, vehicle configuration and material."],
 ];
 ---
-<Base title="Fit Lab — OCP3D · Old Car Problems" sheet="FIT LAB · EVIDENCE">
+<Base title="How a Part Is Developed — OCP3D" sheet="DEVELOPMENT · EVIDENCE">
   <section class="lab-page">
     <div class="wrap lab-wrap">
       <ServiceHeading
-        eyebrow="OCP3D FIT LAB · EVIDENCE SEQUENCE"
-        title="How a part path earns its record."
-        lede="OCP3D began with my own car, but the rule is the same for a restoration or original improvement: a CAD render is a useful tool, not a conclusion. Each stage stays visible so you can see what a part has earned—and what it has not."
-        file="FIT LAB · EVIDENCE"
-        signal="TRACE · MEASURE · PROVE"
+        eyebrow="BEHIND THE PART / MEASUREMENT, DESIGN & CHECKS"
+        title="How a part is developed."
+        lede="A useful part starts with understanding its job. Here is how an original or mounting space becomes a design we can evaluate—and why a good-looking render is only one step along the way."
+        file="FIVE STEPS"
+        facts={[["STARTS WITH", "AN ORIGINAL OR MOUNTING SPACE"], ["ENDS WITH", "A FIT RECORD ON A REAL CAR"], ["A RENDER SHOWS", "SHAPE, NOT FIT"]]}
       />
 
       <div class="lab-console">
         <div class="lab-intro">
           <p class="eyebrow">THE OPERATING RULE</p>
-          <p class="lead">This is how a one-car problem becomes a useful record for the next owner. Plenty of sites call a 3D-printed part “reviewed for accuracy” because someone looked at the CAD. OCP3D keeps the evidence attached to the part path.</p>
+          <p class="lead">The same evidence standard applies across makes, whether we are replacing something missing or developing an original idea. A prototype helps us learn. A finished part has to earn its own fit, material and function record.</p>
+          <p class="dense prose" style="margin-top: 18px">Want to know about scope, costs and working together? <a href="/custom/">Start with custom design.</a></p>
           <div class="readout">
             <span>INPUT</span><b>PHYSICAL ORIGINAL OR INTERFACE</b>
             <span>OUTPUT</span><b>VERSIONED FIT / FUNCTION RECORD</b>
@@ -40,6 +41,8 @@ const stages = [
           ))}
         </ol>
       </div>
+
+      <p class="dense prose">Wondering whether a printed part can last in a car? <a href="/materials/">Start with the materials and durability guide.</a></p>
 
       <aside class="color-note">
         <div class="swatch-line" aria-hidden="true"><i></i><i></i><i></i><i></i></div>

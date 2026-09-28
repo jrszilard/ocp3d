@@ -1,0 +1,101 @@
+---
+/**
+ * Wanted: originals to measure.
+ *
+ * Requested parts with no original on the bench are an honest ask, not a shelf of
+ * empty product cards. Each row invites someone who has the part (even broken) to
+ * get in touch. It promises no reward, loan terms, price or finished part; any
+ * donor offer needs its own founder decision before it appears here.
+ * Safety-gated records never appear: they accept research evidence only.
+ */
+import { applicationLabel, isWanted, oemIdentityLabel } from "../lib/catalog";
+
+interface Props { parts: any[]; compact?: boolean; id?: string }
+const { parts, compact = false, id = "wanted" } = Astro.props;
+const wanted = parts.filter(isWanted);
+const haveOne = (part: any) =>
+  `/request/?part=${encodeURIComponent(part.title)}&part_slug=${part.slug}&situation=have-part`;
+const oem = (part: any) =>
+  part.oemIdentityStatus === "confirmed" && part.oemNumber ? `OEM № ${part.oemNumber}` : oemIdentityLabel(part);
+---
+{wanted.length > 0 && (compact ? (
+  <aside class="wanted wanted--compact" aria-labelledby={`${id}-title`}>
+    <p class="wanted-kicker">WANTED · ORIGINALS TO MEASURE</p>
+    <h3 id={`${id}-title`}>Have one of these? Even broken?</h3>
+    <ul>
+      {wanted.map((part) => (
+        <li><a href={`/registry/${part.slug}/`}>{part.title}</a><span>{oem(part)}</span></li>
+      ))}
+    </ul>
+    <p class="wanted-note">An original is how a part gets measured. Getting in touch doesn’t commit you to anything.</p>
+    <a class="wanted-cta" href="/registry/#wanted">See the wanted list <span aria-hidden="true">→</span></a>
+  </aside>
+) : (
+  <section class="wanted" id={id} aria-labelledby={`${id}-title`}>
+    <div class="wanted-head">
+      <div>
+        <p class="wanted-kicker">WANTED · ORIGINALS TO MEASURE</p>
+        <h2 id={`${id}-title`}>Have one of these? Even broken?</h2>
+      </div>
+      <p>Owners have asked about these parts, but no original has reached the bench yet. An original, even a
+        broken one, is how a part gets measured. Tell me what you have and we’ll talk about it. Getting in touch
+        doesn’t commit you to anything.</p>
+    </div>
+    <ul class="wanted-rows">
+      {wanted.map((part) => (
+        <li class="wanted-row" data-state={part.state} data-safety-gated="false"
+            data-search={[part.title, part.vehicleLabel, part.yearRange, part.oemNumber, part.category, "requested wanted"].filter(Boolean).join(" ").toLowerCase()}>
+          <a class="w-name" href={`/registry/${part.slug}/`}>{part.title}</a>
+          <span class="w-car">{applicationLabel(part)}</span>
+          <span class="w-oem">{oem(part)}</span>
+          <a class="w-cta" href={haveOne(part)}>I have one <span aria-hidden="true">→</span></a>
+        </li>
+      ))}
+    </ul>
+  </section>
+))}
+
+<style>
+  .wanted { border: 1px solid var(--paper); background: var(--ground); }
+  .wanted-kicker { font-family: var(--font-mono); font-size: var(--t-eyebrow); font-weight: 600; letter-spacing: var(--t-eyebrow-tr); color: var(--signal); }
+  .wanted-head { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: 16px 40px; align-items: end; padding: 24px 24px 20px; border-bottom: 2px solid var(--paper); background: repeating-linear-gradient(0deg, transparent 0 30px, rgba(63,82,76,.1) 30px 31px), var(--ground-deep); }
+  .wanted-head h2 { margin-top: 10px; font-size: clamp(28px, 3vw, 36px); line-height: 1; }
+  .wanted-head > p { color: var(--body); font-size: var(--t-dense); line-height: var(--t-dense-lh); }
+  .wanted-rows { margin: 0; padding: 0; list-style: none; }
+  .wanted-row { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) minmax(0, 1fr) auto; gap: 8px 22px; align-items: center; padding: 14px 24px; border-top: 1px dashed var(--rule-2); }
+  .wanted-row:first-child { border-top: 0; }
+  .wanted-row[hidden] { display: none; }
+  .w-name { color: var(--paper); font-family: var(--font-display); font-size: 20px; line-height: 1.1; text-transform: uppercase; }
+  .w-name:hover { color: var(--ion); }
+  .w-car { color: var(--body); font-family: var(--font-text); font-size: var(--t-dense); }
+  .w-oem { color: var(--steel); font-size: var(--t-micro); letter-spacing: var(--t-micro-tr); text-transform: uppercase; }
+  .w-cta { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 14px; border: 1px solid var(--paper); color: var(--paper); font-size: var(--t-eyebrow); font-weight: 600; letter-spacing: .06em; text-transform: uppercase; white-space: nowrap; }
+  .w-cta:hover { background: var(--journal-board); border-color: var(--journal-board); color: var(--ink); }
+  .w-cta span { color: var(--signal); }
+  .w-cta:hover span { color: var(--acid); }
+
+  .wanted--compact { display: flex; flex-direction: column; padding: 20px 20px 18px; box-shadow: 4px 5px 0 color-mix(in srgb, var(--paper) 14%, transparent); background: var(--ground-deep); }
+  .wanted--compact h3 { margin: 10px 0 14px; font-size: 26px; line-height: 1.02; }
+  .wanted--compact ul { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--rule); }
+  .wanted--compact li { display: grid; gap: 2px; padding: 9px 0; border-bottom: 1px dashed var(--rule-2); }
+  .wanted--compact li a { color: var(--paper); font-family: var(--font-text); font-size: var(--t-dense); font-weight: 600; }
+  .wanted--compact li a:hover { color: var(--ion); }
+  .wanted--compact li span { color: var(--steel); font-size: var(--t-micro); letter-spacing: var(--t-micro-tr); }
+  .wanted-note { margin-top: 14px; color: var(--body); font-size: var(--t-dense); line-height: 1.5; }
+  .wanted-cta { margin-top: auto; padding-top: 16px; color: var(--paper); font-size: var(--t-eyebrow); font-weight: 600; letter-spacing: .06em; text-transform: uppercase; }
+  .wanted-cta span { color: var(--signal); }
+  .wanted-cta:hover { color: var(--ion); }
+
+  @media (max-width: 900px) {
+    .wanted-head { grid-template-columns: 1fr; }
+    .wanted-row { grid-template-columns: minmax(0, 1fr) auto; }
+    .w-name { grid-column: 1; }
+    .w-car, .w-oem { grid-column: 1; }
+    .w-cta { grid-column: 2; grid-row: 1 / span 3; }
+  }
+  @media (max-width: 520px) {
+    .wanted-head, .wanted-row { padding-inline: 16px; }
+    .wanted-row { grid-template-columns: 1fr; }
+    .w-cta { grid-column: 1; grid-row: auto; justify-self: start; margin-top: 4px; }
+  }
+</style>

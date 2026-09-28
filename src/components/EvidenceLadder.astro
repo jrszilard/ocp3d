@@ -1,0 +1,66 @@
+---
+/**
+ * The evidence ladder: where a part stands, at a glance.
+ *
+ * Requested → In development → Measured → Fitted on a real car. Rungs already
+ * earned take their own stamp ink; later rungs stay empty. A safety-gated
+ * research record is not on the ladder at all, so it renders as a closed bar,
+ * never as a partly climbed ladder that could read like progress toward sale.
+ * The ladder reads the record's state; it never adds a claim of its own.
+ */
+import type { PartState } from "../lib/catalog";
+import { ladderRungs, rungIndex } from "../lib/catalog";
+
+interface Props { state: PartState; safetyGated?: boolean; compact?: boolean }
+const { state, safetyGated = false, compact = false } = Astro.props;
+const current = rungIndex(state);
+const currentLabel = ladderRungs[current].label;
+---
+{safetyGated ? (
+  <div class:list={["ladder", "ladder--closed", { "is-compact": compact }]} data-ladder="closed">
+    <span class="closed-bar" aria-hidden="true"></span>
+    <p class="closed-note"><b>Research only.</b> Off the ladder until final testing is complete.</p>
+  </div>
+) : (
+  <div class:list={["ladder", { "is-compact": compact }]} data-ladder={state}>
+    <ol aria-label={`Evidence status: ${currentLabel}, step ${current + 1} of ${ladderRungs.length}`}>
+      {ladderRungs.map((rung, i) => (
+        <li
+          class:list={["rung", `rung--${rung.state}`, { "is-earned": i <= current, "is-current": i === current }]}
+          aria-current={i === current ? "step" : undefined}
+        >
+          <span class="bar" aria-hidden="true"></span>
+          <span class="name">{rung.label}</span>
+        </li>
+      ))}
+    </ol>
+    {compact && <p class="current-name" aria-hidden="true">{currentLabel}</p>}
+  </div>
+)}
+
+<style>
+  .ladder { position: relative; }
+  .ladder ol { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 4px; margin: 0; padding: 0; list-style: none; }
+  .rung { display: grid; gap: 7px; min-width: 0; }
+  .bar { height: 8px; border: 1.5px dashed var(--rule); }
+  .name { font-family: var(--font-mono); font-size: var(--t-micro); letter-spacing: var(--t-micro-tr); line-height: 1.3; text-transform: uppercase; color: var(--steel); }
+  .is-earned .bar { border-style: solid; }
+  .rung--requested.is-earned .bar { border-color: var(--st-requested); background: var(--st-requested); }
+  .rung--development.is-earned .bar { border-color: var(--st-development); background: var(--st-development); }
+  .rung--measured.is-earned .bar { border-color: var(--st-measured); background: var(--st-measured); }
+  .rung--fitted.is-earned .bar { border-color: var(--st-fitted); background: var(--st-fitted); }
+  .is-current .name { color: var(--paper); font-weight: 600; }
+
+  /* Compact (cards): bars only, with the current rung named once underneath. */
+  .is-compact .bar { height: 6px; }
+  .is-compact .name { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .current-name { margin-top: 7px; font-family: var(--font-mono); font-size: var(--t-micro); font-weight: 600; letter-spacing: var(--t-micro-tr); text-transform: uppercase; color: var(--paper); }
+
+  .ladder--closed { display: grid; gap: 7px; }
+  .closed-bar { height: 8px; background: repeating-linear-gradient(135deg, var(--st-closed) 0 6px, #4a5256 6px 8px); }
+  .closed-note { color: var(--steel); font-size: var(--t-dense); line-height: 1.45; }
+  .closed-note b { color: var(--paper); }
+  .is-compact .closed-bar { height: 6px; }
+  .is-compact .closed-note { font-family: var(--font-mono); font-size: var(--t-micro); letter-spacing: var(--t-micro-tr); text-transform: uppercase; }
+  .is-compact .closed-note b { font-weight: 600; }
+</style>

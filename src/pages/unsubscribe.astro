@@ -39,15 +39,15 @@ if (ok && Astro.request.method === "POST") {
   }
 }
 ---
-<Base title="Leave the OCP3D Dispatch" sheet="DISPATCH · EXIT">
+<Base title="Unsubscribe from OCP3D email updates" sheet="EMAIL UPDATES · UNSUBSCRIBE">
   <section class="exit-page">
     <div class="wrap exit-wrap">
       <ServiceHeading
-        eyebrow="OCP3D DISPATCH · SIGNAL CONTROL"
-        title="Set your own signal level."
-        lede="The Dispatch is opt-in, quiet, and reversible. This confirmation is here to make leaving as clear as joining."
-        file="DISPATCH · EXIT"
-        signal="CONFIRM · REMOVE · RESPECT"
+        eyebrow="OCP3D · EMAIL UPDATES"
+        title="Unsubscribe, cleanly."
+        lede="Email updates are opt-in, quiet and reversible. This page makes leaving as clear as joining."
+        file="UNSUBSCRIBE"
+        facts={[["CONFIRM", "ONE CLICK"], ["DATA SOLD", "NEVER"], ["COME BACK", "ANY TIME"]]}
         compact
       />
       <div class="panel">
@@ -55,22 +55,22 @@ if (ok && Astro.request.method === "POST") {
           <>
             <div class="stamp">Confirm exit</div>
             <p class="who">{email}</p>
-            <p>Leaving stops the <b>OCP3D Dispatch</b>. Your file number stays yours, and you can claim it again any time — nothing is deleted.</p>
-            <form method="post"><button class="btn btn--primary" type="submit">Leave the Dispatch</button></form>
+            <p>Leaving stops <b>OCP3D email updates</b>. Your number stays yours, and you can sign up again any time — nothing is deleted.</p>
+            <form method="post"><button class="btn btn--primary" type="submit">Unsubscribe</button></form>
           </>
         )}
         {state === "done" && (
           <>
-            <div class="stamp">Signal cleared</div>
+            <div class="stamp">Unsubscribed</div>
             <p class="who">{email}</p>
             <p>You’re off the list. No bulletin, no follow-up. If a part you cared about moves forward, you’ll have to come back and look — we won’t write.</p>
-            <p><a class="btn btn--secondary" href="/registry/">Back to the archive</a></p>
+            <p><a class="btn btn--secondary" href="/registry/">Back to parts &amp; projects</a></p>
           </>
         )}
         {state === "invalid" && (
           <>
             <div class="stamp">Not recognised</div>
-            <p>That link isn’t valid — it may have been altered in transit, or truncated by a mail client. Use the link at the bottom of any Dispatch issue, or email <a href="mailto:requests@lostclipsociety.com">requests@lostclipsociety.com</a> and we’ll take you off by hand.</p>
+            <p>That link isn’t valid — it may have been altered in transit, or truncated by a mail client. Use the link at the bottom of any update email, or email <a href="mailto:requests@lostclipsociety.com">requests@lostclipsociety.com</a> and we’ll take you off by hand.</p>
           </>
         )}
         {state === "error" && (

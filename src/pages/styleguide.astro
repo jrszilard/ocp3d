@@ -3,61 +3,108 @@ import Base from "../layouts/Base.astro";
 import Insignia from "../components/Insignia.astro";
 import Lockup from "../components/Lockup.astro";
 import ServiceHeading from "../components/ServiceHeading.astro";
+import Stamp from "../components/Stamp.astro";
+import EvidenceLadder from "../components/EvidenceLadder.astro";
+import LadderKey from "../components/LadderKey.astro";
 
 // Every swatch is rendered FROM tokens.css. If a value here is wrong, update the token.
 const colours = [
-  ["--ground", "warm ruled-paper field surface"],
-  ["--ground-deep", "field-card and taped-evidence surface"],
-  ["--ink", "light text on a dark case board"],
-  ["--paper", "dark journal ink and primary rules"],
-  ["--amber", "rust case/action signal"],
-  ["--ion", "investigation teal text accent"],
-  ["--ion-light", "route-line and field-note signal"],
-  ["--acid", "sun-yellow lead card accent"],
-  ["--steel", "secondary research labels"],
-  ["--body", "body copy on a field sheet"],
-  ["--glass", "pending/evidence caption text"],
-  ["--rule", "journal rules and record hairlines"],
-  ["--rule-2", "case borders and table gridlines"],
+  ["--ground", "warm ruled-paper surface"],
+  ["--ground-deep", "card and taped-photo surface"],
+  ["--ink", "light text on a dark board"],
+  ["--paper", "dark ink and primary rules"],
+  ["--signal", "rust for actions; also the Fitted stamp"],
+  ["--amber", "semantic rust alias — same as signal"],
+  ["--ion", "teal for links and hover; also the Measured stamp"],
+  ["--ion-light", "teal accent on dark boards"],
+  ["--acid", "sun-yellow accent on dark boards"],
+  ["--steel", "secondary labels; also the Requested stamp"],
+  ["--st-development", "ochre, the In development stamp only"],
+  ["--body", "reading text on paper"],
+  ["--glass", "placeholder and caption text"],
+  ["--rule", "rules and record hairlines"],
+  ["--rule-2", "card borders and table gridlines"],
   ["--rule-3", "faint paper separators"],
-  ["--panel", "warm investigation panel"],
+  ["--panel", "warm panel"],
   ["--panel-2", "deep paper/tape hatch stripe"],
-  ["--border", "dark investigation surround"],
+  ["--border", "dark workshop surround"],
 ];
 const type = [
-  ["Page H1", "var(--font-display)", "68 / 0.94 / -0.015em", "h1"],
-  ["Section H2", "var(--font-display)", "40 / 1.02 / -0.01em", "h2"],
-  ["Card title", "var(--font-display)", "15 uppercase", "card"],
-  ["Wordmark", "var(--font-word)", "15 or 21, weight 600", "word"],
-  ["Lead", "var(--font-mono)", "15 / 1.7", "lead"],
-  ["Section body", "var(--font-mono)", "13.5 / 1.75", "sec"],
-  ["Dense", "var(--font-mono)", "11.5 / 1.6", "dense"],
-  ["Eyebrow", "var(--font-mono)", "10.5 uppercase / 0.16em", "eye"],
-  ["Spec value", "var(--font-mono) 600", "15", "spec"],
+  ["Page H1", "Archivo Narrow 700", "70 / 0.86 uppercase", "h1"],
+  ["Section H2", "Archivo Narrow 700", "42 / 0.92 uppercase", "h2"],
+  ["Card title", "Archivo Narrow 700", "19 uppercase", "card"],
+  ["Lead", "Archivo 400 · --font-text", "19 / 1.55", "lead"],
+  ["Body", "Archivo 400 · --font-text", "17 / 1.62", "sec"],
+  ["Dense", "Archivo 400 · --font-text", "15 / 1.58", "dense"],
+  ["Eyebrow / label", "Plex Mono · --font-mono", "12 uppercase / 0.1em", "eye"],
+  ["Micro label", "Plex Mono · --font-mono", "11 uppercase — the floor", "micro"],
+  ["Data value", "Plex Mono 600", "16", "spec"],
 ];
 ---
-<Base title="Styleguide — OCP3D" sheet="STYLEGUIDE · OCP3D">
+<Base title="Styleguide — OCP3D" sheet="STYLEGUIDE">
   <section class="styleguide-page">
     <div class="wrap sg-wrap">
       <ServiceHeading
-        eyebrow="OCP3D FIELD REFERENCE · DESIGN SYSTEM"
-        title="Bench Journal / Parts Investigation."
-        lede="A warm physical field record: ruled paper, taped evidence, route lines, case stamps, and a dark investigation board. The vehicle story stays in real evidence, not decorative car art."
-        file="STYLEGUIDE · BENCH JOURNAL"
-        signal="TOKENS · LEADS · RECORDS"
+        eyebrow="OCP3D · DESIGN SYSTEM"
+        title="Old Car Problems, on paper."
+        lede="Warm ruled paper, real photographs, status stamps and a dark workshop board. The story lives in real evidence and plain words, not decorative car art or invented jargon."
+        file="STYLEGUIDE"
+        facts={[["TYPE", "ARCHIVO · PLEX MONO"], ["MARK", "THE STAMP"], ["STATUS INKS", "4 RUNGS + CLOSED"]]}
       />
 
       <section class="sg-panel">
-        <p class="eyebrow">THE LOCKUP — ORIGINAL FIXTURE MARK, OCP3D, PLAIN-LANGUAGE EXPANSION.</p>
+        <p class="eyebrow">THE MARK — MEASURE, THEN MAKE</p>
         <div class="lockups">
           <div><Lockup variant="landscape" /><p class="dense cap">Landscape · header, screen</p></div>
           <div><Lockup variant="portrait" /><p class="dense cap">Portrait · print, stationery</p></div>
           <div class="avatar-demo">
-            <span class="avatar"><Insignia size={32} knockout="var(--ink)" /></span>
+            <span class="avatar"><Insignia size={36} /></span>
             <p class="dense cap">Avatar · social, favicon</p>
           </div>
+          <div class="seal-demo">
+            <span class="seal"><Insignia variant="seal" size={150} id="sg-seal" /></span>
+            <p class="dense cap">Full seal · 120 px and up · stamps, stickers, packaging</p>
+          </div>
         </div>
-        <p class="dense note">Keep the fixture mark, OCP3D acronym, and Old Car Problems expansion together. The mark is original: service rail, docked fixture head, and additive layer courses. It intentionally avoids a generic car silhouette and borrows no game, film, manufacturer, rally event, or government reference.</p>
+        <p class="dense note">A drafting dimension (measure) over a part built in layers (make), inside a rubber-stamp ring. One colour; it never shows a single part, a car silhouette or a shield. Keep the mark, OCP3D and OLD CAR PROBLEMS together in first encounters. The expansion is the memorable half of the name: never shrink it below 11 px. The comparison board with the alternatives is <code>design/mockups/ocp3d-mark-options.html</code>.</p>
+      </section>
+
+      <section class="sg-panel">
+        <p class="eyebrow">THE EVIDENCE LADDER — ONE INK PER RUNG</p>
+        <div class="ladder-demo">
+          <div class="stamps">
+            <Stamp state="requested" label="Requested" />
+            <Stamp state="development" label="In development" />
+            <Stamp state="measured" label="Measured" />
+            <Stamp state="fitted" label="Fitted on a real car" />
+            <Stamp state="requested" label="Research only" safetyGated />
+          </div>
+          <div class="ladders">
+            <EvidenceLadder state="measured" />
+            <EvidenceLadder state="development" compact />
+            <EvidenceLadder state="requested" safetyGated compact />
+          </div>
+          <LadderKey />
+        </div>
+        <p class="dense note">Stamps and ladders read the record; they never add a claim. Fitted is the only filled stamp. A safety-gated record is off the ladder (hatched), never a partly climbed ladder. Requested parts with no original appear in the <code>WantedList</code>, not as empty product cards.</p>
+      </section>
+
+      <section class="sg-panel">
+        <p class="eyebrow">WORDS — A SMALL, FIXED VOCABULARY</p>
+        <p class="lead note">Custom design · Parts &amp; projects · Part record · Build log · Materials · About · Start an enquiry · Email updates. Status words stay literal: Requested, In development, Measured, Fitted on a real car, Research only.</p>
+        <p class="dense note">Say it the way an owner would. Avoid coined labels such as field file, case file, lead, trail, route, investigation desk or Dispatch in the interface. Research-only records keep their “research lead” wording because it marks a closed boundary.</p>
+        <div class="comp"><a class="btn btn--primary" href="/custom/">Custom design</a><a class="btn btn--secondary" href="/registry/">Parts &amp; projects</a><a class="btn btn--secondary" href="/request/">Start an enquiry</a></div>
+        <p class="dense note">Use <code>ServiceHeading audience="owner"</code> for owner-facing introductions (optional actions slot, <code>compact</code> for the enquiry masthead). Record pages pass <code>facts</code>: real, page-specific values for the dark panel, never a slogan. <code>OfferPaths</code> keeps the two doors distinct; its collection note follows the fitted, non-safety-gated discussion boundary, not invented stock. Paid development is explicit, but prices, turnaround and fit are never invented.</p>
+      </section>
+
+      <section class="sg-panel">
+        <p class="eyebrow">TYPE — SENTENCES IN ARCHIVO, RECORDS IN MONO</p>
+        <div class="hairline-grid type-grid">
+          {type.map(([role, fam, size, cls]) => (
+            <><div><span class="eyebrow">{role}</span></div><div><span class={`sample s-${cls}`}>{cls === "sec" || cls === "dense" || cls === "lead" ? "Old cars. Modern materials." : "OCP3D 58908-14010"}</span></div><div><span class="dense">{fam}</span></div><div><span class="dense">{size}</span></div></>
+          ))}
+        </div>
+        <p class="dense note">Sentences are Archivo (<code>--font-text</code>). Labels, part numbers, dimensions, stamps and navigation are IBM Plex Mono, so mono always means “label or record”. Nothing ships below 11 px; reading text starts at 15 px. Use the <code>--t-*</code> tokens, never a hard-coded small size.</p>
       </section>
 
       <section class="sg-panel">
@@ -74,24 +121,9 @@ const type = [
       </section>
 
       <section class="sg-panel">
-        <p class="eyebrow">TYPE — TWO FAMILIES, SELF-HOSTED</p>
-        <div class="hairline-grid type-grid">
-          {type.map(([role, fam, size, cls]) => (
-            <><div><span class="eyebrow">{role}</span></div><div><span class={`sample s-${cls}`}>OCP3D</span></div><div><span class="dense">{fam}</span></div><div><span class="dense">{size}</span></div></>
-          ))}
-        </div>
-        <p class="dense note">Monospace is the body voice of the whole site — resist substituting a proportional face for “readability”. Never reduce mono body copy below 12px.</p>
-      </section>
-
-      <section class="sg-panel">
-        <p class="eyebrow">COMPONENTS</p>
-        <div class="comp">
-          <a class="btn btn--primary" href="#components">Primary</a>
-          <a class="btn btn--secondary" href="#components">Secondary</a>
-          <span class="chip chip--amber">20 DIMS RECORDED</span>
-          <span class="chip chip--solid">MEASURED</span>
-        </div>
-        <div id="components" class="ph-demo placeholder"><span>PART VIEW</span><small>the standing placeholder for a photograph that is owed</small></div>
+        <p class="eyebrow">THE CAR AND PHOTOGRAPHS</p>
+        <p class="dense note">The founder stays off camera, so the ’83 Supra is the recurring face: real photos of the actual car only, plates, VIN tags and inspection stickers cropped, location metadata stripped (see <code>src/data/car.mjs</code>). Real photos lead; CAD renders stay labelled as renders. The car is the origin of the work, never a claim that a part fits other cars.</p>
+        <div id="components" class="ph-demo placeholder"><span>NO VIEW YET</span><small>the standing placeholder for a photograph that is owed</small></div>
       </section>
     </div>
   </section>
@@ -101,26 +133,32 @@ const type = [
   .styleguide-page { background: linear-gradient(180deg, color-mix(in srgb, var(--ground-deep) 25%, transparent), transparent 30%); }
   .sg-wrap { display: grid; gap: 18px; }
   .sg-panel { padding: 24px 28px; border: var(--bd-inner) solid var(--rule); background: var(--panel); }
-  code { font-family: var(--font-mono); font-size: var(--t-dense); color: var(--signal); }
+  code { font-family: var(--font-mono); font-size: .9em; color: var(--signal); }
   .note { color: var(--steel); margin-top: 16px; max-width: 760px; }
   .cap { color: var(--steel); margin-top: 12px; }
-  .lockups { display: flex; gap: 56px; flex-wrap: wrap; align-items: flex-start; margin-top: 18px; }
-  .avatar { display: grid; place-items: center; width: 54px; height: 54px; background: var(--ink); }
+  .lockups { display: flex; gap: 48px; flex-wrap: wrap; align-items: flex-start; margin-top: 18px; }
+  .avatar { display: grid; place-items: center; width: 54px; height: 54px; background: var(--ink); color: var(--paper); border: 1px solid var(--rule); }
+  .seal { display: block; color: var(--signal); }
+  .ladder-demo { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(280px, .8fr); gap: 18px 28px; margin-top: 16px; }
+  .stamps { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; grid-column: 1; }
+  .ladders { display: grid; gap: 18px; grid-column: 1; max-width: 520px; }
+  .ladder-demo > :global(.ladder-key) { grid-column: 2; grid-row: 1 / span 2; }
   .swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; margin-top: 16px; }
   .sw { display: grid; grid-template-columns: 34px 1fr; gap: 4px 12px; align-items: center; }
   .chip-c { width: 34px; height: 34px; border: 1px solid var(--rule); grid-row: span 2; }
   .sw .dense { color: var(--steel); }
-  .type-grid { grid-template-columns: 130px 1fr 210px 150px; margin-top: 16px; }
+  .type-grid { grid-template-columns: 140px 1fr 220px 180px; margin-top: 16px; }
   .sample { color: var(--paper); }
   .s-h1 { font-family: var(--font-display); font-size: 40px; text-transform: uppercase; }
   .s-h2 { font-family: var(--font-display); font-size: 28px; text-transform: uppercase; }
   .s-card { font-family: var(--font-display); font-size: var(--h-card); text-transform: uppercase; }
-  .s-word { font-family: var(--font-word); font-weight: 600; font-size: 21px; }
+  .s-lead, .s-sec, .s-dense { font-family: var(--font-text); }
   .s-lead { font-size: var(--t-lead); }.s-sec { font-size: var(--t-section); }.s-dense { font-size: var(--t-dense); }
-  .s-eye { font-size: var(--t-eyebrow); letter-spacing: var(--t-eyebrow-tr); text-transform: uppercase; }.s-spec { font-weight: 600; font-size: var(--t-spec); }
-  .comp { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; margin: 16px 0 22px; }
-  .chip { font-size: var(--t-eyebrow); letter-spacing: var(--t-eyebrow-tr); text-transform: uppercase; padding: 5px 10px; }
-  .chip--amber { border: 1px solid var(--signal); color: var(--signal); }.chip--solid { background: var(--paper); color: var(--ink); font-weight: 600; }
-  .ph-demo { height: 160px; max-width: 420px; }
+  .s-eye { font-size: var(--t-eyebrow); letter-spacing: var(--t-eyebrow-tr); text-transform: uppercase; }
+  .s-micro { font-size: var(--t-micro); letter-spacing: var(--t-micro-tr); text-transform: uppercase; }
+  .s-spec { font-weight: 600; font-size: var(--t-spec); }
+  .comp { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; margin: 16px 0 6px; }
+  .ph-demo { height: 160px; max-width: 420px; margin-top: 16px; }
+  @media (max-width: 820px) { .ladder-demo { grid-template-columns: 1fr; } .ladder-demo > :global(.ladder-key) { grid-column: 1; grid-row: auto; } }
   @media (max-width: 720px) { .sg-panel { padding: 20px; }.type-grid { grid-template-columns: 1fr 1fr; } }
 </style>

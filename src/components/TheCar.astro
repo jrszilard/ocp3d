@@ -1,0 +1,59 @@
+---
+/**
+ * The car: the founder's '83 Supra as the recurring face of OCP3D.
+ *
+ * The founder stays off camera, so the car carries the story. It shows where
+ * the work started and which build logs came from it. It is never a fitment
+ * claim for other cars, and never a customer boundary.
+ */
+import { car } from "../data/car.mjs";
+import { journal } from "../data/journal.mjs";
+
+const photo = car.photos[0];
+---
+<section class="the-car" aria-labelledby="the-car-title">
+  <figure class="car-photo">
+    <img src={photo.src} alt={photo.alt} width={photo.width} height={photo.height} loading="lazy" />
+    <figcaption>{photo.caption}</figcaption>
+  </figure>
+  <div class="car-copy">
+    <p class="car-kicker">THE CAR</p>
+    <h2 id="the-car-title">Where the work started.</h2>
+    <p>Everything on this site so far started with my {car.name}. Each part I’ve built so far was first
+      tried on it, and it gave the first honest report of what went wrong. It is where the work started, not a limit on
+      the cars I work on.</p>
+    <dl>
+      <div><dt>CAR</dt><dd>{car.name} ({car.chassis}), {car.market}</dd></div>
+      {journal.map((entry) => (
+        <div>
+          <dt>BUILD LOG {entry.number}</dt>
+          <dd><a href={`/journal/${entry.slug}/`}>{entry.title}</a>{entry.researchOnly && <span class="ro"> · research only</span>}</dd>
+        </div>
+      ))}
+    </dl>
+  </div>
+</section>
+
+<style>
+  .the-car { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr); border: 1px solid var(--paper); background: var(--journal-board); color: var(--ink); }
+  .car-photo { display: flex; flex-direction: column; margin: 0; min-width: 0; border-right: 1px solid var(--paper); background: var(--journal-charcoal); }
+  .car-photo img { flex: 1; width: 100%; height: auto; min-height: 280px; object-fit: cover; object-position: center 30%; }
+  .car-photo figcaption { padding: 10px 14px; border-top: 1px solid rgba(246,237,217,.24); color: var(--inv-label); font-size: var(--t-micro); letter-spacing: var(--t-micro-tr); }
+  .car-copy { display: flex; flex-direction: column; justify-content: center; padding: 30px 30px 26px; }
+  .car-kicker { font-family: var(--font-mono); font-size: var(--t-eyebrow); font-weight: 600; letter-spacing: var(--t-eyebrow-tr); color: var(--acid); }
+  .car-copy h2 { margin: 12px 0 14px; font-size: clamp(30px, 3vw, 40px); line-height: 1; }
+  .car-copy > p:not(.car-kicker) { color: var(--inv-body); font-size: var(--t-dense); line-height: var(--t-dense-lh); }
+  dl { margin: 20px 0 0; }
+  dl > div { display: grid; grid-template-columns: 118px 1fr; gap: 12px; padding: 10px 0; border-top: 1px solid rgba(246,237,217,.24); }
+  dt { color: var(--acid); font-size: var(--t-micro); letter-spacing: var(--t-micro-tr); line-height: 1.5; }
+  dd { margin: 0; color: var(--inv-body); font-family: var(--font-text); font-size: var(--t-dense); line-height: 1.4; }
+  dd a { color: var(--ink); text-decoration: underline; text-underline-offset: 4px; text-decoration-color: var(--inv-label); }
+  dd a:hover { color: var(--acid); }
+  .ro { color: var(--inv-label); }
+  @media (max-width: 820px) {
+    .the-car { grid-template-columns: 1fr; }
+    .car-photo { border-right: 0; border-bottom: 1px solid var(--paper); }
+    .car-photo img { flex: none; min-height: 0; aspect-ratio: 16 / 10; }
+    .car-copy { padding: 24px 20px; }
+  }
+</style>

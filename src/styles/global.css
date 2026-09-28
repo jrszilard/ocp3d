@@ -1,13 +1,16 @@
-/* Bench Journal base — all values come from tokens.css. */
+/* OCP3D base — all values come from tokens.css. */
 @import "./tokens.css";
 
 *, *::before, *::after { box-sizing: border-box; }
 
 body {
-  margin: 0; min-width: 320px; background: var(--border); color: var(--paper);
+  margin: 0; min-width: 0; background: var(--border); color: var(--paper);
   font-family: var(--font-mono); font-size: var(--t-section); line-height: var(--t-section-lh);
   -webkit-font-smoothing: antialiased;
 }
+/* Sentences read in Archivo; anything left in the mono default is a label or a record.
+   Zero specificity, so a component that sets its own family still wins. */
+:where(p, li, blockquote) { font-family: var(--font-text); }
 
 .sheet-outer { min-height: 100vh; padding: var(--sheet-pad); background: var(--cosmos); }
 .sheet { overflow: hidden; border: var(--bd-sheet) solid rgba(245,236,216,.56); background: var(--ground); box-shadow: 0 30px 90px rgba(0,0,0,.34); }
@@ -26,6 +29,7 @@ a:hover { color: var(--ion); }
 :focus-visible { outline: 2px solid var(--signal); outline-offset: 3px; }
 img, svg { max-width: 100%; display: block; }
 input, button, select, textarea { font: inherit; border-radius: var(--radius); }
+input, select, textarea { font-family: var(--font-text); }
 
 .section { padding: var(--sec-dense); border-top: var(--bd-section) solid var(--rule); }
 .section--statement { padding: var(--sec-state); }
@@ -36,13 +40,13 @@ input, button, select, textarea { font: inherit; border-radius: var(--radius); }
   letter-spacing: var(--t-eyebrow-tr); color: var(--steel);
 }
 .eyebrow--amber { color: var(--signal); }
-.lead { font-size: var(--t-lead); line-height: var(--t-lead-lh); color: var(--body); }
-.dense { font-size: var(--t-dense); line-height: var(--t-dense-lh); color: var(--body); }
+.lead { font-family: var(--font-text); font-size: var(--t-lead); line-height: var(--t-lead-lh); color: var(--body); }
+.dense { font-family: var(--font-text); font-size: var(--t-dense); line-height: var(--t-dense-lh); color: var(--body); }
 .spec-value { font-weight: 600; font-size: var(--t-spec); color: var(--paper); }
 
 .btn {
-  display: inline-flex; align-items: center; justify-content: center; min-height: 38px; padding: 11px 14px;
-  font-size: var(--t-button); font-weight: 600; text-transform: uppercase; letter-spacing: var(--t-button-tr);
+  display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 12px 16px;
+  font-family: var(--font-mono); font-size: var(--t-button); font-weight: 600; text-transform: uppercase; letter-spacing: var(--t-button-tr);
   cursor: pointer; border-radius: var(--radius); transition: background var(--transition), color var(--transition), transform var(--transition), border-color var(--transition);
 }
 .btn:hover { transform: translateY(-1px); }
@@ -60,7 +64,7 @@ input, button, select, textarea { font: inherit; border-radius: var(--radius); }
   font-family: var(--font-mono); font-size: var(--t-eyebrow); color: var(--glass);
   text-transform: uppercase; letter-spacing: var(--t-eyebrow-tr);
 }
-.placeholder small { font-family: var(--font-mono); font-size: var(--t-dense); color: var(--glass); }
+.placeholder small { font-family: var(--font-text); font-size: var(--t-dense); color: var(--glass); }
 .hairline-grid { display: grid; gap: var(--bd-inner); background: var(--rule); }
 .hairline-grid > * { background: var(--ground); padding: 14px 16px; }
 

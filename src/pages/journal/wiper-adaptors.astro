@@ -5,28 +5,28 @@ import Stamp from "../../components/Stamp.astro";
 import { allParts } from "../../lib/catalog";
 import { journal } from "../../data/journal.mjs";
 
-// Research log for a safety-gated field file. It may report the work and invite donor,
+// Research-only build log for a safety-gated part record. It may report the work and invite donor,
 // measurement, hardware, or controlled-test leads. It never offers, installs, or claims fit
-// or road use (see the field file's research boundary).
+// or road use (see the part record's research boundary).
 const entry = journal.find((item) => item.slug === "wiper-adaptors");
 const part = allParts().find((item) => item.slug === entry.partSlug);
-if (!part) throw new Error(`journal/${entry.slug}: field file ${entry.partSlug} is not in the snapshot`);
+if (!part) throw new Error(`journal/${entry.slug}: part ${entry.partSlug} is not in the snapshot`);
 const leadHref = `/request/?part=${encodeURIComponent(part.title)}&part_slug=${part.slug}`;
 const img = (file: string) => `/images/journal/wiper-adaptors/${file}`;
 ---
-<Base title="Research Log 002: Modern wiper blades on the original arms — OCP3D"
+<Base title="Build log 002 (research only): Modern wiper blades on the original arms — OCP3D"
       description="Work in progress: printed adaptors so modern wiper blades can run on a 1983 Celica Supra's original arms without drilling them. Research only; not for sale, installed, or road-tested."
-      sheet="BENCH JOURNAL · RESEARCH LOG 002">
+      sheet="BUILD LOG 002 · RESEARCH ONLY">
   <article class="entry-page">
     <div class="wrap entry-wrap">
-      <nav class="crumbs" aria-label="Breadcrumb"><a href="/journal/">Bench journal</a><span>/</span><span>Research log 002</span></nav>
+      <nav class="crumbs" aria-label="Breadcrumb"><a href="/journal/">Build logs</a><span>/</span><span>Build log 002</span></nav>
 
       <ServiceHeading
         eyebrow={entry.eyebrow}
         title="Modern wiper blades on the original arms."
         lede="Research in progress on my '83 Celica Supra: printed adaptors so the modern blades you can buy at any parts store can run on the original wiper arms, without drilling them. This is a log of the work so far."
-        file="RESEARCH LOG · WIPER ADAPTORS"
-        signal="RESEARCH ONLY"
+        file="BUILD LOG 002"
+        facts={[["STATUS", "RESEARCH ONLY"], ["STILL TO TEST", "VIBRATION · UV · RAIN"], ["FOR SALE", "NO"], ["CAR", "1983 CELICA SUPRA"]]}
       />
 
       <p class="research-notice" role="note">
@@ -41,7 +41,7 @@ const img = (file: string) => `/images/journal/wiper-adaptors/${file}`;
         <div><dt>Positions</dt><dd>Driver, passenger, rear hatch</dd></div>
         <div><dt>Latest</dt><dd>ASA set sliced and queued, not printed</dd></div>
         <div><dt>On the car</dt><dd>Nothing yet</dd></div>
-        <div><dt>Field file</dt><dd><Stamp state={part.state} label="RESEARCH ONLY" safetyGated /></dd></div>
+        <div><dt>Status</dt><dd><Stamp state={part.state} label="RESEARCH ONLY" safetyGated /></dd></div>
       </dl>
 
       <div class="entry-body">
@@ -232,7 +232,7 @@ const img = (file: string) => `/images/journal/wiper-adaptors/${file}`;
         </div>
         <div class="note-actions">
           <a class="btn btn--primary" href={leadHref}>Share a research lead</a>
-          <a class="btn btn--secondary" href={`/registry/${part.slug}/`}>Open the field file</a>
+          <a class="btn btn--secondary" href={`/registry/${part.slug}/`}>See the part record</a>
         </div>
       </aside>
     </div>

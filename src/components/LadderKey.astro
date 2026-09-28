@@ -1,0 +1,41 @@
+---
+/**
+ * How to read the evidence ladder: every stamp with its literal meaning.
+ * Shares its wording with EvidenceLadder via ladderRungs.
+ */
+import Stamp from "./Stamp.astro";
+import { ladderRungs } from "../lib/catalog";
+
+const meaning: Record<string, string> = {
+  requested: "Someone has asked about it. No original on the bench yet.",
+  development: "On the bench. The design is still changing.",
+  measured: "The original has been measured and the dimensions are published.",
+  fitted: "A printed version has a fit record on a real car.",
+};
+---
+<aside class="ladder-key" aria-labelledby="ladder-key-title">
+  <p class="key-kicker">HOW TO READ A RECORD</p>
+  <h3 id="ladder-key-title">Four steps. Each one is earned.</h3>
+  <dl>
+    {ladderRungs.map((rung) => (
+      <div>
+        <dt><Stamp state={rung.state} label={rung.label} /></dt>
+        <dd>{meaning[rung.state]}</dd>
+      </div>
+    ))}
+    <div>
+      <dt><Stamp state="requested" label="Research only" safetyGated /></dt>
+      <dd>Closed. Not on the ladder, not for sale, until its safety testing is complete.</dd>
+    </div>
+  </dl>
+</aside>
+
+<style>
+  .ladder-key { display: flex; flex-direction: column; padding: 20px 20px 18px; border: 1px solid var(--rule-2); background: var(--panel); }
+  .key-kicker { font-family: var(--font-mono); font-size: var(--t-eyebrow); font-weight: 600; letter-spacing: var(--t-eyebrow-tr); color: var(--steel); }
+  .ladder-key h3 { margin: 10px 0 14px; font-size: 24px; line-height: 1.05; }
+  dl { display: grid; gap: 12px; margin: 0; }
+  dl > div { display: grid; gap: 5px; }
+  dt { margin: 0; }
+  dd { margin: 0; color: var(--body); font-family: var(--font-text); font-size: var(--t-dense); line-height: 1.45; }
+</style>

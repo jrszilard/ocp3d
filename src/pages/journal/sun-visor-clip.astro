@@ -7,23 +7,23 @@ import { journal } from "../../data/journal.mjs";
 
 const entry = journal.find((item) => item.slug === "sun-visor-clip");
 const part = allParts().find((item) => item.slug === entry.partSlug);
-if (!part) throw new Error(`journal/${entry.slug}: field file ${entry.partSlug} is not in the snapshot`);
+if (!part) throw new Error(`journal/${entry.slug}: part ${entry.partSlug} is not in the snapshot`);
 const requestHref = `/request/?part=${encodeURIComponent(part.title)}&part_slug=${part.slug}`;
 const img = (file: string) => `/images/journal/sun-visor-clip/${file}`;
 ---
-<Base title="Case File 001: Rebuilding the sun visor clip — OCP3D"
+<Base title="Build log 001: Rebuilding the sun visor clip — OCP3D"
       description="How a broken sun visor clip on a 1983 Celica Supra became twelve versions, two deliberate changes from the original, and a v12 in ASA that is back in the car."
-      sheet="BENCH JOURNAL · CASE FILE 001">
+      sheet="BUILD LOG 001">
   <article class="entry-page">
     <div class="wrap entry-wrap">
-      <nav class="crumbs" aria-label="Breadcrumb"><a href="/journal/">Bench journal</a><span>/</span><span>Case file 001</span></nav>
+      <nav class="crumbs" aria-label="Breadcrumb"><a href="/journal/">Build logs</a><span>/</span><span>Build log 001</span></nav>
 
       <ServiceHeading
         eyebrow={entry.eyebrow}
         title="Rebuilding the sun visor clip."
         lede="One of the clips that holds the sun visor up on my '83 had broken, and replacements are hard to find. I still had an original to measure. Twelve versions later, v12 is in the car. This is how it got there, including two deliberate changes from the original."
-        file="CASE FILE 001 · SUN VISOR CLIP"
-        signal="V12 · ASA · IN THE CAR"
+        file="BUILD LOG 001"
+        facts={[["VERSIONS", "12"], ["MATERIAL", "ASA"], ["IN THE CAR", "SINCE SEPT 8, 2026"], ["PRINT", "ABOUT 5 G · 21 MIN"]]}
       />
 
       <figure class="lead-figure">
@@ -42,7 +42,7 @@ const img = (file: string) => `/images/journal/sun-visor-clip/${file}`;
         <div><dt>In the car</dt><dd>Sept 8, 2026</dd></div>
         <div><dt>Print</dt><dd>About 5 g · 21 min</dd></div>
         <div><dt>OEM number</dt><dd>Under investigation</dd></div>
-        <div><dt>Field file</dt><dd><Stamp state={part.state} label={part.stateLabel} /></dd></div>
+        <div><dt>Status</dt><dd><Stamp state={part.state} label={part.stateLabel} /></dd></div>
       </dl>
 
       <div class="entry-body">
@@ -66,7 +66,7 @@ const img = (file: string) => `/images/journal/sun-visor-clip/${file}`;
               confirmed it.</p>
             <p>If you have an A60 with this clip and a parts diagram, an old invoice, or a bag with the
               number on it, I'd like to compare notes.</p>
-            <p class="inline-cta"><a class="btn btn--secondary" href={requestHref}>Share a lead</a></p>
+            <p class="inline-cta"><a class="btn btn--secondary" href={requestHref}>Share what you know</a></p>
           </div>
         </section>
 
@@ -185,12 +185,12 @@ const img = (file: string) => `/images/journal/sun-visor-clip/${file}`;
         <div>
           <p class="eyebrow">WHAT THIS RECORD COVERS</p>
           <p>One car (a 1983 US Celica Supra), one clip, one material (ASA), installed Sept 8, 2026. It shows
-            the clip fits and holds; it is not a durability claim. The field file carries the measurements and
-            the current evidence state.</p>
+            the clip fits and holds; it is not a durability claim. The part record carries the measurements and
+            the current status.</p>
         </div>
         <div class="note-actions">
-          <a class="btn btn--primary" href={`/registry/${part.slug}/`}>Open the field file</a>
-          <a class="btn btn--secondary" href={requestHref}>Share a lead</a>
+          <a class="btn btn--primary" href={`/registry/${part.slug}/`}>See the part record</a>
+          <a class="btn btn--secondary" href={requestHref}>Share what you know</a>
         </div>
       </aside>
     </div>

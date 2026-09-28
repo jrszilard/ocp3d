@@ -1,0 +1,26 @@
+---
+import { materialQuestions } from "../data/materials.mjs";
+---
+<div class="material-questions">
+  {materialQuestions.map((item) => (
+    <details id={`question-${item.id}`}>
+      <summary>{item.question}<span aria-hidden="true">+</span></summary>
+      <div class="answer">
+        <p>{item.answer}</p>
+        {item.source && <a href={`/materials/#source-${item.source}`}>Material reference ↗</a>}
+      </div>
+    </details>
+  ))}
+</div>
+<style>
+  .material-questions { border-top: 1px solid var(--rule); }
+  details { border-bottom: 1px solid var(--rule); scroll-margin-top: 24px; }
+  summary { display: flex; justify-content: space-between; align-items: center; gap: 24px; padding: 21px 0; color: var(--paper); font-family: var(--font-word); font-size: 17px; line-height: 1.4; cursor: pointer; list-style: none; }
+  summary::-webkit-details-marker { display: none; }
+  summary:hover { color: var(--ion); }
+  summary span { flex: 0 0 24px; color: var(--paper); font: 400 25px/1 var(--font-mono); text-align: center; }
+  details[open] summary span { transform: rotate(45deg); }
+  .answer { max-width: 70ch; padding: 0 32px 23px 0; color: var(--body); font-family: var(--font-text); font-size: var(--t-dense); line-height: 1.6; }
+  .answer a { display: inline-block; margin-top: 12px; color: var(--paper); text-decoration: underline; text-underline-offset: 4px; }
+  @media (max-width: 600px) { summary { font-size: 16px; gap: 12px; } .answer { padding-right: 0; } }
+</style>

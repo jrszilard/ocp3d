@@ -1,16 +1,25 @@
 /* ============================================================================
-   OCP3D — BENCH JOURNAL / PARTS INVESTIGATION
+   OCP3D — OLD CAR PROBLEMS
 
-   A warm physical record of an old-car problem: taped evidence, ruled paper,
-   case stamps, route lines, and a dark investigation board. Roadbook energy is
-   visual research language only—not a racing, travel, safety, or performance
-   claim. Real parts remain real evidence; all status colours stay semantic.
+   A warm physical record of an old-car problem: ruled paper, real evidence,
+   status stamps and a dark workshop board. Real parts remain real evidence;
+   all status colours stay semantic.
+
+   Type rule (2026-09-28): sentences are set in Archivo (--font-text); labels,
+   numbers, stamps and measured data are set in IBM Plex Mono (--font-mono).
+   Mono means "this is a label or a record". Nothing ships below 11px, and
+   reading text starts at 15px.
    ============================================================================ */
 
 @font-face {
   font-family: "Archivo Narrow";
   src: url("/fonts/archivo-narrow-700.woff2") format("woff2");
   font-weight: 700; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "Archivo";
+  src: url("/fonts/archivo-400.woff2") format("woff2");
+  font-weight: 400; font-style: normal; font-display: swap;
 }
 @font-face {
   font-family: "Archivo";
@@ -50,20 +59,31 @@
   --ground-deep: var(--journal-paper-deep);
   --ink: #fff6e1;
   --paper: var(--journal-ink);
-  --signal: var(--journal-rust);
-  --amber: var(--journal-rust);
-  --ion: var(--journal-teal);
+  /* Darker functional tones keep small labels and light button text legible.
+     The original source palette above remains available for large artwork. */
+  --signal: color-mix(in srgb, var(--journal-rust) 72%, var(--journal-ink));
+  --amber: var(--signal);
+  --ion: color-mix(in srgb, var(--journal-teal) 65%, var(--journal-ink));
   --ion-light: var(--journal-teal-light);
   --acid: var(--journal-sun);
-  --steel: var(--journal-steel);
+  --steel: color-mix(in srgb, var(--journal-steel) 80%, var(--journal-ink));
   --body: #4f5954;
-  --glass: #777b72;
+  --glass: #5a5e56;
   --rule: var(--journal-rule);
   --rule-2: #69675f;
   --rule-3: #c8bca5;
   --panel: #f0e4ca;
   --panel-2: #d9c9a9;
   --border: var(--journal-void);
+
+  /* Evidence ladder inks. One ink per rung, never reused for another rung.
+     Requested → In development → Measured → Fitted on a real car. A closed
+     research record is off the ladder and uses the hatched --st-closed. */
+  --st-requested: var(--steel);
+  --st-development: #7d5b12;
+  --st-measured: var(--ion);
+  --st-fitted: var(--signal);
+  --st-closed: var(--journal-charcoal);
 
   --inv-body: #dbe0d1;
   --inv-label: #aab8a9;
@@ -76,6 +96,7 @@
 
   --font-display: "Archivo Narrow", "Archivo", Impact, sans-serif;
   --font-word: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --font-text: "Archivo", "Helvetica Neue", Arial, sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Consolas, monospace;
 
   --h1: 70px; --h1-lh: .86; --h1-tr: -.005em;
@@ -84,15 +105,17 @@
   --h-step: 16px; --h-step-tr: .025em;
   --h-fact: 34px;
 
-  --t-lead: 14px; --t-lead-lh: 1.78;
-  --t-section: 13.5px; --t-section-lh: 1.78;
-  --t-dense: 11px; --t-dense-lh: 1.68;
-  --t-nav: 9px;
-  --t-spec: 14px;
-  --t-eyebrow: 9px; --t-eyebrow-tr: .14em;
-  --t-micro: 8px; --t-micro-tr: .12em;
-  --t-button: 9px; --t-button-tr: .13em;
-  --t-zone: 9px;
+  /* Reading sizes (Archivo). */
+  --t-section: 17px; --t-section-lh: 1.62;
+  --t-lead: 19px; --t-lead-lh: 1.55;
+  --t-dense: 15px; --t-dense-lh: 1.58;
+  /* Label and data sizes (Plex Mono). 11px is the floor. */
+  --t-spec: 16px;
+  --t-nav: 12px;
+  --t-eyebrow: 12px; --t-eyebrow-tr: .1em;
+  --t-micro: 11px; --t-micro-tr: .08em;
+  --t-button: 12px; --t-button-tr: .1em;
+  --t-zone: 12px;
 
   --word-land: 25px; --word-port: 40px;
 

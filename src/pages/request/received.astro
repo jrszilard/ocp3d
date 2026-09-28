@@ -2,23 +2,23 @@
 import Base from "../../layouts/Base.astro";
 import ServiceHeading from "../../components/ServiceHeading.astro";
 ---
-<Base title="Part Request Received — OCP3D" sheet="INTAKE · RECEIVED">
+<Base title="Enquiry Received — OCP3D" sheet="ENQUIRY RECEIVED">
   <section class="receipt-page">
     <div class="wrap receipt-wrap">
       <ServiceHeading
-        eyebrow="OCP3D INTAKE · INVESTIGATION OPEN"
-        title="Your case is ready to discuss."
-        lede="The next step is human: I will review what you sent, trace the useful evidence, and write back about the honest path forward."
-        file="INTAKE · RECEIVED"
-        signal="LOGGED · TRACE · HUMAN REVIEW"
+        eyebrow="OCP3D · ENQUIRY RECEIVED"
+        title="Thanks. It’s in."
+        lede="The next step is a person, not a robot: I’ll read what you sent and write back about the honest way forward."
+        file="WHAT HAPPENS NEXT"
+        facts={[["NEXT", "A PERSONAL REPLY"], ["ORDERED", "NOTHING"], ["PAID", "NOTHING"]]}
         compact
       />
       <div class="done">
         <div class="done-stamp">Received</div>
-        <p class="done-case">Case № <b id="case-id">on file</b></p>
-        <p id="what">The investigation starts today. I’ll write from the workshop within a few days—replies to that email go straight to your case file, and photos are welcome.</p>
-        <p class="done-alt">Nothing after a week? Email <a href="mailto:requests@lostclipsociety.com">requests@lostclipsociety.com</a> and reference your case number.</p>
-        <p><a class="btn btn--secondary" href="/registry/">Back to the archive</a></p>
+        <p class="done-case">Your reference: <b id="case-id">on file</b></p>
+        <p id="what">I’ll write from the workshop within a few days. Replies to that email reach me directly, and photos are welcome.</p>
+        <p class="done-alt">Nothing after a week? Email <a href="mailto:requests@lostclipsociety.com">requests@lostclipsociety.com</a> and include your reference.</p>
+        <p><a class="btn btn--secondary" href="/registry/">Back to parts &amp; projects</a></p>
       </div>
     </div>
   </section>
@@ -31,9 +31,9 @@ import ServiceHeading from "../../components/ServiceHeading.astro";
   if (q.get("type") === "membership") {
     const again = q.get("again") === "1";
     document.getElementById("what").textContent = again
-      ? "You were already on the Dispatch — same number, no second entry. OCP3D only signals when a part moves forward."
-      : "You’re on the OCP3D Dispatch. It only signals when a part moves forward — never for noise.";
-    document.querySelector(".done-stamp").textContent = again ? "Already on file" : "Dispatch signal set";
+      ? "You were already on the email updates list — same number, no second entry. I only write when a part moves forward."
+      : "You’re on the OCP3D email updates list. I only write when a part moves forward — never for noise.";
+    document.querySelector(".done-stamp").textContent = again ? "Already on the list" : "You’re on the list";
   }
 </script>
 

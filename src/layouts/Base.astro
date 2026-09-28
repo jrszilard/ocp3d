@@ -1,26 +1,29 @@
 ---
 /**
- * OCP3D Bench Journal shell.
+ * OCP3D site shell.
  *
- * A warm field record inside a dark investigation surround. The roadbook cues
- * describe how a part problem is traced back to physical evidence; they are
- * not a claim of racing, travel, safety, or performance work.
+ * A warm paper sheet inside a dark workshop surround: stamp-mark lockup, five
+ * plain-language destinations and one enquiry action. Navigation uses the
+ * site's small, fixed vocabulary (Custom design, Parts & projects, Build logs,
+ * Materials, About, Start an enquiry); coined labels stay out of the chrome.
  */
 import "../styles/global.css";
 import Lockup from "../components/Lockup.astro";
 
-interface Props { title: string; description?: string; sheet?: string }
+interface Props { title: string; description?: string; sheet?: string; noindex?: boolean }
 const {
   title,
-  description = "OCP3D investigates old-car problems from a physical interface, then keeps the useful evidence on record.",
-  sheet = "PARTS INVESTIGATION · 01",
+  description = "Parts, custom design and prototyping for old-car problems across makes. OCP3D is an independent workshop in New Hampshire’s Lakes Region. Start with the car and the problem.",
+  sheet = "OCP3D",
+  noindex = false,
 } = Astro.props;
 
 const nav = [
-  { href: "/registry/", label: "Field files" },
-  { href: "/journal/",  label: "Build logs" },
-  { href: "/method/",   label: "How I investigate" },
-  { href: "/charter/",  label: "Mission" },
+  { href: "/custom/", label: "Custom design" },
+  { href: "/registry/", label: "Parts & projects" },
+  { href: "/journal/", label: "Build logs" },
+  { href: "/materials/", label: "Materials" },
+  { href: "/charter/", label: "About" },
 ];
 const canonical = `https://ocp3d.com${Astro.url.pathname}`;
 ---
@@ -35,13 +38,15 @@ const canonical = `https://ocp3d.com${Astro.url.pathname}`;
     <meta property="og:site_name" content="OCP3D — Old Car Problems" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <link rel="canonical" href={canonical} />
+    {noindex ? <meta name="robots" content="noindex, nofollow" /> : <link rel="canonical" href={canonical} />}
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <!-- Self-hosted: a privacy promise is false if typography phones home. -->
+    <link rel="preload" href="/fonts/archivo-400.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/plex-mono-400.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/archivo-narrow-700.woff2" as="font" type="font/woff2" crossorigin />
   </head>
   <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
     <div class="sheet-outer">
       <div class="sheet">
         <header class="journal-header">
@@ -49,9 +54,9 @@ const canonical = `https://ocp3d.com${Astro.url.pathname}`;
             <Lockup variant="landscape" />
           </a>
           <nav class="nav" aria-label="Primary">
-            {nav.map((n) => <a href={n.href}>{n.label}</a>)}
-            <a class="cta" href="/request/">OPEN A PART<br />DISCUSSION</a>
+            {nav.map((n) => <a href={n.href} aria-current={Astro.url.pathname.startsWith(n.href) ? "page" : undefined}>{n.label}</a>)}
           </nav>
+          <a class="cta" href="/request/">START AN<br />ENQUIRY</a>
         </header>
 
         <main id="main-content">
@@ -59,10 +64,10 @@ const canonical = `https://ocp3d.com${Astro.url.pathname}`;
         </main>
 
         <footer class="case-footer">
-          <div><span class="micro">JOURNAL</span><span class="val">PARTS INVESTIGATION</span></div>
-          <div><span class="micro">STARTING POINT</span><span class="val">1983 CELICA SUPRA</span></div>
-          <div><span class="micro">PART PATHS</span><span class="val">RESTORE · IMPROVE</span></div>
-          <div><span class="micro">FIELD FILE</span><span class="val">{sheet}</span></div>
+          <div><span class="micro">THE WORKSHOP</span><span class="val">LAKES REGION, NH</span></div>
+          <div><span class="micro">OLD CARS</span><span class="val">ACROSS MAKES &amp; MODELS</span></div>
+          <div><span class="micro">A CLOSER LOOK</span><a class="val" href="/method/">HOW A PART IS DEVELOPED ↗</a></div>
+          <div><span class="micro">THIS PAGE</span><span class="val">{sheet}</span></div>
           <div class="legal">
             © 2026 OCP3D · Old Car Problems · Pre-2000, unbranded, non-safety-critical parts.
             No trackers, analytics, ad pixels, or third-party scripts. OEM part numbers appear for
@@ -75,17 +80,20 @@ const canonical = `https://ocp3d.com${Astro.url.pathname}`;
 </html>
 
 <style>
+  .skip-link { position: absolute; top: 8px; left: 24px; z-index: 10; transform: translateY(-200%); background: var(--ground); border: 2px solid var(--paper); padding: 10px 16px; }
+  .skip-link:focus { transform: translateY(0); }
   .journal-header {
-    display: grid; grid-template-columns: 1fr auto; align-items: stretch; min-height: 72px;
+    display: grid; grid-template-columns: minmax(0, 1fr) auto auto; align-items: stretch; min-height: 72px;
     border-bottom: 2px solid var(--paper); background: var(--ground);
   }
   .lockup-link { display: flex; align-items: center; padding: 14px 24px; text-decoration: none; }
-  .nav { display: flex; align-items: stretch; gap: 20px; }
+  .nav { display: flex; align-items: stretch; gap: 20px; padding-right: 20px; }
   .nav > a:not(.cta) {
     display: flex; align-items: center; color: var(--steel); font-family: var(--font-mono);
-    font-size: var(--t-nav); letter-spacing: .1em; text-transform: uppercase; white-space: nowrap;
+    font-size: var(--t-nav); letter-spacing: .05em; text-transform: uppercase; white-space: nowrap;
   }
-  .nav > a:not(.cta):hover { color: var(--signal); }
+  .nav > a:not(.cta):hover { color: var(--paper); }
+  .nav > a[aria-current="page"] { color: var(--paper); text-decoration: underline; text-underline-offset: 6px; }
   .cta {
     display: grid; place-items: center; min-width: 168px; padding: 0 16px; background: var(--signal);
     color: var(--ink) !important; border-left: 1px solid var(--paper); font-family: var(--font-mono);
@@ -99,15 +107,23 @@ const canonical = `https://ocp3d.com${Astro.url.pathname}`;
   .case-footer > div:first-child { border-left: 0; }
   .micro { color: var(--ion-light); font-family: var(--font-mono); font-size: var(--t-micro); letter-spacing: var(--t-micro-tr); text-transform: uppercase; }
   .val { color: var(--ink); font-family: var(--font-mono); font-size: var(--t-eyebrow); line-height: 1.5; }
-  .legal { justify-content: center; color: var(--inv-label); font-family: var(--font-mono); font-size: var(--t-micro); line-height: 1.65; }
+  .legal { justify-content: center; color: var(--inv-label); font-family: var(--font-text); font-size: 13px; line-height: 1.55; }
 
-  @media (max-width: 980px) { .nav { gap: 14px; } .nav > a:not(.cta) { font-size: var(--t-micro); } }
-  @media (max-width: 760px) {
-    .journal-header { grid-template-columns: 1fr; }
+  @media (max-width: 1180px) { .nav { gap: 14px; padding-right: 14px; } .nav > a:not(.cta) { font-size: 11px; letter-spacing: .03em; } .cta { min-width: 130px; } }
+  @media (max-width: 900px) {
+    .journal-header { grid-template-columns: minmax(0, 1fr) auto; }
     .lockup-link { padding: 16px; }
-    .nav { flex-wrap: wrap; gap: 13px; padding: 0 16px 16px; }
-    .nav > a:not(.cta) { min-height: 28px; }
-    .cta { min-width: 145px; min-height: 43px; margin-left: auto; }
+    .nav { grid-column: 1 / -1; grid-row: 2; flex-wrap: wrap; gap: 0 24px; padding: 0 16px 10px; }
+    .nav > a:not(.cta) { min-height: 44px; font-size: var(--t-nav); }
+    .cta { grid-column: 2; grid-row: 1; min-width: 125px; min-height: 44px; margin: 12px 16px 12px 0; border: 1px solid var(--paper); }
+  }
+  @media (max-width: 540px) {
+    .lockup-link { padding: 14px 12px; }
+    .nav { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 0 14px; padding: 0 12px 8px; }
+    .nav > a:not(.cta) { font-size: var(--t-micro); white-space: normal; }
+    .cta { min-width: 94px; padding: 8px; margin-right: 12px; }
+  }
+  @media (max-width: 760px) {
     .case-footer { grid-template-columns: 1fr 1fr; }
     .case-footer > div:nth-child(odd) { border-left: 0; }
     .legal { grid-column: 1 / -1; border-top: 1px solid rgba(246,237,217,.22); }

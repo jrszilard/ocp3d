@@ -1,22 +1,31 @@
 ---
+/**
+ * The evidence stamp. One ink per rung of the ladder, never shared:
+ * requested (steel, dashed) → in development (ochre) → measured (teal) →
+ * fitted on a real car (solid rust, the only filled stamp). A closed research
+ * record is off the ladder and wears the hatched closed stamp instead.
+ * The state is semantic, not decorative: the label stays a literal evidence
+ * claim, and the ink only makes the rung easier to see.
+ */
 import type { PartState } from "../lib/catalog";
 interface Props { state: PartState; label: string; safetyGated?: boolean }
 const { state, label, safetyGated = false } = Astro.props;
+const ink = safetyGated ? "closed" : state;
 ---
-<span class:list={["stamp", state, safetyGated && "safety"]}>{label}</span>
+<span class:list={["stamp", `stamp--${ink}`]} data-stamp={ink}>{label}</span>
 
 <style>
-  /* The state stamp is semantic, not decorative. The journal may be atmospheric,
-     but a state remains a literal evidence claim. */
   .stamp {
-    font-family: var(--font-mono); font-weight: 600;
-    letter-spacing: var(--t-eyebrow-tr); font-size: var(--t-eyebrow);
-    border: 1px solid currentColor; padding: 5px 9px;
-    display: inline-block; text-transform: uppercase; white-space: nowrap;
+    display: inline-block; padding: 5px 9px 4px; border: 2px solid currentColor;
+    font-family: var(--font-mono); font-size: var(--t-micro); font-weight: 600; line-height: 1.25;
+    letter-spacing: var(--t-eyebrow-tr); text-transform: uppercase; white-space: nowrap;
   }
-  .requested   { color: var(--steel); }
-  .development { color: var(--body); }
-  .measured { color: var(--amber); }
-  .fitted { color: var(--ion); }
-  .safety { color: var(--signal); }
+  .stamp--requested { color: var(--st-requested); border-style: dashed; }
+  .stamp--development { color: var(--st-development); }
+  .stamp--measured { color: var(--st-measured); }
+  .stamp--fitted { color: var(--ink); background: var(--st-fitted); border-color: var(--st-fitted); }
+  .stamp--closed {
+    color: var(--acid); border-color: var(--st-closed);
+    background: repeating-linear-gradient(135deg, var(--st-closed) 0 7px, #343b3f 7px 9px);
+  }
 </style>

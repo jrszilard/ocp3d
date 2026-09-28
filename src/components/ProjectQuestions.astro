@@ -1,0 +1,21 @@
+---
+import { projectQuestions } from "../data/project-questions.mjs";
+---
+<div class="project-questions">
+  {projectQuestions.map((item) => (
+    <details id={item.id}>
+      <summary>{item.question}<span aria-hidden="true">+</span></summary>
+      <p>{item.answer}</p>
+    </details>
+  ))}
+</div>
+<style>
+  details { border-top: 1px solid var(--rule); }
+  details:last-child { border-bottom: 1px solid var(--rule); }
+  summary { display: flex; justify-content: space-between; align-items: center; gap: 20px; padding: 19px 0; cursor: pointer; list-style: none; font-family: var(--font-word); font-size: 17px; line-height: 1.4; }
+  summary::-webkit-details-marker { display: none; }
+  summary span { flex: none; font-family: var(--font-mono); font-size: 20px; color: var(--ion); }
+  details[open] summary span { transform: rotate(45deg); }
+  details[open] summary { color: var(--ion); }
+  details p { max-width: 72ch; padding: 0 30px 22px 0; color: var(--body); font-size: var(--t-dense); line-height: 1.6; }
+</style>

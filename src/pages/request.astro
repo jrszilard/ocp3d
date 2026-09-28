@@ -2,191 +2,163 @@
 import Base from "../layouts/Base.astro";
 import ServiceHeading from "../components/ServiceHeading.astro";
 ---
-<Base title="Discuss a Part for Your Old Car — OCP3D" sheet="INTAKE · FIELD FILE">
+<Base title="Tell Me About Your Old-Car Project — OCP3D" description="Start a conversation about a missing part or a useful old-car improvement. No CAD file needed. Custom development is scoped and quoted before work starts." sheet="ENQUIRY · A CONVERSATION FIRST">
   <section class="request-page">
     <div class="wrap">
-      <ServiceHeading
-        eyebrow="OCP3D INTAKE · OPEN AN INVESTIGATION"
-        title="Tell me what your old car needs."
-        lede="Start with a missing part, a broken original, or a useful improvement the car never had. Send the car and problem—plus a number, photo, donor, or mounting detail if you have one—and I will reply to discuss the honest path forward."
-        file="INTAKE · PARTS INVESTIGATION"
-        signal="OBSERVE · TRACE · RESPOND"
-      />
+      <ServiceHeading eyebrow="START WITH THE CAR & THE PROBLEM" title="Tell me what you need." lede="A missing piece, a broken original, or a useful improvement. Tell me what you want to solve and I’ll reply personally about the useful next step. No CAD file or technical brief needed." file="A CONVERSATION FIRST" audience="owner" compact />
+      <p class="enquiry-boundary" id="enquiry-boundary">This form does not place an order, take payment or promise that a part can be printed. Research-only records accept evidence—not orders or development bookings.</p>
 
-      <div class="case-content">
-        <p class="dp1-line">This starts as an <b>OCP3D FIELD FILE</b>, then a human conversation—not
-          an automatic quote or a promise that every part can be printed. The first job is to find
-          the responsible next step.</p>
-        <div class="tiers">
-          <div class="tier"><span class="tier-n">01</span><b>You have the old part—even broken?</b> Best case for a restoration path. We can discuss measuring it, borrowing it, or using it as a donor for a documented replacement.</div>
-          <div class="tier"><span class="tier-n">02</span><b>The car needs something it never had?</b> A cup holder, small storage solution, or other convenience idea starts with the actual console, trim, clearance, and what must not be blocked.</div>
-          <div class="tier"><span class="tier-n">03</span><b>The part is gone or the route is unclear?</b> We can look for a donor, identify the interfaces that remain, or point you toward existing supply. Not every case starts with a print.</div>
+      <div class="intake-layout">
+        <div class="form-column">
+          <form id="case-form" class="case-file" method="post" action="/api/request" aria-describedby="enquiry-boundary">
+            <div class="cf-head"><span class="cf-title">Your enquiry</span><span class="cf-no">THE BASICS ARE ENOUGH TO START</span></div>
+            <input type="hidden" name="type" value="request" />
+            <input type="hidden" name="part_slug" value="" />
+            <input type="text" name="company" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
+            <div class="grid">
+              <label>Your name<input type="text" name="name" required autocomplete="name" /></label>
+              <label>Email<input type="email" name="email" required autocomplete="email" placeholder="you@example.com" /></label>
+              <label>The car<input type="text" name="vehicle" required placeholder="Year, make, model & trim" /></label>
+              <label>The part or problem<input type="text" name="part" required placeholder="Missing trim, broken piece, storage idea…" /></label>
+            </div>
+            <label class="full"><span id="message-prompt">What would you like to solve?</span>
+              <textarea name="message" rows="5" placeholder="What is missing, broken or inconvenient? Tell me what you have access to, your town/region, and any budget or timing constraints you want me to know about."></textarea>
+            </label>
+            <div class="grid optional-details">
+              <label>What do you have? <span class="opt">Optional</span><select name="situation"><option value="" selected>Not sure yet</option><option value="have-part">The old part, even if broken</option><option value="on-car">The part or mounting space on the car</option><option value="gone">The original is missing</option><option value="improvement">An idea for a useful improvement</option></select></label>
+              <label>Original part number <span class="opt">Optional — only if you know it</span><input type="text" name="oem" placeholder="No need to research it before asking" /></label>
+            </div>
+            <p class="photo-note">Have photos? Reply to the confirmation email with them, or email the workshop and include your enquiry number. There is no file upload on this form.</p>
+            <div class="cf-foot"><button class="btn btn--primary" type="submit">Send my enquiry <span aria-hidden="true">→</span></button><span class="cap">A personal reply, not an automated quote.</span></div>
+            <p class="form-error" id="form-error" role="alert" hidden></p>
+          </form>
+          <div class="done" id="case-done" role="status" tabindex="-1" hidden>
+            <div class="done-stamp">Enquiry received</div>
+            <p class="done-case">Your reference: <b id="case-id">—</b></p>
+            <p>I’ll reply personally to discuss the useful next step. You can reply to the confirmation email with photos. Nothing has been ordered or paid for.</p>
+            <p class="done-alt">Need to add something? Email <a href="mailto:requests@lostclipsociety.com">requests@lostclipsociety.com</a> and include your reference.</p>
+          </div>
+          <noscript><p class="note">This form also works without JavaScript. You’ll reach a confirmation page, or your mail app will open with the enquiry details.</p></noscript>
         </div>
 
-        <form id="case-form" class="case-file" method="post" action="/api/request">
-          <div class="cf-head">
-            <span class="cf-title">New case file</span>
-            <span class="cf-no">OCP3D FIELD FILE · 3D</span>
-          </div>
-          <input type="hidden" name="type" value="request" />
-          <input type="hidden" name="part_slug" value="" />
-          <!-- honeypot: invisible to people, irresistible to bots -->
-          <input type="text" name="company" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
-
-          <div class="grid">
-            <label>Your name
-              <input type="text" name="name" required autocomplete="name" />
-            </label>
-            <label>Email
-              <input type="email" name="email" required autocomplete="email" placeholder="you@garage.example" />
-            </label>
-            <label>The car
-              <input type="text" name="vehicle" required placeholder="1984 Toyota Celica Supra" />
-            </label>
-            <label>The part or problem
-              <input type="text" name="part" required placeholder="Sun visor clip, driver side — or a console cup holder" />
-            </label>
-            <label>OEM part № <span class="opt">if you have it</span>
-              <input type="text" name="oem" placeholder="e.g. 58908-14010" />
-            </label>
-            <label>Where does the investigation start?
-              <select name="situation">
-                <option value="have-part">I have the old part (even broken)</option>
-                <option value="on-car">It’s on the car, and it’s staying there</option>
-                <option value="gone">The original part is gone entirely</option>
-                <option value="improvement">It is a useful improvement the car never had</option>
-                <option value="" selected>Not sure / it’s complicated</option>
-              </select>
-            </label>
-          </div>
-          <label class="full">Anything else
-            <textarea name="message" rows="4" placeholder="What is missing, broken, inconvenient, or in the way? For an improvement, describe the mounting space and what must stay clear. Photos help — send them after you submit and we’ll match them to your case."></textarea>
-          </label>
-
-          <div class="cf-foot">
-            <button class="btn btn--primary" type="submit">Open this investigation</button>
-            <span class="cap">I will write back within a few days to discuss the part or improvement and the useful next step. Never spam.</span>
-          </div>
-          <p class="form-error" id="form-error" hidden></p>
-        </form>
-
-        <div class="done" id="case-done" hidden>
-          <div class="done-stamp">Case opened</div>
-          <p class="done-case">Case № <b id="case-id">—</b></p>
-          <p>
-            The conversation starts today. I’ll write from the workshop within a few days—replies
-            to that email go straight to your case file, and photos are welcome.
-          </p>
-          <p class="done-alt">
-            Nothing after a week? Email <a href="mailto:requests@lostclipsociety.com">requests@lostclipsociety.com</a>
-            and reference your case number.
-          </p>
-        </div>
-
-        <noscript>
-          <p class="note">Submitting without JavaScript sends the same form — you’ll land on a
-          confirmation page, or your mail app will open with everything pre-filled.</p>
-        </noscript>
+        <aside class="intake-help" aria-label="Before you send">
+          <div id="project-guidance"><p class="eyebrow">NO SURPRISE START</p><h2>Talk first.<br />Agree the work.</h2><p>Custom design and prototyping are paid work. We first discuss suitability, access to the part or mounting space, and what would need to be developed.</p><p>Any paid stage, scope, required checks and costs are agreed before that work begins.</p><a href="/custom/#working-together">How custom projects work →</a></div>
+          <div id="research-guidance" hidden><p class="eyebrow">RESEARCH LEADS ONLY</p><h2>This record<br />stays closed.</h2><p>Share a donor, measurement, hardware detail or controlled-test evidence. This is not a quote, fitting, installation, road-use or production enquiry.</p><a id="research-record" href="/registry/">Read the research boundary →</a></div>
+          <div class="intake-local" id="intake-local"><p class="eyebrow">A LOCAL WORKSHOP. AN ONLINE START.</p><h3>NH’s Lakes Region.</h3><p>Visits around Rochester, NH, and selected Maine locations by arrangement. Elsewhere? We can first discuss whether a practical measurement and fit-check route exists.</p><p>Please get in touch before sending a part.</p></div>
+          <p class="intake-privacy">For your enquiry only. No automatic email-updates signup, tracking pixels or advertising profile.</p>
+        </aside>
       </div>
     </div>
   </section>
 </Base>
 
 <script>
+  import { allParts } from "../lib/catalog";
+  import { requestContext } from "../lib/request-context.mjs";
   const form = document.getElementById("case-form") as HTMLFormElement;
-  const done = document.getElementById("case-done");
-  const errBox = document.getElementById("form-error");
+  const done = document.getElementById("case-done") as HTMLElement;
+  const errBox = document.getElementById("form-error") as HTMLElement;
+  const context = requestContext(new URLSearchParams(location.search), allParts());
+  const field = (name: string) => form.elements.namedItem(name) as HTMLInputElement | HTMLSelectElement;
+  if (!field("part").value) field("part").value = context.partTitle;
+  field("part_slug").value = context.partSlug;
+  if (!field("situation").value) field("situation").value = context.situation;
+  const sendLabel = context.researchOnly ? "Send research lead" : "Send my enquiry";
+  const btn = form.querySelector("button[type=submit]") as HTMLButtonElement;
 
-  // Registry empty states deep-link here with the human title and stable catalog slug.
-  const params = new URLSearchParams(location.search);
-  const partTitle = params.get("part");
-  const partSlug = params.get("part_slug");
-  if (partTitle) {
-    const partInput = form.elements.namedItem("part") as HTMLInputElement;
-    if (partInput && !partInput.value) partInput.value = partTitle;
-  }
-  if (partSlug && /^[a-z0-9-]+$/.test(partSlug)) {
-    const slugInput = form.elements.namedItem("part_slug") as HTMLInputElement;
-    if (slugInput) slugInput.value = partSlug;
+  if (context.researchOnly) {
+    document.getElementById("project-guidance")!.hidden = true;
+    document.getElementById("intake-local")!.hidden = true;
+    document.getElementById("research-guidance")!.hidden = false;
+    document.querySelector(".request-page h1")!.textContent = "Share a research lead.";
+    document.querySelector(".request-page .heading-lede")!.textContent = "This record remains research-only. Share evidence that could help resolve its open questions—not an order, a fitting request or a booking for development.";
+    document.querySelector(".cf-title")!.textContent = "Your research lead";
+    document.querySelector(".done-stamp")!.textContent = "Research lead received";
+    document.getElementById("message-prompt")!.textContent = "What evidence can you share?";
+    const notes = form.elements.namedItem("message") as HTMLTextAreaElement;
+    notes.placeholder = "Share a donor, measurement, hardware detail or controlled-test evidence. Explain the source and any limitations. This record is not open for fitting, production or paid development.";
+    const improvement = form.querySelector('option[value="improvement"]') as HTMLOptionElement;
+    improvement.disabled = true;
+    improvement.hidden = true;
+    document.getElementById("research-record")!.setAttribute("href", `/registry/${context.partSlug}/`);
+    btn.textContent = sendLabel;
   }
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
     errBox.hidden = true;
-    const btn = form.querySelector("button[type=submit]") as HTMLButtonElement;
     btn.disabled = true;
     btn.textContent = "Sending…";
     try {
-      const res = await fetch(form.action, {
-        method: "POST",
-        body: new FormData(form),
-        headers: { accept: "application/json" },
-      });
+      const res = await fetch(form.action, { method: "POST", body: new FormData(form), headers: { accept: "application/json" } });
       const data = await res.json();
-      if (res.ok && data.ok) {
-        document.getElementById("case-id").textContent = data.case;
+      if (res.ok && data.ok && typeof data.case === "string") {
+        document.getElementById("case-id")!.textContent = data.case;
         form.hidden = true;
         done.hidden = false;
-        done.scrollIntoView({ behavior: "smooth", block: "center" });
+        done.focus({ preventScroll: true });
+        done.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth", block: "center" });
       } else if (data.unconfigured) {
-        // Backend not wired yet — fall back to a prefilled email.
         const f = new FormData(form);
-        const subject = `OCP3D investigation — ${f.get("part")} (${f.get("vehicle")})`;
+        const subject = `OCP3D ${context.researchOnly ? "research lead" : "enquiry"} — ${f.get("part")} (${f.get("vehicle")})`;
         const body = [
           `Name: ${f.get("name")}`, `Email: ${f.get("email")}`, `Vehicle: ${f.get("vehicle")}`,
           `Part or problem: ${f.get("part")}`, `OEM №: ${f.get("oem") || "—"}`,
-          `Situation: ${(f.get("situation") as string) || "—"}`, "", (f.get("message") as string) || "",
+          `Situation: ${f.get("situation") || "—"}`, "", String(f.get("message") || ""),
         ].join("\n");
         window.location.href = `mailto:requests@lostclipsociety.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-      } else {
-        throw new Error(data.error ?? "failed");
-      }
-    } catch (err) {
-      errBox.textContent = "That did not transmit. Check the required fields and try again — or email requests@lostclipsociety.com directly.";
+      } else { throw new Error("Enquiry was not accepted"); }
+    } catch {
+      errBox.textContent = "That did not send. Please try again, or email requests@lostclipsociety.com directly. Your details are still here.";
       errBox.hidden = false;
+    } finally {
+      // Also restore the button if the visitor returns from the mail-app fallback.
       btn.disabled = false;
-      btn.textContent = "Open this investigation";
+      btn.textContent = sendLabel;
     }
   });
 </script>
 
 <style>
-  .request-page { background: linear-gradient(180deg, color-mix(in srgb, var(--ground-deep) 28%, transparent), transparent 35%); }
-  .request-page .wrap { display: grid; gap: 18px; }
-  .case-content { width: min(100%, 900px); margin-inline: auto; }
-  .dp1-line { color: var(--steel); font-size: var(--t-dense); letter-spacing: .04em; max-width: 70ch; }
-  .dp1-line b { color: var(--signal); }
-  .tiers { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin: 20px 0 24px; }
-  .tier {
-    position: relative; min-height: 166px; background: var(--ground-deep); border: var(--bd-inner) solid var(--rule);
-    padding: 43px 18px 18px; font-size: var(--t-dense); color: var(--steel); line-height: var(--t-section-lh);
-  }
-  .tier-n { position: absolute; top: 14px; left: 18px; font-size: var(--t-micro); letter-spacing: var(--t-micro-tr); color: var(--ion); }
-  .tier b { color: var(--paper); display: block; margin-bottom: 7px; font-family: var(--font-display); font-size: var(--h-step); text-transform: uppercase; }
-
-  .case-file { background: var(--panel); color: var(--paper); border: var(--bd-inner) solid var(--rule-2); padding: 30px; }
-  .cf-head { display: flex; justify-content: space-between; align-items: baseline; gap: 14px; border-bottom: 2px solid var(--signal); padding-bottom: 11px; margin-bottom: 22px; }
-  .cf-title { font-family: var(--font-display); font-size: 20px; text-transform: uppercase; }
-  .cf-no { font-size: var(--t-eyebrow); color: var(--signal); font-weight: 700; letter-spacing: var(--t-eyebrow-tr); }
+  .request-page .wrap { display: grid; gap: 24px; }
+  .enquiry-boundary { max-width: 90ch; color: var(--body); font-size: var(--t-dense); line-height: 1.55; }
+  .intake-layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(240px, .42fr); gap: 28px; align-items: start; }
+  .form-column { min-width: 0; }
+  .case-file { background: var(--panel); color: var(--paper); border: 1px solid var(--rule-2); padding: 28px; }
+  .cf-head { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 10px; border-bottom: 2px solid var(--signal); padding-bottom: 13px; margin-bottom: 24px; }
+  .cf-title { font-family: var(--font-display); font-size: 25px; text-transform: uppercase; }
+  .cf-no { font-size: var(--t-micro); color: var(--body); letter-spacing: .08em; }
   .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
-  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px 20px; }
-  label { display: grid; gap: 7px; font-size: var(--t-eyebrow); letter-spacing: var(--t-eyebrow-tr); text-transform: uppercase; color: var(--steel); }
-  label .opt { text-transform: none; letter-spacing: .02em; opacity: .75; }
-  input, select, textarea { font: inherit; font-size: .85rem; padding: 12px; background: var(--ground-deep); border: var(--bd-inner) solid var(--rule); color: var(--paper); letter-spacing: normal; text-transform: none; width: 100%; }
-  input:focus, select:focus, textarea:focus { outline: 2px solid var(--ion); outline-offset: 1px; }
-  .full { margin-top: 20px; }
-  textarea { resize: vertical; }
-  .cf-foot { display: flex; align-items: center; gap: 14px; margin-top: 20px; flex-wrap: wrap; }
-  .cap { font-size: var(--t-eyebrow); color: var(--steel); max-width: 40ch; }
-  .form-error { color: var(--signal); font-size: var(--t-dense); margin: 14px 0 0; }
-
-  .done { background: var(--panel); color: var(--paper); border: var(--bd-inner) solid var(--rule-2); padding: 30px; }
-  .done-stamp { display: inline-block; font-size: var(--t-dense); font-weight: 700; letter-spacing: var(--t-eyebrow-tr); text-transform: uppercase; color: var(--signal); border: 1px solid var(--signal); padding: 6px 10px; transform: rotate(-2deg); margin-bottom: 14px; }
-  .done-case { font-size: .95rem; color: var(--paper); }
-  .done p { color: var(--steel); }
-  .done-alt { font-size: var(--t-eyebrow); }
-  .done-alt a, .note a { color: var(--ion); }
-
-  @media (max-width: 760px) { .tiers { grid-template-columns: 1fr; } .tier { min-height: auto; } }
-  @media (max-width: 600px) { .case-file { padding: 20px; } .grid { grid-template-columns: 1fr; } .cf-head { align-items: flex-start; flex-direction: column; } }
+  .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+  label { display: grid; align-content: start; gap: 8px; color: var(--paper); font-family: var(--font-text); font-size: var(--t-dense); font-weight: 600; line-height: 1.4; }
+  label .opt { color: var(--body); font-size: 13px; font-weight: 400; }
+  input, select, textarea { font: inherit; font-weight: 400; font-size: 16px; padding: 12px; background: var(--ground); border: 1px solid var(--rule); color: var(--paper); min-width: 0; width: 100%; }
+  input::placeholder, textarea::placeholder { color: var(--body); opacity: 1; }
+  input:focus, select:focus, textarea:focus { outline: 2px solid var(--ion); outline-offset: 2px; }
+  .full, .optional-details { margin-top: 24px; }
+  textarea { resize: vertical; line-height: 1.8; }
+  .photo-note { margin-top: 23px; color: var(--body); font-size: 14px; line-height: 1.55; }
+  .cf-foot { display: flex; align-items: center; gap: 17px; margin-top: 22px; flex-wrap: wrap; }
+  .cf-foot .btn { min-height: 48px; gap: 20px; }
+  .cf-foot .btn:disabled { opacity: .7; cursor: wait; }
+  .cap { font-family: var(--font-text); font-size: 14px; color: var(--body); max-width: 30ch; }
+  .form-error { color: var(--signal); font-size: var(--t-dense); margin-top: 18px; }
+  .intake-help { background: var(--journal-board); color: var(--ink); padding: 27px; }
+  .intake-help .eyebrow { color: var(--ion-light); font-size: var(--t-micro); }
+  .intake-help h2 { font-size: 32px; line-height: 1.04; margin: 18px 0; }
+  .intake-help h3 { font-size: 24px; margin: 14px 0; line-height: 1.1; }
+  .intake-help p:not(.eyebrow) { font-size: var(--t-dense); line-height: 1.6; color: var(--inv-body); }
+  .intake-help p + p { margin-top: 15px; }
+  .intake-help a { display: inline-block; margin-top: 20px; color: var(--acid); font-family: var(--font-text); font-size: var(--t-dense); font-weight: 600; text-decoration: underline; text-underline-offset: 5px; }
+  .intake-local { border-top: 1px solid var(--inv-label); margin-top: 28px; padding-top: 25px; }
+  .intake-help .intake-privacy { border-top: 1px solid var(--inv-label); margin-top: 25px; padding-top: 20px; font-size: 14px; }
+  .done { background: var(--panel); border: 1px solid var(--rule-2); padding: 30px; }
+  .done-stamp { display: inline-block; color: var(--ion); font-family: var(--font-display); font-size: 28px; margin-bottom: 15px; }
+  .done p { color: var(--body); margin-top: 16px; }
+  .done-case b { color: var(--paper); }
+  .done-alt { font-size: 14px; overflow-wrap: anywhere; }
+  .done-alt a, .note a { color: var(--ion); text-decoration: underline; text-underline-offset: 3px; }
+  .note { font-size: 14px; margin-top: 18px; color: var(--body); }
+  @media (max-width: 850px) { .intake-layout { grid-template-columns: 1fr; } .intake-help { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; } .intake-local { margin: 0; padding: 0; border: 0; } .intake-help .intake-privacy { grid-column: 1 / -1; margin: 0; } }
+  @media (max-width: 560px) { .grid, .intake-help { grid-template-columns: 1fr; } .case-file, .intake-help, .done { padding: 22px; } .intake-local { border-top: 1px solid var(--inv-label); padding-top: 23px; } }
 </style>

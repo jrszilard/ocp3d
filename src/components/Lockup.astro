@@ -1,5 +1,6 @@
 ---
-/** OCP3D lockup: original fixture mark + acronym + plain-language expansion. */
+/** OCP3D lockup: stamp mark + acronym + plain-language expansion. The expansion is the
+    memorable half of the name, so it stays readable (11px floor), never decorative. */
 import Insignia from "./Insignia.astro";
 interface Props { variant?: "landscape" | "portrait" }
 const { variant = "landscape" } = Astro.props;
@@ -22,10 +23,11 @@ const portrait = variant === "portrait";
     font-size: var(--word-land); color: var(--paper);
   }
   .expansion {
-    margin-top: 6px; font-family: var(--font-mono); font-size: var(--t-micro);
-    letter-spacing: .17em; color: var(--ion); white-space: nowrap;
+    margin-top: 6px; font-family: var(--font-mono); font-size: var(--t-micro); font-weight: 600;
+    letter-spacing: .14em; color: var(--ion); white-space: nowrap;
   }
   .name::after { content: ""; display: block; width: 100%; height: 2px; margin-top: 7px; background: var(--signal); }
   .is-portrait .acronym { font-size: var(--word-port); }
   .is-portrait .expansion { font-size: var(--t-eyebrow); }
+  .lockup :global(svg) { flex: none; }
 </style>
