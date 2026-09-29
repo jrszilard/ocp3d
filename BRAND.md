@@ -62,8 +62,8 @@ turnaround, stock or qualification.
 - **Start with the problem, not a CAD file.** Missing parts and original convenience ideas can both
   start a conversation. Custom development is paid, scoped and quoted before it starts. No free
   engineering funnel, fixed prices, invented pilot slots, deadline or guaranteed finished outcome.
-- **Start online. Meet where it helps.** Based in NH's Lakes Region; visits around Rochester, NH,
-  and selected Maine locations by arrangement. No statewide coverage claim, unarranged drop-offs,
+- **Start online. Meet where it helps.** Based in NH's Lakes Region; visits across the Seacoast
+  and Lakes Region of New Hampshire and Maine by arrangement (founder, 2026-09-29). No statewide coverage claim, unarranged drop-offs,
   shipping instruction or need for a matching founder-owned vehicle.
 - **Plain-language navigation and intake.** Custom design / Parts & projects / Materials / About /
   Start an enquiry. The technical record still owns evidence language. `ServiceHeading` supports

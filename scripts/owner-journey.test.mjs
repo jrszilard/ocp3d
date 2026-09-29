@@ -66,8 +66,9 @@ test("project FAQ is editorial guidance, with no invented price or delivery prom
   }
   const copy = projectQuestions.map((item) => item.answer).join(" ");
   assert.match(copy, /paid work/);
-  assert.match(copy, /Rochester, NH/);
-  assert.match(copy, /selected Maine/);
+  // Visit area, founder 2026-09-29: across the Seacoast and Lakes Region of NH and Maine.
+  assert.match(copy, /Seacoast and Lakes Region of New Hampshire and Maine/);
+  assert.doesNotMatch(copy, /Rochester|selected Maine/);
   assert.match(copy, /pre-2000/);
   assert.doesNotMatch(copy, /\$\s*\d|guaranteed fit|ships? in \d/i);
 });

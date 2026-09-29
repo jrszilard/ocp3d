@@ -23,7 +23,7 @@ export const projectQuestions = [
   {
     id: "project-location",
     question: "Do I have to be nearby?",
-    answer: "No. Start online. I visit around Rochester, NH, and selected Maine locations by arrangement; further away we plan measuring together. Please ask before posting a part.",
+    answer: "No. Start online. I visit across the Seacoast and Lakes Region of New Hampshire and Maine by arrangement; further away we plan measuring together. Please ask before posting a part.",
   },
   {
     id: "project-suitability",

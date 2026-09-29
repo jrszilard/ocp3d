@@ -46,7 +46,7 @@ npm test
 The local homepage keeps **Old cars. Modern materials.**, with two explicit paths: existing
 parts/projects and custom design/prototyping. `/custom/` explains paid scoped development without
 inventing prices or turnaround; the collection stays visibly research/development. The Supra is
-founder evidence, not the market boundary. NH Lakes Region/Rochester/selected Maine access is by
+founder evidence, not the market boundary. Visits across the Seacoast and Lakes Region of NH and Maine are by
 arrangement, with online enquiries first. The founder approved releasing it on 2026-09-28 together
 with the brand refresh described in `BRAND.md`.
 
