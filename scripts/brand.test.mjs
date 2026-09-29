@@ -1,5 +1,5 @@
-// Brand decisions of 2026-09-28, locked where they are used: readable type, the stamp mark,
-// one ink per evidence rung, the wanted list, a small plain vocabulary, and real car photos
+// Brand decisions of 2026-09-28/29, locked where they are used: readable type, the stamp mark,
+// one ink per evidence rung, no wanted lists, a small plain vocabulary, and real car photos
 // without location metadata. See BRAND.md. A redesign that needs to change one of these should
 // change the decision (and this test) on purpose, not drift past it.
 import assert from "node:assert/strict";
@@ -96,25 +96,33 @@ test("each evidence rung has its own ink, and only Fitted is a filled stamp", ()
   assert.match(ladder, /\{safetyGated \?/, "a gated record renders as closed, not as a partly climbed ladder");
 });
 
-test("the wanted list is an honest ask: requested, never gated, no invented reward", () => {
+// Founder, 2026-09-29: no Lost-Clip-Society-era wanted lists or donor asks; OCP3D pitches
+// custom design and printing, not a crowd-sourced reconstruction registry.
+test("no wanted lists or donor asks; requested records without work stay private", () => {
   const catalog = read("src/lib/catalog.ts");
-  assert.match(catalog, /return part\.state === "requested" && !part\.safetyGated;/);
-  const wanted = parts.filter((part) => part.state === "requested" && !part.safetyGated);
-  assert.ok(wanted.length > 0, "exercise real wanted records");
-  assert.ok(parts.some((part) => part.safetyGated && part.state === "requested"), "a gated requested record exists and stays off the list");
+  assert.match(catalog, /return part\.safetyGated \|\| part\.state !== "requested";/);
+  assert.equal(existsSync(new URL("src/components/WantedList.astro", root)), false);
+  assert.ok(parts.some((part) => part.state === "requested" && !part.safetyGated), "exercise real unlisted records");
+  assert.match(read("src/pages/registry/[slug].astro"), /listedParts\(\)\.map/, "pages only for listed parts");
+  assert.match(read("src/pages/registry/index.astro"), /listedParts\(\)/);
+  assert.match(read("src/pages/index.astro"), /listedParts\(\)/);
+  for (const file of siteSources()) {
+    const source = readFileSync(file, "utf8");
+    assert.doesNotMatch(source, /Have one of these|I have one|WANTED ·|originals to measure|HELP OUT|research lead/i, file);
+  }
+});
 
-  const list = read("src/components/WantedList.astro");
-  assert.match(list, /parts\.filter\(isWanted\)/);
-  assert.match(list, /situation=have-part/);
-  assert.equal(requestContext(new URLSearchParams(`part_slug=${wanted[0].slug}&situation=have-part`), parts).situation, "have-part",
-    "the wanted-list link prefills a real enquiry situation");
-  const visible = list.replace(/\/\*\*[\s\S]*?\*\//, "");
-  assert.doesNotMatch(visible, /free|reward|first print|loan|\$\s*\d|guarantee/i, "no unapproved donor terms");
-
-  const registry = read("src/pages/registry/index.astro");
-  assert.match(registry, /<WantedList parts=\{parts\} \/>/);
-  assert.match(registry, /#wanted \.wanted-row/, "search and filters cover the wanted rows");
-  assert.match(read("src/pages/index.astro"), /<WantedList parts=\{parts\} compact/);
+test("long-term testing is a public label, never an opening", async () => {
+  const { longTermTesting } = await import("../src/data/long-term-testing.mjs");
+  for (const slug of Object.keys(longTermTesting)) {
+    const part = parts.find((item) => item.slug === slug);
+    assert.ok(part, `${slug} is in the snapshot`);
+    assert.equal(part.safetyGated, true, `${slug}: the gate stays closed`);
+  }
+  const log = read("src/pages/journal/wiper-adaptors.astro");
+  assert.match(log, /In long-term testing/);
+  assert.match(log, /Nothing on this page is for sale/);
+  assert.doesNotMatch(log, /Research only/, "the old label is gone from the wiper log");
 });
 
 test("the interface keeps a small plain vocabulary", () => {

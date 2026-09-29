@@ -28,13 +28,13 @@ test("every image or video a journal page references is committed", () => {
   }
 });
 
-test("a log for a safety-gated field file stays research-only", () => {
+test("a log for a safety-gated part stays closed (research only or in long-term testing)", () => {
   for (const entry of journal) {
     const part = parts.find((item) => item.slug === entry.partSlug);
     if (!part?.safetyGated) continue;
     assert.equal(entry.researchOnly, true, `${entry.slug} must be marked researchOnly`);
     const source = readFileSync(pageFor(entry), "utf8");
-    assert.match(source, /Research only/i);
+    assert.match(source, /Research only|long-term testing/i);
     assert.match(source, /vibration.*UV.*rain/is, "the pending proof must be named");
     // Offer calls-to-action, not negated mentions like "nothing here is for sale".
     assert.doesNotMatch(source, /Discuss getting this part|made-to-order|Order this part|Add to cart/i, `${entry.slug}: offer CTA`);

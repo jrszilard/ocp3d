@@ -77,22 +77,22 @@ const type = [
             <Stamp state="development" label="In development" />
             <Stamp state="measured" label="Measured" />
             <Stamp state="fitted" label="Fitted on a real car" />
-            <Stamp state="requested" label="Research only" safetyGated />
+            <Stamp state="requested" label="In long-term testing" safetyGated />
           </div>
           <div class="ladders">
             <EvidenceLadder state="measured" />
             <EvidenceLadder state="development" compact />
-            <EvidenceLadder state="requested" safetyGated compact />
+            <EvidenceLadder state="requested" safetyGated closedLabel="In long-term testing" compact />
           </div>
           <LadderKey />
         </div>
-        <p class="dense note">Stamps and ladders read the record; they never add a claim. Fitted is the only filled stamp. A safety-gated record is off the ladder (hatched), never a partly climbed ladder. Requested parts with no original appear in the <code>WantedList</code>, not as empty product cards.</p>
+        <p class="dense note">Stamps and ladders read the record; they never add a claim. Fitted is the only filled stamp. A safety-gated record is off the ladder (hatched), never a partly climbed ladder. A safety-gated part on a car in long-term testing says <strong>In long-term testing</strong>; otherwise <strong>Research only</strong>. Either way it is not for sale. Requested records with no work behind them are not listed, and the site never asks visitors for originals.</p>
       </section>
 
       <section class="sg-panel">
         <p class="eyebrow">WORDS — A SMALL, FIXED VOCABULARY</p>
         <p class="lead note">Custom design · Parts &amp; projects · Part record · Build log · Materials · About · Start an enquiry · Email updates. Status words stay literal: Requested, In development, Measured, Fitted on a real car, Research only.</p>
-        <p class="dense note">Short by default: say each thing once, where it matters. Intros stay under 25 words and FAQ answers under 40; build-log articles are the only long-form copy. Say it the way an owner would. Avoid coined labels such as field file, case file, lead, trail, route, investigation desk or Dispatch in the interface. Research-only records keep their “research lead” wording because it marks a closed boundary.</p>
+        <p class="dense note">Short by default: say each thing once, where it matters. Intros stay under 25 words and FAQ answers under 40; build-log articles are the only long-form copy. Say it the way an owner would. Avoid coined labels such as field file, case file, lead, trail, route, investigation desk or Dispatch in the interface. No wanted lists or donor asks: OCP3D is a custom design and printing workshop.</p>
         <div class="comp"><a class="btn btn--primary" href="/custom/">Custom design</a><a class="btn btn--secondary" href="/registry/">Parts &amp; projects</a><a class="btn btn--secondary" href="/request/">Start an enquiry</a></div>
         <p class="dense note">Use <code>ServiceHeading audience="owner"</code> for owner-facing introductions (optional actions slot, <code>compact</code> for the enquiry masthead). Record pages pass <code>facts</code>: real, page-specific values for the dark panel, never a slogan. <code>OfferPaths</code> keeps the two doors distinct; its collection note follows the fitted, non-safety-gated discussion boundary, not invented stock. Paid development is explicit, but prices, turnaround and fit are never invented.</p>
       </section>

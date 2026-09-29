@@ -2,21 +2,21 @@
 import Base from "../../layouts/Base.astro";
 import ServiceHeading from "../../components/ServiceHeading.astro";
 import Stamp from "../../components/Stamp.astro";
-import { allParts } from "../../lib/catalog";
+import { allParts, closedLabel } from "../../lib/catalog";
 import { journal } from "../../data/journal.mjs";
 
-// Research-only build log for a safety-gated part record. It may report the work and invite donor,
-// measurement, hardware, or controlled-test leads. It never offers, installs, or claims fit
-// or road use (see the part record's research boundary).
+// Build log for a safety-gated part that is in long-term testing on the founder's car
+// (founder direction 2026-09-29). It reports the work and the testing. It never offers the
+// part, recommends installing it, or claims fit or road use for anyone else's car.
 const entry = journal.find((item) => item.slug === "wiper-adaptors");
 const part = allParts().find((item) => item.slug === entry.partSlug);
 if (!part) throw new Error(`journal/${entry.slug}: part ${entry.partSlug} is not in the snapshot`);
-const leadHref = `/request/?part=${encodeURIComponent(part.title)}&part_slug=${part.slug}`;
+const status = closedLabel(part);
 const img = (file: string) => `/images/journal/wiper-adaptors/${file}`;
 ---
-<Base title="Build log 002 (research only): Modern wiper blades on the original arms — OCP3D"
-      description="Work in progress: printed adaptors so modern wiper blades can run on a 1983 Celica Supra's original arms without drilling them. Research only; not for sale, installed, or road-tested."
-      sheet="BUILD LOG 002 · RESEARCH ONLY">
+<Base title="Build log 002: Modern wiper blades on the original arms — OCP3D"
+      description="Printed adaptors so modern wiper blades run on a 1983 Celica Supra's original arms without drilling them. In long-term testing on the car; not for sale."
+      sheet="BUILD LOG 002 · LONG-TERM TESTING">
   <article class="entry-page">
     <div class="wrap entry-wrap">
       <nav class="crumbs" aria-label="Breadcrumb"><a href="/journal/">Build logs</a><span>/</span><span>Build log 002</span></nav>
@@ -24,28 +24,40 @@ const img = (file: string) => `/images/journal/wiper-adaptors/${file}`;
       <ServiceHeading
         eyebrow={entry.eyebrow}
         title="Modern wiper blades on the original arms."
-        lede="Research in progress on my '83 Celica Supra: printed adaptors so the modern blades you can buy at any parts store can run on the original wiper arms, without drilling them. This is a log of the work so far."
+        lede="Printed adaptors so the modern blades from any parts store run on my '83 Supra's original wiper arms, without drilling them. Now in long-term testing on the car."
         file="BUILD LOG 002"
-        facts={[["STATUS", "RESEARCH ONLY"], ["STILL TO TEST", "VIBRATION · UV · RAIN"], ["FOR SALE", "NO"], ["CAR", "1983 CELICA SUPRA"]]}
+        facts={[["STATUS", status.toUpperCase()], ["STILL PROVING", "VIBRATION · UV · RAIN · TIME"], ["FOR SALE", "NO"], ["CAR", "1983 CELICA SUPRA"]]}
       />
 
       <p class="research-notice" role="note">
-        <b>Work in progress. Research only.</b> Wipers are safety equipment. Final testing is still
-        pending: vibration, UV exposure, and rain function, plus the remaining measured interface evidence,
-        before any product, installation, fit, or road-use discussion can exist. Nothing on this page is
-        for sale.
+        <b>In long-term testing.</b> Wipers are safety equipment. These adaptors are on my car and being
+        tested over time: vibration, UV exposure, rain and time still need proving before they could be
+        offered to anyone. Nothing on this page is for sale.
       </p>
 
       <dl class="entry-facts">
         <div><dt>Car</dt><dd>1983 Toyota Celica Supra (A60)</dd></div>
         <div><dt>Positions</dt><dd>Driver, passenger, rear hatch</dd></div>
-        <div><dt>Latest</dt><dd>ASA set printed, Rain-X blades fitted</dd></div>
-        <div><dt>On the car</dt><dd>Since Sept 20, for testing</dd></div>
-        <div><dt>Status</dt><dd><Stamp state={part.state} label="RESEARCH ONLY" safetyGated /></dd></div>
+        <div><dt>Latest</dt><dd>Revised ASA set, Rain-X blades</dd></div>
+        <div><dt>On the car</dt><dd>Since Sept 20, long-term testing</dd></div>
+        <div><dt>Status</dt><dd><Stamp state={part.state} label={status.toUpperCase()} safetyGated /></dd></div>
       </dl>
 
+      <nav class="journey" aria-labelledby="journey-title">
+        <p class="eyebrow" id="journey-title">THE JOURNEY SO FAR</p>
+        <ol>
+          <li><a href="#step-03"><span>Aug 18</span>Nine test pieces for the blade end</a></li>
+          <li><a href="#step-05"><span>Aug 19–31</span>Designed the car end for all three arms</a></li>
+          <li><a href="#step-04"><span>Aug 24–26</span>Chose the Rain-X connector</a></li>
+          <li><a href="#step-06"><span>Sept 5–17</span>Brass inserts, no drilling; moved to ASA</a></li>
+          <li><a href="#step-07"><span>Sept 18</span>First fit on the car, and a correction</a></li>
+          <li><a href="#step-08"><span>Sept 20</span>Revised set on the car, first powered sweep</a></li>
+          <li class="is-now"><a href="#step-09"><span>Now</span>In long-term testing</a></li>
+        </ol>
+      </nav>
+
       <div class="entry-body">
-        <section class="entry-section">
+        <section class="entry-section" id="step-01">
           <p class="step-n">01</p>
           <div class="section-copy">
             <h2>The problem, and the plan</h2>
@@ -80,7 +92,7 @@ const img = (file: string) => `/images/journal/wiper-adaptors/${file}`;
           </div>
         </section>
 
-        <section class="entry-section">
+        <section class="entry-section" id="step-02">
           <p class="step-n">02</p>
           <div class="section-copy">
             <h2>Let the shape do the work</h2>
@@ -92,7 +104,7 @@ const img = (file: string) => `/images/journal/wiper-adaptors/${file}`;
           </div>
         </section>
 
-        <section class="entry-section">
+        <section class="entry-section" id="step-03">
           <p class="step-n">03</p>
           <div class="section-copy">
             <h2>The blade end: nine test pieces (Aug 18)</h2>
@@ -117,7 +129,7 @@ const img = (file: string) => `/images/journal/wiper-adaptors/${file}`;
           </figure>
         </section>
 
-        <section class="entry-section">
+        <section class="entry-section" id="step-04">
           <p class="step-n">04</p>
           <div class="section-copy">
             <h2>The blade I actually wanted to run (Aug 24 to 26)</h2>
@@ -151,7 +163,7 @@ const img = (file: string) => `/images/journal/wiper-adaptors/${file}`;
           </div>
         </section>
 
-        <section class="entry-section">
+        <section class="entry-section" id="step-05">
           <p class="step-n">05</p>
           <div class="section-copy">
             <h2>The car end, and all three adaptors (Aug 19 to 31)</h2>
@@ -192,7 +204,7 @@ const img = (file: string) => `/images/journal/wiper-adaptors/${file}`;
           </div>
         </section>
 
-        <section class="entry-section">
+        <section class="entry-section" id="step-06">
           <p class="step-n">06</p>
           <div class="section-copy">
             <h2>Screws, inserts and material (Sept 5 to 17)</h2>
@@ -206,11 +218,24 @@ const img = (file: string) => `/images/journal/wiper-adaptors/${file}`;
           </div>
         </section>
 
-        <section class="entry-section">
+        <section class="entry-section" id="step-07">
           <p class="step-n">07</p>
           <div class="section-copy">
+            <h2>First fit, and a correction (Sept 18)</h2>
+            <p><strong>The first ASA set went on the car on Sept 18.</strong> Measured against the original
+              blades, the new ones sat off to one side: the passenger blade about 15 mm and the driver blade
+              about 31 mm toward the passenger side, and the driver blade lifted about 5 mm in the middle.</p>
+            <p><strong>The fix:</strong> move the blade mount on both front adaptors to where the original
+              carriers hold the blade, and lower the driver side. The revised set went to the printer that
+              night.</p>
+          </div>
+        </section>
+
+        <section class="entry-section" id="step-08">
+          <p class="step-n">08</p>
+          <div class="section-copy">
             <h2>On the car (Sept 20)</h2>
-            <p><strong>The ASA set is printed and on the car,</strong> with Rain-X blades clipped into the
+            <p><strong>The revised ASA set is on the car,</strong> with Rain-X blades clipped into the
               printed adaptors on the original arms. The arms weren't drilled or modified. The clip below is a
               first powered sweep with the car parked.</p>
           </div>
@@ -239,12 +264,12 @@ const img = (file: string) => `/images/journal/wiper-adaptors/${file}`;
           </div>
         </section>
 
-        <section class="entry-section">
-          <p class="step-n">08</p>
+        <section class="entry-section" id="step-09">
+          <p class="step-n">09</p>
           <div class="section-copy">
             <h2>Where it stands</h2>
             <ul class="ticks">
-              <li><strong>On the car for testing</strong> since Sept 20. Research only, and not for sale.</li>
+              <li><strong>In long-term testing</strong> on my car since Sept 20. Not for sale.</li>
               <li><strong>Still to prove:</strong> the full sweep at speed, wet and dry, heat, UV, vibration and
                 time. This is the first part I've worked on where "it fits" isn't close to enough.</li>
               <li><strong>Next:</strong> more photos and video as the testing builds up.</li>
@@ -255,13 +280,12 @@ const img = (file: string) => `/images/journal/wiper-adaptors/${file}`;
 
       <aside class="evidence-note">
         <div>
-          <p class="eyebrow">HOW TO HELP THIS RESEARCH</p>
-          <p>Have an A60? Photos or measurements of your wiper arm ends, spare original carriers (even broken
-            ones), or hardware details make this record stronger. This is a research conversation, not a
-            product discussion.</p>
+          <p class="eyebrow">IN LONG-TERM TESTING</p>
+          <p>Not for sale while testing continues. New photos, video and results will be added here as they
+            come in.</p>
         </div>
         <div class="note-actions">
-          <a class="btn btn--primary" href={leadHref}>Share a research lead</a>
+          <a class="btn btn--primary" href="/#register">Get email updates</a>
           <a class="btn btn--secondary" href={`/registry/${part.slug}/`}>See the part record</a>
         </div>
       </aside>
@@ -280,6 +304,12 @@ const img = (file: string) => `/images/journal/wiper-adaptors/${file}`;
 
   figcaption { display: flex; justify-content: space-between; gap: 8px 14px; flex-wrap: wrap; padding: 10px 14px; border-top: var(--bd-inner) solid var(--rule); font-family: var(--font-mono); font-size: var(--t-micro); letter-spacing: var(--t-micro-tr); color: var(--steel); }
 
+  .journey { padding: 18px 22px 20px; border: var(--bd-inner) solid var(--rule-2); background: var(--panel); }
+  .journey ol { display: grid; grid-template-columns: repeat(auto-fit, minmax(126px, 1fr)); gap: 10px 14px; margin: 12px 0 0; padding: 0; list-style: none; }
+  .journey li a { display: grid; gap: 4px; height: 100%; padding: 10px 12px; border-left: 3px solid var(--rule); color: var(--paper); font-family: var(--font-text); font-size: var(--t-dense); line-height: 1.35; }
+  .journey li a:hover { border-color: var(--ion); color: var(--ion); }
+  .journey li span { font-family: var(--font-mono); font-size: var(--t-micro); letter-spacing: var(--t-micro-tr); text-transform: uppercase; color: var(--steel); }
+  .journey .is-now a { border-color: var(--st-closed); background: color-mix(in srgb, var(--acid) 18%, transparent); font-weight: 600; }
   .entry-facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); margin: 0; border-top: var(--bd-inner) solid var(--rule); border-left: var(--bd-inner) solid var(--rule); background: var(--ground); }
   .entry-facts > div { padding: 14px 16px; border-right: var(--bd-inner) solid var(--rule); border-bottom: var(--bd-inner) solid var(--rule); }
   .entry-facts dt { font-family: var(--font-mono); font-size: var(--t-micro); letter-spacing: var(--t-micro-tr); text-transform: uppercase; color: var(--steel); }

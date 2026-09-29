@@ -3,13 +3,12 @@ import Base from "../layouts/Base.astro";
 import RegisterCard from "../components/RegisterCard.astro";
 import OfferPaths from "../components/OfferPaths.astro";
 import BenchLogs from "../components/BenchLogs.astro";
-import WantedList from "../components/WantedList.astro";
-import { allParts } from "../lib/catalog";
+import { listedParts } from "../lib/catalog";
 import { car } from "../data/car.mjs";
 
-const parts = allParts();
+const parts = listedParts();
 const pick = (state: string) => parts.find((part) => part.state === state && !part.safetyGated);
-// Evidence first, then the closed research record. Requested parts appear as the wanted list, not as empty cards.
+// Evidence first, then the part in long-term testing, then the custom-design door.
 const cards = [pick("fitted") ?? pick("measured") ?? pick("development"), parts.find((part) => part.safetyGated)].filter(Boolean);
 const carPhoto = car.photos[0];
 
@@ -75,9 +74,17 @@ const conditions = [
     </section>
 
     <section class="field-index" aria-labelledby="evidence-title">
-      <div class="section-heading"><div><p class="eyebrow">THE EVIDENCE SO FAR</p><h2 id="evidence-title">Where each part stands.</h2></div><a class="text-link" href="/registry/">All {parts.length} part records <span aria-hidden="true">→</span></a></div>
+      <div class="section-heading"><div><p class="eyebrow">THE EVIDENCE SO FAR</p><h2 id="evidence-title">Where each part stands.</h2></div><a class="text-link" href="/registry/">See parts &amp; projects <span aria-hidden="true">→</span></a></div>
       <p class="index-intro">Founder work so far, all from my Supra. Nothing here is a ready-to-buy range yet.</p>
-      <div class="cards">{cards.map((part) => <RegisterCard part={part} />)}<WantedList parts={parts} compact id="home-wanted" /></div>
+      <div class="cards">
+        {cards.map((part) => <RegisterCard part={part} />)}
+        <aside class="your-project" aria-labelledby="your-project-title">
+          <p class="eyebrow">YOUR CAR</p>
+          <h3 id="your-project-title">Something your car needs?</h3>
+          <p>Tell me the car and the problem. Design and prototyping are quoted before they start.</p>
+          <a class="text-link" href="/custom/">Explore custom design <span aria-hidden="true">→</span></a>
+        </aside>
+      </div>
     </section>
 
     <section class="workshop-section" aria-labelledby="workshop-title">
@@ -182,6 +189,12 @@ const conditions = [
   .field-index { padding: 52px 48px 36px; border-top: 1px solid var(--rule); background: var(--panel); }
   .index-intro { max-width: 76ch; margin-top: 21px; color: var(--body); font-size: var(--t-section); line-height: 1.6; }
   .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--gap-cards); margin-top: 30px; align-items: stretch; }
+  .your-project { display: flex; flex-direction: column; justify-content: center; gap: 14px; padding: 28px 24px; border: 1px solid var(--paper); background: var(--journal-board); color: var(--ink); }
+  .your-project .eyebrow { color: var(--acid); }
+  .your-project h3 { font-size: 30px; line-height: 1.02; }
+  .your-project p:not(.eyebrow) { color: var(--inv-body); font-size: var(--t-dense); line-height: 1.55; }
+  .your-project .text-link { color: var(--acid); text-decoration-color: var(--inv-label); }
+  .your-project .text-link:hover { color: var(--ink); }
 
   .workshop-section { display: grid; grid-template-columns: 1.1fr .9fr; gap: 70px; padding: 57px 48px; }
   .workshop-copy h2 { margin: 17px 0 24px; font-size: 44px; line-height: 1; }

@@ -4,14 +4,20 @@
  * Shares its wording with EvidenceLadder via ladderRungs.
  */
 import Stamp from "./Stamp.astro";
-import { ladderRungs } from "../lib/catalog";
+import { allParts, closedLabel, ladderRungs } from "../lib/catalog";
 
 const meaning: Record<string, string> = {
-  requested: "Someone has asked about it. No original on the bench yet.",
+  requested: "Asked for. No work started yet.",
   development: "On the bench. The design is still changing.",
   measured: "The original has been measured and the dimensions are published.",
   fitted: "A printed version has a fit record on a real car.",
 };
+// Show the closed labels actually in use, each with its literal meaning.
+const closedMeaning: Record<string, string> = {
+  "In long-term testing": "On a car being tested over time. Not for sale until testing is complete.",
+  "Research only": "Closed. Not on the ladder, not for sale, until its safety testing is complete.",
+};
+const closedInUse = [...new Set(allParts().filter((part) => part.safetyGated).map(closedLabel))];
 ---
 <aside class="ladder-key" aria-labelledby="ladder-key-title">
   <p class="key-kicker">HOW TO READ A RECORD</p>
@@ -23,10 +29,12 @@ const meaning: Record<string, string> = {
         <dd>{meaning[rung.state]}</dd>
       </div>
     ))}
-    <div>
-      <dt><Stamp state="requested" label="Research only" safetyGated /></dt>
-      <dd>Closed. Not on the ladder, not for sale, until its safety testing is complete.</dd>
-    </div>
+    {closedInUse.map((label) => (
+      <div>
+        <dt><Stamp state="requested" label={label} safetyGated /></dt>
+        <dd>{closedMeaning[label]}</dd>
+      </div>
+    ))}
   </dl>
 </aside>
 

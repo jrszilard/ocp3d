@@ -2,13 +2,10 @@
 import Base from "../../layouts/Base.astro";
 import RegisterCard from "../../components/RegisterCard.astro";
 import ServiceHeading from "../../components/ServiceHeading.astro";
-import WantedList from "../../components/WantedList.astro";
 import LadderKey from "../../components/LadderKey.astro";
-import { allParts, isWanted } from "../../lib/catalog";
-const parts = allParts();
-// Parts with evidence (or a closed research boundary) get cards; requested parts with
-// no original yet go on the wanted list instead of rendering as empty product cards.
-const carded = parts.filter((part) => !isWanted(part));
+import { listedParts } from "../../lib/catalog";
+// Only parts with work behind them are listed; requested records with no work are not.
+const parts = listedParts();
 const hasFitRecord = parts.some((part) => part.state === "fitted" && !part.safetyGated);
 ---
 <Base title="Parts & Projects — OCP3D"
@@ -39,19 +36,17 @@ const hasFitRecord = parts.some((part) => part.state === "fitted" && !part.safet
             <button type="button" class="chip" data-state="fitted">Fitted on a real car</button>
             <button type="button" class="chip" data-state="measured">Measured</button>
             <button type="button" class="chip" data-state="development">In development</button>
-            <button type="button" class="chip" data-state="requested">Requested</button>
-            <button type="button" class="chip" data-state="safety">Pending final testing</button>
+            <button type="button" class="chip" data-state="safety">In testing</button>
           </div>
         </div>
         <p class="eyebrow count" id="count" aria-live="polite"></p>
       </div>
 
       <div class="cards" id="grid">
-        {carded.map((p) => <RegisterCard part={p} />)}
+        {parts.map((p) => <RegisterCard part={p} />)}
         <LadderKey />
       </div>
 
-      <WantedList parts={parts} />
 
       <div class="empty" id="empty" hidden>
         <p class="eyebrow eyebrow--amber">NO MATCH HERE YET</p>
@@ -66,9 +61,7 @@ const hasFitRecord = parts.some((part) => part.state === "fitted" && !part.safet
 <script>
   const input = document.getElementById("q") as HTMLInputElement;
   const chips = [...document.querySelectorAll<HTMLButtonElement>(".chip")];
-  // Cards and wanted-list rows share one search/filter contract (data-state, data-search).
-  const cards = [...document.querySelectorAll<HTMLElement>("#grid .card, #wanted .wanted-row")];
-  const wantedSection = document.getElementById("wanted");
+  const cards = [...document.querySelectorAll<HTMLElement>("#grid .card")];
   const count = document.getElementById("count")!;
   const empty = document.getElementById("empty")!;
   const emptyCta = document.getElementById("empty-cta") as HTMLAnchorElement;
@@ -89,7 +82,6 @@ const hasFitRecord = parts.some((part) => part.state === "fitted" && !part.safet
       if (show) shown++;
     }
     count.textContent = `SHOWING ${shown} OF ${cards.length}`;
-    if (wantedSection) wantedSection.hidden = !wantedSection.querySelector(".wanted-row:not([hidden])");
     empty.hidden = shown !== 0;
     emptyCta.href = q ? `/request/?part=${encodeURIComponent(input.value.trim())}` : "/request/";
     if (updateUrl) {

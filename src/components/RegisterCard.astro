@@ -3,13 +3,13 @@
  * One evidence-bearing part card, shared by home and the parts page.
  *
  * It intentionally refuses a decorative generic car or invented part image.
- * A safety-gated record gets its own closed-R&D treatment; a render/photo
- * remains tied to its record. Requested parts with no original normally appear
- * in WantedList instead; the card keeps an honest fallback for them.
+ * A safety-gated record gets its own closed treatment (labelled by closedLabel);
+ * a photo or render stays tied to its record, and a render says it is one.
  */
 import Stamp from "./Stamp.astro";
 import EvidenceLadder from "./EvidenceLadder.astro";
-import { applicationLabel, oemIdentityLabel } from "../lib/catalog";
+import { applicationLabel, closedLabel, closedTesting, oemIdentityLabel } from "../lib/catalog";
+import { partArt } from "../data/part-art.mjs";
 
 interface Props { part: any; sheet?: number; total?: number; href?: string }
 const { part } = Astro.props;
@@ -17,18 +17,15 @@ const href = Astro.props.href ?? `/registry/${part.slug}/`;
 
 const measured = part.state === "measured";
 const fitted = part.state === "fitted";
-const requested = part.state === "requested";
 const safetyGated = Boolean(part.safetyGated);
 const oemPublishable = part.oemIdentityStatus === "confirmed" && part.oemNumber;
 const application = applicationLabel(part);
-
-const art: Record<string, string> = {
-  "sun-visor-clip": "/images/parts/sun-visor-clip.jpg",
-};
-const photo = art[part.slug];
+const closed = safetyGated ? closedLabel(part) : "";
+const testing = safetyGated ? closedTesting(part) : null;
+const art = partArt[part.slug as keyof typeof partArt];
 
 const statusLabel = safetyGated
-  ? "RESEARCH ONLY"
+  ? closed.toUpperCase()
   : fitted
     ? "FITTED ON A REAL CAR"
     : measured
@@ -38,14 +35,14 @@ const statusLabel = safetyGated
         : "REQUESTED";
 
 const action = safetyGated
-  ? "Why it is research only"
+  ? (testing ? "Follow the testing" : "Why it is research only")
   : fitted
     ? "Discuss this fitted part"
     : measured
       ? "See the measurements"
       : part.state === "development"
         ? "Follow this build"
-        : "Have an original? Tell me";
+        : "Discuss this part";
 
 const search = [part.title, part.vehicleLabel, part.yearRange, part.oemNumber, part.category, statusLabel]
   .filter(Boolean).join(" ").toLowerCase();
@@ -53,21 +50,18 @@ const search = [part.title, part.vehicleLabel, part.yearRange, part.oemNumber, p
 <article class="card" data-state={part.state} data-safety-gated={String(safetyGated)} data-search={search}>
   {safetyGated ? (
     <div class="card-safety">
-      <span class="safety-head">RESEARCH ONLY</span>
-      <small>Still awaiting final testing:<br />vibration, UV exposure, rain function.</small>
-    </div>
-  ) : requested ? (
-    <div class="card-empty">
-      <span class="empty-head">WANTED · AN ORIGINAL</span>
-      <small>No original has reached the bench yet.<br />One, even broken, is how it gets measured.</small>
+      <span class="safety-head">{closed.toUpperCase()}</span>
+      {testing
+        ? <small>On the car since {testing.since}.<br />Still proving: {testing.proving}.</small>
+        : <small>Still awaiting final testing:<br />vibration, UV exposure, rain function.</small>}
     </div>
   ) : (
     <div class="card-art">
       {measured && <span class="layer">{part.dimsConfirmed} DIMENSIONS</span>}
-      {photo
-        ? <img src={photo} alt={`Archived CAD render of ${part.title} — not a product photograph`} width="1024" height="768" loading="lazy" />
+      {art
+        ? <img src={art.src} alt={art.alt} width={art.width} height={art.height} loading="lazy" />
         : <div class="placeholder art-ph"><span>NO VIEW YET</span></div>}
-      {photo && <span class="render-label">CAD RENDER · NOT A TEST RESULT</span>}
+      {art && <span class="render-label">{art.kind === "render" ? "CAD RENDER · NOT A TEST RESULT" : art.caption[0]}</span>}
       <span class="tape" aria-hidden="true"></span>
     </div>
   )}
@@ -76,7 +70,7 @@ const search = [part.title, part.vehicleLabel, part.yearRange, part.oemNumber, p
     <dt class="eyebrow">PART</dt><dd class="part-name">{part.title}</dd>
     <dt class="eyebrow">CAR</dt><dd>{application}</dd>
     {safetyGated
-      ? <><dt class="eyebrow">BOUNDARY</dt><dd>Research only</dd></>
+      ? <><dt class="eyebrow">FOR SALE</dt><dd>No, still testing</dd></>
       : oemPublishable
         ? <><dt class="eyebrow">OEM №</dt><dd>{part.oemNumber}</dd></>
         : <><dt class="eyebrow">OEM №</dt><dd>{oemIdentityLabel(part)}</dd></>}
@@ -84,7 +78,7 @@ const search = [part.title, part.vehicleLabel, part.yearRange, part.oemNumber, p
     <dd><Stamp state={part.state} label={statusLabel} safetyGated={safetyGated} /></dd>
   </dl>
 
-  <div class="card-ladder"><EvidenceLadder state={part.state} safetyGated={safetyGated} compact /></div>
+  <div class="card-ladder"><EvidenceLadder state={part.state} safetyGated={safetyGated} closedLabel={closed} compact /></div>
 
   <a class="card-action" href={href}>{action}<span aria-hidden="true">→</span></a>
 </article>
@@ -98,13 +92,11 @@ const search = [part.title, part.vehicleLabel, part.yearRange, part.oemNumber, p
   .layer { position: absolute; z-index: 2; top: 10px; right: 10px; padding: 4px 7px; background: var(--ground); color: var(--st-measured); font-size: var(--t-micro); font-weight: 600; letter-spacing: var(--t-micro-tr); text-transform: uppercase; }
   .render-label { position: absolute; right: 0; bottom: 0; left: 0; padding: 6px 12px; background: var(--ground); color: var(--body); font-size: var(--t-micro); letter-spacing: var(--t-micro-tr); }
   .tape { position: absolute; z-index: 3; top: -9px; left: 50%; width: 86px; height: 20px; background: rgba(211,177,109,.72); transform: translateX(-50%) rotate(-4deg); }
-  .card-empty, .card-safety { height: 208px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; padding: 0 18px; border-bottom: 1px dashed var(--rule-2); text-align: center; }
-  .card-empty { background: repeating-linear-gradient(0deg, transparent 0 30px, rgba(63,82,76,.12) 30px 31px), var(--ground-deep); }
+  .card-safety { height: 208px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; padding: 0 18px; border-bottom: 1px dashed var(--rule-2); text-align: center; }
   .card-safety { background: repeating-linear-gradient(135deg, transparent 0 14px, color-mix(in srgb, var(--signal) 18%, transparent) 14px 15px), var(--journal-charcoal); }
-  .empty-head, .safety-head { font-size: var(--t-eyebrow); font-weight: 600; letter-spacing: var(--t-eyebrow-tr); text-transform: uppercase; }
-  .empty-head { color: var(--signal); }
+  .safety-head { font-size: var(--t-eyebrow); font-weight: 600; letter-spacing: var(--t-eyebrow-tr); text-transform: uppercase; }
   .safety-head { color: var(--acid); }
-  .card-empty small, .card-safety small { font-family: var(--font-text); font-size: var(--t-dense); line-height: 1.5; color: var(--steel); }
+  .card-safety small { font-family: var(--font-text); font-size: var(--t-dense); line-height: 1.5; color: var(--steel); }
   .card-safety small { color: var(--inv-body); }
   .card-spec { display: grid; grid-template-columns: 76px 1fr; gap: 9px 12px; align-content: start; align-items: baseline; flex: 1; margin: 0; padding: 18px 18px 14px; }
   .card-spec dt { font-size: var(--t-micro); }

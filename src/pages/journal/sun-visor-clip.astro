@@ -27,11 +27,11 @@ const img = (file: string) => `/images/journal/sun-visor-clip/${file}`;
       />
 
       <figure class="lead-figure">
-        <img src={img("v8-vs-v12.jpg")} width="1600" height="1055"
-             alt="Two printed visor clips mounted on the same headliner: a boxy orange v8 on the left and a smoother tan v12 on the right." />
+        <img src={img("v12-final-installed.jpg")} width="1600" height="1200"
+             alt="The final tan v12 visor clip installed on the headliner above the windshield." />
         <figcaption>
-          <span>LEFT · V8 · ORANGE ASA · AUG 20, 2026</span>
-          <span>RIGHT · V12 · TAN ASA · SEPT 8, 2026</span>
+          <span>THE FINAL VERSION · V12 · TAN ASA</span>
+          <span>INSTALLED SEPT 8, 2026</span>
         </figcaption>
       </figure>
 
@@ -64,9 +64,6 @@ const img = (file: string) => `/images/journal/sun-visor-clip/${file}`;
               different, screw-mounted holder. Mine is a crescent-shaped clip that mounts with a push-in
               fir-tree pin and one screw. The closest candidate so far is the 74336 series, but I haven't
               confirmed it.</p>
-            <p>If you have an A60 with this clip and a parts diagram, an old invoice, or a bag with the
-              number on it, I'd like to compare notes.</p>
-            <p class="inline-cta"><a class="btn btn--secondary" href={requestHref}>Share what you know</a></p>
           </div>
         </section>
 
@@ -136,6 +133,11 @@ const img = (file: string) => `/images/journal/sun-visor-clip/${file}`;
               <li>a clean shelf under the visor opening</li>
               <li>a smoother visor opening itself</li>
             </ul>
+            <figure class="shot shot--wide">
+              <img src={img("v8-vs-v12.jpg")} width="1600" height="1055" loading="lazy"
+                   alt="Two printed visor clips mounted on the same headliner: a boxy orange v8 on the left and a smoother tan v12 on the right." />
+              <figcaption><span>LEFT · V8 · ORANGE ASA · AUG 20</span><span>RIGHT · V12 · TAN ASA · SEPT 8</span></figcaption>
+            </figure>
             <p>The v12 rounding reaches into the spot where the rod goes in, so it needed its own test in the
               car instead of borrowing v8's result.</p>
             <p><strong>Sept 8: v12 printed in tan ASA,</strong> much closer to the headliner: about 5 g of
@@ -158,9 +160,9 @@ const img = (file: string) => `/images/journal/sun-visor-clip/${file}`;
             </figure>
             <figure class="shot shot--portrait">
               <video src="/video/journal/visor-v12-snap.mp4" poster={img("v12-snap-poster.jpg")}
-                     width="720" height="1280" controls muted loop playsinline preload="none"
-                     aria-label="Short silent clip: the visor is pushed up and the tan clip catches and holds its rod."></video>
-              <figcaption><span>V12 · VISOR UP, CLIP HOLDS</span><span>SILENT CLIP · 7 S</span></figcaption>
+                     width="720" height="972" controls muted loop playsinline preload="none"
+                     aria-label="Short silent clip: the visor is unhooked and hooked back into the tan clip."></video>
+              <figcaption><span>V12 · VISOR HOOKS IN AND OUT</span><span>SILENT CLIP · 11 S</span></figcaption>
             </figure>
           </div>
         </section>
@@ -172,10 +174,8 @@ const img = (file: string) => `/images/journal/sun-visor-clip/${file}`;
             <ul class="ticks">
               <li><strong>Time in the car.</strong> Summer heat and sun are the real test, and I'll report
                 back.</li>
-              <li><strong>Other cars.</strong> If you have an A60 with a broken or missing clip, I'm looking for
-                a few owners to test-fit this one.</li>
-              <li><strong>The part number.</strong> Still open. A spare original, even a broken one, helps
-                too.</li>
+              <li><strong>Other A60s.</strong> If yours has a broken or missing clip, tell me about your car.</li>
+              <li><strong>The part number.</strong> Still open.</li>
             </ul>
           </div>
         </section>
@@ -190,7 +190,7 @@ const img = (file: string) => `/images/journal/sun-visor-clip/${file}`;
         </div>
         <div class="note-actions">
           <a class="btn btn--primary" href={`/registry/${part.slug}/`}>See the part record</a>
-          <a class="btn btn--secondary" href={requestHref}>Share what you know</a>
+          <a class="btn btn--secondary" href={requestHref}>Start an enquiry</a>
         </div>
       </aside>
     </div>
@@ -204,7 +204,7 @@ const img = (file: string) => `/images/journal/sun-visor-clip/${file}`;
   .crumbs a { color: var(--ion); }
 
   .lead-figure { border: var(--bd-inner) solid var(--rule-2); background: var(--ground-deep); }
-  .lead-figure img { width: 100%; height: auto; }
+  .lead-figure img { width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; object-position: center 48%; }
   figcaption { display: flex; justify-content: space-between; gap: 8px 14px; flex-wrap: wrap; padding: 10px 14px; border-top: var(--bd-inner) solid var(--rule); font-family: var(--font-mono); font-size: var(--t-micro); letter-spacing: var(--t-micro-tr); color: var(--steel); }
 
   .entry-facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); margin: 0; border-top: var(--bd-inner) solid var(--rule); border-left: var(--bd-inner) solid var(--rule); background: var(--ground); }
@@ -231,6 +231,7 @@ const img = (file: string) => `/images/journal/sun-visor-clip/${file}`;
   .shot { margin: 0; border: var(--bd-inner) solid var(--rule); background: var(--ground-deep); min-width: 0; }
   .shot img, .shot video { width: 100%; height: auto; display: block; background: var(--journal-charcoal); }
   .shot--cad { margin-top: 20px; max-width: 520px; }
+  .shot--wide { margin: 18px 0 4px; max-width: 760px; }
   .shot--portrait img, .shot--portrait video { aspect-ratio: 3 / 4; object-fit: cover; }
   .shot--cad-tile img { aspect-ratio: 3 / 4; object-fit: contain; }
   .shot--cad img { background: #f7f7f7; }

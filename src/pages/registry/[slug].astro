@@ -6,18 +6,22 @@ import ServiceHeading from "../../components/ServiceHeading.astro";
 import Stamp from "../../components/Stamp.astro";
 import EvidenceLadder from "../../components/EvidenceLadder.astro";
 import SpecTable from "../../components/SpecTable.astro";
-import { allParts, fitmentLabel, oemIdentityLabel } from "../../lib/catalog";
+import { closedLabel, closedTesting, fitmentLabel, listedParts, oemIdentityLabel } from "../../lib/catalog";
 import { journalForPart } from "../../data/journal.mjs";
+import { partArt } from "../../data/part-art.mjs";
 
+// Only listed parts get a page: requested records with no work behind them stay private.
 export function getStaticPaths() {
-  return allParts().map((part) => ({ params: { slug: part.slug }, props: { part } }));
+  return listedParts().map((part) => ({ params: { slug: part.slug }, props: { part } }));
 }
 const { part } = Astro.props;
 // A measured model is useful evidence, not a sellable-fit claim. Only a part record
 // that has earned the real-car state may offer a made-to-order discussion.
 const safetyGated = Boolean(part.safetyGated);
 const orderable = !safetyGated && part.state === "fitted";
-const oemLabel = safetyGated ? "RESEARCH ONLY" : oemIdentityLabel(part);
+const closed = safetyGated ? closedLabel(part) : "";
+const testing = safetyGated ? closedTesting(part) : null;
+const oemLabel = safetyGated ? closed.toUpperCase() : oemIdentityLabel(part);
 const identityDisputed = part.oemIdentityStatus === "disputed";
 const fitmentUnconfirmed = part.fitmentStatus !== "confirmed";
 const fitmentDisputed = part.fitmentStatus === "disputed";
@@ -27,7 +31,7 @@ const vehicleFitment = safetyGated
     ? "Application under investigation"
     : fitmentLabel(part);
 const identityTitle = safetyGated
-  ? "research record — not an offer"
+  ? `${closed.toLowerCase()} — not for sale`
   : part.oemNumber
     ? `OEM ${part.oemNumber} reproduction`
     : identityDisputed
@@ -37,9 +41,11 @@ const identityTitle = safetyGated
 // Build log for this part, if one exists.
 const journalEntry = journalForPart(part.slug);
 
-// Neutral-resin render, once the part is modeled (scripts/render-part.py).
-const imgSrc = `/images/parts/${part.slug}.jpg`;
-const hasImage = fs.existsSync(path.join(process.cwd(), "public", "images", "parts", `${part.slug}.jpg`));
+// A real photo from part-art.mjs leads; otherwise a neutral-resin render if one exists
+// (scripts/render-part.py), always labelled as a render.
+const art = partArt[part.slug as keyof typeof partArt];
+const renderSrc = `/images/parts/${part.slug}.jpg`;
+const hasRender = !art && fs.existsSync(path.join(process.cwd(), "public", "images", "parts", `${part.slug}.jpg`));
 ---
 <Base title={`${part.title} — ${identityTitle} — OCP3D`}
       description={part.description.slice(0, 155)}
@@ -54,7 +60,7 @@ const hasImage = fs.existsSync(path.join(process.cwd(), "public", "images", "par
         lede="A working record, not a sales page."
         file="PART RECORD"
         facts={[
-          ["STATUS", safetyGated ? "RESEARCH ONLY" : part.stateLabel.toUpperCase()],
+          ["STATUS", safetyGated ? closed.toUpperCase() : part.stateLabel.toUpperCase()],
           ["DIMENSIONS", part.dimsTotal > 0 ? `${part.dimsConfirmed} OF ${part.dimsTotal} CONFIRMED` : "NONE YET"],
           ["CAR", vehicleFitment.toUpperCase()],
           ["BUILD LOG", journalEntry ? `№ ${journalEntry.number}` : "NOT YET"],
@@ -65,24 +71,25 @@ const hasImage = fs.existsSync(path.join(process.cwd(), "public", "images", "par
       <div class="part-scope">
         {safetyGated ? (
           <div class="media media--research placeholder">
-            <span>RESEARCH ONLY — TESTING PENDING</span>
-            <small>No product view, fit claim, or road-use claim is made from this file.</small>
+            <span>{closed.toUpperCase()}</span>
+            <small>{testing
+              ? `On my car since ${testing.since}. Not for sale while ${testing.proving} are still being proved.`
+              : "No product view, fit claim or road-use claim is made from this record."}</small>
           </div>
-        ) : hasImage ? (
+        ) : art ? (
           <figure class="media">
-            <img src={imgSrc} alt={`${part.title} — reproduction render, neutral resin`}
-                 width="1024" height="768" />
-            <figcaption>
-              <span>REPRODUCTION VIEW</span>
-              <span>NEUTRAL RESIN · EVIDENCE, NOT PROMISE</span>
-            </figcaption>
+            <img src={art.src} alt={art.alt} width={art.width} height={art.height} />
+            <figcaption><span>{art.caption[0]}</span><span>{art.caption[1]}</span></figcaption>
+          </figure>
+        ) : hasRender ? (
+          <figure class="media">
+            <img src={renderSrc} alt={`${part.title} — CAD render, not a photograph`} width="1024" height="768" />
+            <figcaption><span>CAD RENDER</span><span>NOT A TEST RESULT</span></figcaption>
           </figure>
         ) : (
           <div class="media media--pending placeholder">
-            <span>{part.state === "requested" ? "WANTED · AN ORIGINAL TO MEASURE" : "NO VIEW YET"}</span>
-            <small>{part.state === "requested"
-              ? "No original has reached the bench yet. One, even broken, is how this part gets measured."
-              : "No physical view is claimed until there is a real object to show."}</small>
+            <span>NO VIEW YET</span>
+            <small>No physical view is claimed until there is a real object to show.</small>
           </div>
         )}
 
@@ -92,14 +99,14 @@ const hasImage = fs.existsSync(path.join(process.cwd(), "public", "images", "par
               <p class="eyebrow">WHERE THIS PART STANDS</p>
               <p class="status-caption">Only what the record shows: no fit, strength or availability claim beyond it.</p>
             </div>
-            <Stamp state={part.state} label={safetyGated ? "RESEARCH ONLY" : part.stateLabel} safetyGated={safetyGated} />
+            <Stamp state={part.state} label={safetyGated ? closed.toUpperCase() : part.stateLabel} safetyGated={safetyGated} />
           </div>
-          <div class="case-ladder"><EvidenceLadder state={part.state} safetyGated={safetyGated} /></div>
+          <div class="case-ladder"><EvidenceLadder state={part.state} safetyGated={safetyGated} closedLabel={closed} /></div>
           <p class="brief-copy">{part.description}</p>
           {journalEntry && (
             <p class="journal-link">
               <a href={`/journal/${journalEntry.slug}/`}>
-                {journalEntry.researchOnly ? "Read the research log" : "Read the build log"} →
+                Read the build log →
               </a>
             </p>
           )}
@@ -155,8 +162,10 @@ const hasImage = fs.existsSync(path.join(process.cwd(), "public", "images", "par
             <div class="blk-label">NEXT ACTION</div>
             {safetyGated ? (
               <div class="row">
-                <a class="btn btn--primary" href={`/request/?part=${encodeURIComponent(part.title)}&part_slug=${part.slug}`}>Share a research lead</a>
-                <span class="cap">Donors, measurements or test evidence help. This isn’t a product discussion.</span>
+                {journalEntry
+                  ? <a class="btn btn--primary" href={`/journal/${journalEntry.slug}/`}>Follow the testing</a>
+                  : <a class="btn btn--primary" href="/#register">Get email updates</a>}
+                <span class="cap">Not for sale while testing continues. Results go in the build log.</span>
               </div>
             ) : orderable ? (
               <div class="row">
@@ -166,7 +175,7 @@ const hasImage = fs.existsSync(path.join(process.cwd(), "public", "images", "par
             ) : part.state === "measured" ? (
               <div class="row">
                 <a class="btn btn--primary" href={`/request/?part=${encodeURIComponent(part.title)}&part_slug=${part.slug}`}>Discuss this measured part</a>
-                <span class="cap">Measured, not yet fit-confirmed. Have a matching car or original? Let’s talk.</span>
+                <span class="cap">Measured, not yet fit-confirmed. Tell me about your car and we can talk it through.</span>
               </div>
             ) : part.state === "development" ? (
               <div class="row">
@@ -175,19 +184,11 @@ const hasImage = fs.existsSync(path.join(process.cwd(), "public", "images", "par
               </div>
             ) : (
               <div class="row">
-                <a class="btn btn--primary" href={`/request/?part=${encodeURIComponent(part.title)}&part_slug=${part.slug}&situation=have-part`}>I have one</a>
-                <span class="cap">No original yet. Have one, even broken? Get in touch, no commitment.</span>
+                <a class="btn btn--primary" href={`/request/?part=${encodeURIComponent(part.title)}&part_slug=${part.slug}`}>Discuss this part</a>
+                <span class="cap">No work has started on this part yet.</span>
               </div>
             )}
           </div>
-          <aside class="assist">
-            <div class="blk-label">HELP OUT · OPTIONAL</div>
-            <p>Have an original, a matching car or information about this part?</p>
-            <div class="assist-links">
-              <a href={`/request/?part=${encodeURIComponent(part.title)}&part_slug=${part.slug}`}>Share what you know</a>
-              <a href="/#register">Follow this part</a>
-            </div>
-          </aside>
         </div>
       </section>
 
@@ -205,7 +206,7 @@ const hasImage = fs.existsSync(path.join(process.cwd(), "public", "images", "par
 
       <p class="record-line">
         OCP3D part record ·
-        {safetyGated ? "Research record — final testing pending" : part.oemNumber ? `OEM № ${part.oemNumber}` : "OEM № pending"}
+        {safetyGated ? `${closed} — not for sale` : part.oemNumber ? `OEM № ${part.oemNumber}` : "OEM № pending"}
       </p>
     </div>
   </section>
@@ -240,19 +241,13 @@ const hasImage = fs.existsSync(path.join(process.cwd(), "public", "images", "par
   .record-head .dense { max-width: 43ch; color: var(--steel); }
   .record-panel :global(.table-holder) { padding: 20px 30px 0; }
 
-  .actions { display: grid; grid-template-columns: 1.2fr .9fr; margin-top: 22px; border-top: var(--bd-inner) solid var(--rule); }
-  .commission { padding: 22px 30px; background: var(--paper); color: var(--ink); border-right: var(--bd-inner) solid var(--rule); }
-  .assist { padding: 22px 30px; color: var(--paper); }
+  .actions { display: grid; grid-template-columns: 1fr; margin-top: 22px; border-top: var(--bd-inner) solid var(--rule); }
+  .commission { padding: 22px 30px; background: var(--paper); color: var(--ink); }
   .blk-label { font-size: var(--t-eyebrow); letter-spacing: var(--t-eyebrow-tr); text-transform: uppercase; margin-bottom: 12px; }
   .commission .blk-label { color: var(--inv-gold); }
-  .assist .blk-label { color: var(--ion); }
   .row { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
   .cap { font-family: var(--font-text); font-size: var(--t-dense); line-height: 1.5; color: var(--inv-body); max-width: 44ch; }
   .cap b { color: var(--ink); }
-  .assist p { margin: 0 0 14px; color: var(--steel); font-size: var(--t-dense); }
-  .assist-links { display: flex; gap: 14px; flex-wrap: wrap; }
-  .assist a { font-size: var(--t-eyebrow); font-weight: 600; color: var(--ion); }
-  .assist a:hover { color: var(--signal); }
   .testimony { padding: 24px 30px; border: var(--bd-inner) solid var(--rule); background: var(--ground-deep); }
   .report { margin-top: 12px; border-left: 3px solid var(--st-fitted); padding: 10px 14px; color: var(--steel); font-size: var(--t-eyebrow); letter-spacing: .04em; }
   .report b { color: var(--paper); }
@@ -264,7 +259,7 @@ const hasImage = fs.existsSync(path.join(process.cwd(), "public", "images", "par
     .commission { border-right: 0; border-bottom: var(--bd-inner) solid var(--rule); }
   }
   @media (max-width: 600px) {
-    .case-summary, .record-head, .record-panel :global(.table-holder), .commission, .assist, .testimony { padding-inline: 20px; }
+    .case-summary, .record-head, .record-panel :global(.table-holder), .commission, .testimony { padding-inline: 20px; }
     .record-head { align-items: flex-start; flex-direction: column; gap: 10px; }
     .media--pending, .media--research { min-height: 260px; }
     .case-status { flex-direction: column; }

@@ -11,6 +11,7 @@
  * public record to R&D evidence rather than promoting a state into an offer.
  */
 import raw from "../data/parts.json";
+import { longTermTesting } from "../data/long-term-testing.mjs";
 
 export type PartState = "requested" | "development" | "measured" | "fitted";
 export type OemIdentityStatus = "confirmed" | "candidate" | "disputed" | "unknown";
@@ -88,10 +89,23 @@ export function applicationLabel(part: Part): string {
 }
 
 /**
- * Requested parts with no original on the bench yet. They are shown as a wanted
- * list (an honest ask for an original), not as empty product cards. A safety-gated
- * record is never on the wanted list: it only accepts research evidence.
+ * Which records appear on the public site. A requested record with no work started is a
+ * private demand note, not a listing: no wanted lists or donor asks (founder, 2026-09-29).
+ * A safety-gated record is listed so its testing stays visible.
  */
-export function isWanted(part: Part): boolean {
-  return part.state === "requested" && !part.safetyGated;
+export function isListed(part: Part): boolean {
+  return part.safetyGated || part.state !== "requested";
+}
+
+export function listedParts(): Part[] {
+  return allParts().filter(isListed);
+}
+
+/** Public label for a closed (safety-gated) record. The gate itself never opens here. */
+export function closedLabel(part: Part): string {
+  return longTermTesting[part.slug as keyof typeof longTermTesting] ? "In long-term testing" : "Research only";
+}
+
+export function closedTesting(part: Part): { since: string; proving: string } | null {
+  return longTermTesting[part.slug as keyof typeof longTermTesting] ?? null;
 }

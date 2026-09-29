@@ -19,10 +19,10 @@ export const journal = [
     updated: "2026-09-17",
     researchOnly: false,
     cover: {
-      src: "/images/journal/sun-visor-clip/v8-vs-v12.jpg",
-      alt: "The orange v8 visor clip beside the smoother tan v12, both mounted on the headliner.",
+      src: "/images/journal/sun-visor-clip/v12-final-installed.jpg",
+      alt: "The final tan v12 visor clip installed on the headliner.",
       width: 1600,
-      height: 1055,
+      height: 1200,
     },
   },
   {
@@ -30,8 +30,8 @@ export const journal = [
     partSlug: "wiper-arm-adaptor",
     number: "002",
     title: "Modern wiper blades on the original arms",
-    eyebrow: "BUILD LOG 002 · RESEARCH ONLY · WORK IN PROGRESS",
-    summary: "Printed adaptors so modern blades fit the original arms. On the car for testing; research only, not for sale.",
+    eyebrow: "BUILD LOG 002 · IN LONG-TERM TESTING",
+    summary: "Printed adaptors so modern blades fit the original arms. In long-term testing on the car; not for sale.",
     updated: "2026-09-29",
     researchOnly: true,
     cover: {

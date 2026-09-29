@@ -43,7 +43,7 @@ import ServiceHeading from "../components/ServiceHeading.astro";
 
         <aside class="intake-help" aria-label="Before you send">
           <div id="project-guidance"><p class="eyebrow">NO SURPRISE START</p><h2>Talk first.<br />Agree the work.</h2><p>Custom work is paid, and scope and cost are agreed before anything starts.</p><a href="/custom/#working-together">How custom projects work →</a></div>
-          <div id="research-guidance" hidden><p class="eyebrow">RESEARCH LEADS ONLY</p><h2>This record<br />stays closed.</h2><p>Share a donor, measurement, hardware detail or controlled-test evidence. This is not a quote, fitting, installation, road-use or production enquiry.</p><a id="research-record" href="/registry/">Read the research boundary →</a></div>
+          <div id="research-guidance" hidden><p class="eyebrow">NOT AVAILABLE YET</p><h2>Still<br />in testing.</h2><p>This part isn’t for sale while it’s tested. Questions are welcome; this isn’t a quote, fitting, installation, road-use or production enquiry.</p><a id="research-record" href="/registry/">See where testing stands →</a></div>
           <div class="intake-local" id="intake-local"><p class="eyebrow">A LOCAL WORKSHOP. AN ONLINE START.</p><h3>NH’s Lakes Region.</h3><p>Visits across the Seacoast and Lakes Region of New Hampshire and Maine, by arrangement. Elsewhere, we plan measuring together.</p><p>Please ask before posting a part.</p></div>
           <p class="intake-privacy">Used for your enquiry only. No tracking, no automatic sign-up.</p>
         </aside>
@@ -63,20 +63,20 @@ import ServiceHeading from "../components/ServiceHeading.astro";
   if (!field("part").value) field("part").value = context.partTitle;
   field("part_slug").value = context.partSlug;
   if (!field("situation").value) field("situation").value = context.situation;
-  const sendLabel = context.researchOnly ? "Send research lead" : "Send my enquiry";
+  const sendLabel = context.researchOnly ? "Send my question" : "Send my enquiry";
   const btn = form.querySelector("button[type=submit]") as HTMLButtonElement;
 
   if (context.researchOnly) {
     document.getElementById("project-guidance")!.hidden = true;
     document.getElementById("intake-local")!.hidden = true;
     document.getElementById("research-guidance")!.hidden = false;
-    document.querySelector(".request-page h1")!.textContent = "Share a research lead.";
-    document.querySelector(".request-page .heading-lede")!.textContent = "This record remains research-only. Share evidence that could help resolve its open questions—not an order, a fitting request or a booking for development.";
-    document.querySelector(".cf-title")!.textContent = "Your research lead";
-    document.querySelector(".done-stamp")!.textContent = "Research lead received";
-    document.getElementById("message-prompt")!.textContent = "What evidence can you share?";
+    document.querySelector(".request-page h1")!.textContent = "Ask about a part in testing.";
+    document.querySelector(".request-page .heading-lede")!.textContent = "This part is still in testing and isn’t for sale. Ask anything; this isn’t an order, a fitting request or a booking for development.";
+    document.querySelector(".cf-title")!.textContent = "Your question";
+    document.querySelector(".done-stamp")!.textContent = "Question received";
+    document.getElementById("message-prompt")!.textContent = "What would you like to ask?";
     const notes = form.elements.namedItem("message") as HTMLTextAreaElement;
-    notes.placeholder = "Share a donor, measurement, hardware detail or controlled-test evidence. Explain the source and any limitations. This record is not open for fitting, production or paid development.";
+    notes.placeholder = "Your question. This part is not open for fitting, production or paid development.";
     const improvement = form.querySelector('option[value="improvement"]') as HTMLOptionElement;
     improvement.disabled = true;
     improvement.hidden = true;
@@ -100,7 +100,7 @@ import ServiceHeading from "../components/ServiceHeading.astro";
         done.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth", block: "center" });
       } else if (data.unconfigured) {
         const f = new FormData(form);
-        const subject = `OCP3D ${context.researchOnly ? "research lead" : "enquiry"} — ${f.get("part")} (${f.get("vehicle")})`;
+        const subject = `OCP3D ${context.researchOnly ? "question about a part in testing" : "enquiry"} — ${f.get("part")} (${f.get("vehicle")})`;
         const body = [
           `Name: ${f.get("name")}`, `Email: ${f.get("email")}`, `Vehicle: ${f.get("vehicle")}`,
           `Part or problem: ${f.get("part")}`, `OEM №: ${f.get("oem") || "—"}`,

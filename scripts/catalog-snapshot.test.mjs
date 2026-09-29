@@ -8,7 +8,7 @@ test("research snapshot excludes archived heater work", () => {
   assert.equal(parts.some((part) => part.slug === "heater-control-knob"), false);
 });
 
-test("wiper adaptor remains research-only pending final testing", () => {
+test("wiper adaptor stays safety-gated pending final testing", () => {
   const wiper = parts.find((part) => part.slug === "wiper-arm-adaptor");
   assert.ok(wiper, "wiper adaptor must be in the research archive");
   assert.equal(wiper.safetyGated, true);

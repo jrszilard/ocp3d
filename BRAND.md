@@ -103,10 +103,11 @@ not a new theme. Five changes, each locked by `scripts/brand.test.mjs`:
    filled stamp). A research-only record is off the ladder (hatched), never a partly climbed ladder.
    `Stamp.astro`, `EvidenceLadder.astro` and `LadderKey.astro` read the record; they never add a
    claim.
-4. **Wanted, not empty.** Requested parts with no original are a compact wanted list
-   (`WantedList.astro`), not empty product cards. It asks for an original, even broken, and
-   links an enquiry with `situation=have-part`. It promises no reward, loan terms, price or finished
-   part; a donor offer needs its own founder decision first. Safety-gated records never appear.
+4. **No wanted lists or donor asks (founder, 2026-09-29).** The "have one of these?" wanted list
+   and "help out" asks were Lost-Clip-Society-era gamification of part reconstruction; OCP3D pitches
+   custom design and 3D printing. Requested records with no work behind them are not listed and
+   get no page (`isListed`, `listedParts` in `catalog.ts`); the site never asks visitors for
+   originals. (Customers can still mention their own broken part in an enquiry.)
 5. **The car is the face.** The founder stays off camera, so the ’83 Supra carries the story
    (`TheCar.astro`, `src/data/car.mjs`): real photos of the actual car only, plates/VIN tags/
    inspection stickers cropped, location metadata stripped. It is the origin, never a fitment claim
@@ -123,7 +124,7 @@ interface pages by about a third (home 1,379 → ~620).
 **Vocabulary.** Custom design · Parts & projects · Part record · Build log · Materials · About ·
 Start an enquiry · Email updates. Status words stay literal. Coined labels (field file, case file,
 lead, trail, route, roadbook, investigation desk, fit lab, Dispatch) stay out of the interface;
-research-only records keep “research lead” because it marks a closed boundary. The internal
+closed records ask questions, not "research leads". The internal
 `LCS-XXXXX` reference prefix is unchanged.
 
 ## Visual world
@@ -148,11 +149,12 @@ lives in the visuals and the evidence, not in invented nouns.
 - Status stamps (Requested / In development / Measured / Fitted on a real car) describe real
   evidence and must remain semantically distinct. Restore and Improve are separate **part paths**,
   not status levels; an OCP3D-original improvement gets its own interface and function evidence.
-- **Research-only / final-testing boundary** is a closed scope gate, not a status level or an
-  offer. For the wiper adaptor it plainly says vibration, UV-exposure, and rain-functionality
-  testing remain pending; it may invite evidence only—never purchase, installation, fit, or
-  road-use discussion.
-- The wanted list (requested, no original yet) remains an honest request for an original, not an offer.
+- **Closed (safety-gated) records** are a scope gate, not a status level or an offer. Their public
+  label is **In long-term testing** when the part is on the founder's car being tested over time
+  (the wiper adaptors since Sept 20, 2026, founder direction 2026-09-29; `src/data/long-term-testing.mjs`),
+  otherwise **Research only**. Either way the page says what still needs proving (vibration, UV,
+  rain, time), that it is not for sale, and never invites purchase, installation, fit or road-use
+  discussion for anyone else's car. The catalog `safetyGated` flag does not change.
 - Dimension tables and per-material fit reports are the product’s trust core.
 - “Fits or we remake it free” applies only where the evidence and offer actually support it.
 - **Email updates** (internally still the `membership` type) are a quiet opt-in channel, not a social feed or membership identity.

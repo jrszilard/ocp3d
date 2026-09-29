@@ -8,6 +8,13 @@
  */
 import { car } from "../data/car.mjs";
 import { journal } from "../data/journal.mjs";
+import { allParts, closedLabel } from "../lib/catalog";
+
+const partsBySlug = new Map(allParts().map((part) => [part.slug, part]));
+const note = (entry: any) => {
+  const part = partsBySlug.get(entry.partSlug);
+  return part?.safetyGated ? closedLabel(part).toLowerCase() : "";
+};
 
 const photo = car.photos[0];
 ---
@@ -26,7 +33,7 @@ const photo = car.photos[0];
       {journal.map((entry) => (
         <div>
           <dt>BUILD LOG {entry.number}</dt>
-          <dd><a href={`/journal/${entry.slug}/`}>{entry.title}</a>{entry.researchOnly && <span class="ro"> · research only</span>}</dd>
+          <dd><a href={`/journal/${entry.slug}/`}>{entry.title}</a>{note(entry) && <span class="ro"> · {note(entry)}</span>}</dd>
         </div>
       ))}
     </dl>

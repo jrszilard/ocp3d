@@ -2,16 +2,16 @@
 import Base from "../../layouts/Base.astro";
 import ServiceHeading from "../../components/ServiceHeading.astro";
 import Stamp from "../../components/Stamp.astro";
-import { allParts } from "../../lib/catalog";
+import { allParts, closedLabel } from "../../lib/catalog";
 import { journal } from "../../data/journal.mjs";
 
 const partsBySlug = new Map(allParts().map((part) => [part.slug, part]));
 const entries = journal.map((entry) => {
   const part = partsBySlug.get(entry.partSlug);
   if (!part) throw new Error(`journal/${entry.slug}: part ${entry.partSlug} is not in the snapshot`);
-  // A research-only entry always wears the research boundary, whatever the maturity state.
+  // A closed (safety-gated) entry always wears its closed label, whatever the maturity state.
   const safetyGated = entry.researchOnly || Boolean(part.safetyGated);
-  return { ...entry, part, safetyGated, stampLabel: safetyGated ? "RESEARCH ONLY" : part.stateLabel };
+  return { ...entry, part, safetyGated, stampLabel: safetyGated ? closedLabel(part).toUpperCase() : part.stateLabel };
 });
 const formatDate = (iso: string) =>
   new Date(`${iso}T12:00:00Z`).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric", timeZone: "UTC" });

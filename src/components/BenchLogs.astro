@@ -6,7 +6,7 @@
  * A research log always wears the research boundary.
  */
 import Stamp from "./Stamp.astro";
-import { allParts } from "../lib/catalog";
+import { allParts, closedLabel } from "../lib/catalog";
 import { journal } from "../data/journal.mjs";
 
 interface Props { limit?: number }
@@ -17,7 +17,7 @@ const entries = journal.slice(0, limit).flatMap((entry) => {
   const part = partsBySlug.get(entry.partSlug);
   if (!part) return [];
   const safetyGated = entry.researchOnly || Boolean(part.safetyGated);
-  return [{ ...entry, part, safetyGated, stampLabel: safetyGated ? "RESEARCH ONLY" : part.stateLabel }];
+  return [{ ...entry, part, safetyGated, stampLabel: safetyGated ? closedLabel(part).toUpperCase() : part.stateLabel }];
 });
 ---
 {entries.length > 0 && (
