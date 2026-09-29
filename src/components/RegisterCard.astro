@@ -9,6 +9,7 @@
  */
 import Stamp from "./Stamp.astro";
 import EvidenceLadder from "./EvidenceLadder.astro";
+import PhotoCarousel from "./PhotoCarousel.astro";
 import { applicationLabel, closedLabel, closedTesting, oemIdentityLabel } from "../lib/catalog";
 import { partArt } from "../data/part-art.mjs";
 
@@ -60,9 +61,8 @@ const search = [part.title, part.vehicleLabel, part.yearRange, part.oemNumber, p
     <div class="card-art">
       {measured && <span class="layer">{part.dimsConfirmed} DIMENSIONS</span>}
       {art
-        ? <img src={art.src} alt={art.alt} width={art.width} height={art.height} loading="lazy" />
+        ? <PhotoCarousel photos={art.photos} variant="card" label={`${part.title} photos`} note={art.note} renderLabel="CAD RENDER · NOT A TEST RESULT" />
         : <div class="placeholder art-ph"><span>NO VIEW YET</span></div>}
-      {art && <span class:list={["render-label", { "render-label--closed": safetyGated }]}>{art.kind === "render" ? "CAD RENDER · NOT A TEST RESULT" : art.caption[0]}</span>}
       <span class="tape" aria-hidden="true"></span>
     </div>
   )}
@@ -87,12 +87,9 @@ const search = [part.title, part.vehicleLabel, part.yearRange, part.oemNumber, p
 <style>
   .card { display: flex; flex-direction: column; border: 1px solid var(--paper); background: var(--ground); box-shadow: 4px 5px 0 color-mix(in srgb, var(--paper) 14%, transparent); }
   .card[hidden] { display: none; }
-  .card-art { position: relative; height: 208px; overflow: hidden; border-bottom: 1px solid var(--rule); background: var(--ground-deep); }
-  .card-art img { width: 100%; height: 100%; object-fit: cover; filter: contrast(1.04) saturate(.84); }
-  .art-ph { height: 100%; border: 0; }
+  .card-art { position: relative; min-height: 208px; overflow: hidden; border-bottom: 1px solid var(--rule); background: var(--ground-deep); }
+  .art-ph { height: 208px; border: 0; }
   .layer { position: absolute; z-index: 2; top: 10px; right: 10px; padding: 4px 7px; background: var(--ground); color: var(--st-measured); font-size: var(--t-micro); font-weight: 600; letter-spacing: var(--t-micro-tr); text-transform: uppercase; }
-  .render-label { position: absolute; right: 0; bottom: 0; left: 0; padding: 6px 12px; background: var(--ground); color: var(--body); font-size: var(--t-micro); letter-spacing: var(--t-micro-tr); }
-  .render-label--closed { background: var(--st-closed); color: var(--acid); font-weight: 600; }
   .tape { position: absolute; z-index: 3; top: -9px; left: 50%; width: 86px; height: 20px; background: rgba(211,177,109,.72); transform: translateX(-50%) rotate(-4deg); }
   .card-safety { height: 208px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; padding: 0 18px; border-bottom: 1px dashed var(--rule-2); text-align: center; }
   .card-safety { background: repeating-linear-gradient(135deg, transparent 0 14px, color-mix(in srgb, var(--signal) 18%, transparent) 14px 15px), var(--journal-charcoal); }

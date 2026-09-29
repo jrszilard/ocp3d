@@ -157,6 +157,10 @@ lives in the visuals and the evidence, not in invented nouns.
   discussion for anyone else's car. The catalog `safetyGated` flag does not change. While a part is
   in long-term testing, real photos of it on the car may lead its card, record and log cover
   (`part-art.mjs`), always captioned "in long-term testing · not for sale".
+- **Part photos are a carousel** (`PhotoCarousel.astro`, founder 2026-09-29): several real photos
+  per part on its card and record, with a caption per photo. It is first-party and works without
+  JavaScript (swipe/scroll), with arrows, a counter and arrow keys added by script; no autoplay,
+  and it respects reduced motion. A testing part's not-for-sale note stays on every photo.
 - Dimension tables and per-material fit reports are the product’s trust core.
 - “Fits or we remake it free” applies only where the evidence and offer actually support it.
 - **Email updates** (internally still the `membership` type) are a quiet opt-in channel, not a social feed or membership identity.

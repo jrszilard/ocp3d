@@ -183,3 +183,26 @@ test("interface copy stays short", async () => {
     assert.ok(words(entry.summary) <= 22, `${entry.slug} summary is ${words(entry.summary)} words (budget 22)`);
   }
 });
+
+// Founder, 2026-09-29: part photos show as a carousel. Every photo is committed and described,
+// a render is labelled as one, and a part in long-term testing keeps its not-for-sale note.
+test("part carousels: real, described photos; testing parts always say not for sale", async () => {
+  const { partArt } = await import("../src/data/part-art.mjs");
+  const { longTermTesting } = await import("../src/data/long-term-testing.mjs");
+  for (const [slug, art] of Object.entries(partArt)) {
+    assert.ok(parts.some((part) => part.slug === slug), `${slug} is a catalog record`);
+    assert.ok(art.photos.length > 0, `${slug} has photos`);
+    for (const photo of art.photos) {
+      assert.ok(existsSync(new URL(`public${photo.src}`, root)), `${slug}: missing ${photo.src}`);
+      assert.ok(photo.alt.length > 20, `${slug}: ${photo.src} needs real alt text`);
+      assert.ok(photo.caption.trim(), `${slug}: ${photo.src} needs a caption`);
+    }
+    if (longTermTesting[slug]) assert.match(art.note ?? "", /NOT FOR SALE/, `${slug}: testing note must say not for sale`);
+  }
+  const carousel = read("src/components/PhotoCarousel.astro");
+  const code = carousel.replace(/\/\*[\s\S]*?\*\//g, "").replace(/^\s*\/\/.*$/gm, "");
+  assert.doesNotMatch(code, /<script[^>]+src=|\sautoplay\b|setInterval/, "first-party, no autoplay");
+  assert.match(carousel, /aria-label="Previous photo"/);
+  assert.match(carousel, /aria-label="Next photo"/);
+  assert.match(carousel, /prefers-reduced-motion/);
+});

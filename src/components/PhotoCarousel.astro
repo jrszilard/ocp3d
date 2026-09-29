@@ -1,0 +1,124 @@
+---
+/**
+ * A small, first-party photo carousel for part cards and part records.
+ *
+ * Progressive: without JavaScript it is a horizontal scroll-snap strip you can swipe or
+ * scroll. With JavaScript it gains previous/next buttons, dots, a counter and arrow-key
+ * support. No third-party script, no autoplay. A persistent `note` (for a part in
+ * long-term testing: "not for sale") stays visible whichever photo is showing.
+ */
+interface Photo {
+  src: string;
+  width: number;
+  height: number;
+  alt: string;
+  caption: string;
+  kind?: "photo" | "render";
+  fit?: "cover" | "contain";
+}
+interface Props {
+  photos: Photo[];
+  variant?: "card" | "record";
+  label: string;
+  note?: string | null;
+  renderLabel?: string;
+}
+const { photos, variant = "record", label, note = null, renderLabel = "CAD RENDER · NOT A TEST RESULT" } = Astro.props;
+const many = photos.length > 1;
+---
+<div class:list={["carousel", `carousel--${variant}`, { "has-note": note }]} data-carousel
+     role="region" aria-roledescription="carousel" aria-label={label}>
+  <div class="track" data-track tabindex="0">
+    {photos.map((photo, i) => (
+      <figure class="slide" role="group" aria-roledescription="slide" aria-label={`${i + 1} of ${photos.length}`}>
+        <img src={photo.src} alt={photo.alt} width={photo.width} height={photo.height}
+             loading={i === 0 ? "eager" : "lazy"} decoding="async"
+             class:list={{ "fit-contain": variant === "record" && photo.fit === "contain" }} />
+        <figcaption>{photo.kind === "render" ? renderLabel : photo.caption}</figcaption>
+      </figure>
+    ))}
+  </div>
+  {note && <p class="note">{note}</p>}
+  {many && (
+    <div class="controls" data-controls hidden>
+      <button type="button" class="nav prev" data-prev aria-label="Previous photo">←</button>
+      <span class="count" data-count aria-live="polite">1 / {photos.length}</span>
+      <button type="button" class="nav next" data-next aria-label="Next photo">→</button>
+    </div>
+  )}
+</div>
+
+<script>
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  for (const root of document.querySelectorAll<HTMLElement>("[data-carousel]")) {
+    const track = root.querySelector<HTMLElement>("[data-track]")!;
+    const controls = root.querySelector<HTMLElement>("[data-controls]");
+    if (!controls) continue;
+    const slides = [...track.children] as HTMLElement[];
+    const prev = controls.querySelector<HTMLButtonElement>("[data-prev]")!;
+    const next = controls.querySelector<HTMLButtonElement>("[data-next]")!;
+    const count = controls.querySelector<HTMLElement>("[data-count]")!;
+    // `index` is the photo being shown. Buttons and keys move it (and update the counter at
+    // once); a swipe or trackpad scroll updates it from the scroll position when it settles.
+    let index = 0;
+    const render = () => {
+      count.textContent = `${index + 1} / ${slides.length}`;
+      prev.disabled = index === 0;
+      next.disabled = index === slides.length - 1;
+    };
+    const go = (i: number) => {
+      index = Math.max(0, Math.min(slides.length - 1, i));
+      render();
+      track.scrollTo({ left: index * track.clientWidth, behavior: reduceMotion ? "auto" : "smooth" });
+    };
+    prev.addEventListener("click", () => go(index - 1));
+    next.addEventListener("click", () => go(index + 1));
+    track.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowLeft") { event.preventDefault(); go(index - 1); }
+      if (event.key === "ArrowRight") { event.preventDefault(); go(index + 1); }
+    });
+    let timer = 0;
+    track.addEventListener("scroll", () => {
+      clearTimeout(timer);
+      timer = window.setTimeout(() => {
+        index = Math.round(track.scrollLeft / Math.max(1, track.clientWidth));
+        render();
+      }, 120);
+    }, { passive: true });
+    root.classList.add("is-enhanced");
+    controls.hidden = false;
+    render();
+  }
+</script>
+
+<style>
+  .carousel { position: relative; min-width: 0; background: var(--journal-charcoal); }
+  .track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; overscroll-behavior-x: contain; scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { .track { scroll-behavior: auto; } }
+  .track:focus-visible { outline: 2px solid var(--signal); outline-offset: -2px; }
+  .is-enhanced .track { scrollbar-width: none; }
+  .is-enhanced .track::-webkit-scrollbar { display: none; }
+  .slide { position: relative; flex: 0 0 100%; margin: 0; scroll-snap-align: start; }
+  .slide img { display: block; width: 100%; object-fit: cover; background: var(--journal-charcoal); }
+  .slide img.fit-contain { object-fit: contain; }
+  figcaption { font-family: var(--font-mono); font-size: var(--t-micro); letter-spacing: var(--t-micro-tr); text-transform: uppercase; }
+  .note { margin: 0; padding: 6px 12px; background: var(--st-closed); color: var(--acid); font-family: var(--font-mono); font-size: var(--t-micro); font-weight: 600; letter-spacing: var(--t-micro-tr); }
+
+  .controls { position: absolute; top: 10px; left: 10px; z-index: 4; display: flex; align-items: center; gap: 4px; }
+  .controls[hidden] { display: none; }
+  .nav { display: grid; place-items: center; width: 36px; height: 36px; padding: 0; border: 1px solid var(--paper); background: var(--ground); color: var(--paper); font: 600 16px/1 var(--font-mono); cursor: pointer; }
+  .nav:hover:not(:disabled) { background: var(--journal-board); color: var(--ink); }
+  .nav:disabled { opacity: .45; cursor: default; }
+  .count { min-width: 52px; padding: 0 8px; height: 36px; display: grid; place-items: center; background: var(--ground); border-block: 1px solid var(--paper); color: var(--paper); font-family: var(--font-mono); font-size: var(--t-micro); letter-spacing: var(--t-micro-tr); }
+
+  /* Card: fixed-height strip, caption as a bar across the bottom of each photo. */
+  .carousel--card .slide img { height: 208px; }
+  .carousel--card figcaption { position: absolute; right: 0; bottom: 0; left: 0; padding: 6px 12px; background: var(--ground); color: var(--body); }
+  .carousel--card .controls { top: 8px; left: 8px; }
+  .carousel--card .nav { width: 32px; height: 32px; }
+  .carousel--card .count { height: 32px; min-width: 46px; }
+
+  /* Record: 4:3 frame, portraits shown whole on the dark board, caption under the photo. */
+  .carousel--record .slide img { aspect-ratio: 4 / 3; height: auto; }
+  .carousel--record figcaption { padding: 10px 14px; border-top: var(--bd-inner) solid var(--rule); background: var(--ground-deep); color: var(--steel); }
+</style>
