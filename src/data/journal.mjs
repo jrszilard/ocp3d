@@ -31,8 +31,8 @@ export const journal = [
     number: "002",
     title: "Modern wiper blades on the original arms",
     eyebrow: "BUILD LOG 002 · RESEARCH ONLY · WORK IN PROGRESS",
-    summary: "Adaptors so modern blades fit the original arms. Research only: not for sale, installed or road-tested.",
-    updated: "2026-09-17",
+    summary: "Printed adaptors so modern blades fit the original arms. On the car for testing; research only, not for sale.",
+    updated: "2026-09-29",
     researchOnly: true,
     cover: {
       src: "/images/journal/wiper-adaptors/stock-driver-carrier.jpg",

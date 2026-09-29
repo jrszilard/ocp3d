@@ -33,14 +33,14 @@ const img = (file: string) => `/images/journal/wiper-adaptors/${file}`;
         <b>Work in progress. Research only.</b> Wipers are safety equipment. Final testing is still
         pending: vibration, UV exposure, and rain function, plus the remaining measured interface evidence,
         before any product, installation, fit, or road-use discussion can exist. Nothing on this page is
-        for sale, installed, or road-tested.
+        for sale.
       </p>
 
       <dl class="entry-facts">
         <div><dt>Car</dt><dd>1983 Toyota Celica Supra (A60)</dd></div>
         <div><dt>Positions</dt><dd>Driver, passenger, rear hatch</dd></div>
-        <div><dt>Latest</dt><dd>ASA set sliced and queued, not printed</dd></div>
-        <div><dt>On the car</dt><dd>Nothing yet</dd></div>
+        <div><dt>Latest</dt><dd>ASA set printed, Rain-X blades fitted</dd></div>
+        <div><dt>On the car</dt><dd>Since Sept 20, for testing</dd></div>
         <div><dt>Status</dt><dd><Stamp state={part.state} label="RESEARCH ONLY" safetyGated /></dd></div>
       </dl>
 
@@ -202,22 +202,52 @@ const img = (file: string) => `/images/journal/wiper-adaptors/${file}`;
               size for them: 4.1 mm.</p>
             <p><strong>Material.</strong> PLA is for fit prototypes. The research parts move to ASA, which is
               UV-stable, handles heat, and needs the enclosed printer with the chamber warmed up. The ASA set is
-              sliced with 4 walls and 40% infill, because the walls around the inserts carry the clamping load.
-              It's queued, not printed yet.</p>
+              sliced with 4 walls and 40% infill, because the walls around the inserts carry the clamping load.</p>
           </div>
         </section>
 
         <section class="entry-section">
           <p class="step-n">07</p>
           <div class="section-copy">
+            <h2>On the car (Sept 20)</h2>
+            <p><strong>The ASA set is printed and on the car,</strong> with Rain-X blades clipped into the
+              printed adaptors on the original arms. The arms weren't drilled or modified. The clip below is a
+              first powered sweep with the car parked.</p>
+          </div>
+          <figure class="shot shot--wide">
+            <video src="/video/journal/wiper-sweep-sept20.mp4" poster={img("sweep-poster.jpg")}
+                   width="1280" height="900" controls muted playsinline preload="none"
+                   aria-label="Silent clip from the driver's seat: both front blades sweep the windshield on the printed adaptors, car parked."></video>
+            <figcaption><span>POWERED SWEEP · CAR PARKED · SEPT 20, 2026</span><span>SILENT CLIP · 14 S</span></figcaption>
+          </figure>
+          <div class="shots">
+            <figure class="shot">
+              <img src={img("on-car-adaptor-closeup.jpg")} width="1600" height="900" loading="lazy"
+                   alt="Close-up of a printed adaptor on the original arm, holding the Rain-X blade connector." />
+              <figcaption><span>ADAPTOR + RAIN-X CONNECTOR</span><span>SEPT 20, 2026</span></figcaption>
+            </figure>
+            <figure class="shot shot--portrait">
+              <img src={img("on-car-adaptor-on-arm.jpg")} width="900" height="1600" loading="lazy"
+                   alt="A printed adaptor mounted on the end of the original wiper arm, with the blade attached." />
+              <figcaption><span>ON THE ORIGINAL ARM</span><span>SEPT 20, 2026</span></figcaption>
+            </figure>
+            <figure class="shot shot--portrait">
+              <img src={img("on-car-blade-along-cowl.jpg")} width="900" height="1600" loading="lazy"
+                   alt="A modern blade resting along the windshield on its printed adaptor, next to the red hood." />
+              <figcaption><span>BLADE AT REST</span><span>SEPT 20, 2026</span></figcaption>
+            </figure>
+          </div>
+        </section>
+
+        <section class="entry-section">
+          <p class="step-n">08</p>
+          <div class="section-copy">
             <h2>Where it stands</h2>
             <ul class="ticks">
-              <li>Nothing is on the car yet.</li>
-              <li><strong>Next:</strong> print the ASA set, measure the mounting section at all six insert
-                points, then a static check on the car with the engine off.</li>
-              <li><strong>Before any road use:</strong> real testing, meaning the full wiper sweep at speed, wet
-                and dry, heat, UV, vibration, and time. This is the first part I've worked on where "it fits"
-                isn't close to enough.</li>
+              <li><strong>On the car for testing</strong> since Sept 20. Research only, and not for sale.</li>
+              <li><strong>Still to prove:</strong> the full sweep at speed, wet and dry, heat, UV, vibration and
+                time. This is the first part I've worked on where "it fits" isn't close to enough.</li>
+              <li><strong>Next:</strong> more photos and video as the testing builds up.</li>
             </ul>
           </div>
         </section>
@@ -271,8 +301,10 @@ const img = (file: string) => `/images/journal/wiper-adaptors/${file}`;
 
   .shots { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin-top: 20px; align-items: start; }
   .shot { margin: 0; border: var(--bd-inner) solid var(--rule); background: var(--ground-deep); min-width: 0; }
-  .shot img { width: 100%; height: auto; display: block; background: var(--journal-charcoal); }
+  .shot img, .shot video { width: 100%; height: auto; display: block; background: var(--journal-charcoal); }
   .shot--cad { margin-top: 20px; max-width: 520px; }
+  .shot--wide { margin-top: 20px; max-width: 760px; }
+  .shot--wide video { aspect-ratio: 1280 / 900; }
   .shot--portrait img, .shot--portrait video { aspect-ratio: 3 / 4; object-fit: cover; }
   .shot--cad-tile img { aspect-ratio: 3 / 4; object-fit: contain; }
   .shot--cad img, .shot--cad-tile img { background: #f7f7f7; }

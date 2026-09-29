@@ -11,11 +11,11 @@ export const car = {
   market: "US",
   photos: [
     {
-      src: "/images/car/supra-hood-and-wiper.jpg",
+      src: "/images/car/supra-front-three-quarter.jpg",
       width: 1600,
-      height: 1007,
-      alt: "The red hood and original driver-side wiper arm of the founder's 1983 Celica Supra.",
-      caption: "THE ’83 SUPRA · HOOD & ORIGINAL WIPER ARM · AUG 18, 2026",
+      height: 954,
+      alt: "The founder's red 1983 Toyota Celica Supra, seen from the front three-quarter.",
+      caption: "THE ’83 SUPRA · MAY 2026",
     },
   ],
 };
