@@ -90,7 +90,12 @@ not a new theme. Five changes, each locked by `scripts/brand.test.mjs`:
    drawing, inside a rubber-stamp ring. One colour, drawn from 16 px outward; never a single part, a
    car silhouette or a shield. (Round 1's plain layer bars under a dimension didn't read as printing;
    the founder kept the measurement line and asked for clearer layers.) `Insignia.astro` (variants `stamp` and `seal`) and `public/favicon.svg` own it. The full
-   seal adds OLD CAR PROBLEMS / NEW HAMPSHIRE rim lettering for 120 px and up. The comparison board
+   seal adds OLD CAR PROBLEMS / NEW HAMPSHIRE rim lettering for 120 px and up. **The lockup is the
+   plate** (`Lockup.astro`): the mark, OCP3D and OLD CAR PROBLEMS on a generic embossed licence
+   plate, so the name reads like a vanity plate and the expansion sits in the slogan line. It is
+   the one old-car cue in the identity (founder asked for "something simple that evokes an old
+   car"); a fender arch and a headlamp brow were drawn and read as an arch/hooded eye. No state
+   name, plate format or motto; the mark itself stays a method symbol, never a car silhouette. The comparison board
    (F3 chosen, E2 and measurement-only alternatives, round 1 for reference) is
    `design/mockups/ocp3d-mark-options.html`.
 3. **The evidence ladder is the signature.** One ink per rung, never shared: Requested (steel,
@@ -131,8 +136,9 @@ lives in the visuals and the evidence, not in invented nouns.
 - **No generic car hero art.** Vehicles appear only as genuine fitment context, the founder’s own
   labelled car, donor/customer evidence, or appropriately labelled real/render imagery. Part
   renders remain neutral resin; do not invent photos or make marketing imagery look like proof.
-- **The lockup** is mark + `OCP3D` + `OLD CAR PROBLEMS`. Keep the expansion visible and readable
-  (11 px floor) in major first encounters; never isolate the mark from the name without need.
+- **The lockup** is the plate: mark + `OCP3D` + `OLD CAR PROBLEMS`. Use it in first encounters;
+  the mark alone only where space is small and square (favicon, avatar). Slogan line keeps the
+  11 px floor.
 - Every non-home public route opens with `ServiceHeading.astro`: a clear literal title and a dark
   side panel of page-specific `facts` (a build log’s versions and material, a part’s status and
   dimensions). The panel never repeats a slogan. `audience="owner"` keeps the owner-facing panel.

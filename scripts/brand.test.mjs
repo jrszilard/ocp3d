@@ -63,7 +63,11 @@ test("the print-it, measure-it stamp mark is drawn the same everywhere", () => {
   }
   assert.match(favicon, /<circle[^>]*r="28.5"[^>]*stroke/, "favicon keeps the stamp ring");
   assert.doesNotMatch(favicon, /5BE4D0|fixture/i, "the retired fixture mark is gone");
-  assert.doesNotMatch(read("src/components/Lockup.astro"), /font-size:\s*(?:[0-9]|10)px/, "the expansion never drops below the floor");
+  const lockup = read("src/components/Lockup.astro");
+  assert.doesNotMatch(lockup, /font-size:\s*(?:[0-9]|10)px/, "the expansion never drops below the floor");
+  assert.match(lockup, /class:list=\{\["plate"/, "the lockup is the licence plate");
+  assert.match(lockup, />OCP3D<\/span>[\s\S]*>OLD CAR PROBLEMS<\/span>/, "name and slogan stay real text on the plate");
+  assert.doesNotMatch(lockup, /NEW HAMPSHIRE|LIVE FREE|GRANITE STATE/i, "a generic plate, never a real state's format or motto");
 });
 
 test("each evidence rung has its own ink, and only Fitted is a filled stamp", () => {

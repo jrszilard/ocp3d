@@ -28,9 +28,11 @@ const {
   id = "ocp3d-seal",
 } = Astro.props;
 const seal = variant === "seal";
+// An empty label marks the mark as decorative (e.g. inside the plate lockup, whose link is already named).
+const a11y = label ? { role: "img", "aria-label": label } : { "aria-hidden": "true" };
 ---
 {seal ? (
-  <svg class={cls} width={size} height={size} viewBox="0 0 120 120" role="img" aria-label={label} fill="none" xmlns="http://www.w3.org/2000/svg">
+  <svg class={cls} width={size} height={size} viewBox="0 0 120 120" {...a11y} fill="none" xmlns="http://www.w3.org/2000/svg">
     <circle cx="60" cy="60" r="57" stroke="currentColor" stroke-width="3" />
     <circle cx="60" cy="60" r="39" stroke="currentColor" stroke-width="3" />
     <path id={`${id}-top`} d="M 14 60 A 46 46 0 0 1 106 60" />
@@ -51,7 +53,7 @@ const seal = variant === "seal";
     </g>
   </svg>
 ) : (
-  <svg class={cls} width={size} height={size} viewBox="0 0 64 64" role="img" aria-label={label} fill="none" xmlns="http://www.w3.org/2000/svg">
+  <svg class={cls} width={size} height={size} viewBox="0 0 64 64" {...a11y} fill="none" xmlns="http://www.w3.org/2000/svg">
     <circle cx="32" cy="32" r="29" stroke="currentColor" stroke-width="4.5" />
     <g>
       <path d="M31 11.5H43V15.5H40.5L37 20.5L33.5 15.5H31Z" fill="currentColor" />

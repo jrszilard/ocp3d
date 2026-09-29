@@ -1,33 +1,53 @@
 ---
-/** OCP3D lockup: stamp mark + acronym + plain-language expansion. The expansion is the
-    memorable half of the name, so it stays readable (11px floor), never decorative. */
+/**
+ * OCP3D lockup: the plate (2026-09-28). The stamp mark, OCP3D and OLD CAR PROBLEMS set
+ * as an embossed licence plate, so the name reads like a vanity plate and the expansion
+ * sits where a plate's slogan would. A generic plate: no state name, format or motto.
+ *
+ * The plate is the one old-car cue in the identity; the mark itself stays a method
+ * symbol (never a car silhouette or a make). Name and slogan are real text, and the
+ * slogan keeps the 11px floor. Small square uses (favicon, avatar) use Insignia alone.
+ */
 import Insignia from "./Insignia.astro";
 interface Props { variant?: "landscape" | "portrait" }
 const { variant = "landscape" } = Astro.props;
-const portrait = variant === "portrait";
+const large = variant === "portrait";
 ---
-<span class={`lockup ${portrait ? "is-portrait" : "is-landscape"}`}>
-  <Insignia size={portrait ? 92 : 46} />
-  <span class="name">
+<span class:list={["plate", { "is-large": large }]}>
+  <Insignia size={large ? 64 : 40} class="plate-mark" label="" />
+  <span class="plate-text">
     <span class="acronym">OCP3D</span>
     <span class="expansion">OLD CAR PROBLEMS</span>
   </span>
 </span>
 
 <style>
-  .lockup { display: flex; align-items: center; gap: 12px; color: var(--paper); }
-  .is-portrait { flex-direction: column; gap: 12px; text-align: center; }
-  .name { display: flex; flex-direction: column; line-height: 1; }
-  .acronym {
-    font-family: var(--font-display); font-weight: 700; letter-spacing: .035em;
-    font-size: var(--word-land); color: var(--paper);
+  .plate {
+    position: relative; display: inline-flex; align-items: center; gap: 9px;
+    padding: 11px 14px 8px 9px; border: 3px solid currentColor; border-radius: 11px;
+    color: var(--paper); line-height: 1;
+    /* The embossed inner rim: a paper-coloured gap, then a thin line. */
+    box-shadow: inset 0 0 0 3px var(--plate-gap, var(--ground)), inset 0 0 0 4.5px currentColor;
   }
-  .expansion {
-    margin-top: 6px; font-family: var(--font-mono); font-size: var(--t-micro); font-weight: 600;
-    letter-spacing: .14em; color: var(--ion); white-space: nowrap;
+  .plate :global(.plate-mark) { flex: none; }
+  .plate-text { position: relative; display: flex; flex-direction: column; align-items: center; }
+  /* Mounting slots, centred over the name like a real plate's. */
+  .plate-text::before, .plate-text::after {
+    content: ""; position: absolute; top: -9px; width: 9px; height: 4px; border-radius: 2px; background: currentColor;
   }
-  .name::after { content: ""; display: block; width: 100%; height: 2px; margin-top: 7px; background: var(--signal); }
-  .is-portrait .acronym { font-size: var(--word-port); }
-  .is-portrait .expansion { font-size: var(--t-eyebrow); }
-  .lockup :global(svg) { flex: none; }
+  .plate-text::before { left: 10%; }
+  .plate-text::after { right: 10%; }
+  .acronym { font-family: var(--font-display); font-weight: 700; font-size: 31px; line-height: .92; letter-spacing: .06em; }
+  .expansion { margin-top: 4px; font-family: var(--font-mono); font-weight: 600; font-size: var(--t-micro); letter-spacing: .02em; white-space: nowrap; }
+
+  .is-large { gap: 14px; padding: 18px 22px 13px 14px; border-width: 4px; border-radius: 16px; box-shadow: inset 0 0 0 4px var(--plate-gap, var(--ground)), inset 0 0 0 6px currentColor; }
+  .is-large .plate-text::before, .is-large .plate-text::after { top: -14px; width: 13px; height: 5px; border-radius: 3px; }
+  .is-large .acronym { font-size: 52px; }
+  .is-large .expansion { margin-top: 6px; font-size: 17px; letter-spacing: .03em; }
+
+  @media (max-width: 360px) {
+    .plate:not(.is-large) { gap: 7px; padding: 10px 11px 7px 7px; }
+    .plate:not(.is-large) :global(.plate-mark) { width: 32px; height: 32px; }
+    .plate:not(.is-large) .acronym { font-size: 26px; }
+  }
 </style>
