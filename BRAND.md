@@ -85,11 +85,13 @@ not a new theme. Five changes, each locked by `scripts/brand.test.mjs`:
    Reading text starts at 15 px (body 17, lead 19); nothing ships below 11 px. Use the `--t-*`
    tokens, never a hard-coded small size. Small-text greys and the rust/teal functional tones
    were darkened to pass WCAG AA on every paper surface.
-2. **The stamp mark.** A drafting dimension (measure) over a part built in layers (make), inside a
-   rubber-stamp ring. One colour, drawn from 16 px outward; never a single part, a car silhouette or
-   a shield. `Insignia.astro` (variants `stamp` and `seal`) and `public/favicon.svg` own it. The full
+2. **The stamp mark: print it, measure it.** A nozzle lays the top layer of a part (rounded
+   layers, like extruded plastic), and the part's width is dimensioned beneath it as on a technical
+   drawing, inside a rubber-stamp ring. One colour, drawn from 16 px outward; never a single part, a
+   car silhouette or a shield. (Round 1's plain layer bars under a dimension didn't read as printing;
+   the founder kept the measurement line and asked for clearer layers.) `Insignia.astro` (variants `stamp` and `seal`) and `public/favicon.svg` own it. The full
    seal adds OLD CAR PROBLEMS / NEW HAMPSHIRE rim lettering for 120 px and up. The comparison board
-   (with the two alternatives and the dropped caliper draft) is
+   (F3 chosen, E2 and measurement-only alternatives, round 1 for reference) is
    `design/mockups/ocp3d-mark-options.html`.
 3. **The evidence ladder is the signature.** One ink per rung, never shared: Requested (steel,
    dashed), In development (ochre), Measured (teal), Fitted on a real car (solid rust, the only
@@ -104,6 +106,14 @@ not a new theme. Five changes, each locked by `scripts/brand.test.mjs`:
    (`TheCar.astro`, `src/data/car.mjs`): real photos of the actual car only, plates/VIN tags/
    inspection stickers cropped, location metadata stripped. It is the origin, never a fitment claim
    for other cars.
+
+**Short by default (founder, 2026-09-28: "make the site less wordy").** Say each thing once,
+where it matters, in the fewest plain words. One caveat per page, next to the claim it limits;
+safety and research-only boundaries stay literal but are never repeated as filler. The home page
+links to the materials guide instead of repeating it. Budgets (enforced in `brand.test.mjs`): page
+intros ≤ 25 words, FAQ answers ≤ 40, material notes ≤ 16, build-log summaries ≤ 22. Build-log
+articles are the long-form writing and are exempt. The 2026-09-28 pass cut visible words on the
+interface pages by about a third (home 1,379 → ~620).
 
 **Vocabulary.** Custom design · Parts & projects · Part record · Build log · Materials · About ·
 Start an enquiry · Email updates. Status words stay literal. Coined labels (field file, case file,

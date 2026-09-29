@@ -5,9 +5,9 @@ import MaterialQuestions from "../components/MaterialQuestions.astro";
 import { materials, materialSources } from "../data/materials.mjs";
 
 const proof = [
-  { label: "THE MATERIAL", title: "A useful starting point.", body: "A supplier’s data describes a particular grade and test specimen. It helps select a candidate. It does not automatically give a printed clip the same performance." },
-  { label: "THE FINISHED PART", title: "Designed for its job.", body: "Wall thickness, layer direction, print quality and the mounting interface all change how a part behaves. A material name cannot compensate for the wrong construction." },
-  { label: "THE EVIDENCE", title: "Checked in context.", body: "Fit, heat under load, repeated use, and exposure need evidence appropriate to the part. A result belongs to that version, material and set of conditions—not every future print." },
+  { label: "THE MATERIAL", title: "A useful starting point.", body: "A datasheet describes one grade and one test piece. It helps pick a candidate, nothing more." },
+  { label: "THE FINISHED PART", title: "Designed for its job.", body: "Wall thickness, layer direction and the mounting all change how a part behaves." },
+  { label: "THE EVIDENCE", title: "Checked in context.", body: "Fit, heat, wear and sun get checked on that version, in that material." },
 ];
 ---
 <Base
@@ -19,18 +19,18 @@ const proof = [
     <ServiceHeading
       eyebrow="MATERIALS & DURABILITY / THE PLAIN-ENGLISH GUIDE"
       title="Not all plastic is the same."
-      lede="3D printing is how a part is made—not what it is made of. A desktop model and a functional car part can come from a printer but use very different materials and design decisions."
+      lede="Printing is how a part is made, not what it’s made of. A desk toy and a car part need very different plastics."
       file="MATERIALS & DURABILITY"
       facts={[["FAMILIES", "PLA · PETG · ASA · NYLON"], ["START WITH", "WHERE THE PART LIVES"], ["NOT", "A “CAR-SAFE” RATING"]]}
     />
 
     <section class="guide-opening" aria-labelledby="guide-question">
       <div><p class="eyebrow">THE SHORT ANSWER</p><h2 id="guide-question">Can a printed part<br />last in a car?</h2></div>
-      <div class="guide-prose"><p><strong>Yes—when its material, construction and validation suit the job.</strong> Cars already use plastic clips, knobs, trim and housings. Metal is essential for some jobs, but it is not a universal upgrade for all of them.</p><p>Printing makes small runs possible without a dedicated mould. It also brings its own design considerations, including direction-dependent strength across layers. A printed part needs its own evidence; it does not inherit the performance of a moulded original.</p></div>
+      <div class="guide-prose"><p><strong>Yes, if the material, design and testing suit the job.</strong> Cars already use plastic clips, knobs and trim. A printed part still has to earn its own evidence; it doesn’t inherit the original’s.</p></div>
     </section>
 
     <section class="material-comparison" id="compare" aria-labelledby="compare-title">
-      <header class="comparison-heading"><p class="eyebrow">FOUR MATERIAL FAMILIES / DIFFERENT JOBS</p><h2 id="compare-title">Start with the conditions.<br />Then consider the plastic.</h2><p>These are general material characteristics, not OCP3D stock options, product approvals or a recommendation for your car. Exact grades vary.</p></header>
+      <header class="comparison-heading"><p class="eyebrow">FOUR MATERIAL FAMILIES / DIFFERENT JOBS</p><h2 id="compare-title">Start with the conditions.<br />Then consider the plastic.</h2><p>General properties, not a recommendation for your car. Grades vary.</p></header>
       <nav class="material-jumps" aria-label="Jump to a material">{materials.map((material) => <a href={`#material-${material.id}`}>{material.name} <span aria-hidden="true">↓</span></a>)}</nav>
       <div class="material-grid">
         {materials.map((material, i) => (
@@ -42,16 +42,16 @@ const proof = [
           </article>
         ))}
       </div>
-      <aside class="rating-note"><h3>Why there is no “safe to X degrees” badge here.</h3><p>A datasheet’s heat-deflection or softening temperature depends on its test method and load. It is not a universal continuous-use limit. Time, stress, sunlight and the exact printed geometry change the answer. We would rather explain that than put a reassuring but misleading number on a card.</p></aside>
+      <aside class="rating-note"><h3>Why no “safe to X degrees” badge?</h3><p>Datasheet temperatures depend on the test method and load. Time, stress, sun and shape change the real answer, so there’s no misleading number here.</p></aside>
     </section>
 
-    <section class="proof-section" aria-labelledby="proof-title"><header><p class="eyebrow">CAPABILITY IS NOT QUALIFICATION</p><h2 id="proof-title">Three things have to agree.</h2><p>This is the evidence to look for—not a list of tests OCP3D claims to have completed.</p></header><div class="proof-grid">{proof.map((item) => <article><p class="eyebrow">{item.label}</p><h3>{item.title}</h3><p>{item.body}</p></article>)}</div><a href="/registry/">See the actual status of OCP3D’s parts →</a></section>
+    <section class="proof-section" aria-labelledby="proof-title"><header><p class="eyebrow">CAPABILITY IS NOT QUALIFICATION</p><h2 id="proof-title">Three things have to agree.</h2><p>What to look for. Not a list of tests OCP3D has done.</p></header><div class="proof-grid">{proof.map((item) => <article><p class="eyebrow">{item.label}</p><h3>{item.title}</h3><p>{item.body}</p></article>)}</div><a href="/registry/">See the actual status of OCP3D’s parts →</a></section>
 
     <section class="guide-questions" aria-labelledby="guide-faq-title"><div><p class="eyebrow">BEFORE YOU TRUST A PART</p><h2 id="guide-faq-title">Good questions<br /> to ask.</h2></div><MaterialQuestions /></section>
 
-    <section class="source-section" aria-labelledby="sources-title"><div><p class="eyebrow">READ THE REFERENCES</p><h2 id="sources-title">Sources, not slogans.</h2><p>Manufacturer guidance supports the general material descriptions above. It is not certification or a test result for an OCP3D part. Reviewed 8 September 2026.</p></div><ol class="source-list">{materialSources.map((source) => <li id={`source-${source.id}`}><span>{source.publisher}</span><a href={source.href}>{source.title} <span aria-hidden="true">↗</span></a>{source.id === "porsche" && <p>Porsche Classic’s 2018 account includes powder-based SLS plastic parts. OCP3D uses filament printing, a different process. The example establishes neither equivalence nor endorsement.</p>}</li>)}</ol></section>
+    <section class="source-section" aria-labelledby="sources-title"><div><p class="eyebrow">READ THE REFERENCES</p><h2 id="sources-title">Sources, not slogans.</h2><p>Manufacturer guidance behind the general descriptions above; not a test result for an OCP3D part. Reviewed 8 September 2026.</p></div><ol class="source-list">{materialSources.map((source) => <li id={`source-${source.id}`}><span>{source.publisher}</span><a href={source.href}>{source.title} <span aria-hidden="true">↗</span></a>{source.id === "porsche" && <p>Porsche’s parts are powder-printed (SLS); OCP3D prints with filament. An example, not an endorsement.</p>}</li>)}</ol></section>
 
-    <aside class="guide-cta"><div><h2>Tell me where the part lives.</h2><p>What car? What does the part do? Does it see heat, sun, flex or load? You don’t need to choose the filament before we talk.</p><p class="scope-note">Pre-2000, unbranded, non-safety-critical work only. A discussion is not a quote or a promise that printing is the right answer.</p></div><a class="btn btn--primary" href="/request/">DISCUSS YOUR PART →</a></aside>
+    <aside class="guide-cta"><div><h2>Tell me where the part lives.</h2><p>What car, what does the part do, and does it see heat, sun or load? No need to pick a plastic first.</p><p class="scope-note">Pre-2000, unbranded, non-safety-critical parts only.</p></div><a class="btn btn--primary" href="/request/">DISCUSS YOUR PART →</a></aside>
   </div>
 </Base>
 <style>

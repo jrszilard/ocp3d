@@ -15,9 +15,7 @@ export const journal = [
     number: "001",
     title: "Rebuilding the sun visor clip",
     eyebrow: "BUILD LOG 001 · 1983 CELICA SUPRA (A60)",
-    summary:
-      "One of the clips that holds the sun visor up had broken. Twelve versions later, v12 is in " +
-      "the car in ASA. Two deliberate changes from the original, and a part-number question still open.",
+    summary: "A broken visor clip, twelve versions, and a v12 in ASA that’s back in the car.",
     updated: "2026-09-17",
     researchOnly: false,
     cover: {
@@ -33,9 +31,7 @@ export const journal = [
     number: "002",
     title: "Modern wiper blades on the original arms",
     eyebrow: "BUILD LOG 002 · RESEARCH ONLY · WORK IN PROGRESS",
-    summary:
-      "Printed adaptors so modern blades can run on the A60's original arms without drilling them. " +
-      "Research in progress: nothing here is for sale, installed, or road-tested.",
+    summary: "Adaptors so modern blades fit the original arms. Research only: not for sale, installed or road-tested.",
     updated: "2026-09-17",
     researchOnly: true,
     cover: {

@@ -5,8 +5,8 @@ import ServiceHeading from "../components/ServiceHeading.astro";
 <Base title="Tell Me About Your Old-Car Project — OCP3D" description="Start a conversation about a missing part or a useful old-car improvement. No CAD file needed. Custom development is scoped and quoted before work starts." sheet="ENQUIRY · A CONVERSATION FIRST">
   <section class="request-page">
     <div class="wrap">
-      <ServiceHeading eyebrow="START WITH THE CAR & THE PROBLEM" title="Tell me what you need." lede="A missing piece, a broken original, or a useful improvement. Tell me what you want to solve and I’ll reply personally about the useful next step. No CAD file or technical brief needed." file="A CONVERSATION FIRST" audience="owner" compact />
-      <p class="enquiry-boundary" id="enquiry-boundary">This form does not place an order, take payment or promise that a part can be printed. Research-only records accept evidence—not orders or development bookings.</p>
+      <ServiceHeading eyebrow="START WITH THE CAR & THE PROBLEM" title="Tell me what you need." lede="Missing, broken or an improvement: tell me what you want to solve and I’ll reply personally. No CAD file needed." file="A CONVERSATION FIRST" audience="owner" compact />
+      <p class="enquiry-boundary" id="enquiry-boundary">This doesn’t place an order, take payment or promise a part can be printed.</p>
 
       <div class="intake-layout">
         <div class="form-column">
@@ -22,30 +22,30 @@ import ServiceHeading from "../components/ServiceHeading.astro";
               <label>The part or problem<input type="text" name="part" required placeholder="Missing trim, broken piece, storage idea…" /></label>
             </div>
             <label class="full"><span id="message-prompt">What would you like to solve?</span>
-              <textarea name="message" rows="5" placeholder="What is missing, broken or inconvenient? Tell me what you have access to, your town/region, and any budget or timing constraints you want me to know about."></textarea>
+              <textarea name="message" rows="5" placeholder="What’s missing or broken? Where are you, and anything I should know about budget or timing?"></textarea>
             </label>
             <div class="grid optional-details">
               <label>What do you have? <span class="opt">Optional</span><select name="situation"><option value="" selected>Not sure yet</option><option value="have-part">The old part, even if broken</option><option value="on-car">The part or mounting space on the car</option><option value="gone">The original is missing</option><option value="improvement">An idea for a useful improvement</option></select></label>
               <label>Original part number <span class="opt">Optional — only if you know it</span><input type="text" name="oem" placeholder="No need to research it before asking" /></label>
             </div>
-            <p class="photo-note">Have photos? Reply to the confirmation email with them, or email the workshop and include your enquiry number. There is no file upload on this form.</p>
+            <p class="photo-note">Photos? Reply to the confirmation email with them.</p>
             <div class="cf-foot"><button class="btn btn--primary" type="submit">Send my enquiry <span aria-hidden="true">→</span></button><span class="cap">A personal reply, not an automated quote.</span></div>
             <p class="form-error" id="form-error" role="alert" hidden></p>
           </form>
           <div class="done" id="case-done" role="status" tabindex="-1" hidden>
             <div class="done-stamp">Enquiry received</div>
             <p class="done-case">Your reference: <b id="case-id">—</b></p>
-            <p>I’ll reply personally to discuss the useful next step. You can reply to the confirmation email with photos. Nothing has been ordered or paid for.</p>
+            <p>I’ll reply personally. Send photos by replying to the confirmation email. Nothing has been ordered or paid for.</p>
             <p class="done-alt">Need to add something? Email <a href="mailto:requests@lostclipsociety.com">requests@lostclipsociety.com</a> and include your reference.</p>
           </div>
           <noscript><p class="note">This form also works without JavaScript. You’ll reach a confirmation page, or your mail app will open with the enquiry details.</p></noscript>
         </div>
 
         <aside class="intake-help" aria-label="Before you send">
-          <div id="project-guidance"><p class="eyebrow">NO SURPRISE START</p><h2>Talk first.<br />Agree the work.</h2><p>Custom design and prototyping are paid work. We first discuss suitability, access to the part or mounting space, and what would need to be developed.</p><p>Any paid stage, scope, required checks and costs are agreed before that work begins.</p><a href="/custom/#working-together">How custom projects work →</a></div>
+          <div id="project-guidance"><p class="eyebrow">NO SURPRISE START</p><h2>Talk first.<br />Agree the work.</h2><p>Custom work is paid, and scope and cost are agreed before anything starts.</p><a href="/custom/#working-together">How custom projects work →</a></div>
           <div id="research-guidance" hidden><p class="eyebrow">RESEARCH LEADS ONLY</p><h2>This record<br />stays closed.</h2><p>Share a donor, measurement, hardware detail or controlled-test evidence. This is not a quote, fitting, installation, road-use or production enquiry.</p><a id="research-record" href="/registry/">Read the research boundary →</a></div>
-          <div class="intake-local" id="intake-local"><p class="eyebrow">A LOCAL WORKSHOP. AN ONLINE START.</p><h3>NH’s Lakes Region.</h3><p>Visits around Rochester, NH, and selected Maine locations by arrangement. Elsewhere? We can first discuss whether a practical measurement and fit-check route exists.</p><p>Please get in touch before sending a part.</p></div>
-          <p class="intake-privacy">For your enquiry only. No automatic email-updates signup, tracking pixels or advertising profile.</p>
+          <div class="intake-local" id="intake-local"><p class="eyebrow">A LOCAL WORKSHOP. AN ONLINE START.</p><h3>NH’s Lakes Region.</h3><p>Visits around Rochester, NH, and selected Maine locations by arrangement. Elsewhere, we plan measuring together.</p><p>Please ask before posting a part.</p></div>
+          <p class="intake-privacy">Used for your enquiry only. No tracking, no automatic sign-up.</p>
         </aside>
       </div>
     </div>

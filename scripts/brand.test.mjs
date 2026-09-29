@@ -52,12 +52,15 @@ test("no shipped style hard-codes a font size below 11px", () => {
   }
 });
 
-test("the stamp mark replaces the fixture mark everywhere it is drawn", () => {
+test("the print-it, measure-it stamp mark is drawn the same everywhere", () => {
   const insignia = read("src/components/Insignia.astro");
   const favicon = read("public/favicon.svg");
-  const glyph = "M17.5 20L25.5 15.4V24.6Z";
-  assert.ok(insignia.includes(glyph), "Insignia draws the dimension arrows");
-  assert.ok(favicon.includes(glyph), "favicon draws the same dimension arrows");
+  const nozzle = "M31 11.5H43V15.5H40.5L37 20.5L33.5 15.5H31Z";
+  const arrows = "M16 46L24 41.6V50.4Z M48 46L40 41.6V50.4Z";
+  for (const [name, svg] of [["Insignia", insignia], ["favicon", favicon]]) {
+    assert.ok(svg.includes(nozzle), `${name} draws the nozzle laying the top layer`);
+    assert.ok(svg.includes(arrows), `${name} draws the dimension under the part`);
+  }
   assert.match(favicon, /<circle[^>]*r="28.5"[^>]*stroke/, "favicon keeps the stamp ring");
   assert.doesNotMatch(favicon, /5BE4D0|fixture/i, "the retired fixture mark is gone");
   assert.doesNotMatch(read("src/components/Lockup.astro"), /font-size:\s*(?:[0-9]|10)px/, "the expansion never drops below the floor");
@@ -140,4 +143,31 @@ test("car photos are real, described, and carry no EXIF or location data", () =>
     assert.match(photo.caption, /SUPRA/, "captions name the car");
   }
   assert.match(read("src/pages/charter.astro"), /<TheCar \/>/, "About shows the car");
+});
+
+// Founder direction 2026-09-28: "make the site less wordy". Budgets for the interface copy that
+// tends to grow back. Build-log articles are exempt: they are the long-form writing.
+test("interface copy stays short", async () => {
+  const words = (text) => text.trim().split(/\s+/).filter(Boolean).length;
+  for (const file of siteSources()) {
+    if (!/\/pages\//.test(file) || /\/journal\//.test(file)) continue;
+    const source = readFileSync(file, "utf8");
+    for (const m of source.matchAll(/\slede="([^"]+)"/g)) {
+      assert.ok(words(m[1]) <= 25, `${file}: lede is ${words(m[1])} words (budget 25): "${m[1]}"`);
+    }
+  }
+  const { materials, materialQuestions } = await import("../src/data/materials.mjs");
+  const { projectQuestions } = await import("../src/data/project-questions.mjs");
+  const { journal } = await import("../src/data/journal.mjs");
+  for (const item of [...materialQuestions, ...projectQuestions]) {
+    assert.ok(words(item.answer) <= 40, `FAQ "${item.question}" is ${words(item.answer)} words (budget 40)`);
+  }
+  for (const material of materials) {
+    for (const key of ["benefit", "limitation", "question"]) {
+      assert.ok(words(material[key]) <= 16, `${material.id}.${key} is ${words(material[key])} words (budget 16)`);
+    }
+  }
+  for (const entry of journal) {
+    assert.ok(words(entry.summary) <= 22, `${entry.slug} summary is ${words(entry.summary)} words (budget 22)`);
+  }
 });

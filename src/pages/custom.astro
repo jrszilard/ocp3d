@@ -4,45 +4,45 @@ import ServiceHeading from "../components/ServiceHeading.astro";
 import ProjectQuestions from "../components/ProjectQuestions.astro";
 
 const ideas = [
-  { n: "01", label: "SOMETHING MISSING", title: "A small part. A big nuisance.", body: "A broken interior piece or unavailable trim finisher. Start with a surviving original—or work out how to measure what remains.", link: "Discuss a missing part", situation: "gone" },
-  { n: "02", label: "SOMETHING MORE USEFUL", title: "An idea the car never had.", body: "A small storage insert or another practical interior addition. An original design for your needs, not a pretend OEM replacement.", link: "Discuss an improvement", situation: "improvement" },
-  { n: "03", label: "SOMETHING TO ADAPT", title: "A useful idea. Your car.", body: "Explore whether an existing approach can suit your space. Reusing design knowledge can save effort; fit and function still need their own checks.", link: "Discuss an adaptation", situation: "on-car" },
+  { n: "01", label: "SOMETHING MISSING", title: "A small part. A big nuisance.", body: "A broken interior piece or trim nobody sells. We start from an original, or measure what remains.", link: "Discuss a missing part", situation: "gone" },
+  { n: "02", label: "SOMETHING MORE USEFUL", title: "An idea the car never had.", body: "Storage or a practical addition, designed for your car. An original design, not a fake OEM part.", link: "Discuss an improvement", situation: "improvement" },
+  { n: "03", label: "SOMETHING TO ADAPT", title: "A useful idea. Your car.", body: "An existing design reworked for your space. Fit still gets checked on your car.", link: "Discuss an adaptation", situation: "on-car" },
 ];
 const steps = [
-  { n: "01", title: "Tell me the problem.", body: "The car, what you want to solve, and what you have access to. We first look at scope, existing alternatives and whether there is a sensible route forward." },
-  { n: "02", title: "Agree the work and cost.", body: "A clear scope, required inputs, prototype allowance, checks and proposed timing. If uncertainty calls for a separate paid feasibility stage, we agree that first." },
-  { n: "03", title: "Develop. Check. Decide.", body: "Measure the actual interface, develop and evaluate prototypes, then decide the next step. A finished part is only offered when the evidence supports that configuration and material." },
+  { n: "01", title: "Tell me the problem.", body: "The car, what you want to solve and what you can get to. First question: is there a sensible route?" },
+  { n: "02", title: "Agree the work and cost.", body: "Scope, prototypes, checks and timing, agreed up front. Sometimes a small paid feasibility step comes first." },
+  { n: "03", title: "Develop. Check. Decide.", body: "Measure the real interface, prototype, test, decide. A finished part only when the evidence supports it." },
 ];
 ---
 <Base title="Custom Parts & Design for Old Cars — OCP3D" description="Bring an old-car problem, not a CAD file. Paid design and prototyping for small pre-2000, non-safety-critical parts across makes. Based in NH’s Lakes Region; visits by arrangement." sheet="CUSTOM DESIGN · START WITH THE PROBLEM">
   <div class="custom-page wrap">
-    <ServiceHeading eyebrow="CUSTOM DESIGN & PROTOTYPING / ACROSS MAKES" title="Bring the problem. Not a CAD file." lede="A missing piece, a broken original, or a useful addition the car never had. Let’s work out whether a carefully designed 3D-printed part is a sensible answer." audience="owner" file="YOUR CAR. YOUR PROBLEM.">
+    <ServiceHeading eyebrow="CUSTOM DESIGN & PROTOTYPING / ACROSS MAKES" title="Bring the problem. Not a CAD file." lede="Missing, broken, or something the car never had. Let’s see if a 3D-printed part is the right answer." audience="owner" file="YOUR CAR. YOUR PROBLEM.">
       <div slot="actions" class="intro-actions"><a class="btn btn--primary" href="/request/">TELL ME WHAT YOU NEED <span aria-hidden="true">→</span></a><a class="underlink" href="#working-together">How we work together ↓</a></div>
     </ServiceHeading>
 
     <section class="project-ideas" aria-labelledby="ideas-title">
-      <div class="section-intro"><div><p class="eyebrow">SMALL PROBLEMS WORTH SOLVING</p><h2 id="ideas-title">What could we work on?</h2></div><p>Examples to discuss—not ready-made products. Each idea needs its own scope, interface and material checks.</p></div>
+      <div class="section-intro"><div><p class="eyebrow">SMALL PROBLEMS WORTH SOLVING</p><h2 id="ideas-title">What could we work on?</h2></div><p>Examples, not products. Each project gets its own checks.</p></div>
       <div class="idea-grid">
         {ideas.map((idea) => <article class="idea-card"><div class="idea-top"><span class="idea-number">{idea.n}</span><span>{idea.label}</span></div><h3>{idea.title}</h3><p>{idea.body}</p><a class="underlink" href={`/request/?situation=${idea.situation}`}>{idea.link} <span aria-hidden="true">↗</span></a></article>)}
       </div>
-      <p class="scope-line">Pre-2000 · Unbranded · Non-safety-critical. No brakes, steering, structural or other safety-critical parts.</p>
+      <p class="scope-line">Pre-2000 · Unbranded · Non-safety-critical. No brakes, steering or structural parts.</p>
     </section>
 
     <section class="working-together" id="working-together" aria-labelledby="working-title">
-      <div class="working-copy"><p class="eyebrow">A CONVERSATION. A PLAN. THEN THE WORK.</p><h2 id="working-title">Know what you’re<br />getting into.</h2><p>You’ll speak directly to the person doing the design. No technical brief required, no automatic quote, and no promise to print something that isn’t suitable.</p><a class="underlink" href="/method/">A closer look at the development process ↗</a></div>
+      <div class="working-copy"><p class="eyebrow">A CONVERSATION. A PLAN. THEN THE WORK.</p><h2 id="working-title">Know what you’re<br />getting into.</h2><p>You talk to the person doing the design. No technical brief, no automatic quote.</p><a class="underlink" href="/method/">A closer look at the development process ↗</a></div>
       <ol class="project-steps">{steps.map((step) => <li><span>{step.n}</span><div><h3>{step.title}</h3><p>{step.body}</p></div></li>)}</ol>
     </section>
 
-    <aside class="quote-note" aria-labelledby="quote-title"><div><p class="eyebrow">CUSTOM DOESN’T MEAN OPEN-ENDED</p><h2 id="quote-title">A clear scope.<br />Then a quote.</h2></div><div><p>Custom design and prototyping are <strong>paid work</strong>. The quote identifies development, prototypes and required checks, with manufacturing costs shown separately.</p><p>We agree the stages, included refinements, change and stop terms before work starts. A prototype is for learning—not a guarantee of a finished vehicle part. Sending an enquiry doesn’t order or pay for anything.</p></div></aside>
+    <aside class="quote-note" aria-labelledby="quote-title"><div><p class="eyebrow">CUSTOM DOESN’T MEAN OPEN-ENDED</p><h2 id="quote-title">A clear scope.<br />Then a quote.</h2></div><div><p>Design and prototyping are <strong>paid work</strong>. The quote covers development, prototypes and checks, with stop points agreed up front. A prototype is for learning, not a guarantee. An enquiry doesn’t commit you to anything.</p></div></aside>
 
     <section class="practicalities" aria-label="Materials and access">
-      <article><p class="eyebrow">BUILT AROUND THE JOB</p><h2>The right plastic.<br />Not just any plastic.</h2><p>A hot cabin, sunlight, a repeated flex: different jobs ask different things of a material. Design, print direction and actual testing matter too. You don’t need to choose a filament before talking to me.</p><a class="underlink" href="/materials/">Materials &amp; durability, in plain English ↗</a></article>
-      <article><p class="eyebrow">BASED IN NH’S LAKES REGION</p><h2>Start online.<br />Meet by arrangement.</h2><p>Visits around Rochester, NH, and selected Maine locations can help with measurement and fit checks. For projects farther away, we first establish a practical way to access the original or mounting interface.</p><p class="small-note">Photos start a conversation; they don’t replace mating dimensions. Please get in touch before sending a part.</p></article>
+      <article><p class="eyebrow">BUILT AROUND THE JOB</p><h2>The right plastic.<br />Not just any plastic.</h2><p>Heat, sun and repeated flex each need the right plastic. You don’t need to pick one before we talk.</p><a class="underlink" href="/materials/">Materials &amp; durability, in plain English ↗</a></article>
+      <article><p class="eyebrow">BASED IN NH’S LAKES REGION</p><h2>Start online.<br />Meet by arrangement.</h2><p>Visits around Rochester, NH, and selected Maine locations help with measuring and fit checks. Further away, we find another way to get the measurements.</p><p class="small-note">Please ask before posting a part.</p></article>
     </section>
 
-    <section class="project-faq" aria-labelledby="faq-title"><div><p class="eyebrow">BEFORE YOU ASK</p><h2 id="faq-title">Fair questions.<br />Straight answers.</h2><p>No mystery around what you need to bring, what costs money, or what this workshop can take on.</p></div><ProjectQuestions /></section>
+    <section class="project-faq" aria-labelledby="faq-title"><div><p class="eyebrow">BEFORE YOU ASK</p><h2 id="faq-title">Fair questions.<br />Straight answers.</h2></div><ProjectQuestions /></section>
 
-    <section class="custom-cta" aria-labelledby="custom-cta-title"><div><p class="eyebrow">KEEP THE CAR. SOLVE THE SMALL THINGS.</p><h2 id="custom-cta-title">What does your old car need?</h2><p>Start with the car and the problem. We’ll discuss the useful next step.</p></div><a class="btn btn--primary" href="/request/">START AN ENQUIRY <span aria-hidden="true">→</span></a></section>
+    <section class="custom-cta" aria-labelledby="custom-cta-title"><div><p class="eyebrow">KEEP THE CAR. SOLVE THE SMALL THINGS.</p><h2 id="custom-cta-title">What does your old car need?</h2><p>Start with the car and the problem.</p></div><a class="btn btn--primary" href="/request/">START AN ENQUIRY <span aria-hidden="true">→</span></a></section>
     <p class="existing-link">Looking for something already on the bench? <a class="underlink" href="/registry/">Explore parts &amp; projects →</a></p>
   </div>
 </Base>

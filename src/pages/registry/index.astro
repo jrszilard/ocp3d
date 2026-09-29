@@ -19,18 +19,14 @@ const hasFitRecord = parts.some((part) => part.state === "fitted" && !part.safet
       <ServiceHeading
         eyebrow="EXISTING DESIGNS / THEIR ACTUAL STATUS"
         title="Parts & projects."
-        lede="See what is already on the bench and where each design stands. The collection began with my Supra; it is not a limit on the makes and models you can bring to a custom enquiry."
+        lede="What’s on the bench, and where each part stands."
         file={`${parts.length} PROJECT RECORDS`}
         audience="owner"
       />
 
-      <aside class="collection-notice"><div><p class="eyebrow">LOOKING FOR A PART TO BUY?</p><h2>{hasFitRecord ? "Check the record. Then discuss your car." : "In development. Not a ready-to-buy range."}</h2><p>{hasFitRecord ? "Only fit-recorded parts with an open scope can support a made-to-order discussion. Your configuration, material and required checks still need confirming." : "These are current development and research records, not stock listings. A measured design or CAD render is not a finished, qualified part."}</p></div><a href="/custom/">Have a different problem?<br />Explore custom design ↗</a></aside>
+      <aside class="collection-notice"><div><p class="eyebrow">LOOKING FOR A PART TO BUY?</p><h2>{hasFitRecord ? "Check the record. Then discuss your car." : "In development. Not a ready-to-buy range."}</h2><p>{hasFitRecord ? "Only parts with a real-car fit record can be discussed as made to order, after a check of your car." : "Development and research records, not stock."}</p></div><a href="/custom/">Have a different problem?<br />Explore custom design ↗</a></aside>
 
       <div class="archive-tools">
-        <div class="tools-head">
-          <p class="eyebrow">FIND A PART OR PROJECT</p>
-          <a class="all-sheets" href="/custom/">Missing piece or new idea? Explore custom design →</a>
-        </div>
         <div class="tools">
           <label class="search-field" for="q">
             <span class="eyebrow">SEARCH PARTS &amp; PROJECTS</span>
@@ -48,7 +44,6 @@ const hasFitRecord = parts.some((part) => part.state === "fitted" && !part.safet
           </div>
         </div>
         <p class="eyebrow count" id="count" aria-live="polite"></p>
-        <p class="route-note">Each record shows where a part stands on the ladder: requested, in development, measured, or fitted on a real car. The exterior wiper record stays closed until final vibration, UV-exposure and rain-functionality testing is complete; it is not a product, fit claim, installation recommendation or scope exception.</p>
       </div>
 
       <div class="cards" id="grid">
@@ -60,10 +55,7 @@ const hasFitRecord = parts.some((part) => part.state === "fitted" && !part.safet
 
       <div class="empty" id="empty" hidden>
         <p class="eyebrow eyebrow--amber">NO MATCH HERE YET</p>
-        <p class="dense">
-          It may be something I can research, locate, or investigate as a useful improvement. Send
-          the car and problem details, and we can discuss whether there is a responsible path forward.
-        </p>
+        <p class="dense">Not listed? Tell me the car and the problem.</p>
         <a class="btn btn--primary" id="empty-cta" href="/request/">Discuss this part →</a>
         <button class="reset-filters" id="reset-filters" type="button">Clear search &amp; filters</button>
       </div>
@@ -142,8 +134,6 @@ const hasFitRecord = parts.some((part) => part.state === "fitted" && !part.safet
     border: var(--bd-inner) solid var(--rule);
     background: var(--panel);
   }
-  .tools-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
-  .all-sheets { font-size: var(--t-eyebrow); letter-spacing: var(--t-eyebrow-tr); text-transform: uppercase; color: var(--ion); }
   .tools { display: flex; gap: 14px; flex-wrap: wrap; align-items: end; margin: 18px 0 12px; }
   .search-field { display: grid; gap: 7px; flex: 1; min-width: min(100%, 280px); }
   #q {
@@ -163,8 +153,6 @@ const hasFitRecord = parts.some((part) => part.state === "fitted" && !part.safet
   .chip:hover { color: var(--paper); border-color: var(--paper); }
   .chip.on { color: var(--ink); border-color: var(--signal); background: var(--signal); }
   .count { display: block; color: var(--ion); }
-  .all-sheets { font-weight: 600; }
-  .route-note { max-width: 84ch; margin-top: 12px; color: var(--steel); font-size: var(--t-dense); line-height: var(--t-dense-lh); }
 
   .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--gap-cards); }
   .empty {

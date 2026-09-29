@@ -9,16 +9,16 @@ const hasFitRecordedPart = allParts().some((part) => part.state === "fitted" && 
     <article class="offer-card">
       <p class="offer-number">01 / EXISTING PARTS</p>
       <h3>Something already<br />on the bench?</h3>
-      <p>Explore the designs we’ve started. Each record shows the actual fit, material and development evidence—not just a good-looking image.</p>
+      <p>See the designs I’ve started and exactly where each one stands.</p>
       <a class="offer-link" href="/registry/">Explore parts &amp; projects <span aria-hidden="true">↗</span></a>
-      <p class="offer-note" data-collection-readiness={hasFitRecordedPart ? "fit-recorded" : "in-development"}>{hasFitRecordedPart ? "Fit-recorded parts may support a made-to-order discussion. Your configuration and material still need checking." : "The current collection is research & development, not a ready-to-buy range."}</p>
+      <p class="offer-note" data-collection-readiness={hasFitRecordedPart ? "fit-recorded" : "in-development"}>{hasFitRecordedPart ? "Parts with a real-car fit record can be discussed as made to order, after a check of your car." : "Research and development so far, not a ready-to-buy range."}</p>
     </article>
     <article class="offer-card offer-card--custom">
       <p class="offer-number">02 / CUSTOM DESIGN &amp; PROTOTYPING</p>
       <h3>Something that<br />doesn’t exist yet?</h3>
-      <p>A missing piece, a broken original, or a useful addition the car never had. Bring the problem; you don’t need to bring a CAD file.</p>
+      <p>A missing piece, a broken original or a useful addition. Bring the problem, not a CAD file.</p>
       <a class="offer-link" href="/custom/">Explore custom design <span aria-hidden="true">↗</span></a>
-      <p class="offer-note">A conversation first. Design and prototyping are paid work, scoped and quoted before they begin.</p>
+      <p class="offer-note">Paid work, scoped and quoted before it starts.</p>
     </article>
   </div>
 </section>

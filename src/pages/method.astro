@@ -3,11 +3,11 @@ import Base from "../layouts/Base.astro";
 import ServiceHeading from "../components/ServiceHeading.astro";
 
 const stages = [
-  ["01", "Start with an original or a real interface.", "A replacement starts from a surviving original, donor, or measured mating surface. A new convenience design starts from the actual mounting space and what must stay clear. Photos help explain the problem; measurements establish the fitting dimensions."],
-  ["02", "Separate a replacement from a new idea.", "A faithful replacement, repair aid, and OCP3D-original improvement do not make the same claim. The part record keeps its purpose, known facts, and unknowns visible."],
-  ["03", "Label drafts as drafts.", "Until a real object or interface has met the calipers, a design is marked In development — visibly, everywhere. A render can show a proposed geometry; it cannot prove fit or function."],
-  ["04", "Choose material for where it lives.", "A proof-print material is not automatically a final material. Even shaded interiors can get hot. Choose the exact grade for temperature, sunlight, moisture and load, then evaluate the finished part. Fit or function in one material never transfers automatically to another."],
-  ["05", "Check fit, function and conditions.", "A successful fit alone does not prove durability. Check clearance, retention and function, plus the heat, exposure and repeated use relevant to the job. Records stay tied to the actual version, vehicle configuration and material."],
+  ["01", "Start from the real thing.", "An original, a donor, or the space the part mounts in. Photos explain the problem; calipers give the dimensions."],
+  ["02", "Replacement or new idea?", "A faithful copy and an OCP3D original make different claims, so each record says which it is."],
+  ["03", "Drafts are labelled drafts.", "A design stays In development until it has met the real part. A render shows shape, not fit."],
+  ["04", "Pick the plastic for the job.", "Heat, sun, moisture and load decide the material. A result in one plastic never carries over to another."],
+  ["05", "Check it on the car.", "Fit, grip, function, then heat and repeated use. Each result stays tied to that version and material."],
 ];
 ---
 <Base title="How a Part Is Developed — OCP3D" sheet="DEVELOPMENT · EVIDENCE">
@@ -16,7 +16,7 @@ const stages = [
       <ServiceHeading
         eyebrow="BEHIND THE PART / MEASUREMENT, DESIGN & CHECKS"
         title="How a part is developed."
-        lede="A useful part starts with understanding its job. Here is how an original or mounting space becomes a design we can evaluate—and why a good-looking render is only one step along the way."
+        lede="Five steps from a broken original, or an empty space, to a part that has proved itself."
         file="FIVE STEPS"
         facts={[["STARTS WITH", "AN ORIGINAL OR MOUNTING SPACE"], ["ENDS WITH", "A FIT RECORD ON A REAL CAR"], ["A RENDER SHOWS", "SHAPE, NOT FIT"]]}
       />
@@ -24,8 +24,8 @@ const stages = [
       <div class="lab-console">
         <div class="lab-intro">
           <p class="eyebrow">THE OPERATING RULE</p>
-          <p class="lead">The same evidence standard applies across makes, whether we are replacing something missing or developing an original idea. A prototype helps us learn. A finished part has to earn its own fit, material and function record.</p>
-          <p class="dense prose" style="margin-top: 18px">Want to know about scope, costs and working together? <a href="/custom/">Start with custom design.</a></p>
+          <p class="lead">Same standard for every make. A prototype is for learning; a finished part has to earn its record.</p>
+          <p class="dense prose" style="margin-top: 18px">Scope and costs? <a href="/custom/">See custom design.</a></p>
           <div class="readout">
             <span>INPUT</span><b>PHYSICAL ORIGINAL OR INTERFACE</b>
             <span>OUTPUT</span><b>VERSIONED FIT / FUNCTION RECORD</b>
@@ -42,13 +42,13 @@ const stages = [
         </ol>
       </div>
 
-      <p class="dense prose">Wondering whether a printed part can last in a car? <a href="/materials/">Start with the materials and durability guide.</a></p>
+      <p class="dense prose">Will a printed part last? <a href="/materials/">Read the materials guide.</a></p>
 
       <aside class="color-note">
         <div class="swatch-line" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
         <div>
           <p class="eyebrow">MATERIAL &amp; COLOUR NOTE</p>
-          <p>Most reproduction trim comes in universal black, even when an interior shipped in Blue, Ivory, Gray, or Beige. Our records retain original colour details so a reproduction can be made to match where the evidence supports it.</p>
+          <p>Most reproduction trim only comes in black, even if your interior was Blue, Ivory, Gray or Beige. The records keep the original colours so a part can match.</p>
         </div>
         <a class="btn btn--secondary" href="/request/">Discuss a part</a>
       </aside>

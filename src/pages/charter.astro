@@ -8,53 +8,35 @@ const articles = [
     n: "01",
     title: "The work",
     body: [
-      `OCP3D is a small, founder-led workshop in New Hampshire’s Lakes Region. I design and prototype
-       parts for old-car problems across makes and models: replacing what is missing, or exploring
-       a useful addition the car never had. An original convenience design is labelled as such,
-       rather than presented as an OEM replacement.`,
-      `Start with an existing project record, or tell me about a different problem. Custom design
-       and prototyping are paid work, scoped and quoted before they begin. You do not need a CAD
-       file to start a conversation. Visits around Rochester, NH, and selected Maine locations
-       are by arrangement. Please get in touch before sending a part.`,
-      `Pre-2000, unbranded, non-safety-critical parts only. Every measured dimension is published
-       free. The parts cost money. The measurements never do.`,
+      `A small, founder-led workshop in New Hampshire’s Lakes Region. I design and prototype parts for
+       old cars of any make: replacing what’s missing, or adding something useful the car never had
+       (labelled as an original design, never passed off as OEM).`,
+      `Pre-2000, unbranded, non-safety-critical parts only. The parts cost money. The measurements never
+       do: every measured dimension is published free.`,
     ],
   },
   {
     n: "02",
     title: "The old car problem",
     body: [
-      `A discontinued clip is a problem. So is a cracked knob, an absent vent, a cramped console,
-       or a small interface that turns an otherwise good car into a parked or frustrating one.
-       OCP3D treats the problem, not a nostalgia fantasy: identify the interface, document what is
-       known, and build only what the evidence supports.`,
-      `A 3D print is not a magic answer. It is a fast, physical way to test geometry, improve a
-       measured design, and keep a machine in service while the industry has moved on.`,
+      `A discontinued clip, a cracked knob, a missing vent: small things that turn a good car into a
+       frustrating one. A 3D print isn’t magic, but it’s a fast way to test a shape and keep a car in use.`,
     ],
   },
   {
     n: "03",
     title: "Where it started. Not where it stops.",
     body: [
-      `My 1983 Celica Supra started the search for a better way to deal with small, difficult-to-find
-       parts. The sun visor clip is founder work, not a customer success story. Version 12 has been in
-       the car since September 8; its fit record is not filed yet, and durability is not established.
-       The part record states those limits.`,
-      `The Supra is an example, not the customer market. You can bring an eligible problem from
-       another make or model. We work out how to access and measure its actual interface rather
-       than assume it fits because something similar worked on my car.`,
+      `My ’83 Supra started this. It’s an example, not the limit: bring a problem from any make, and we
+       measure your car rather than assume something that fit mine will fit yours.`,
     ],
   },
   {
     n: "04",
     title: "Keep the car. Not a profile of you.",
     body: [
-      `Modern cars can log where you go and how you drive; that information can be sold, scored,
-       and subscribed to. We do not need to argue with that system to know that a car without a
-       modem remains an unusually private machine. Keeping it running is practical independence.`,
-      `OCP3D follows the same rule: no trackers, no analytics, no ad pixels, and no third-party
-       scripts. We retain only what an enquiry or email-updates signup genuinely needs, and say exactly
-       what that is below.`,
+      `Modern cars log where you go. An old car without a modem is a private machine, and this site works
+       the same way: no trackers, analytics, ad pixels or third-party scripts.`,
     ],
   },
 ];
@@ -77,7 +59,7 @@ const retention = [
       <ServiceHeading
         eyebrow="ONE PERSON’S WORKSHOP / NH’S LAKES REGION"
         title="Keep the old car useful."
-        lede="I started with the small problems on my own car. OCP3D is here to explore yours too—with useful design, appropriate materials and an honest record of what has been checked."
+        lede="I started with the small problems on my own car. Now I help with yours."
         file="THE PERSON BEHIND THE PART"
         audience="owner"
       />
@@ -86,7 +68,7 @@ const retention = [
 
       <div class="mission-rule">
         <span class="rule-mark" aria-hidden="true">OCP3D</span>
-        <p>You shouldn’t need to learn CAD just to ask about a missing part. Bring the problem. We’ll discuss what a useful, responsible next step would look like.</p>
+        <p>You shouldn’t need CAD to ask about a missing part. Bring the problem.</p>
       </div>
 
       <div class="articles">
@@ -104,14 +86,13 @@ const retention = [
       <section class="retention-panel">
         <div class="retention-head">
           <div><p class="eyebrow eyebrow--amber">PRIVACY — THE FACTS, STATED EXACTLY</p><h2>What we keep. What we do not.</h2></div>
-          <p class="dense">Privacy is a working specification, not atmospheric copy. If the facts change, this record changes first.</p>
         </div>
         <div class="retention">
           {retention.map(([k, v]) => (
             <><div><span class="eyebrow">{k}</span></div><div><span class="ret-v">{v}</span></div></>
           ))}
         </div>
-        <p class="dense note">Hosting, email and database services process enquiries so I can respond. An enquiry does not subscribe you to email updates. If analytics are ever proposed, this privacy information must change before they are enabled.</p>
+        <p class="dense note">Hosting and email services process enquiries so I can reply. If analytics are ever added, this list changes first.</p>
       </section>
 
       <div class="mission-actions">

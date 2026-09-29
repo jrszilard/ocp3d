@@ -27,7 +27,7 @@ const oem = (part: any) =>
         <li><a href={`/registry/${part.slug}/`}>{part.title}</a><span>{oem(part)}</span></li>
       ))}
     </ul>
-    <p class="wanted-note">An original is how a part gets measured. Getting in touch doesn’t commit you to anything.</p>
+    <p class="wanted-note">An original, even broken, is how a part gets measured.</p>
     <a class="wanted-cta" href="/registry/#wanted">See the wanted list <span aria-hidden="true">→</span></a>
   </aside>
 ) : (
@@ -37,9 +37,8 @@ const oem = (part: any) =>
         <p class="wanted-kicker">WANTED · ORIGINALS TO MEASURE</p>
         <h2 id={`${id}-title`}>Have one of these? Even broken?</h2>
       </div>
-      <p>Owners have asked about these parts, but no original has reached the bench yet. An original, even a
-        broken one, is how a part gets measured. Tell me what you have and we’ll talk about it. Getting in touch
-        doesn’t commit you to anything.</p>
+      <p>No original of these has reached the bench yet. An original, even broken, is how a part gets measured.
+        Tell me what you have; no commitment.</p>
     </div>
     <ul class="wanted-rows">
       {wanted.map((part) => (

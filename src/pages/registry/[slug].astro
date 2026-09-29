@@ -51,7 +51,7 @@ const hasImage = fs.existsSync(path.join(process.cwd(), "public", "images", "par
       <ServiceHeading
         eyebrow={`${oemLabel} · ${vehicleFitment}`}
         title={part.title}
-        lede="A working record, not a sales page. Measurements, material and real-car evidence each get their own line."
+        lede="A working record, not a sales page."
         file="PART RECORD"
         facts={[
           ["STATUS", safetyGated ? "RESEARCH ONLY" : part.stateLabel.toUpperCase()],
@@ -90,7 +90,7 @@ const hasImage = fs.existsSync(path.join(process.cwd(), "public", "images", "par
           <div class="case-status">
             <div>
               <p class="eyebrow">WHERE THIS PART STANDS</p>
-              <p class="status-caption">The label below is literal. It is not a fit, strength, or availability claim beyond the record.</p>
+              <p class="status-caption">Only what the record shows: no fit, strength or availability claim beyond it.</p>
             </div>
             <Stamp state={part.state} label={safetyGated ? "RESEARCH ONLY" : part.stateLabel} safetyGated={safetyGated} />
           </div>
@@ -105,32 +105,27 @@ const hasImage = fs.existsSync(path.join(process.cwd(), "public", "images", "par
           )}
           {safetyGated && (
             <p class="safety-notice" role="note">
-              <b>Final testing is still pending.</b> This exterior adaptor work needs vibration,
-              UV-exposure, and rain-functionality validation—plus the remaining measured interface
-              evidence—before any product, installation, fit, or road-use discussion can exist.
+              <b>Final testing is still pending.</b> This exterior adaptor needs vibration, UV-exposure
+              and rain testing, plus the remaining interface measurements, before any product,
+              installation, fit or road-use discussion.
             </p>
           )}
           {identityDisputed && (
             <p class="identity-notice" role="note">
-              <b>OEM identity under investigation.</b> The measured object and this permanent case
-              record stay on file, but an earlier catalog assignment did not match the demonstrated
-              part architecture. The number stays unpublished until mounting-location and donor
-              evidence agree.
+              <b>OEM number under investigation.</b> An earlier number didn’t match this part, so none
+              is published until the mounting and donor evidence agree.
             </p>
           )}
           {!safetyGated && fitmentUnconfirmed && (
             <p class="identity-notice" role="note">
               {fitmentDisputed ? (
                 <>
-                  <b>Vehicle/trim fitment under investigation.</b> This OEM handle family is real,
-                  but the earlier Celica Supra application combined a broad catalog row with an MA61
-                  diagram that contains separate manual- and power-window branches. Toyota’s 1982–1984
-                  U.S. Celica Supra brochures list power windows on both Supra trims. We will not
-                  call this a Supra part unless a market- and trim-specific manual-window build record
-                  proves it.
+                  <b>Which cars this fits is under investigation.</b> The part number is real, but
+                  1982–1984 U.S. Supra brochures list power windows on both trims, so it won’t be
+                  called a Supra part until a manual-window build proves it.
                 </>
               ) : (
-                <><b>Vehicle/trim fitment is not yet confirmed.</b> Model, market, trim, and equipment evidence must agree before this record makes a vehicle claim.</>
+                <><b>Which cars this fits isn’t confirmed yet.</b></>
               )}
             </p>
           )}
@@ -150,7 +145,6 @@ const hasImage = fs.existsSync(path.join(process.cwd(), "public", "images", "par
             <p class="eyebrow">MEASUREMENTS</p>
             <h2>Dimensions on record.</h2>
           </div>
-          <p class="dense">The record stays visible. Measurements, fit evidence, and unknowns each keep their own line.</p>
         </div>
         {part.dims.length > 0 && (
           <SpecTable dims={part.dims} confirmed={part.dimsConfirmed} total={part.dimsTotal} />
@@ -162,33 +156,33 @@ const hasImage = fs.existsSync(path.join(process.cwd(), "public", "images", "par
             {safetyGated ? (
               <div class="row">
                 <a class="btn btn--primary" href={`/request/?part=${encodeURIComponent(part.title)}&part_slug=${part.slug}`}>Share a research lead</a>
-                <span class="cap">A donor, measurement, hardware detail, or controlled vibration/UV/rain test evidence can strengthen this research record. It is not a product discussion.</span>
+                <span class="cap">Donors, measurements or test evidence help. This isn’t a product discussion.</span>
               </div>
             ) : orderable ? (
               <div class="row">
                 <a class="btn btn--primary" href={`/request/?part=${encodeURIComponent(part.title)}&part_slug=${part.slug}`}>Discuss getting this part</a>
-                <span class="cap">This part has a real-car fit record. Tell me your vehicle configuration and we can discuss a made-to-order replacement.</span>
+                <span class="cap">It has a real-car fit record. Tell me your car and we can discuss making one.</span>
               </div>
             ) : part.state === "measured" ? (
               <div class="row">
                 <a class="btn btn--primary" href={`/request/?part=${encodeURIComponent(part.title)}&part_slug=${part.slug}`}>Discuss this measured part</a>
-                <span class="cap">Measured from an original, but not yet offered as a fit-confirmed replacement. If you have a matching car or original, let’s discuss the useful next step.</span>
+                <span class="cap">Measured, not yet fit-confirmed. Have a matching car or original? Let’s talk.</span>
               </div>
             ) : part.state === "development" ? (
               <div class="row">
                 <a class="btn btn--primary" href={`/request/?part=${encodeURIComponent(part.title)}&part_slug=${part.slug}`}>Discuss this build</a>
-                <span class="cap">This part is on the bench. A request can help establish the donor, interface, and evidence path; it is not a purchase promise.</span>
+                <span class="cap">On the bench now. Asking helps; it isn’t a purchase.</span>
               </div>
             ) : (
               <div class="row">
                 <a class="btn btn--primary" href={`/request/?part=${encodeURIComponent(part.title)}&part_slug=${part.slug}&situation=have-part`}>I have one</a>
-                <span class="cap">No original has reached the bench yet. If you have one, even broken, or can tell me what remains on your car, get in touch. It doesn’t commit you to anything.</span>
+                <span class="cap">No original yet. Have one, even broken? Get in touch, no commitment.</span>
               </div>
             )}
           </div>
           <aside class="assist">
             <div class="blk-label">HELP OUT · OPTIONAL</div>
-            <p>Own an original, a matching car, or evidence about this part? A conversation can make the record stronger.</p>
+            <p>Have an original, a matching car or information about this part?</p>
             <div class="assist-links">
               <a href={`/request/?part=${encodeURIComponent(part.title)}&part_slug=${part.slug}`}>Share what you know</a>
               <a href="/#register">Follow this part</a>

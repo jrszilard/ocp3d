@@ -25,7 +25,7 @@ const latest = journal.map((entry) => entry.updated).sort().at(-1) ?? "";
       <ServiceHeading
         eyebrow="FROM THE BENCH · BUILD LOGS"
         title="Build logs from the bench."
-        lede="Working notes on specific parts: what was measured, what went wrong, and where the record stands. Each log links to its part record, which stays the record of what a part has actually earned."
+        lede="What was measured, what went wrong, and where each part stands."
         file="BUILD LOGS"
         facts={[["LOGS", String(journal.length)], ["LATEST", formatDate(latest).toUpperCase()], ["CAR", "1983 CELICA SUPRA"]]}
         compact
