@@ -69,7 +69,7 @@ const hasRender = !art && fs.existsSync(path.join(process.cwd(), "public", "imag
       />
 
       <div class="part-scope">
-        {safetyGated ? (
+        {safetyGated && !art ? (
           <div class="media media--research placeholder">
             <span>{closed.toUpperCase()}</span>
             <small>{testing
@@ -79,7 +79,7 @@ const hasRender = !art && fs.existsSync(path.join(process.cwd(), "public", "imag
         ) : art ? (
           <figure class="media">
             <img src={art.src} alt={art.alt} width={art.width} height={art.height} />
-            <figcaption><span>{art.caption[0]}</span><span>{art.caption[1]}</span></figcaption>
+            <figcaption class:list={{ "caption--closed": safetyGated }}><span>{art.caption[0]}</span><span>{art.caption[1]}</span></figcaption>
           </figure>
         ) : hasRender ? (
           <figure class="media">
@@ -223,6 +223,7 @@ const hasRender = !art && fs.existsSync(path.join(process.cwd(), "public", "imag
   .media img { width: 100%; height: auto; min-height: 0; aspect-ratio: 4 / 3; object-fit: cover; }
   .media figcaption { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; padding: 10px 14px; border-top: var(--bd-inner) solid var(--rule); font-size: var(--t-micro); letter-spacing: var(--t-micro-tr); color: var(--steel); }
   .media--pending, .media--research { min-height: 360px; }
+  .media figcaption.caption--closed { background: var(--st-closed); color: var(--acid); border-top-color: var(--st-closed); }
   .media--research { background: repeating-linear-gradient(135deg, transparent 0 17px, color-mix(in srgb, var(--signal) 18%, transparent) 17px 18px), var(--journal-charcoal); color: var(--acid); text-align: center; }.media--research small { max-width: 30ch; color: var(--inv-body); }
   .case-summary { padding: 28px 30px; }
   .case-status { display: flex; align-items: flex-start; justify-content: space-between; gap: 18px; padding-bottom: 18px; border-bottom: var(--bd-inner) solid var(--rule); }

@@ -154,7 +154,9 @@ lives in the visuals and the evidence, not in invented nouns.
   (the wiper adaptors since Sept 20, 2026, founder direction 2026-09-29; `src/data/long-term-testing.mjs`),
   otherwise **Research only**. Either way the page says what still needs proving (vibration, UV,
   rain, time), that it is not for sale, and never invites purchase, installation, fit or road-use
-  discussion for anyone else's car. The catalog `safetyGated` flag does not change.
+  discussion for anyone else's car. The catalog `safetyGated` flag does not change. While a part is
+  in long-term testing, real photos of it on the car may lead its card, record and log cover
+  (`part-art.mjs`), always captioned "in long-term testing · not for sale".
 - Dimension tables and per-material fit reports are the product’s trust core.
 - “Fits or we remake it free” applies only where the evidence and offer actually support it.
 - **Email updates** (internally still the `membership` type) are a quiet opt-in channel, not a social feed or membership identity.

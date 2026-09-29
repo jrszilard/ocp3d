@@ -3,8 +3,9 @@
  * One evidence-bearing part card, shared by home and the parts page.
  *
  * It intentionally refuses a decorative generic car or invented part image.
- * A safety-gated record gets its own closed treatment (labelled by closedLabel);
- * a photo or render stays tied to its record, and a render says it is one.
+ * A safety-gated record gets its own closed treatment (labelled by closedLabel): a real
+ * photo captioned "in long-term testing · not for sale" when there is one, otherwise a
+ * hatched panel. A photo or render stays tied to its record, and a render says it is one.
  */
 import Stamp from "./Stamp.astro";
 import EvidenceLadder from "./EvidenceLadder.astro";
@@ -48,7 +49,7 @@ const search = [part.title, part.vehicleLabel, part.yearRange, part.oemNumber, p
   .filter(Boolean).join(" ").toLowerCase();
 ---
 <article class="card" data-state={part.state} data-safety-gated={String(safetyGated)} data-search={search}>
-  {safetyGated ? (
+  {safetyGated && !art ? (
     <div class="card-safety">
       <span class="safety-head">{closed.toUpperCase()}</span>
       {testing
@@ -61,7 +62,7 @@ const search = [part.title, part.vehicleLabel, part.yearRange, part.oemNumber, p
       {art
         ? <img src={art.src} alt={art.alt} width={art.width} height={art.height} loading="lazy" />
         : <div class="placeholder art-ph"><span>NO VIEW YET</span></div>}
-      {art && <span class="render-label">{art.kind === "render" ? "CAD RENDER · NOT A TEST RESULT" : art.caption[0]}</span>}
+      {art && <span class:list={["render-label", { "render-label--closed": safetyGated }]}>{art.kind === "render" ? "CAD RENDER · NOT A TEST RESULT" : art.caption[0]}</span>}
       <span class="tape" aria-hidden="true"></span>
     </div>
   )}
@@ -91,6 +92,7 @@ const search = [part.title, part.vehicleLabel, part.yearRange, part.oemNumber, p
   .art-ph { height: 100%; border: 0; }
   .layer { position: absolute; z-index: 2; top: 10px; right: 10px; padding: 4px 7px; background: var(--ground); color: var(--st-measured); font-size: var(--t-micro); font-weight: 600; letter-spacing: var(--t-micro-tr); text-transform: uppercase; }
   .render-label { position: absolute; right: 0; bottom: 0; left: 0; padding: 6px 12px; background: var(--ground); color: var(--body); font-size: var(--t-micro); letter-spacing: var(--t-micro-tr); }
+  .render-label--closed { background: var(--st-closed); color: var(--acid); font-weight: 600; }
   .tape { position: absolute; z-index: 3; top: -9px; left: 50%; width: 86px; height: 20px; background: rgba(211,177,109,.72); transform: translateX(-50%) rotate(-4deg); }
   .card-safety { height: 208px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; padding: 0 18px; border-bottom: 1px dashed var(--rule-2); text-align: center; }
   .card-safety { background: repeating-linear-gradient(135deg, transparent 0 14px, color-mix(in srgb, var(--signal) 18%, transparent) 14px 15px), var(--journal-charcoal); }
