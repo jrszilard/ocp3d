@@ -1,0 +1,17 @@
+// The redirect Worker for the site's old and www hostnames (index.js).
+//   Deploy:  npx wrangler deploy --config workers/redirects/wrangler.jsonc
+// Each custom domain takes its hostname's DNS over from what it pointed at before.
+{
+  "$schema": "../../node_modules/wrangler/config-schema.json",
+  "name": "ocp3d-redirects",
+  "main": "./index.js",
+  "compatibility_date": "2026-01-14",
+  "workers_dev": false,
+  "routes": [
+    { "pattern": "www.ocp3d.com", "custom_domain": true },
+    { "pattern": "lostclipsociety.com", "custom_domain": true },
+    { "pattern": "www.lostclipsociety.com", "custom_domain": true },
+    { "pattern": "ministryofdiscontinuedparts.com", "custom_domain": true },
+    { "pattern": "www.ministryofdiscontinuedparts.com", "custom_domain": true }
+  ]
+}

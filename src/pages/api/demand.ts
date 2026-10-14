@@ -9,13 +9,14 @@
  * `configured: false` so the UI can stay quiet instead of lying.
  */
 import type { APIRoute } from "astro";
+import { getSecret } from "astro:env/server";
 
 export const prerender = false;
 
 export const GET: APIRoute = async ({ url }) => {
   const part = url.searchParams.get("part") ?? "";
-  const sbUrl = import.meta.env.SUPABASE_URL?.trim();
-  const sbKey = import.meta.env.SUPABASE_SERVICE_ROLE_KEY?.trim();
+  const sbUrl = getSecret("SUPABASE_URL")?.trim();
+  const sbKey = getSecret("SUPABASE_SERVICE_ROLE_KEY")?.trim();
 
   if (!part || !/^[a-z0-9-]+$/.test(part)) {
     return Response.json({ error: "bad part" }, { status: 400 });

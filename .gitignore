@@ -13,3 +13,7 @@ dist/
 # been kept local-only across every identity session; this makes that deliberate rather than
 # lucky. BRAND.md cites them by path for whoever has the repo.
 public/mockups/
+
+# Cloudflare: wrangler's local state, and local secrets for `wrangler dev`
+.wrangler/
+.dev.vars*

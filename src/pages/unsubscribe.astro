@@ -2,6 +2,7 @@
 import Base from "../layouts/Base.astro";
 import ServiceHeading from "../components/ServiceHeading.astro";
 import { unsubTokenValid } from "./api/request";
+import { getSecret } from "astro:env/server";
 
 export const prerender = false;
 
@@ -16,8 +17,8 @@ const ok = Boolean(email) && (await unsubTokenValid(email, token));
 let state: "invalid" | "confirm" | "done" | "error" = ok ? "confirm" : "invalid";
 
 if (ok && Astro.request.method === "POST") {
-  const sbUrl = import.meta.env.SUPABASE_URL?.trim();
-  const sbKey = import.meta.env.SUPABASE_SERVICE_ROLE_KEY?.trim();
+  const sbUrl = getSecret("SUPABASE_URL")?.trim();
+  const sbKey = getSecret("SUPABASE_SERVICE_ROLE_KEY")?.trim();
   state = "error";
   if (sbUrl && sbKey) {
     try {

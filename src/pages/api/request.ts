@@ -18,6 +18,7 @@
  * prefilled mailto: when delivery isn't configured yet.
  */
 import type { APIRoute } from "astro";
+import { getSecret } from "astro:env/server";
 
 export const prerender = false;
 
@@ -34,7 +35,7 @@ const SITE = "https://ocp3d.com";
  * than shipping a broken one.
  */
 async function unsubToken(email: string): Promise<string | null> {
-  const secret = import.meta.env.UNSUBSCRIBE_SECRET?.trim();
+  const secret = getSecret("UNSUBSCRIBE_SECRET")?.trim();
   if (!secret) return null;
   const key = await crypto.subtle.importKey(
     "raw", new TextEncoder().encode(secret), { name: "HMAC", hash: "SHA-256" }, false, ["sign"],
@@ -58,8 +59,8 @@ export async function unsubTokenValid(email: string, token: string): Promise<boo
 
 /** Clear an opt-out. An explicit re-join IS consent, and the dedup index means the row already exists. */
 async function resubscribe(email: string): Promise<void> {
-  const sbUrl = import.meta.env.SUPABASE_URL?.trim();
-  const sbKey = import.meta.env.SUPABASE_SERVICE_ROLE_KEY?.trim();
+  const sbUrl = getSecret("SUPABASE_URL")?.trim();
+  const sbKey = getSecret("SUPABASE_SERVICE_ROLE_KEY")?.trim();
   if (!sbUrl || !sbKey) return;
   try {
     await fetch(`${sbUrl}/rest/v1/demand_signals?type=eq.membership&email=ilike.${encodeURIComponent(email.trim())}`, {
@@ -90,9 +91,9 @@ function text(...lines: (string | [string, string | undefined])[]): string {
 }
 
 async function deliver(subject: string, body: string, clientId: string, replyTo?: string): Promise<"agentmail" | "webhook" | "unconfigured"> {
-  const apiKey = import.meta.env.AGENTMAIL_API_KEY?.trim();
-  const inboxId = import.meta.env.AGENTMAIL_INBOX_ID?.trim();
-  const to = import.meta.env.REQUESTS_NOTIFY_EMAIL?.trim();
+  const apiKey = getSecret("AGENTMAIL_API_KEY")?.trim();
+  const inboxId = getSecret("AGENTMAIL_INBOX_ID")?.trim();
+  const to = getSecret("REQUESTS_NOTIFY_EMAIL")?.trim();
   if (apiKey && inboxId && to) {
     const res = await fetch(
       `https://api.agentmail.to/v0/inboxes/${encodeURIComponent(inboxId)}/drafts`,
@@ -141,7 +142,7 @@ async function deliver(subject: string, body: string, clientId: string, replyTo?
     }
     return "agentmail";
   }
-  const webhook = import.meta.env.REQUESTS_WEBHOOK_URL?.trim();
+  const webhook = getSecret("REQUESTS_WEBHOOK_URL")?.trim();
   if (webhook) {
     const res = await fetch(webhook, {
       method: "POST",
@@ -166,8 +167,8 @@ async function deliver(subject: string, body: string, clientId: string, replyTo?
  * not in the API inbox this was sent from.
  */
 async function acknowledge(to: string, subject: string, body: string, clientId: string): Promise<boolean> {
-  const apiKey = import.meta.env.AGENTMAIL_API_KEY?.trim();
-  const inboxId = import.meta.env.AGENTMAIL_INBOX_ID?.trim();
+  const apiKey = getSecret("AGENTMAIL_API_KEY")?.trim();
+  const inboxId = getSecret("AGENTMAIL_INBOX_ID")?.trim();
   if (!apiKey || !inboxId) return false;
   try {
     const res = await fetch(
@@ -197,8 +198,8 @@ async function acknowledge(to: string, subject: string, body: string, clientId: 
  * just means this email already voted for this part.
  */
 async function record(row: Record<string, string | null>): Promise<"ok" | "duplicate" | "unconfigured" | "error"> {
-  const sbUrl = import.meta.env.SUPABASE_URL?.trim();
-  const sbKey = import.meta.env.SUPABASE_SERVICE_ROLE_KEY?.trim();
+  const sbUrl = getSecret("SUPABASE_URL")?.trim();
+  const sbKey = getSecret("SUPABASE_SERVICE_ROLE_KEY")?.trim();
   if (!sbUrl || !sbKey) return "unconfigured";
   try {
     const res = await fetch(`${sbUrl}/rest/v1/demand_signals`, {
