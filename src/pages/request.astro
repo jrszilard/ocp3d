@@ -36,7 +36,7 @@ import ServiceHeading from "../components/ServiceHeading.astro";
             <div class="done-stamp">Enquiry received</div>
             <p class="done-case">Your reference: <b id="case-id">—</b></p>
             <p>I’ll reply personally. Send photos by replying to the confirmation email. Nothing has been ordered or paid for.</p>
-            <p class="done-alt">Need to add something? Email <a href="mailto:requests@lostclipsociety.com">requests@lostclipsociety.com</a> and include your reference.</p>
+            <p class="done-alt">Need to add something? Email <a href="mailto:requests@ocp3d.com">requests@ocp3d.com</a> and include your reference.</p>
           </div>
           <noscript><p class="note">This form also works without JavaScript. You’ll reach a confirmation page, or your mail app will open with the enquiry details.</p></noscript>
         </div>
@@ -106,10 +106,10 @@ import ServiceHeading from "../components/ServiceHeading.astro";
           `Part or problem: ${f.get("part")}`, `OEM №: ${f.get("oem") || "—"}`,
           `Situation: ${f.get("situation") || "—"}`, "", String(f.get("message") || ""),
         ].join("\n");
-        window.location.href = `mailto:requests@lostclipsociety.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        window.location.href = `mailto:requests@ocp3d.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
       } else { throw new Error("Enquiry was not accepted"); }
     } catch {
-      errBox.textContent = "That did not send. Please try again, or email requests@lostclipsociety.com directly. Your details are still here.";
+      errBox.textContent = "That did not send. Please try again, or email requests@ocp3d.com directly. Your details are still here.";
       errBox.hidden = false;
     } finally {
       // Also restore the button if the visitor returns from the mail-app fallback.

@@ -109,3 +109,16 @@ test("the site keeps no database", () => {
 test("Vercel no longer builds the repo (it would serve the Worker's code as a file)", () => {
   assert.deepEqual(JSON.parse(read("vercel.json")), { git: { deploymentEnabled: false } });
 });
+
+// The site's one contact address is on its own domain (2026-10-13): requests@ocp3d.com, the Proton
+// mailbox. The old requests@lostclipsociety.com stays on that mailbox for older threads only.
+test("the site shows and replies from requests@ocp3d.com only", () => {
+  let found = 0;
+  for (const file of siteSources()) {
+    const text = readFileSync(file, "utf8");
+    assert.ok(!text.includes("lostclipsociety.com"), `${file} still shows the old address`);
+    found += (text.match(/requests@ocp3d\.com/g) ?? []).length;
+  }
+  assert.ok(found >= 8, `requests@ocp3d.com appears ${found} times`);
+  assert.match(read("src/pages/api/request.ts"), /const MAILTO = "requests@ocp3d\.com";/);
+});

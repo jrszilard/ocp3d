@@ -51,13 +51,13 @@ if (ok && Astro.request.method === "POST") {
         {state === "invalid" && (
           <>
             <div class="stamp">Not recognised</div>
-            <p>That link isn’t valid — it may have been altered in transit, or truncated by a mail client. Use the link at the bottom of any update email, or email <a href="mailto:requests@lostclipsociety.com">requests@lostclipsociety.com</a> and we’ll take you off by hand.</p>
+            <p>That link isn’t valid — it may have been altered in transit, or truncated by a mail client. Use the link at the bottom of any update email, or email <a href="mailto:requests@ocp3d.com">requests@ocp3d.com</a> and we’ll take you off by hand.</p>
           </>
         )}
         {state === "error" && (
           <>
             <div class="stamp">Desk jammed</div>
-            <p>We couldn’t record that just now. Nothing changed. Try once more, or email <a href="mailto:requests@lostclipsociety.com">requests@lostclipsociety.com</a> and a human will do it.</p>
+            <p>We couldn’t record that just now. Nothing changed. Try once more, or email <a href="mailto:requests@ocp3d.com">requests@ocp3d.com</a> and a human will do it.</p>
             <form method="post"><button class="btn btn--primary" type="submit">Try again</button></form>
           </>
         )}

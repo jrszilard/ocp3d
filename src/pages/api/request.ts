@@ -27,7 +27,7 @@ import { getSecret } from "astro:env/server";
 
 export const prerender = false;
 
-const MAILTO = "requests@lostclipsociety.com";
+const MAILTO = "requests@ocp3d.com";
 // Absolute, not derived from the request: @astrojs/vercel reports url.origin as localhost
 // (the Host header never reaches the renderer — the same trap that forced checkOrigin off),
 // so a link built from the request would point at localhost in production.
