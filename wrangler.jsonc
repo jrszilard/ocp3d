@@ -1,6 +1,8 @@
 // The site on Cloudflare Workers: the static pages from ./dist (served before the Worker runs),
 // and the Astro server routes (/api/request, /unsubscribe) in the Worker.
-//   Deploy:  scripts/deploy.sh (builds HEAD from a clean export, never the working tree)
+//   Deploy:  merging to main on GitHub: Workers Builds (connected 2026-10-14) runs `npm test && npm run build`,
+//            then `npx wrangler deploy`; no preview builds. By hand: scripts/deploy.sh (builds HEAD from a clean
+//            export, never the working tree).
 //   Logs:    npx wrangler tail ocp3d
 // Settings are Worker secrets, never in this file: npx wrangler secret put <NAME> for
 // AGENTMAIL_API_KEY, AGENTMAIL_INBOX_ID, REQUESTS_NOTIFY_EMAIL, UNSUBSCRIBE_SECRET and
