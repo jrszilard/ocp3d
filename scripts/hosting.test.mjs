@@ -56,7 +56,8 @@ test("the site Worker runs the adapter's output and keeps no settings in its con
   assert.equal(config.assets.directory, "./dist");
   assert.equal(config.vars, undefined, "settings belong in Worker secrets, not wrangler.jsonc");
   const routes = (config.routes ?? []).map((r) => r.pattern);
-  for (const host of OLD_HOSTS) assert.ok(!routes.includes(host), `${host} belongs to the redirect Worker`);
+  assert.deepEqual(routes, ["ocp3d.com"], "the site Worker serves ocp3d.com and nothing else");
+  assert.ok(config.routes.every((r) => r.custom_domain === true));
 });
 
 test("the Worker's own code is never served as a public file", () => {

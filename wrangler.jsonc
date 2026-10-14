@@ -18,5 +18,9 @@
   },
   "observability": {
     "enabled": true
-  }
+  },
+  // ocp3d.com itself; www and the old domains belong to the redirect Worker.
+  "routes": [
+    { "pattern": "ocp3d.com", "custom_domain": true }
+  ]
 }
