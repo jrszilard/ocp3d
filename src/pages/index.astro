@@ -11,6 +11,18 @@ const pick = (state: string) => parts.find((part) => part.state === state && !pa
 // Evidence first, then the part in long-term testing, then the custom-design door.
 const cards = [pick("fitted") ?? pick("measured") ?? pick("development"), parts.find((part) => part.safetyGated)].filter(Boolean);
 const carPhoto = car.photos[0];
+const organization = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "OCP3D",
+  alternateName: "Old Car Problems",
+  url: "https://ocp3d.com/",
+  logo: "https://ocp3d.com/favicon.svg",
+  email: "requests@ocp3d.com",
+  description: "3D-printed parts and engineering for old car problems: custom design and prototyping for pre-2000 cars across makes.",
+  // The brand's exact reach (BRAND.md): no statewide claim.
+  areaServed: ["Lakes Region, New Hampshire", "Seacoast, New Hampshire", "Lakes Region, Maine", "Seacoast, Maine"],
+};
 
 const conditions = [
   { n: "01", icon: "heat", title: "A car parked in the sun.", material: "HEAT", body: "ASA handles cabin heat far better than ordinary PLA.", href: "/materials/#material-asa" },
@@ -20,6 +32,7 @@ const conditions = [
 ---
 
 <Base
+  jsonLd={organization}
   title="OCP3D — Old cars. Modern materials."
   description="Hard-to-find parts. Useful new ideas. Explore OCP3D’s parts in development or discuss custom design and 3D-printing for pre-2000 cars across makes. Based in New Hampshire’s Lakes Region."
   sheet="PARTS · CUSTOM DESIGN"

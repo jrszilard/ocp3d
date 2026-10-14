@@ -1,5 +1,6 @@
 import { defineConfig } from "astro/config";
 import cloudflare from "@astrojs/cloudflare";
+import sitemap from "@astrojs/sitemap";
 
 // Static site generated from the committed catalog snapshot (src/data/parts.json).
 // Regenerate the snapshot on the workshop machine: node scripts/sync-catalog.mjs
@@ -19,4 +20,9 @@ export default defineConfig({
   // Our only POSTs are the public request/membership forms: no session to ride, spam is
   // handled by the honeypot.
   security: { checkOrigin: false },
+  // sitemap-index.xml for search engines (robots.txt points at it). Static pages only; the
+  // thank-you page, unsubscribe, the style guide and the local studio walkthrough stay out.
+  integrations: [
+    sitemap({ filter: (page) => !/\/(request\/received|styleguide|studio)(\/|$)/.test(new URL(page).pathname) }),
+  ],
 });

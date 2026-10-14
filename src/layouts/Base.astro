@@ -9,13 +9,29 @@
  */
 import "../styles/global.css";
 import Lockup from "../components/Lockup.astro";
+import { car } from "../data/car.mjs";
 
-interface Props { title: string; description?: string; sheet?: string; noindex?: boolean }
+interface Props {
+  title: string;
+  description?: string;
+  sheet?: string;
+  noindex?: boolean;
+  // Link previews (Open Graph): a real photo from the site, never a render presented as proof.
+  image?: string;
+  imageAlt?: string;
+  type?: "website" | "article";
+  // schema.org JSON-LD, inline data only (no script loads).
+  jsonLd?: Record<string, unknown>;
+}
 const {
   title,
   description = "Parts, custom design and prototyping for old-car problems across makes. OCP3D is an independent workshop in New Hampshire’s Lakes Region. Start with the car and the problem.",
   sheet = "OCP3D",
   noindex = false,
+  image = car.photos[0].src,
+  imageAlt = car.photos[0].alt,
+  type = "website",
+  jsonLd,
 } = Astro.props;
 
 const nav = [
@@ -26,6 +42,7 @@ const nav = [
   { href: "/charter/", label: "About" },
 ];
 const canonical = `https://ocp3d.com${Astro.url.pathname}`;
+const imageUrl = new URL(image, "https://ocp3d.com").href;
 ---
 <!doctype html>
 <html lang="en">
@@ -38,6 +55,12 @@ const canonical = `https://ocp3d.com${Astro.url.pathname}`;
     <meta property="og:site_name" content="OCP3D — Old Car Problems" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
+    <meta property="og:type" content={type} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={imageUrl} />
+    <meta property="og:image:alt" content={imageAlt} />
+    <meta name="twitter:card" content="summary_large_image" />
+    {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
     {noindex ? <meta name="robots" content="noindex, nofollow" /> : <link rel="canonical" href={canonical} />}
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <!-- Self-hosted: a privacy promise is false if typography phones home. -->
