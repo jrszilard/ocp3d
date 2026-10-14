@@ -13,6 +13,11 @@
  * requester, so answering it in the Proton mailbox reaches the customer rather
  * than the AgentMail API inbox.
  *
+ * Nothing is stored: the alert in the inbox IS the record. The Lost Clip Society
+ * demand ledger (Supabase: requests, votes, the members list) was not carried into
+ * OCP3D (2026-10-13), so the email-updates list is kept by hand from the signup
+ * alerts, and /unsubscribe sends an opt-out alert the same way (optOut below).
+ *
  * Clients sending `Accept: application/json` (the page's fetch) get JSON.
  * Plain no-JS form posts get a 303: to /request/received/ on success, or to a
  * prefilled mailto: when delivery isn't configured yet.
@@ -55,23 +60,6 @@ export async function unsubTokenValid(email: string, token: string): Promise<boo
   let diff = 0;                              // constant-time compare
   for (let i = 0; i < t.length; i++) diff |= t.charCodeAt(i) ^ token.charCodeAt(i);
   return diff === 0;
-}
-
-/** Clear an opt-out. An explicit re-join IS consent, and the dedup index means the row already exists. */
-async function resubscribe(email: string): Promise<void> {
-  const sbUrl = getSecret("SUPABASE_URL")?.trim();
-  const sbKey = getSecret("SUPABASE_SERVICE_ROLE_KEY")?.trim();
-  if (!sbUrl || !sbKey) return;
-  try {
-    await fetch(`${sbUrl}/rest/v1/demand_signals?type=eq.membership&email=ilike.${encodeURIComponent(email.trim())}`, {
-      method: "PATCH",
-      headers: {
-        apikey: sbKey, Authorization: `Bearer ${sbKey}`,
-        "Content-Type": "application/json", Prefer: "return=minimal",
-      },
-      body: JSON.stringify({ unsubscribed_at: null }),
-    });
-  } catch { /* best-effort: never fail a join over it */ }
 }
 
 async function caseNumber(parts: string[]): Promise<string> {
@@ -193,29 +181,23 @@ async function acknowledge(to: string, subject: string, body: string, clientId: 
 }
 
 /**
- * Record a demand row (best-effort — a DB hiccup must never lose a submission;
- * the email already went out). Votes dedup via partial unique index; a conflict
- * just means this email already voted for this part.
+ * An opt-out confirmed on /unsubscribe. The list is kept by hand from the signup alerts, so
+ * leaving is an alert to the same inbox, for the person who keeps it. False when it couldn't be
+ * sent: the page then says nothing changed, rather than telling someone they're off the list.
+ * The client_id is fresh each time, so a later opt-out (after a re-join) still arrives.
  */
-async function record(row: Record<string, string | null>): Promise<"ok" | "duplicate" | "unconfigured" | "error"> {
-  const sbUrl = getSecret("SUPABASE_URL")?.trim();
-  const sbKey = getSecret("SUPABASE_SERVICE_ROLE_KEY")?.trim();
-  if (!sbUrl || !sbKey) return "unconfigured";
+export async function optOut(email: string): Promise<boolean> {
+  const caseId = await caseNumber(["member", email]);
   try {
-    const res = await fetch(`${sbUrl}/rest/v1/demand_signals`, {
-      method: "POST",
-      headers: {
-        apikey: sbKey,
-        Authorization: `Bearer ${sbKey}`,
-        "Content-Type": "application/json",
-        Prefer: "return=minimal",
-      },
-      body: JSON.stringify(row),
-    });
-    if (res.status === 409) return "duplicate";
-    return res.ok ? "ok" : "error";
+    const via = await deliver(`OCP3D email updates — unsubscribe ${email}`, text(
+      "Someone left the OCP3D email updates list.", "",
+      ["Email:", email],
+      ["Number:", caseId], "",
+      "Take them off the list before the next update. They confirmed on ocp3d.com/unsubscribe.",
+    ), `${caseId}-out-${Date.now().toString(36)}`);
+    return via !== "unconfigured";
   } catch {
-    return "error";
+    return false;
   }
 }
 
@@ -249,17 +231,9 @@ export const POST: APIRoute = async ({ request }) => {
     const body = text("A new Dispatch file was opened.", "", ["Email:", email], ["Case:", caseId], "",
       "They receive the OCP3D Dispatch when a part moves forward.");
     if (!bot) {
-      // Membership records BEFORE emailing — the reverse of the request path. A membership is a
-      // PERSON, not a case: the unique index makes a repeat claim a 409, and answering that
-      // silently is the whole point (no second welcome, no duplicated bulletin). The
-      // never-lose-a-signup property still holds, because only a definite `duplicate` short-
-      // circuits; an unconfigured or broken DB falls through and still sends.
-      const stored = await record({ type: "membership", email, case_id: caseId });
-      if (stored === "duplicate") {
-        await resubscribe(email);            // a re-join after opting out is fresh consent
-        return respond(request, { ok: true, case: caseId, duplicate: true }, 200,
-          `/request/received/?case=${caseId}&type=membership&again=1`);
-      }
+      // The alert is the list entry (no database). A repeat signup derives the same number: the
+      // inbox gets a second alert (deliver retries a spent client_id), the person no second
+      // welcome (acknowledge's `-ack` id is spent).
       const via = await deliver(subject, body, caseId, email);
       if (via === "unconfigured") {
         return respond(request, { ok: false, unconfigured: true }, 503, mailtoFallback("OCP3D Dispatch signup", `Sign me up: ${email}`));
@@ -276,23 +250,6 @@ export const POST: APIRoute = async ({ request }) => {
       ), caseId);
     }
     return respond(request, { ok: true, case: caseId }, 200, `/request/received/?case=${caseId}&type=membership`);
-  }
-
-  // One-click vote for a catalog part — the demand ledger's lightest signal.
-  if (type === "vote") {
-    const partSlug = String(form.get("part_slug") ?? "").trim();
-    if (!/^[a-z0-9-]+$/.test(partSlug)) {
-      return respond(request, { ok: false, error: "part" }, 400, "/registry/");
-    }
-    if (bot) return respond(request, { ok: true }, 200, `/registry/${partSlug}/`);
-    const via = await record({ type: "vote", email, part_slug: partSlug });
-    if (via === "unconfigured") {
-      return respond(request, { ok: false, unconfigured: true }, 503, `/request/?part=${encodeURIComponent(partSlug)}`);
-    }
-    if (via === "error") {
-      return respond(request, { ok: false, error: "db" }, 502, `/registry/${partSlug}/`);
-    }
-    return respond(request, { ok: true, duplicate: via === "duplicate" }, 200, `/registry/${partSlug}/`);
   }
 
   // Part investigation
@@ -315,6 +272,9 @@ export const POST: APIRoute = async ({ request }) => {
       gone: "Part is gone entirely",
       improvement: "Useful improvement the car never had",
     }[situation] ?? situation;
+  // The registry page a request came from (its "Discuss this part" link). It went only to the
+  // ledger before; with no ledger, the alert carries it.
+  const partSlug = String(form.get("part_slug") ?? "").trim();
   const subject = `Case ${caseId} — ${part} (${vehicle})`;
   const body = text(
     "A new OCP3D field file was opened on ocp3d.com.", "",
@@ -323,23 +283,18 @@ export const POST: APIRoute = async ({ request }) => {
     ["Email:", email],
     ["Vehicle:", vehicle],
     ["Part or problem:", part],
+    ["Registry part:", /^[a-z0-9-]+$/.test(partSlug) ? `ocp3d.com/registry/${partSlug}/` : undefined],
     ["OEM №:", oem || "—"],
     ["Situation:", situationLabel || "—"], "",
     message ? `Notes:\n${message}` : "Notes: —", "",
     "Reply directly to the requester; reference the case number.",
   );
-  const partSlug = String(form.get("part_slug") ?? "").trim();
   if (!bot) {
     const via = await deliver(subject, body, caseId, email);
     if (via === "unconfigured") {
       return respond(request, { ok: false, unconfigured: true }, 503,
         mailtoFallback(subject, `${body}\n\n(sent via email — the online desk isn't plugged in yet)`));
     }
-    await record({
-      type: "request", email, case_id: caseId, vehicle,
-      part_text: part, oem: oem || null, situation: situationLabel || null,
-      part_slug: /^[a-z0-9-]+$/.test(partSlug) ? partSlug : null,
-    });
     await acknowledge(email, `Your OCP3D enquiry ${caseId} — received`, text(
       "Your OCP3D enquiry is in.", "",
       ["Reference:", caseId],

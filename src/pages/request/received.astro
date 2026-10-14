@@ -29,11 +29,9 @@ import ServiceHeading from "../../components/ServiceHeading.astro";
   const caseId = q.get("case");
   if (caseId) document.getElementById("case-id").textContent = caseId;
   if (q.get("type") === "membership") {
-    const again = q.get("again") === "1";
-    document.getElementById("what").textContent = again
-      ? "You were already on the email updates list — same number, no second entry. I only write when a part moves forward."
-      : "You’re on the OCP3D email updates list. I only write when a part moves forward — never for noise.";
-    document.querySelector(".done-stamp").textContent = again ? "Already on the list" : "You’re on the list";
+    document.getElementById("what").textContent =
+      "You’re on the OCP3D email updates list. I only write when a part moves forward — never for noise.";
+    document.querySelector(".done-stamp").textContent = "You’re on the list";
   }
 </script>
 

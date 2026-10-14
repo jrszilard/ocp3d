@@ -1,10 +1,10 @@
 // The site on Cloudflare Workers: the static pages from ./dist (served before the Worker runs),
-// and the Astro server routes (/api/request, /api/demand, /unsubscribe) in the Worker.
+// and the Astro server routes (/api/request, /unsubscribe) in the Worker.
 //   Deploy:  npm run build && npx wrangler deploy
 //   Logs:    npx wrangler tail ocp3d
 // Settings are Worker secrets, never in this file: npx wrangler secret put <NAME> for
-// SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, UNSUBSCRIBE_SECRET, AGENTMAIL_API_KEY,
-// AGENTMAIL_INBOX_ID, REQUESTS_NOTIFY_EMAIL and (optional) REQUESTS_WEBHOOK_URL.
+// AGENTMAIL_API_KEY, AGENTMAIL_INBOX_ID, REQUESTS_NOTIFY_EMAIL, UNSUBSCRIBE_SECRET and
+// (optional) REQUESTS_WEBHOOK_URL. No database: requests, signups and opt-outs are emails.
 // The old and www hostnames redirect from their own Worker: workers/redirects/.
 {
   "$schema": "node_modules/wrangler/config-schema.json",

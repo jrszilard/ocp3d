@@ -5,7 +5,7 @@
 // "unconfigured"; and the Worker's own code sits in dist/, so it has to be kept out of the
 // public files.
 import assert from "node:assert/strict";
-import { readFileSync, readdirSync, statSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import { join } from "node:path";
 import test from "node:test";
 import redirects from "../workers/redirects/index.js";
@@ -23,8 +23,6 @@ const OLD_HOSTS = [
   "www.ministryofdiscontinuedparts.com",
 ];
 const SECRETS = [
-  "SUPABASE_URL",
-  "SUPABASE_SERVICE_ROLE_KEY",
   "UNSUBSCRIBE_SECRET",
   "AGENTMAIL_API_KEY",
   "AGENTMAIL_INBOX_ID",
@@ -66,7 +64,7 @@ test("the Worker's own code is never served as a public file", () => {
   assert.ok(ignored.includes("_worker.js"));
 });
 
-test("server settings are read per request, not inlined at build", () => {
+function siteSources() {
   const files = [];
   const walk = (dir) => {
     for (const name of readdirSync(dir)) {
@@ -77,18 +75,34 @@ test("server settings are read per request, not inlined at build", () => {
     }
   };
   walk(new URL("src", root).pathname);
-  let reads = 0;
-  for (const file of files) {
+  return files;
+}
+
+test("server settings are read per request, not inlined at build", () => {
+  const seen = new Set();
+  for (const file of siteSources()) {
     const text = readFileSync(file, "utf8");
     for (const key of SECRETS) {
       assert.ok(!text.includes(`import.meta.env.${key}`), `${file} reads ${key} at build time`);
       if (text.includes(`getSecret("${key}")`)) {
-        reads++;
+        seen.add(key);
         assert.match(text, /import \{ getSecret \} from "astro:env\/server";/, file);
       }
     }
   }
-  assert.ok(reads >= SECRETS.length, "every setting is read somewhere");
+  assert.deepEqual([...seen].sort(), [...SECRETS].sort(), "every setting is read, and nothing else");
+});
+
+// The Lost Clip Society demand ledger (Supabase) was not carried into OCP3D: requests, signups
+// and opt-outs are emails to the inbox, and the list is kept by hand.
+test("the site keeps no database", () => {
+  for (const file of siteSources()) {
+    const text = readFileSync(file, "utf8");
+    assert.ok(!/SUPABASE_|demand_signals|\/rest\/v1\//.test(text), `${file} still talks to the old ledger`);
+  }
+  assert.ok(!existsSync(new URL("src/pages/api/demand.ts", root)), "/api/demand counted ledger rows");
+  const unsubscribe = read("src/pages/unsubscribe.astro");
+  assert.match(unsubscribe, /await optOut\(email\)/, "an opt-out is sent to the inbox");
 });
 
 test("Vercel no longer builds the repo (it would serve the Worker's code as a file)", () => {

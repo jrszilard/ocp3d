@@ -1,8 +1,7 @@
 ---
 import Base from "../layouts/Base.astro";
 import ServiceHeading from "../components/ServiceHeading.astro";
-import { unsubTokenValid } from "./api/request";
-import { getSecret } from "astro:env/server";
+import { optOut, unsubTokenValid } from "./api/request";
 
 export const prerender = false;
 
@@ -16,28 +15,9 @@ const ok = Boolean(email) && (await unsubTokenValid(email, token));
 
 let state: "invalid" | "confirm" | "done" | "error" = ok ? "confirm" : "invalid";
 
+// The list is kept by hand from the signup alerts, so an opt-out is an alert to the same inbox.
 if (ok && Astro.request.method === "POST") {
-  const sbUrl = getSecret("SUPABASE_URL")?.trim();
-  const sbKey = getSecret("SUPABASE_SERVICE_ROLE_KEY")?.trim();
-  state = "error";
-  if (sbUrl && sbKey) {
-    try {
-      const res = await fetch(
-        `${sbUrl}/rest/v1/demand_signals?type=eq.membership&email=ilike.${encodeURIComponent(email)}`,
-        {
-          method: "PATCH",
-          headers: {
-            apikey: sbKey, Authorization: `Bearer ${sbKey}`,
-            "Content-Type": "application/json", Prefer: "return=minimal",
-          },
-          body: JSON.stringify({ unsubscribed_at: new Date().toISOString() }),
-        },
-      );
-      // A stamp, not a delete: the row stays so a later re-join cannot silently resurrect
-      // someone who opted out, and so "who left" remains answerable.
-      if (res.ok) state = "done";
-    } catch { state = "error"; }
-  }
+  state = (await optOut(email)) ? "done" : "error";
 }
 ---
 <Base title="Unsubscribe from OCP3D email updates" sheet="EMAIL UPDATES · UNSUBSCRIBE">
