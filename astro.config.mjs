@@ -23,6 +23,6 @@ export default defineConfig({
   // sitemap-index.xml for search engines (robots.txt points at it). Static pages only; the
   // thank-you page, unsubscribe, the style guide and the local studio walkthrough stay out.
   integrations: [
-    sitemap({ filter: (page) => !/\/(request\/received|styleguide|studio)(\/|$)/.test(new URL(page).pathname) }),
+    sitemap({ filter: (page) => !/\/(request\/received|unsubscribe|styleguide|studio)(\/|$)/.test(new URL(page).pathname) }),
   ],
 });

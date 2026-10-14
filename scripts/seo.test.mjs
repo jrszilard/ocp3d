@@ -9,7 +9,13 @@ const read = (file) => readFileSync(new URL(file, root), "utf8");
 
 test("robots.txt points search engines at the sitemap", () => {
   assert.match(read("public/robots.txt"), /^Sitemap: https:\/\/ocp3d\.com\/sitemap-index\.xml$/m);
-  assert.match(read("astro.config.mjs"), /sitemap\(\{ filter:/);
+  const config = read("astro.config.mjs");
+  assert.match(config, /sitemap\(\{ filter:/);
+  // The filter itself, run on the pages that must stay out and one that must stay in.
+  const filter = (0, eval)(config.match(/filter: (\(page\) => [^\n]+?\.pathname\))/)[1]);
+  for (const page of ["request/received/", "unsubscribe/", "styleguide/", "studio/demo/"])
+    assert.equal(filter(`https://ocp3d.com/${page}`), false, page);
+  assert.equal(filter("https://ocp3d.com/journal/sun-visor-clip/"), true);
 });
 
 test("every page carries a link preview with a real photo", () => {
