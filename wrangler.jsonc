@@ -19,7 +19,10 @@
   "observability": {
     "enabled": true
   },
-  // ocp3d.com itself; www and the old domains belong to the redirect Worker.
+  // ocp3d.com itself; www and the old domains belong to the redirect Worker. No workers.dev
+  // address or per-version preview addresses: the site has one public home.
+  "workers_dev": false,
+  "preview_urls": false,
   "routes": [
     { "pattern": "ocp3d.com", "custom_domain": true }
   ]
