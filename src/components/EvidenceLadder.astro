@@ -4,22 +4,25 @@
  *
  * Requested → In development → Measured → Fitted on a real car. Rungs already
  * earned take their own stamp ink; later rungs stay empty. A safety-gated record
- * (research only, or in long-term testing) is not on the ladder at all, so it renders as a closed bar,
- * never as a partly climbed ladder that could read like progress toward sale.
- * The ladder reads the record's state; it never adds a claim of its own.
+ * (research only, in long-term testing, or passed and not yet listed) is not on the ladder at all,
+ * so it renders as a closed bar, never as a partly climbed ladder that could read like progress
+ * toward sale. The ladder reads the record's state; it never adds a claim of its own.
  */
 import type { PartState } from "../lib/catalog";
 import { ladderRungs, rungIndex } from "../lib/catalog";
 
-interface Props { state: PartState; safetyGated?: boolean; compact?: boolean; closedLabel?: string }
-const { state, safetyGated = false, compact = false, closedLabel = "Research only" } = Astro.props;
+interface Props { state: PartState; safetyGated?: boolean; compact?: boolean; closedLabel?: string; closedNote?: string }
+const {
+  state, safetyGated = false, compact = false, closedLabel = "Research only",
+  closedNote = "Not for sale until testing is complete.",
+} = Astro.props;
 const current = rungIndex(state);
 const currentLabel = ladderRungs[current].label;
 ---
 {safetyGated ? (
   <div class:list={["ladder", "ladder--closed", { "is-compact": compact }]} data-ladder="closed">
     <span class="closed-bar" aria-hidden="true"></span>
-    <p class="closed-note"><b>{closedLabel}.</b> Not for sale until testing is complete.</p>
+    <p class="closed-note"><b>{closedLabel}.</b> {closedNote}</p>
   </div>
 ) : (
   <div class:list={["ladder", { "is-compact": compact }]} data-ladder={state}>

@@ -8,7 +8,7 @@ import { car } from "../data/car.mjs";
 
 const parts = listedParts();
 const pick = (state: string) => parts.find((part) => part.state === state && !part.safetyGated);
-// Evidence first, then the part in long-term testing, then the custom-design door.
+// Evidence first, then the closed part (in testing, or passed and for sale soon), then the custom-design door.
 const cards = [pick("fitted") ?? pick("measured") ?? pick("development"), parts.find((part) => part.safetyGated)].filter(Boolean);
 const carPhoto = car.photos[0];
 const organization = {

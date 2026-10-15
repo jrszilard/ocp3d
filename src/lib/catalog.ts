@@ -103,9 +103,15 @@ export function listedParts(): Part[] {
 
 /** Public label for a closed (safety-gated) record. The gate itself never opens here. */
 export function closedLabel(part: Part): string {
-  return longTermTesting[part.slug as keyof typeof longTermTesting] ? "In long-term testing" : "Research only";
+  const testing = closedTesting(part);
+  return testing?.passed ? "Passed testing" : testing ? "In long-term testing" : "Research only";
 }
 
-export function closedTesting(part: Part): { since: string; proving: string } | null {
+export function closedTesting(part: Part): { since: string; proving: string; passed?: string; brief?: string } | null {
   return longTermTesting[part.slug as keyof typeof longTermTesting] ?? null;
+}
+
+/** A closed record's one literal line on availability. */
+export function closedSale(part: Part): string {
+  return closedTesting(part)?.passed ? "For sale soon." : "Not for sale until testing is complete.";
 }

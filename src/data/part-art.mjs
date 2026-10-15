@@ -2,7 +2,8 @@
 // Real photos lead; a render must be marked kind: "render" so it is labelled as one.
 // Photos follow the car-photo rules in car.mjs (no plates or stickers, EXIF stripped).
 // A part in long-term testing may show real photos too; its `note` must say it is in
-// testing and not for sale, and stays visible on every slide (founder, 2026-09-29).
+// testing and not for sale, and stays visible on every slide (founder, 2026-09-29). Once it
+// has passed, the note says so and "for sale soon" until it is listed (founder, 2026-10-15).
 // `fit: "contain"` shows a portrait photo whole on the part record instead of cropping it.
 
 export const partArt = {
@@ -27,7 +28,7 @@ export const partArt = {
     ],
   },
   "wiper-arm-adaptor": {
-    note: "IN LONG-TERM TESTING · NOT FOR SALE",
+    note: "PASSED TESTING · FOR SALE SOON",
     photos: [
       { src: "/images/journal/wiper-adaptors/on-car-adaptor-closeup.jpg", width: 1600, height: 900,
         alt: "A printed adaptor on the original wiper arm, holding a Rain-X blade connector.",

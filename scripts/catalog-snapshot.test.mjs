@@ -8,7 +8,9 @@ test("research snapshot excludes archived heater work", () => {
   assert.equal(parts.some((part) => part.slug === "heater-control-knob"), false);
 });
 
-test("wiper adaptor stays safety-gated pending final testing", () => {
+// It passed testing (founder, 2026-10-15), but the catalog gate opens only when it is listed there;
+// the site says "passed testing · for sale soon" through src/data/long-term-testing.mjs.
+test("wiper adaptor stays safety-gated in the catalog until it is listed", () => {
   const wiper = parts.find((part) => part.slug === "wiper-arm-adaptor");
   assert.ok(wiper, "wiper adaptor must be in the research archive");
   assert.equal(wiper.safetyGated, true);

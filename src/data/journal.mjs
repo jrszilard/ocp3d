@@ -6,7 +6,8 @@
 // research log only: no product, installation, road-use, or availability language.
 //
 // `cover` is the card image on the home page. A closed (safety-gated) log may show the part on the
-// car only while it is in long-term testing, and its card always says so (founder, 2026-09-29).
+// car only while it is in long-term testing, and its card always says so (founder, 2026-09-29), or
+// once it has passed and is for sale soon (founder, 2026-10-15).
 
 export const journal = [
   {
@@ -30,13 +31,13 @@ export const journal = [
     partSlug: "wiper-arm-adaptor",
     number: "002",
     title: "Modern wiper blades on the original arms",
-    eyebrow: "BUILD LOG 002 · IN LONG-TERM TESTING",
-    summary: "Printed adaptors so modern blades fit the original arms. In long-term testing on the car; not for sale.",
-    updated: "2026-09-29",
+    eyebrow: "BUILD LOG 002 · PASSED TESTING",
+    summary: "Printed adaptors so modern blades fit the original arms. Passed long-term testing on the car; for sale soon.",
+    updated: "2026-10-15",
     researchOnly: true,
     cover: {
       src: "/images/journal/wiper-adaptors/on-car-adaptor-closeup.jpg",
-      alt: "A printed adaptor on the original wiper arm, holding a Rain-X blade connector, in long-term testing.",
+      alt: "A printed adaptor on the original wiper arm, holding a Rain-X blade connector, after passing long-term testing.",
       width: 1600,
       height: 900,
     },

@@ -15,6 +15,7 @@ const meaning: Record<string, string> = {
 // Show the closed labels actually in use, each with its literal meaning.
 const closedMeaning: Record<string, string> = {
   "In long-term testing": "On a car being tested over time. Not for sale until testing is complete.",
+  "Passed testing": "Passed long-term testing on a real car. Not listed yet: for sale soon.",
   "Research only": "Closed. Not on the ladder, not for sale, until its safety testing is complete.",
 };
 const closedInUse = [...new Set(allParts().filter((part) => part.safetyGated).map(closedLabel))];

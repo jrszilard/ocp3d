@@ -119,10 +119,27 @@ test("long-term testing is a public label, never an opening", async () => {
     assert.ok(part, `${slug} is in the snapshot`);
     assert.equal(part.safetyGated, true, `${slug}: the gate stays closed`);
   }
+  // The wiper adaptors passed testing (founder, 2026-10-15): for sale soon, still not offered.
   const log = read("src/pages/journal/wiper-adaptors.astro");
-  assert.match(log, /In long-term testing/);
-  assert.match(log, /Nothing on this page is for sale/);
+  assert.match(log, /Passed long-term testing/);
+  assert.match(log, /nothing on this page is for sale yet/i);
   assert.doesNotMatch(log, /Research only/, "the old label is gone from the wiper log");
+  assert.doesNotMatch(log, /Still to prove|still need proving|while testing continues/i, "the testing is over");
+});
+
+test("a part that passed testing is for sale soon, never offered before it is listed", async () => {
+  const { longTermTesting } = await import("../src/data/long-term-testing.mjs");
+  const passed = Object.entries(longTermTesting).filter(([, testing]) => testing.passed);
+  assert.ok(passed.length > 0, "the wiper adaptors passed (founder, 2026-10-15)");
+  for (const [slug, testing] of passed) {
+    assert.match(testing.brief ?? "", /for sale soon/i, `${slug}: the brief says for sale soon`);
+    assert.match(testing.brief, /No fit claim/i, `${slug}: no fit claim for another car`);
+    assert.doesNotMatch(testing.brief, /\$|\bprice|order now|\bbuy\b|in stock/i, `${slug}: no offer before listing`);
+  }
+  const catalog = read("src/lib/catalog.ts");
+  assert.match(catalog, /passed \? "Passed testing"/);
+  assert.match(catalog, /"For sale soon\."/);
+  assert.match(read("src/pages/registry/[slug].astro"), /for sale soon/);
 });
 
 test("the interface keeps a small plain vocabulary", () => {
@@ -197,7 +214,8 @@ test("part carousels: real, described photos; testing parts always say not for s
       assert.ok(photo.alt.length > 20, `${slug}: ${photo.src} needs real alt text`);
       assert.ok(photo.caption.trim(), `${slug}: ${photo.src} needs a caption`);
     }
-    if (longTermTesting[slug]) assert.match(art.note ?? "", /NOT FOR SALE/, `${slug}: testing note must say not for sale`);
+    if (longTermTesting[slug]?.passed) assert.match(art.note ?? "", /PASSED TESTING · FOR SALE SOON/, `${slug}: a passed part's note says for sale soon`);
+    else if (longTermTesting[slug]) assert.match(art.note ?? "", /NOT FOR SALE/, `${slug}: testing note must say not for sale`);
   }
   const carousel = read("src/components/PhotoCarousel.astro");
   const code = carousel.replace(/\/\*[\s\S]*?\*\//g, "").replace(/^\s*\/\/.*$/gm, "");

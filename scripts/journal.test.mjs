@@ -28,7 +28,7 @@ test("every image or video a journal page references is committed", () => {
   }
 });
 
-test("a log for a safety-gated part stays closed (research only or in long-term testing)", () => {
+test("a log for a safety-gated part stays closed (research only, in long-term testing, or passed and not yet listed)", () => {
   for (const entry of journal) {
     const part = parts.find((item) => item.slug === entry.partSlug);
     if (!part?.safetyGated) continue;

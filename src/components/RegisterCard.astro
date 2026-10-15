@@ -4,13 +4,14 @@
  *
  * It intentionally refuses a decorative generic car or invented part image.
  * A safety-gated record gets its own closed treatment (labelled by closedLabel): a real
- * photo captioned "in long-term testing · not for sale" when there is one, otherwise a
- * hatched panel. A photo or render stays tied to its record, and a render says it is one.
+ * photo captioned with its testing note ("in long-term testing · not for sale", or "passed
+ * testing · for sale soon") when there is one, otherwise a hatched panel. A photo or render
+ * stays tied to its record, and a render says it is one.
  */
 import Stamp from "./Stamp.astro";
 import EvidenceLadder from "./EvidenceLadder.astro";
 import PhotoCarousel from "./PhotoCarousel.astro";
-import { applicationLabel, closedLabel, closedTesting, oemIdentityLabel } from "../lib/catalog";
+import { applicationLabel, closedLabel, closedSale, closedTesting, oemIdentityLabel } from "../lib/catalog";
 import { partArt } from "../data/part-art.mjs";
 
 interface Props { part: any; sheet?: number; total?: number; href?: string }
@@ -37,7 +38,7 @@ const statusLabel = safetyGated
         : "REQUESTED";
 
 const action = safetyGated
-  ? (testing ? "Follow the testing" : "Why it is research only")
+  ? (testing?.passed ? "Read the build log" : testing ? "Follow the testing" : "Why it is research only")
   : fitted
     ? "Discuss this fitted part"
     : measured
@@ -53,7 +54,9 @@ const search = [part.title, part.vehicleLabel, part.yearRange, part.oemNumber, p
   {safetyGated && !art ? (
     <div class="card-safety">
       <span class="safety-head">{closed.toUpperCase()}</span>
-      {testing
+      {testing?.passed
+        ? <small>On the car since {testing.since}.<br />Passed testing {testing.passed}.</small>
+        : testing
         ? <small>On the car since {testing.since}.<br />Still proving: {testing.proving}.</small>
         : <small>Still awaiting final testing:<br />vibration, UV exposure, rain function.</small>}
     </div>
@@ -71,7 +74,7 @@ const search = [part.title, part.vehicleLabel, part.yearRange, part.oemNumber, p
     <dt class="eyebrow">PART</dt><dd class="part-name">{part.title}</dd>
     <dt class="eyebrow">CAR</dt><dd>{application}</dd>
     {safetyGated
-      ? <><dt class="eyebrow">FOR SALE</dt><dd>No, still testing</dd></>
+      ? <><dt class="eyebrow">FOR SALE</dt><dd>{testing?.passed ? "Soon" : "No, still testing"}</dd></>
       : oemPublishable
         ? <><dt class="eyebrow">OEM №</dt><dd>{part.oemNumber}</dd></>
         : <><dt class="eyebrow">OEM №</dt><dd>{oemIdentityLabel(part)}</dd></>}
@@ -79,7 +82,7 @@ const search = [part.title, part.vehicleLabel, part.yearRange, part.oemNumber, p
     <dd><Stamp state={part.state} label={statusLabel} safetyGated={safetyGated} /></dd>
   </dl>
 
-  <div class="card-ladder"><EvidenceLadder state={part.state} safetyGated={safetyGated} closedLabel={closed} compact /></div>
+  <div class="card-ladder"><EvidenceLadder state={part.state} safetyGated={safetyGated} closedLabel={closed} closedNote={safetyGated ? closedSale(part) : undefined} compact /></div>
 
   <a class="card-action" href={href}>{action}<span aria-hidden="true">→</span></a>
 </article>

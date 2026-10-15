@@ -7,7 +7,7 @@ import Stamp from "../../components/Stamp.astro";
 import EvidenceLadder from "../../components/EvidenceLadder.astro";
 import SpecTable from "../../components/SpecTable.astro";
 import PhotoCarousel from "../../components/PhotoCarousel.astro";
-import { closedLabel, closedTesting, fitmentLabel, listedParts, oemIdentityLabel } from "../../lib/catalog";
+import { closedLabel, closedSale, closedTesting, fitmentLabel, listedParts, oemIdentityLabel } from "../../lib/catalog";
 import { journalForPart } from "../../data/journal.mjs";
 import { partArt } from "../../data/part-art.mjs";
 
@@ -31,8 +31,13 @@ const vehicleFitment = safetyGated
   : identityDisputed
     ? "Application under investigation"
     : fitmentLabel(part);
+// A part that passed testing but isn't listed yet says "for sale soon"; its `brief` replaces the
+// catalog's research description, which still describes the testing as pending.
+const passed = Boolean(testing?.passed);
+const brief = testing?.brief ?? part.description;
+const saleLine = passed ? "for sale soon" : "not for sale";
 const identityTitle = safetyGated
-  ? `${closed.toLowerCase()} — not for sale`
+  ? `${closed.toLowerCase()} — ${saleLine}`
   : part.oemNumber
     ? `OEM ${part.oemNumber} reproduction`
     : identityDisputed
@@ -49,7 +54,7 @@ const renderSrc = `/images/parts/${part.slug}.jpg`;
 const hasRender = !art && fs.existsSync(path.join(process.cwd(), "public", "images", "parts", `${part.slug}.jpg`));
 ---
 <Base title={`${part.title} — ${identityTitle} — OCP3D`}
-      description={part.description.slice(0, 155)}
+      description={brief.slice(0, 155)}
       sheet={`PART · ${part.slug.replaceAll("-", " ").toUpperCase()}`}>
   <section class="part-page">
     <div class="wrap part-wrap">
@@ -73,7 +78,9 @@ const hasRender = !art && fs.existsSync(path.join(process.cwd(), "public", "imag
         {safetyGated && !art ? (
           <div class="media media--research placeholder">
             <span>{closed.toUpperCase()}</span>
-            <small>{testing
+            <small>{passed
+              ? `On my car since ${testing.since}. Passed testing ${testing.passed}; for sale soon.`
+              : testing
               ? `On my car since ${testing.since}. Not for sale while ${testing.proving} are still being proved.`
               : "No product view, fit claim or road-use claim is made from this record."}</small>
           </div>
@@ -101,8 +108,8 @@ const hasRender = !art && fs.existsSync(path.join(process.cwd(), "public", "imag
             </div>
             <Stamp state={part.state} label={safetyGated ? closed.toUpperCase() : part.stateLabel} safetyGated={safetyGated} />
           </div>
-          <div class="case-ladder"><EvidenceLadder state={part.state} safetyGated={safetyGated} closedLabel={closed} /></div>
-          <p class="brief-copy">{part.description}</p>
+          <div class="case-ladder"><EvidenceLadder state={part.state} safetyGated={safetyGated} closedLabel={closed} closedNote={safetyGated ? closedSale(part) : undefined} /></div>
+          <p class="brief-copy">{brief}</p>
           {journalEntry && (
             <p class="journal-link">
               <a href={`/journal/${journalEntry.slug}/`}>
@@ -110,13 +117,18 @@ const hasRender = !art && fs.existsSync(path.join(process.cwd(), "public", "imag
               </a>
             </p>
           )}
-          {safetyGated && (
+          {safetyGated && (passed ? (
+            <p class="safety-notice" role="note">
+              <b>Passed testing on my car.</b> Not listed for sale yet. When it is, the listing will say
+              exactly what it fits.
+            </p>
+          ) : (
             <p class="safety-notice" role="note">
               <b>Final testing is still pending.</b> This exterior adaptor needs vibration, UV-exposure
               and rain testing, plus the remaining interface measurements, before any product,
               installation, fit or road-use discussion.
             </p>
-          )}
+          ))}
           {identityDisputed && (
             <p class="identity-notice" role="note">
               <b>OEM number under investigation.</b> An earlier number didn’t match this part, so none
@@ -163,9 +175,11 @@ const hasRender = !art && fs.existsSync(path.join(process.cwd(), "public", "imag
             {safetyGated ? (
               <div class="row">
                 {journalEntry
-                  ? <a class="btn btn--primary" href={`/journal/${journalEntry.slug}/`}>Follow the testing</a>
+                  ? <a class="btn btn--primary" href={`/journal/${journalEntry.slug}/`}>{passed ? "Read the build log" : "Follow the testing"}</a>
                   : <a class="btn btn--primary" href="/#register">Get email updates</a>}
-                <span class="cap">Not for sale while testing continues. Results go in the build log.</span>
+                <span class="cap">{passed
+                  ? "Passed testing. For sale soon: email updates will say when."
+                  : "Not for sale while testing continues. Results go in the build log."}</span>
               </div>
             ) : orderable ? (
               <div class="row">
@@ -206,7 +220,7 @@ const hasRender = !art && fs.existsSync(path.join(process.cwd(), "public", "imag
 
       <p class="record-line">
         OCP3D part record ·
-        {safetyGated ? `${closed} — not for sale` : part.oemNumber ? `OEM № ${part.oemNumber}` : "OEM № pending"}
+        {safetyGated ? `${closed} — ${saleLine}` : part.oemNumber ? `OEM № ${part.oemNumber}` : "OEM № pending"}
       </p>
     </div>
   </section>
